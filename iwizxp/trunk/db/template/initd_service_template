@@ -1,0 +1,37 @@
+#!/bin/bash
+# Created by UberProgrammer
+
+# --- Dialer Functions --- #
+
+{dialer}
+
+# --- Helper Functions --- #
+
+##
+ # Prints usage end exits
+ ##
+usage() {
+    echo -e "\tUsage: $0 {start|stop|restart|reload}"
+    exit 0
+}
+
+# --- Main --- #
+
+case "$1" in
+    start)
+        connect
+        ;;
+
+    stop)
+        disconnect
+        ;;
+
+    restart|reload)
+        disconnect
+        sleep 2
+        connect
+        ;;
+
+    *)
+        usage;
+esac
