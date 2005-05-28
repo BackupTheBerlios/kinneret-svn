@@ -164,8 +164,8 @@ void Database::enumDirectory(string directory, vector<string> &files)
     while ((entry = readdir(dir)) != 0) {
         string entryName(entry->d_name);
 
-        // Skip . and ..
-        if ((entryName == ".") || (entryName == "..")) {
+        // Skip hidden files, . and ..
+        if (entryName.find(".") == 0) {
             continue;
         }
 
