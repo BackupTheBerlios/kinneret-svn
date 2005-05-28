@@ -30,15 +30,21 @@
 using namespace std;
 
 Database::Database() {
-    Log::debug("Creating database.");
+    Log::debug("Creating database...");
 
     loadIsps();
     loadModems();
+
+    Log::debug("Database created.");
 }
 
 Database::~Database() {
+    Log::debug("Releasing database...");
+    
     releaseIsps();
     releaseModems();
+
+    Log::debug("Database released.");
 }
 
 void Database::loadIsps() {
@@ -46,8 +52,8 @@ void Database::loadIsps() {
 
     vector<string> ispFiles;
     try {
-        enumDirectory(GlobalRepository::getInstance()->getDbBasePath() +
-            "/isp", ispFiles);
+        ispFiles = enumDirectory(
+            GlobalRepository::getInstance()->getDbBasePath() + "/isp");
     } catch (DirectoryEnumerationException &ex) {
         throw DatabaseCreationException("Unable to enumerate ISP files.");
     }
@@ -58,6 +64,7 @@ void Database::loadIsps() {
          ispFilesIter++) {
         Log::debug("Loading " + (*ispFilesIter) + "...");
 
+        // TODO: Refactor extract method loadIspFromFile()
         ifstream currentIspFile((*ispFilesIter).c_str(), ios::in);
         if (!currentIspFile.is_open()) {
             Log::error("Unable to open " + (*ispFilesIter) + ", skipping...");
@@ -75,6 +82,8 @@ void Database::loadIsps() {
 
         currentIspFile.close();
         isps.push_back(tempIsp);
+
+        Log::debug("Loaded successfully.");
     }
 
     if (isps.size() == 0) {
@@ -87,8 +96,8 @@ void Database::loadModems() {
 
     vector<string> modemFiles;
     try {
-        enumDirectory(GlobalRepository::getInstance()->getDbBasePath() +
-            "/modem", modemFiles);
+        modemFiles = enumDirectory(
+            GlobalRepository::getInstance()->getDbBasePath() + "/modem");
     } catch (DirectoryEnumerationException &ex) {
         throw DatabaseCreationException("Unable to enumerate modem files.");
     }
@@ -99,6 +108,7 @@ void Database::loadModems() {
          modemFilesIter++) {
         Log::debug("Loading " + (*modemFilesIter) + "...");
 
+        // TODO: Refactor extract method loadModemFromFile()
         ifstream currentModemFile((*modemFilesIter).c_str(), ios::in);
         if (!currentModemFile.is_open()) {
             Log::error("Unable to open " + (*modemFilesIter) +
@@ -117,6 +127,8 @@ void Database::loadModems() {
 
         currentModemFile.close();
         modems.push_back(tempModem);
+
+        Log::debug("Loaded successfully.");
     }
 
     if (modems.size() == 0) {
@@ -146,11 +158,13 @@ void Database::releaseModems() {
     }
 }
 
-void Database::enumDirectory(string directory, vector<string> &files)
+vector<string> Database::enumDirectory(string directory)
         const throw (DirectoryEnumerationException) {
-    files.clear();
+    vector<string> files;
 
     Log::debug(string("Enumerating ") + directory + string("..."));
+
+    // Open file descriptor
     DIR *dir = opendir(directory.c_str());
     if (dir == 0) {
         string reason(strerror(errno));
@@ -164,11 +178,12 @@ void Database::enumDirectory(string directory, vector<string> &files)
     while ((entry = readdir(dir)) != 0) {
         string entryName(entry->d_name);
 
-        // Skip hidden files, . and ..
+        // Skip hidden files, '.' and '..'
         if (entryName.find(".") == 0) {
             continue;
         }
 
+        // Add the file to the list
         files.push_back(directory + "/" + entryName);
     }
 
@@ -176,10 +191,7 @@ void Database::enumDirectory(string directory, vector<string> &files)
     if (closedir(dir) != 0) {
         // Ignore the error, we're done.
     }
-    
-    if (files.size() == 0) {
-        throw DirectoryEnumerationException(string("No files in ") +
-            directory);
-    }
+
+    return files;
 }
 

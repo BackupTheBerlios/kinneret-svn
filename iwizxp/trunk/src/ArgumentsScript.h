@@ -28,7 +28,11 @@
 #include "Modem.h"
 
 /**
- * TODO
+ * This class represents the script that sets all of the user arguments. This
+ * is the first script called for every connection, setting all the user
+ * defined variables required for the other scripts to work.
+ *
+ * @author duvduv
  */
 class ArgumentsScript : public Script {
 public:
@@ -36,7 +40,11 @@ public:
     /* --- Constructors --- */
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param isp Selected ISP.
+     * @param ConnectionMethod Selected connection method.
+     * @param modem Selected modem.
      */
     ArgumentsScript(const Isp *isp,
                     const ConnectionMethod *method,
@@ -47,22 +55,25 @@ public:
     }
 
     /**
-     * TODO
+     * Destructor, does nothing.
      */
     virtual ~ArgumentsScript() {
+        // Nothing to do.
     }
 
     /* --- Inherited from Script --- */
 
     /**
-     * TODO
+     * @return The name of the function that has to be called in order to
+     *         execute this script.
      */
     virtual const std::string getFunctionName() const {
         return "setupUserArguments";
     }
 
     /**
-     * TODO
+     * @return A valid-syntax Bash script, that sets up all the user defined
+     *         variables.
      */
     virtual const std::string getScriptBody() const {
         // TODO
@@ -72,13 +83,13 @@ private:
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** Selected ISP */
     const Isp *isp;
 
-    /** TODO */
+    /** Selected connection method */
     const ConnectionMethod *method;
 
-    /** TODO */
+    /** Selected modem */
     const Modem *modem;
 };
 

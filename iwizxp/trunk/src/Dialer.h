@@ -25,11 +25,14 @@
 #include <vector>
 
 #include "Printable.h"
-#include "ConnectionTemplate.h"
 #include "Script.h"
 
 /**
- * TODO
+ * A dialer knows which scripts a required in order to establish a
+ * connection, and in which order they should be executed. It is placed
+ * inside a <code>ConnectionTemplate</code> to create a final script.
+ *
+ * @author duvduv
  */
 class Dialer : public Printable {
 public:
@@ -37,35 +40,39 @@ public:
     /* --- Constructors --- */
 
     /**
-     * TODO
+     * Constructor.
      */
     Dialer() : Printable() {
+        // Nothing to do
     }
 
     /**
-     * TODO
+     * Destructor, does nothing.
      */
     virtual ~Dialer() {
+        // Nothing to do
     }
 
     /* --- Public Methods --- */
 
     /**
-     * TODO
+     * @return Name of the dialer
      */
     virtual const std::string getName() const {
         return name;
     }
 
     /**
-     * TODO
+     * @return An ordered list of the <code>Script</code>s that has to be
+     *         executed in order to establish a new connection.
      */
     virtual std::vector<Script*> getConnectionScripts() const {
         // TODO
     }
 
     /**
-     * TODO
+     * @return An ordered list of the <code>Script</code>s that has to be
+     *         executed in order to terminate a connection.
      */
     virtual std::vector<Script*> getDisconnectionScripts() const {
         // TODO
@@ -74,7 +81,7 @@ public:
     /* --- Inherited from Printable --- */
 
     /**
-     * TODO
+     * @return The name of the dialer.
      */
     virtual const std::string toString() const {
         return getName();
@@ -84,13 +91,13 @@ private:
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** Dialer's name */
     std::string name;
 
-    /** TODO */
+    /** Ordered list of connection scripts */
     std::vector<Script*> connectionScripts;
 
-    /** TODO */
+    /** Ordered list of disconnection scripts */
     std::vector<Script*> disconnectionScripts;
 };
 

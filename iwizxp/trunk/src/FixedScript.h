@@ -27,7 +27,10 @@
 #include "Script.h"
 
 /**
- * TODO
+ * This is a fiex script. This script is simply loaded from an input stream,
+ * and printed to the template as it was read.
+ *
+ * @author duvduv
  */
 class FixedScript : public Script {
 public:
@@ -35,7 +38,11 @@ public:
     /* --- Constructors --- */
 
     /**
-     * TODO
+     * Constructor. Loads the script from the input stream.
+     *
+     * @param functionName The name of the funtion this script's body will be
+     *        placed in.
+     * @param scriptStream The input stream we'll read the script from.
      */
     FixedScript(std::string functionName,
                 const std::istream &scriptStream) : Script() {
@@ -44,22 +51,23 @@ public:
     }
 
     /**
-     * TODO
+     * Destructor, does nothing.
      */
     virtual ~FixedScript() {
+        // Nothing to do
     }
 
     /* --- Inherited from Script --- */
 
     /**
-     * TODO
+     * @return The function name
      */
     virtual const std::string getFunctionName() const {
         return functionName;
     }
 
     /**
-     * TODO
+     * @return The body, as it was read from the input stream.
      */
     virtual const std::string getScriptBody() const {
         return scriptBody;
@@ -70,18 +78,23 @@ private:
     /* --- Private Methods --- */
 
     /**
-     * TODO
+     * TODO: Refactor-move method to a utility class. The same method is used
+     * in ConnectionTemplate.
+     *
+     * Loads everything from the stream (up until EOF) to the string.
+     *
+     * @param scriptStream Stream to read
      */
     void loadScriptBody(const std::istream &scriptStream) {
-        // TODO
+        // TODO: Implement
     }
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** The function's name */
     std::string functionName;
 
-    /** TODO */
+    /** The function's body */
     const std::string scriptBody;
 };
 

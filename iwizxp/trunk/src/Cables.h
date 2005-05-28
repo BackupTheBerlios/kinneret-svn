@@ -25,7 +25,12 @@
 #include "ConnectionMethod.h"
 
 /** 
- * TODO 
+ * This <code>ConnectedMethod</code> represents a connection using a cables
+ * modem.
+ *
+ * TODO: Refactor-rename CablesPPtP ?
+ *
+ * @author duvduv
  */
 class Cables : public ConnectionMethod {
 public:
@@ -33,7 +38,11 @@ public:
     /* --- Constructors --- */
 
     /** 
-     * TODO 
+     * Constructor.
+     *
+     * @param defaultGateway The default gateway of the ISP.
+     * @param dialingDestination The place where the PPtP should dial to
+     *        (non-DHCP cables connection are usually PPtP).
      */
     Cables(std::string defaultGateway,
            std::string dialingDestination) : ConnectionMethod() {
@@ -42,29 +51,30 @@ public:
     }
 
     /** 
-     * TODO 
+     * Destructor, does nothing.
      */
     virtual ~Cables() {
+        // Nothing to do.
     }
 
     /* --- Inherited from ConnectionMethod --- */
 
     /** 
-     * TODO 
+     * @return Whether this connection method has a default gateway. It does.
      */
     virtual bool hasDefaultGateway() const {
         return true;
     }
     
     /** 
-     * TODO 
+     * @return The default gateway
      */
     virtual std::string getDefaultGateway() const {
         return defaultGateway;
     }
 
     /** 
-     * TODO 
+     * @return The dialing destination (an IP or a resolvable URI).
      */
     virtual std::string getDialingDestination() const {
         return dialingDestination;
@@ -73,7 +83,7 @@ public:
     /* --- Inherited from Printable --- */
 
     /** 
-     * TODO 
+     * @return The name of this dialing method.
      */
     virtual const std::string toString() const {
         return "Cables";
@@ -83,10 +93,10 @@ private:
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** The default gateway */
     std::string defaultGateway;
 
-    /** TODO */
+    /** The dialing destination */
     std::string dialingDestination;
 };
 

@@ -31,7 +31,11 @@
 #include "Exception.h"
 
 /**
- * TODO
+ * This class represents the databse. It is a singleton class that loads
+ * everything at construction time. It uses the <code>GlobalRepository</code>
+ * to load the actual files.
+ *
+ * @author duvduv
  */
 class Database {
 private:
@@ -39,12 +43,20 @@ private:
     /* --- Private Constructors --- */
 
     /**
-     * TODO
+     * Private constructor, initializes the database and loads every
+     * available ISP and modem. This method allocates a few objects (namely
+     * some <code>Isp</code>s and <code>Modem</code>s. They are released at
+     * destruction time, so you don't have to release them for yourself.
+     *
+     * @throws DatabaseCreationException When the database could not be
+     *         created successfully (usually due to the lack of appropriate
+     *         files and incorrect format of files).
      */
     Database();
 
     /**
-     * TODO
+     * Destructor. Releases all of the allocated <code>Isp</code>s and
+     * <code>Modem</code>s allocated at construction time.
      */
     virtual ~Database();
 
@@ -53,7 +65,9 @@ public:
     /* --- Singleton --- */
 
     /**
-     * TODO
+     * The singleton access method.
+     *
+     * @return Reference to the single instance of this class.
      */
     static Database *getInstance() {
         static Database instance;
@@ -63,14 +77,14 @@ public:
     /* --- Public Methods --- */
     
     /**
-     * TODO
+     * @return List of all of the available ISPs.
      */
     std::vector<Isp*> getIsps() const {
         return isps;
     }
 
     /**
-     * TODO
+     * @return List of all the available modems.
      */
     std::vector<Modem*> getModems() const {
         return modems;
@@ -78,54 +92,66 @@ public:
 
     /* --- Exceptions --- */
 
+    /**
+     * Indicates that the database could not have been created successfully.
+     */
     NewException(DatabaseCreationException);
 
 private:
 
     /* --- Inner Types --- */
 
+    /**
+     * Indicates that an enumeration attempt of a directory has failed.
+     */
     NewException(DirectoryEnumerationException);
 
     /**
+     * TODO: Refactor this method out to a utility class.
+     *
      * Enumerates the files that's in a specific directory, and returns a
      * vector of full paths.
      *
      * @param directory Path (absolute or relative) to the directory we wish
      *                  to enumerate.
-     * @param file Vector to fill. <b>NOTE</b>: The vector will be truncated!
-     *             After the method finished this vector will be full of all
-     *             the files that was in the given directory.
+     * @return A vector of strings full of all the files (not including '.',
+     *         '..' and hidden files) in <code>directory</code>.
+     * @throws DirectoryEnumerationException Thrown when the given directory
+     *         could not be enumerated. The exception contains in
+     *         <code>what()</code> the reason.
      */
-    void enumDirectory(std::string directory,
-                       std::vector<std::string> &files) const
+    std::vector<std::string> enumDirectory(std::string directory) const
         throw (DirectoryEnumerationException);
 
     /**
-     * TODO
+     * This private method enumerates and attempts to load every file that's
+     * under the modems directory in the database.
      */
     void loadModems();
 
     /**
-     * TODO
+     * This private method enumerates and attempts to load every file that's
+     * under the ISPs directory in the database.
      */
     void loadIsps();
 
     /**
-     * TODO
+     * The method releases every ISP allocated in <code>loadIsps()</code>.
      */
     void releaseIsps();
 
     /**
-     * TODO
+     * The method releases every modem allocated in
+     * <code>loadModems()</code>.
      */
     void releaseModems();
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** All the available ISPs */
     std::vector<Isp*> isps;
 
-    /** TODO */
+    /** All the available modems */
     std::vector<Modem*> modems;
 };
 

@@ -25,7 +25,9 @@
 #include "Printable.h"
 
 /** 
- * TODO 
+ * This class represents a certain method an ISP offers for connection.
+ *
+ * @author duvduv
  */
 class ConnectionMethod : public Printable {
 public:
@@ -33,31 +35,36 @@ public:
     /* --- Constructors --- */
 
     /** 
-     * TODO 
+     * Constructor.
      */
     ConnectionMethod() : Printable() {
+        // Nothing to do
     }
 
     /** 
-     * TODO 
+     * Destructor. 
      */
     virtual ~ConnectionMethod() {
+        // Nothing to do
     }
 
     /* --- Abstract Methods --- */
 
     /** 
-     * TODO 
+     * Does this connected method requires that we'll set a default gateway?
+     *
+     * @return <code>true</code>, if we should, <code>false</code> otherwise.
      */
     virtual bool hasDefaultGateway() const = 0;
     
     /** 
-     * TODO 
+     * @return The default gateway. An IP address, or a resolvable URI.
      */
     virtual std::string getDefaultGateway() const = 0;
 
     /** 
-     * TODO 
+     * @return The dialing destination. Whether a phone number, or a PPtP
+     *         host etc.
      */
     virtual std::string getDialingDestination() const = 0;
 };

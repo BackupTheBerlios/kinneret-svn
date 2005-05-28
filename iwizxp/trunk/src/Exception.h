@@ -26,13 +26,16 @@
 #include <exception>
 
 /*
- * This file holds the exceptions namespace and all the exception might be
- * thrown from within the application.
+ * All the exceptions inherit from Exception, which inherits from
+ * std::exception. Use this macro to create new exceptions.
  */
 #define NewException(name) \
 class name : public Exception { \
 public: \
     name(const std::string &what) throw () : Exception(what) { \
+    } \
+\
+    name() throw () : Exception() { \
     } \
 \
     virtual ~name() throw () { \
@@ -42,7 +45,7 @@ public: \
 /**
  * Generic excpetion.
  *
- * @author z9u2k
+ * @author duvduv
  */
 class Exception : public std::exception {
 public:
@@ -52,10 +55,17 @@ public:
     /**
      * Constructor.
      *
-     * @param w The reason for the exception.
+     * @param what The reason for the exception.
      */
-    Exception(const std::string &w) throw () : exception() {
-        reason = w;
+    Exception(const std::string &what) throw () : exception() {
+        reason = what;
+    }
+
+    /**
+     * Empty constructor. Constructs an excpetion with an unknown reason.
+     */
+    Exception() throw () : exception() {
+        reason = std::string("Unknown reason");
     }
 
     /**
@@ -78,21 +88,11 @@ private:
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** The reason this exception was thrown */
     std::string reason;
 };
 
+// Some useful exceptions
 NewException(IOException)
-
-/*
-MakeCoreException(NoSuchNamespaceException)
-MakeCoreException(ParameterNotFoundException)
-MakeCoreException(NoSuchParamemterExcpetion)
-MakeCoreException(AssertionFailedException)
-MakeCoreException(InvalidFormatException)
-MakeCoreException(FileNotFoundException)
-MakeCoreException(FatalException)
-MakeCoreException(TooManyParameterResults)
-*/
 
 #endif
