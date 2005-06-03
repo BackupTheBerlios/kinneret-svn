@@ -25,7 +25,10 @@
 #include <string>
 
 /**
- * TODO
+ * An abstract class.
+ * Think of <code>Object.toString()</code> from Java.
+ *
+ * @author duvduv
  */
 class Printable {
 public:
@@ -33,28 +36,35 @@ public:
     /* --- Construcotrs --- */
     
     /**
-     * TODO 
+     * Constructor.
      */
     Printable() {
+        // Nothing to do
     }
 
     /** 
-     * TODO
+     * Destructor.
      */
     virtual ~Printable() {
+        // Nothing to do
     }
 
     /* --- Abstract Methods --- */
     
     /** 
-     * TODO
+     * Abstract method that formates the implementing object to a printable
+     * string.
+     *
+     * @return Printable string.
      */
     virtual const std::string toString() const = 0;
 
     /* --- Public Methods --- */
 
     /** 
-     * TODO
+     * Implicit conversion.
+     *
+     * @return <code>toString()</code>.
      */
     inline operator std::string() const {
         return toString();

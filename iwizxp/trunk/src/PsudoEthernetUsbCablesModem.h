@@ -26,7 +26,14 @@
 #include "PsudoEthernetUsbModule.h"
 
 /**
- * TODO
+ * This class represents a cables modem that's connected to the computer
+ * using the USB interface. These sort of modems are usually treated with
+ * loading a module wich provides a psudo-ethernet interface that represents
+ * the connection to the modem.
+ *
+ * TODO: Refactor-rename: PsudoEthernetUsbCablesPPtPModem
+ *
+ * @author duvduv.
  */
 class PsudoEthernetUsbCablesModem : public Modem {
 public:
@@ -34,7 +41,9 @@ public:
     /* --- Constructors --- */
 
     /**
-     * TODO
+     * Constructor. Initializes the list of modules required by this modem.
+     *
+     * @param name Modem's name.
      */
     PsudoEthernetUsbCablesModem(std::string name) : Modem(name) {
         // Released by ~Modem()
@@ -42,22 +51,23 @@ public:
     }
 
     /**
-     * TODO
+     * Destructor.
      */
     virtual ~PsudoEthernetUsbCablesModem() {
+        // Nothing to do.
     }
 
     /* --- Inherited from Modem --- */
 
     /**
-     * TODO
+     * This modem requires some modules.
      */
     bool needModules() const {
         return true;
     }
 
     /**
-     * TODO
+     * @return The appropriate dialer.
      */
     const Dialer *getDialer(Isp *isp) const {
         // TODO

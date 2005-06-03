@@ -24,7 +24,7 @@
 using namespace std;
 
 Modem::~Modem() {
-    vector<KernelModule *>::iterator iter;
+    vector<KernelModule*>::iterator iter;
     for (iter = modulesVector.begin() ; iter != modulesVector.end() ; iter++) {
         delete (*iter);
         (*iter) = 0;

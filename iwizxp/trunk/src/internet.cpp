@@ -28,82 +28,59 @@
 
 using namespace std;
 
+template<class T>
+T selectFromList(vector<T> list, string prompt) {
+    int selection, i;
+
+    do {
+        cout << prompt << endl;
+        typename vector<T>::iterator iter;
+        for (i = 0, iter = list.begin() ; iter != list.end() ; iter++, i++) {
+            string option;
+
+            // That's instanceof in C++ :)
+            Printable *obj = dynamic_cast<Printable*>(*iter);
+            if (obj != 0) {
+                option = obj->toString();
+            } else {
+                option = "null";
+            }
+            
+            cout << (i + 1) << ") " << option << endl;
+        }
+
+        if (i > 1) {
+            cout << "Selection [1-" << i << "]: ";
+            cin >> selection;
+        } else {
+            selection = 1;
+        }
+
+        cout << endl;
+    } while ((selection <= 0) || (selection > i));
+
+    return list[selection - 1];
+}
+
 /**
- * TODO
+ * TODO: Refactor stuff.
  */
 int main() {
     try {
         Log::create(Log::DEBUG);
 
-        vector<Isp*> isps = Database::getInstance()->getIsps();
+        Isp *selectedIsp =
+            selectFromList(Database::getInstance()->getIsps(),
+            "Select ISP:");
 
-        int selection, i;
+        ConnectionMethod *connectionMethod = 
+            selectFromList(selectedIsp->getConnectionMethods(),
+            "Select Connection Method:");
 
-        // Select an ISP
-        do {
-            cout << "Select an ISP:\n";
-            vector<Isp*>::iterator iter;
-            for (i = 0, iter = isps.begin() ;
-                    iter != isps.end() ;
-                    iter++, i++) {
-                cout << (i + 1) << ") " << (*iter)->getName() << endl;
-            }
+        Modem *modem = 
+            selectFromList(Database::getInstance()->getModems(),
+            "Select a modem:");
 
-            if (i > 1) {
-                cout << "Selection [1-" << i << "]: ";
-                cin >> selection;
-            } else {
-                selection = 1;
-            }
-                
-            cout << endl;
-        } while ((selection <= 0) || (selection > i));
-
-        Isp *selectedIsp = isps[selection - 1];
-
-        // Select a connection method
-        vector<ConnectionMethod*> connectionMethods =
-            selectedIsp->getConnectionMethods();
-
-        do {
-            cout << "Select a connection method:\n";
-            vector<ConnectionMethod*>::iterator iter;
-            for (i = 0, iter = connectionMethods.begin() ;
-                    iter != connectionMethods.end() ;
-                    iter++, i++) {
-                cout << (i + 1) << ") " << (*iter)->toString() << endl;
-            }
-
-            if (i > 1) {
-                cout << "Selection [1-" << i << "]: ";
-                cin >> selection;
-            } else {
-                selection = 1;
-            }
-            
-            cout << endl;
-        } while ((selection <= 0) || (selection > i));
-
-        // Select modem
-        vector<Modem*> modems = Database::getInstance()->getModems();
-        do {
-            cout << "Select a modem:\n";
-            vector<Modem*>::iterator iter;
-            for (i = 0, iter = modems.begin() ;
-                    iter != modems.end() ;
-                    iter++, i++) {
-                cout << (i + 1) << ") " << (*iter)->toString() << endl;
-            }
-
-            if (i > 1) {
-                cout << "Selection [1-" << i << "]: ";
-                cin >> selection;
-            } else {
-                selection = 1;
-            }
-            
-            cout << endl;
-        } while ((selection <= 0) || (selection > i));
     } catch (Exception &ex) {
         Log::fatal(string("Aborting due to error: ") + ex.what());
     }

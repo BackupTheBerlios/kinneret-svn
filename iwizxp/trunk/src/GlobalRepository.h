@@ -26,7 +26,10 @@
 #include "SimpleFormatModemLoader.h"
 
 /**
- * TODO
+ * This singleton class holds everything's that's global and configureable in
+ * the system.
+ * 
+ * @author duvduv
  */
 class GlobalRepository {
 private:
@@ -34,7 +37,7 @@ private:
     /* --- Private Constructors --- */
 
     /**
-     * TODO
+     * Private constrcutor. Creates the loaders.
      */
     GlobalRepository() {
         ispLoader = new SimpleFormatIspLoader();
@@ -42,7 +45,7 @@ private:
     }
 
     /**
-     * TODO
+     * Destructor.
      */
     ~GlobalRepository() {
         delete modemLoader;
@@ -54,7 +57,10 @@ public:
     /* --- Singleton Methods --- */
 
     /**
-     * TODO
+     * The singleton access method.
+     *
+     * @return Pointer to the single instanace of <code>GlobalRepository</code>
+     * in the system.
      */
     static GlobalRepository *getInstance() {
         static GlobalRepository instance;
@@ -64,21 +70,21 @@ public:
     /* --- Public Methods --- */
 
     /**
-     * TODO
+     * @return The ISP loader we should use with the current database.
      */
     IspLoader *getIspLoader() {
         return ispLoader;
     }
 
     /**
-     * TODO
+     * @return The modem loader we should use with the current database.
      */
     ModemLoader *getModemLoader() {
         return modemLoader;
     }
 
     /**
-     * TODO
+     * @return The full path to the top directory of the current database.
      */
     std::string getDbBasePath() {
         // TODO: Load from configuration
@@ -89,10 +95,10 @@ private:
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** ISP loader */
     IspLoader *ispLoader;
 
-    /** TODO */
+    /** Modem loader */
     ModemLoader *modemLoader;
 };
 

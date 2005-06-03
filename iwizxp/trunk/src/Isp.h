@@ -29,7 +29,9 @@
 #include "IpAddress.h"
 
 /** 
- * TODO 
+ * This class represents an ISP.
+ *
+ * @author duvduv
  */
 class Isp : public Printable {
 public:
@@ -37,49 +39,55 @@ public:
     /* --- Constructors --- */
 
     /** 
-     * TODO 
+     * Constructor.
+     *
+     * @param name ISP's name.
      */
     Isp(std::string name) : Printable() {
         this->name = name;
     }
     
     /** 
-     * TODO 
+     * Destructor.
      */
     virtual ~Isp();
 
     /* --- Public Methods --- */
 
     /** 
-     * TODO 
+     * Adds a DNS server to the list of the ISP's DNS servers.
+     *
+     * @param dnsServer IP address of the server.
      */
     void addDnsServer(IpAddress dnsServer) {
         dnsServers.push_back(dnsServer);
     }
 
     /**
-     * TODO
+     * Adds a connection method that's supported by this ISP.
+     *
+     * @param method Pointer to a supported method.
      */
     void addConnectionMethod(ConnectionMethod *method) {
         methods.push_back(method);
     }
     
     /** 
-     * TODO 
+     * @return Vector of DNS servers.
      */
     const std::vector<IpAddress> getDnsServers() const {
         return dnsServers;
     }
 
     /** 
-     * TODO 
+     * @return Vector of supported connection methods.
      */
     std::vector<ConnectionMethod*> getConnectionMethods() const {
         return methods;
     }
 
     /**
-     * TODO
+     * @return ISP's name.
      */
     const std::string getName() const {
         return name;
@@ -88,21 +96,23 @@ public:
     /* --- Inherited from Printable --- */
 
     /** 
-     * TODO 
+     * @return ISP's name.
      */
-    virtual const std::string toString() const;
+    virtual const std::string toString() const {
+        return getName();
+    }
 
 private:
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** Name */
     std::string name;
 
-    /** TODO */
+    /** List of DNS servers */
     std::vector<IpAddress> dnsServers;
     
-    /** TODO */
+    /** List of supported connection methods */
     std::vector<ConnectionMethod*> methods;
 };
 

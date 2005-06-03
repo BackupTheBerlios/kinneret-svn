@@ -28,7 +28,9 @@
 #include "Exception.h"
 
 /**
- * TODO
+ * This interface can load an ISP from a stream.
+ *
+ * @author duvduv
  */
 class IspLoader {
 public:
@@ -36,15 +38,17 @@ public:
     /* --- Constructors --- */
 
     /**
-     * TODO
+     * Constructor.
      */
     IspLoader() {
+        // Nothing to do
     }
     
     /**
-     * TODO
+     * Desctructor.
      */
     virtual ~IspLoader() {
+        // Nothing to do
     }
 
     /* --- Exceptions --- */
@@ -54,7 +58,14 @@ public:
     /* --- Abstract Methods --- */
 
     /**
-     * TODO
+     * Abstact methos which allocates and initializes a new ISP from a given
+     * stream. Note that the ISP is allocated with <code>new</code>, and it's
+     * up to the user to <code>delete</code> it.
+     *
+     * @param inStream Stream to read ISP's info from.
+     * @return A new and initialized ISP.
+     * @throws LoadExcpetion When the loades could not have initialized a new
+     *         ISP from the given stream.
      */
     virtual Isp *loadIsp(std::istream &inStream) const
         throw (LoadExcpetion) = 0;

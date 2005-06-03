@@ -23,9 +23,18 @@
 #define __KERNEL_MODULE_H__
 
 #include "Printable.h"
+#include "Exception.h"
 
 /** 
- * TODO 
+ * This abstract class represents a kernel modules which should be loaded for
+ * the connection to succeede.
+ *
+ * The class provides abstractation above the module name. Implementaing
+ * classes should provide the module name for the 2.4 and 2.6 kernels.
+ *
+ * TODO: Add support for arguments.
+ *
+ * @author duvduv
  */
 class KernelModule : public Printable {
 public:
@@ -33,7 +42,7 @@ public:
     /* --- Inner Types --- */
 
     /** 
-     * TODO 
+     * Enumerates supported kernels.
      */
     enum KernelClass {
         /** Linux 2.4 */
@@ -46,23 +55,36 @@ public:
     /* --- Constructors --- */
 
     /** 
-     * TODO 
+     * Constructor.
      */
     KernelModule() : Printable() {
+        // Nothing to do.
     }
 
     /** 
-     * TODO 
+     * Destructor.
      */
     virtual ~KernelModule() {
+        // Nothing to do.
     }
+
+    /* --- Exceptions --- */
+
+    NewException(FeatureNotSupportedException);
 
     /* --- Abstract Methods --- */
 
     /** 
-     * TODO 
+     * Decides what's the module name the given kernel class supports.
+     * 
+     * @param kernelClass The kernel class we're interested in.
+     * @return The name of the modules that has to be <i>modprobe</i>d with
+     *         the given kernel.
+     * @throws FeatureNotSupportedException When the given kernel class does
+     *         not support this module.
      */
-    virtual std::string getName(KernelClass kernelClass) const = 0;
+    virtual std::string getName(KernelClass kernelClass) const
+        throw (FeatureNotSupportedException) = 0;
 };
 
 #endif

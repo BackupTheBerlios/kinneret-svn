@@ -27,7 +27,9 @@
 #include "Printable.h"
 
 /**
- * TODO
+ * Represents an IP address.
+ * 
+ * @author duvduv
  */
 class IpAddress : public Printable {
 public:
@@ -35,22 +37,25 @@ public:
     /* --- Construcotrs --- */
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param ipAddress IP address (e.g. "xxx.yyy.zzz.www")
      */
     IpAddress(std::string ipAddress) : Printable() {
         this->ipAddress = ipAddress;
     }
 
     /** 
-     * TODO 
+     * Destructor.
      */
     virtual ~IpAddress() {
+        // Nothing to do
     }
 
     /* --- Inherited from Printable --- */
 
     /** 
-     * TODO 
+     * @return The string representation of this IP address.
      */
     virtual const std::string toString() const {
         return ipAddress;
@@ -60,7 +65,7 @@ private:
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** IP address */
     std::string ipAddress;
 };
 

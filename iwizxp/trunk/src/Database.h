@@ -106,6 +106,46 @@ private:
      */
     NewException(DirectoryEnumerationException);
 
+    /* --- Utility Methods --- */
+
+    /**
+     * This utility method enumerates ISPs and return a list of files.
+     *
+     * @return List of every available ISP files.
+     * @throw DirectoryEnumerationException When the directory could not be
+     *        enumerated.
+     */
+    std::vector<std::string> enumIsps() const
+        throw (DirectoryEnumerationException);
+
+    /**
+     * This utility method loads an ISP from a file and adds it to the
+     * database.
+     *
+     * @param file File to load.
+     * @return <code>true</code> in success, <code>false</code> on failure.
+     */
+    bool loadIspFromFile(std::string file);
+
+    /**
+     * This utility method enumerates modems and return a list of files.
+     *
+     * @return List of every available modem files.
+     * @throw DirectoryEnumerationException When the directory could not be
+     *        enumerated.
+     */
+    std::vector<std::string> enumModems() const
+        throw (DirectoryEnumerationException);
+
+    /**
+     * This utility method loads a modem from a file and adds it to the
+     * database.
+     *
+     * @param file File to load.
+     * @return <code>true</code> in success, <code>false</code> on failure.
+     */
+    bool loadModemFromFile(std::string file);
+
     /**
      * TODO: Refactor this method out to a utility class.
      *

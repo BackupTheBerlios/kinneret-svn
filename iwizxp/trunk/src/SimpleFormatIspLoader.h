@@ -27,33 +27,25 @@
 #include "IspLoader.h"
 #include "Cables.h"
 
+// Maximum line lenght
 #define MAX_LINE 1024
 
 /**
- * TODO
+ * Test class. Do not use in production code.
  */
 class SimpleFormatIspLoader : public IspLoader {
 public:
 
     /* --- Constructors --- */
 
-    /**
-     * TODO
-     */
     SimpleFormatIspLoader() : IspLoader() {
     }
     
-    /**
-     * TODO
-     */
     virtual ~SimpleFormatIspLoader() {
     }
 
     /* --- Abstract Methods --- */
 
-    /**
-     * TODO
-     */
     virtual Isp *loadIsp(std::istream &inStream) const throw (LoadExcpetion) {
         // Load name
         char name[MAX_LINE];

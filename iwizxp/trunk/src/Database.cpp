@@ -47,48 +47,93 @@ Database::~Database() {
     Log::debug("Database released.");
 }
 
+vector<string> Database::enumIsps() const
+        throw (DirectoryEnumerationException) {
+    return enumDirectory(GlobalRepository::getInstance()->
+        getDbBasePath() + "/isp");
+}
+
+bool Database::loadIspFromFile(std::string file) {
+    Log::debug("Loading " + file + "...");
+
+    ifstream currentIspFile(file.c_str(), ios::in);
+    if (!currentIspFile.is_open()) {
+        Log::error("Unable to open " + file);
+        return false;
+    }
+
+    Isp *tempIsp;
+    try {
+        tempIsp = GlobalRepository::getInstance()->
+            getIspLoader()->loadIsp(currentIspFile);
+    } catch (IspLoader::LoadExcpetion &ex) {
+        Log::error(string("Failed: ") + ex.what());
+        return false;
+    }
+
+    currentIspFile.close();
+    isps.push_back(tempIsp);
+
+    Log::debug("Loaded successfully.");
+
+    return true;
+}
+
 void Database::loadIsps() {
     Log::debug("Loading ISPs...");
 
+    // Enum files
     vector<string> ispFiles;
     try {
-        ispFiles = enumDirectory(
-            GlobalRepository::getInstance()->getDbBasePath() + "/isp");
+        ispFiles = enumIsps();
     } catch (DirectoryEnumerationException &ex) {
         throw DatabaseCreationException("Unable to enumerate ISP files.");
     }
 
-    vector<string>::iterator ispFilesIter;
-    for (ispFilesIter = ispFiles.begin() ; 
-         ispFilesIter != ispFiles.end() ;
-         ispFilesIter++) {
-        Log::debug("Loading " + (*ispFilesIter) + "...");
-
-        // TODO: Refactor extract method loadIspFromFile()
-        ifstream currentIspFile((*ispFilesIter).c_str(), ios::in);
-        if (!currentIspFile.is_open()) {
-            Log::error("Unable to open " + (*ispFilesIter) + ", skipping...");
-            continue;
+    // And load
+    vector<string>::iterator iter;
+    for (iter = ispFiles.begin() ; iter != ispFiles.end() ; iter++) {
+        if (loadIspFromFile(*iter) == false) {
+            Log::error("Skipping...");
         }
-        
-        Isp *tempIsp;
-        try {
-            tempIsp = GlobalRepository::getInstance()->
-                getIspLoader()->loadIsp(currentIspFile);
-        } catch (IspLoader::LoadExcpetion &ex) {
-            Log::error(string("Failed: ") + ex.what() + " Skipping...");
-            continue;
-        }
-
-        currentIspFile.close();
-        isps.push_back(tempIsp);
-
-        Log::debug("Loaded successfully.");
     }
 
+    // Except when no ISPs were loaded (wrong format, corrupted DB etc).
     if (isps.size() == 0) {
         throw DatabaseCreationException("No ISPs found!");
     }
+}
+
+vector<string> Database::enumModems() const
+        throw (DirectoryEnumerationException) {
+    return enumDirectory(GlobalRepository::getInstance()->
+        getDbBasePath() + "/modem");
+}
+
+bool Database::loadModemFromFile(std::string file) {
+    Log::debug("Loading " + file + "...");
+
+    ifstream currentModemFile(file.c_str(), ios::in);
+    if (!currentModemFile.is_open()) {
+        Log::error("Unable to open " + file);
+        return false;
+    }
+
+    Modem *tempModem;
+    try {
+        tempModem = GlobalRepository::getInstance()->
+            getModemLoader()->loadModem(currentModemFile);
+    } catch (ModemLoader::LoadExcpetion &ex) {
+        Log::error(string("Failed: ") + ex.what());
+        return false;
+    }
+
+    currentModemFile.close();
+    modems.push_back(tempModem);
+
+    Log::debug("Loaded successfully.");
+
+    return true;
 }
 
 void Database::loadModems() {
@@ -96,41 +141,19 @@ void Database::loadModems() {
 
     vector<string> modemFiles;
     try {
-        modemFiles = enumDirectory(
-            GlobalRepository::getInstance()->getDbBasePath() + "/modem");
+        modemFiles = enumModems();
     } catch (DirectoryEnumerationException &ex) {
         throw DatabaseCreationException("Unable to enumerate modem files.");
     }
 
-    vector<string>::iterator modemFilesIter;
-    for (modemFilesIter = modemFiles.begin() ; 
-         modemFilesIter != modemFiles.end() ;
-         modemFilesIter++) {
-        Log::debug("Loading " + (*modemFilesIter) + "...");
-
-        // TODO: Refactor extract method loadModemFromFile()
-        ifstream currentModemFile((*modemFilesIter).c_str(), ios::in);
-        if (!currentModemFile.is_open()) {
-            Log::error("Unable to open " + (*modemFilesIter) +
-                ", skipping...");
-            continue;
+    vector<string>::iterator iter;
+    for (iter = modemFiles.begin() ; iter != modemFiles.end() ; iter++) {
+        if (loadModemFromFile(*iter) == false) {
+            Log::error("Skipping...");
         }
-        
-        Modem *tempModem;
-        try {
-            tempModem = GlobalRepository::getInstance()->
-                getModemLoader()->loadModem(currentModemFile);
-        } catch (ModemLoader::LoadExcpetion &ex) {
-            Log::error(string("Failed: ") + ex.what() + " Skipping...");
-            continue;
-        }
-
-        currentModemFile.close();
-        modems.push_back(tempModem);
-
-        Log::debug("Loaded successfully.");
     }
 
+    // Except when no modems were loaded (wrong format, corrupted DB etc).
     if (modems.size() == 0) {
         throw DatabaseCreationException("No modems found!");
     }

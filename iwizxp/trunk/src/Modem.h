@@ -30,7 +30,10 @@
 #include "Dialer.h"
 
 /**
- * TODO
+ * This abstact class represents a modem class, that knows which modules it
+ * needes and hot to set it appropriately.
+ *
+ * @author duvduv
  */
 class Modem : public Printable {
 public:
@@ -38,42 +41,49 @@ public:
     /* --- Constructors --- */
 
     /**
-     * TODO
+     * Constructor.
+     *
+     * @param name Modem's name.
      */
     Modem(std::string name) : Printable() {
         this->name = name;
     }
 
     /**
-     * TODO
+     * Destructor. Releases all allocated modules.
      */
     virtual ~Modem();
 
     /* --- Abstract Methods --- */
 
     /**
-     * TODO
+     * @return <code>true</code> if the current modem requires special
+     *         modules to be loaded to the kernel, or <code>false</code>
+     *         otherwise.
      */
     virtual bool needModules() const = 0;
 
     /**
-     * TODO
+     * @param isp Selected ISP. Dialers my change due to the selected ISP
+     *        (e.g. ADSL PPtP connection to Bezeq@int is different than any
+     *        other ISP).
+     * @return The appropriate dialer. The dialer is allocated using
+     *         <code>new</code> and it's up to the user to
+     *         <code>delete</code> it.
      */
     virtual const Dialer *getDialer(Isp *isp) const = 0;
 
     /* --- Public Methods --- */
 
     /**
-     * TODO
+     * @return List of modules that has to be probed.
      */
-    virtual void getKernelModules(std::vector<KernelModule*> &targetVector)
-            const {
-        targetVector.clear();
-        targetVector.assign(modulesVector.begin(), modulesVector.end());
+    virtual std::vector<KernelModule*> getKernelModules() const {
+        return modulesVector;
     }
 
     /**
-     * TODO
+     * @return Modem's name.
      */
     virtual const std::string getName() const {
         return name;
@@ -82,7 +92,7 @@ public:
     /* --- Inherited from Printable --- */
 
     /**
-     * TODO
+     * @return Modem's name.
      */
     virtual const std::string toString() const {
         return getName();
@@ -93,7 +103,21 @@ protected:
     /* --- Protected Methods --- */
 
     /**
-     * TODO
+     * Helper method for adding required modules.
+     *
+     * @param module Required module. Note that this module should be
+     *        allocated using <code>new</code> and will be released by this
+     *        class.
+     *
+     * TODO: This is bad design, we might release something that was added
+     * from the stack, e.g.:
+     * <pre>
+     * SomeFunkyModule module;
+     * modem->addModule(&module);
+     * </pre>.
+     *
+     * Making the user pass <code>new SomeFunkyModule()</code> is bad since
+     * we can't enforce it.
      */
     void addModule(KernelModule *module) {
         modulesVector.push_back(module);
@@ -103,11 +127,11 @@ private:
 
     /* --- Data Members --- */
 
-    /** TODO */
+    /** Modem's name */
     std::string name;
 
-    /** TODO */
-    std::vector<KernelModule *> modulesVector;
+    /** List of required modules */
+    std::vector<KernelModule*> modulesVector;
 };
 
 #endif

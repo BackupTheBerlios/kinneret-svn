@@ -25,7 +25,12 @@
 #include "Printable.h"
 
 /**
- * TODO
+ * <code>Script</code>s are the building blocks of the <code>Dialer</code>.
+ * Scripts are small, usually generic, pieces of code, that are combined
+ * together to create a complete dialer. Scripts are translated to Bash
+ * functions in the final script, which are called in order by the dialer.
+ * 
+ * @author duvduv.
  */
 class Script : public Printable {  
 public:
@@ -33,35 +38,37 @@ public:
     /* --- Constructors --- */
 
     /**
-     * TODO
+     * Constructor.
      */
     Script() : Printable() {
+        // Nothign to do
     }
 
     /**
-     * TODO
+     * Destructor.
      */
     virtual ~Script() {
+        // Nothing to do.
     }
 
     /* --- Inherited from Printable --- */
 
     /**
-     * TODO
+     * @return A short description of the script (will be used in the comment
+     *         above the fuction).
      */
-    virtual const std::string toString() const {
-        return "User defined variables script";
-    }
+    virtual const std::string toString() const = 0;
 
     /* --- Abstract Methods --- */
 
     /**
-     * TODO
+     * @return The function's name. Every script's body is places inside a
+     *         unique function.
      */
     virtual const std::string getFunctionName() const = 0;
 
     /**
-     * TODO
+     * @return The function's body (What's inside the function).
      */
     virtual const std::string getScriptBody() const = 0;
 };

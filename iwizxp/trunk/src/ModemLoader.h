@@ -28,7 +28,11 @@
 #include "Exception.h"
 
 /**
- * TODO
+ * This interface loads a modem from a given stream.
+ *
+ * @see IspLoader
+ *
+ * @author duvduv
  */
 class ModemLoader {
 public:
@@ -36,15 +40,17 @@ public:
     /* --- Constructors --- */
 
     /**
-     * TODO
+     * Constructor.
      */
     ModemLoader() {
+        // Nothign to do
     }
     
     /**
-     * TODO
+     * Destructor.
      */
     virtual ~ModemLoader() {
+        // Nothing to do
     }
 
     /* --- Exceptions --- */
@@ -54,7 +60,14 @@ public:
     /* --- Abstract Methods --- */
 
     /**
-     * TODO
+     * This method allocates and initializes a new modem from a given stream.
+     *
+     * @param inStream Stream to read modem info from. Format determined by
+     *        the implementing loader.
+     * @return A new and allocated modem. The modem is allocated using
+     * <code>new</code> and it's up to the user to <code>delete</code> it.
+     * @throws LoadExcpetion When the modem could not be initilized from the
+     *         given stream.
      */
     virtual Modem *loadModem(std::istream &inStream) const
         throw (LoadExcpetion) = 0;

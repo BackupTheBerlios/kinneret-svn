@@ -33,34 +33,3 @@ Isp::~Isp() {
     }
 }
 
-const string Isp::toString() const {
-    ostringstream result;
-    result << name << ":\n" << "DNS Servers:\n";
-
-    vector<IpAddress> dns = getDnsServers();
-    vector<IpAddress>::iterator dnsIter;
-    for (dnsIter = dns.begin() ; dnsIter != dns.end() ; dnsIter++) {
-        result << "\t- " << (*dnsIter).toString() << "\n";
-    }
-
-    result << "Available connection methods:" << endl;
-    vector<ConnectionMethod*> methods = getConnectionMethods();
-    vector<ConnectionMethod*>::iterator methodsIter;
-    for (methodsIter = methods.begin() ;
-            methodsIter != methods.end() ;
-            methodsIter++) {
-        result << "- " << (*methodsIter)->toString() << endl;
-
-        if ((*methodsIter)->hasDefaultGateway()) {
-            result << "\tDefault gateway: " <<
-                (*methodsIter)->getDefaultGateway() << endl;
-        }
-
-        result << "\tDialing destination: " <<
-            (*methodsIter)->getDialingDestination() << endl;
-    }
-
-    result << endl;
-
-    return result.str();
-}

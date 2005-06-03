@@ -25,7 +25,13 @@
 #include "KernelModule.h"
 
 /** 
- * TODO 
+ * This psudo-module is the module that has to be loaded in order to obtain
+ * the psudo-ethernet interface that bridges between the USB-connected modem
+ * and the ethernet device required by pppd.
+ *
+ * This modules is supported by 2.4 and 2.6 kernels.
+ *
+ * @author duvduv.
  */
 class PsudoEthernetUsbModule : public KernelModule {
 public:
@@ -33,21 +39,23 @@ public:
     /* --- Constructors --- */
 
     /** 
-     * TODO 
+     * Constructor.
      */
     PsudoEthernetUsbModule() : KernelModule() {
+        // Nothing to do.
     }
 
     /** 
-     * TODO 
+     * Destructor.
      */
     virtual ~PsudoEthernetUsbModule() {
+        // Nothing to do
     }
 
     /* --- Inherited from Printable --- */
 
     /** 
-     * TODO 
+     * @returns Descriptive name of this psudo-module.
      */
     virtual const std::string toString() const {
         return "Psudo ethernet USB modem";
@@ -56,9 +64,12 @@ public:
     /* --- Inherited from KernelModule --- */
 
     /** 
-     * TODO 
+     * @return the module that has to be <i>modprobe</i>d in the selected
+     *         kernel class. <code>CDCEther</code> for 2.4, and
+     *         <code>usbnet</code> for 2.6.
      */
-    virtual std::string getName(KernelClass kernelClass) const {
+    virtual std::string getName(KernelClass kernelClass) const
+            throw (FeatureNotSupportedException) {
         switch (kernelClass) {
         case KernelModule::LINUX2_4:
             return "CDCEther";
@@ -67,8 +78,8 @@ public:
             return "usbnet";
 
         default:
-            // TODO
-            break;
+            throw FeatureNotSupportedException(
+                "Module is supported by Linux 2.4 and 2.6.");
         }
     }
 };

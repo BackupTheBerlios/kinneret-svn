@@ -31,30 +31,21 @@
 #define MAX_LINE 1024
 
 /**
- * TODO
+ * Test class. Do not use in production code.
  */
 class SimpleFormatModemLoader : public ModemLoader {
 public:
 
     /* --- Constructors --- */
 
-    /**
-     * TODO
-     */
     SimpleFormatModemLoader() : ModemLoader() {
     }
     
-    /**
-     * TODO
-     */
     virtual ~SimpleFormatModemLoader() {
     }
 
     /* --- Abstract Methods --- */
 
-    /**
-     * TODO
-     */
     virtual Modem *loadModem(std::istream &inStream) const
             throw (LoadExcpetion) {
         Modem *result = 0;
