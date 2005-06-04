@@ -65,7 +65,7 @@ public:
 
     /**
      * @param isp Selected ISP. Dialers my change due to the selected ISP
-     *        (e.g. ADSL PPtP connection to Bezeq@int is different than any
+     *        (e.g. ADSL PPtP connection to Bezeq\@int is different than any
      *        other ISP).
      * @return The appropriate dialer. The dialer is allocated using
      *         <code>new</code> and it's up to the user to

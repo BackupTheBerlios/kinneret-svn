@@ -43,7 +43,7 @@ public:
      * Constructor.
      *
      * @param isp Selected ISP.
-     * @param ConnectionMethod Selected connection method.
+     * @param method Selected connection method.
      * @param modem Selected modem.
      */
     ArgumentsScript(const Isp *isp,
