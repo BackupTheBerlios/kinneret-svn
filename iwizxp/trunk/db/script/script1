@@ -1,3 +1,5 @@
+# This is a sample script
+# that does nothing
 script1() {
     echo "hullo"
 }

@@ -1,3 +1,4 @@
-script3() {
+# This script has a weird syntax
+    script3 (     ){     
     echo "die"
 }

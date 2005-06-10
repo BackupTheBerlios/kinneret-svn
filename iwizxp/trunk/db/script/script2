@@ -1,3 +1,6 @@
+# This is a script with a comment,
+# and a line break between it and the header.
+
 script2() {
     echo "world"
 }
