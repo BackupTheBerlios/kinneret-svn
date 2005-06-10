@@ -116,5 +116,4 @@ private:
     std::vector<ConnectionMethod*> methods;
 };
 
-
 #endif

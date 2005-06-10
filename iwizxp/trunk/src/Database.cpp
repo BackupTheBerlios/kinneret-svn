@@ -19,15 +19,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <sys/types.h>
-#include <dirent.h>
-
 #include <fstream>
 
 #include "Database.h"
 #include "GlobalRepository.h"
+#include "Utils.h"
 
 using namespace std;
+using namespace Utils;
 
 Database::Database() {
     Log::debug("Creating database...");
@@ -179,42 +178,5 @@ void Database::releaseModems() {
         delete (*modemsIter);
         (*modemsIter) = 0;
     }
-}
-
-vector<string> Database::enumDirectory(string directory)
-        const throw (DirectoryEnumerationException) {
-    vector<string> files;
-
-    Log::debug(string("Enumerating ") + directory + string("..."));
-
-    // Open file descriptor
-    DIR *dir = opendir(directory.c_str());
-    if (dir == 0) {
-        string reason(strerror(errno));
-
-        Log::error("Unable to enumerate " + directory + ": " + reason);
-        throw DirectoryEnumerationException(reason);
-    }
-
-    // Browse...
-    dirent *entry = 0;
-    while ((entry = readdir(dir)) != 0) {
-        string entryName(entry->d_name);
-
-        // Skip hidden files, '.' and '..'
-        if (entryName.find(".") == 0) {
-            continue;
-        }
-
-        // Add the file to the list
-        files.push_back(directory + "/" + entryName);
-    }
-
-    // Close file descriptor
-    if (closedir(dir) != 0) {
-        // Ignore the error, we're done.
-    }
-
-    return files;
 }
 

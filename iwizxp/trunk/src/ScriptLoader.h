@@ -18,70 +18,56 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-#ifndef __FIXED_SCRIPT_H__
-#define __FIXED_SCRIPT_H__
+#ifndef __SCRIPT_LOADER_H___
+#define __SCRIPT_LOADER_H___
 
 #include <istream>
 
 #include "Script.h"
+#include "Exception.h"
 
 /**
- * This is a fiex script. This script is simply loaded from an input stream,
- * and printed to the template as it was read.
+ * This interface loads a script from a stream.
  *
  * @author duvduv
  */
-class FixedScript : public Script {
+class ScriptLoader {
 public:
 
     /* --- Constructors --- */
 
     /**
-     * Constructor. Loads the script from the input stream.
-     *
-     * @param functionName The name of the funtion this script's body will be
-     *        placed in.
-     * @param scriptStream The input stream we'll read the script from.
+     * Constructor.
      */
-    FixedScript(std::string functionName,
-                std::istream &scriptStream) : Script() {
-        this->functionName = functionName;
-        loadScriptBody(scriptStream);
-    }
-
-    /**
-     * Destructor, does nothing.
-     */
-    virtual ~FixedScript() {
+    ScriptLoader() {
         // Nothing to do
     }
 
-    /* --- Inherited from Script --- */
-
     /**
-     * @return The function name
+     * Destructor.
      */
-    virtual const std::string getFunctionName() const {
-        return functionName;
+    virtual ~ScriptLoader() {
+        // Nothing to do
     }
 
+    /* --- Excpetions --- */
+
+    NewException(LoadException);
+
+    /* ---- Abstract Methods --- */
+
     /**
-     * @return The body, as it was read from the input stream.
+     * This function loads a script from a stream.
+     *
+     * @param inStream Stream to load script from.
+     * @return A new and initialized <code>Script</code>. Note that the
+     *        <code>Script</code> is allocated using <code>new</code>, and
+     *        its up to the user to <code>delete</code> it.
+     * @throw LoadException When the given stream is in the wrong format or
+     *        any other problem occured during the loads process.
      */
-    virtual const std::string getScriptBody() const {
-        return scriptBody;
-    }
-
-private:
-
-    /* --- Data Members --- */
-
-    /** The function's name */
-    std::string functionName;
-
-    /** The function's body */
-    const std::string scriptBody;
+    virtual Script *loadScript(std::istream &inStream) const
+        throw (LoadException) = 0;
 };
 
 #endif

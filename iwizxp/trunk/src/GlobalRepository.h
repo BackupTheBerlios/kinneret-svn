@@ -24,6 +24,7 @@
 
 #include "SimpleFormatIspLoader.h"
 #include "SimpleFormatModemLoader.h"
+#include "BashSyntaxScriptLoader.h"
 
 /**
  * This singleton class holds everything's that's global and configureable in
@@ -84,6 +85,13 @@ public:
     }
 
     /**
+     * @return The script loader we shoulde use with the current database.
+     */
+    ScriptLoader *getScriptLoader() {
+        return scriptLoader;
+    }
+
+    /**
      * @return The full path to the top directory of the current database.
      */
     std::string getDbBasePath() {
@@ -100,6 +108,9 @@ private:
 
     /** Modem loader */
     ModemLoader *modemLoader;
+
+    /** Script loader */
+    ScriptLoader *scriptLoader;
 };
 
 #endif

@@ -38,7 +38,7 @@ T selectFromList(vector<T> list, string prompt) {
         for (i = 0, iter = list.begin() ; iter != list.end() ; iter++, i++) {
             string option;
 
-            // That's instanceof in C++ :)
+            // That's Java's instanceof in C++ :)
             Printable *obj = dynamic_cast<Printable*>(*iter);
             if (obj != 0) {
                 option = obj->toString();
@@ -62,9 +62,6 @@ T selectFromList(vector<T> list, string prompt) {
     return list[selection - 1];
 }
 
-/**
- * TODO: Refactor stuff.
- */
 int main() {
     try {
         Log::create(Log::DEBUG);

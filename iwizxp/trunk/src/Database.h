@@ -29,6 +29,7 @@
 #include "SimpleFormatModemLoader.h"
 #include "Log.h"
 #include "Exception.h"
+#include "Utils.h"
 
 /**
  * This class represents the databse. It is a singleton class that loads
@@ -99,13 +100,6 @@ public:
 
 private:
 
-    /* --- Inner Types --- */
-
-    /**
-     * Indicates that an enumeration attempt of a directory has failed.
-     */
-    NewException(DirectoryEnumerationException);
-
     /* --- Utility Methods --- */
 
     /**
@@ -116,7 +110,7 @@ private:
      *        enumerated.
      */
     std::vector<std::string> enumIsps() const
-        throw (DirectoryEnumerationException);
+        throw (Utils::DirectoryEnumerationException);
 
     /**
      * This utility method loads an ISP from a file and adds it to the
@@ -135,7 +129,7 @@ private:
      *        enumerated.
      */
     std::vector<std::string> enumModems() const
-        throw (DirectoryEnumerationException);
+        throw (Utils::DirectoryEnumerationException);
 
     /**
      * This utility method loads a modem from a file and adds it to the
@@ -145,23 +139,6 @@ private:
      * @return <code>true</code> in success, <code>false</code> on failure.
      */
     bool loadModemFromFile(std::string file);
-
-    /**
-     * TODO: Refactor this method out to a utility class.
-     *
-     * Enumerates the files that's in a specific directory, and returns a
-     * vector of full paths.
-     *
-     * @param directory Path (absolute or relative) to the directory we wish
-     *                  to enumerate.
-     * @return A vector of strings full of all the files (not including '.',
-     *         '..' and hidden files) in <code>directory</code>.
-     * @throws DirectoryEnumerationException Thrown when the given directory
-     *         could not be enumerated. The exception contains in
-     *         <code>what()</code> the reason.
-     */
-    std::vector<std::string> enumDirectory(std::string directory) const
-        throw (DirectoryEnumerationException);
 
     /**
      * This private method enumerates and attempts to load every file that's
