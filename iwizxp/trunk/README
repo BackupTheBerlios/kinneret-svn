@@ -1,0 +1,13 @@
+Iwiz-xp
+=======
+
+If you've obtained this source package directly from the BerliOS subversion
+repository, do the following in order to build iwiz:
+
+1. gmake -f Makefile.cvs
+   This will generate ./configure
+2. run ./configure
+3. run gmake
+4. (optional) run doxygen to generate API documentation.
+
+Don't run 'gmake install', yet.
