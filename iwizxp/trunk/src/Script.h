@@ -32,7 +32,7 @@
  * 
  * @author duvduv.
  */
-class Script : public Printable {  
+class Script {
 public:
 
     /* --- Constructors --- */
@@ -40,7 +40,7 @@ public:
     /**
      * Constructor.
      */
-    Script() : Printable() {
+    Script() {
         // Nothign to do
     }
 
@@ -50,14 +50,6 @@ public:
     virtual ~Script() {
         // Nothing to do.
     }
-
-    /* --- Inherited from Printable --- */
-
-    /**
-     * @return A short description of the script (will be used in the comment
-     *         above the fuction).
-     */
-    virtual const std::string toString() const = 0;
 
     /* --- Abstract Methods --- */
 
@@ -71,6 +63,12 @@ public:
      * @return The function's body (What's inside the function).
      */
     virtual const std::string getScriptBody() const = 0;
+
+    /**
+     * @return Short description of the script that will be placed in a
+     *         comment above it.
+     */
+    virtual const std::string getScriptDescription() const = 0;
 };
 
 #endif

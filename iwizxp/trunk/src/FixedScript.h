@@ -44,10 +44,10 @@ public:
      *        placed in.
      * @param scriptStream The input stream we'll read the script from.
      */
-    FixedScript(std::string functionName,
-                std::istream &scriptStream) : Script() {
+    FixedScript(const std::string &functionName,
+                const std::string &scriptBody) : Script() {
         this->functionName = functionName;
-        loadScriptBody(scriptStream);
+        this->scriptBody = scriptBody;
     }
 
     /**
@@ -73,6 +73,16 @@ public:
         return scriptBody;
     }
 
+    /**
+     * We return an empty string since the script is fixed and we count that
+     * the given script already containes a comment.
+     *
+     * @return An empty string.
+     */
+    virtual const std::string getScriptDescription() const {
+        return "";
+    }
+
 private:
 
     /* --- Data Members --- */
@@ -81,7 +91,7 @@ private:
     std::string functionName;
 
     /** The function's body */
-    const std::string scriptBody;
+    std::string scriptBody;
 };
 
 #endif

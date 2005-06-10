@@ -22,18 +22,17 @@
 #include "BashSyntaxScriptLoader.h"
 #include "Utils.h"
 #include "Log.h"
+#include "FixedScript.h"
 
 using namespace std;
 using namespace Utils;
 
 Script *BashSyntaxScriptLoader::loadScript(istream &inStream) const
         throw (ScriptLoader::LoadException) {
-    Script *result = 0;
-
     string body = readStreamAsString(inStream);
     string name = extractNameFromScript(body);
 
-    return result;
+    return new FixedScript(name, body);
 }
 
 string BashSyntaxScriptLoader::extractNameFromScript(const string &body) const
