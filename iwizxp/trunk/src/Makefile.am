@@ -1,3 +1,3 @@
 bin_PROGRAMS = iwizxp
-iwizxp_SOURCES = internet.cpp Database.cpp Isp.cpp Log.cpp Modem.cpp
+iwizxp_SOURCES = Modem.cpp Database.cpp Log.cpp internet.cpp Isp.cpp BashSyntaxScriptLoader.cpp Utils.cpp
 iwizxp_INCLUDES = -I$(top_srcdir)/src
