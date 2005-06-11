@@ -41,7 +41,7 @@ public:
      * Constructor.
      */
     Script() {
-        // Nothign to do
+        // Nothing to do
     }
 
     /**
