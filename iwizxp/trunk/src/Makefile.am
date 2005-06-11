@@ -8,5 +8,6 @@ iwizxp_SOURCES = Modem.cpp \
 				 Utils.cpp \
 				 PsudoEthernetUsbCablesModem.cpp \
 				 SimpleFormatDialerLoader.cpp \
-				 Dialer.cpp
+				 Dialer.cpp \
+				 GlobalRepository.cpp
 iwizxp_INCLUDES = -I$(top_srcdir)/src

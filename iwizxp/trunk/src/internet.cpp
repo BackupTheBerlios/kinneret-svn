@@ -25,6 +25,7 @@
 #include "Log.h"
 #include "Isp.h"
 #include "Database.h"
+#include "GlobalRepository.h"
 
 using namespace std;
 
@@ -86,6 +87,7 @@ int main() {
     }
 
     Database::release();
+    GlobalRepository::release();
     Log::release();
 
     return 0;

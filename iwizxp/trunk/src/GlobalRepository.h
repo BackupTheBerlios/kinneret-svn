@@ -69,12 +69,25 @@ public:
     /**
      * The singleton access method.
      *
-     * @return Pointer to the single instanace of <code>GlobalRepository</code>
+     * @return Pointer to the single instance of <code>GlobalRepository</code>
      * in the system.
      */
     static GlobalRepository *getInstance() {
-        static GlobalRepository instance;
-        return &instance;
+        if (instance == 0) {
+            instance = new GlobalRepository();
+        }
+        
+        return instance;
+    }
+
+    /**
+     * This methos releases the global repositoy.
+     */
+    static void release() {
+        if (instance != 0) {
+            delete instance;
+            instance = 0;
+        }
     }
 
     /* --- Public Methods --- */
@@ -118,6 +131,9 @@ public:
 private:
 
     /* --- Data Members --- */
+
+    /** Singleton instance */
+    static GlobalRepository *instance;
 
     /** ISP loader */
     IspLoader *ispLoader;
