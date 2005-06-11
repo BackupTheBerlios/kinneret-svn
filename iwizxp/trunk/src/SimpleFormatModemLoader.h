@@ -39,15 +39,17 @@ public:
     /* --- Constructors --- */
 
     SimpleFormatModemLoader() : ModemLoader() {
+        Log::debug("SimpleFormatModemLoader created successfully");
     }
     
     virtual ~SimpleFormatModemLoader() {
+        Log::debug("SimpleFormatModemLoader released successfully");
     }
 
     /* --- Abstract Methods --- */
 
     virtual Modem *loadModem(std::istream &inStream) const
-            throw (LoadExcpetion) {
+            throw (LoadException) {
         Modem *result = 0;
 
         // Load name
@@ -62,7 +64,7 @@ public:
         if (mc == "PsudoEthernetUsbCablesModem") {
             result = new PsudoEthernetUsbCablesModem(std::string(name));
         } else {
-            throw LoadExcpetion(std::string("Unknown modem: ") + name);
+            throw LoadException(std::string("Unknown modem: ") + name);
         }
 
         return result;

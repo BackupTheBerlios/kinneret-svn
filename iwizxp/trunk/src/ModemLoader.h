@@ -55,7 +55,7 @@ public:
 
     /* --- Exceptions --- */
     
-    NewException(LoadExcpetion);
+    NewException(LoadException);
 
     /* --- Abstract Methods --- */
 
@@ -70,7 +70,7 @@ public:
      *         given stream.
      */
     virtual Modem *loadModem(std::istream &inStream) const
-        throw (LoadExcpetion) = 0;
+        throw (LoadException) = 0;
 };
 
 #endif
