@@ -32,6 +32,8 @@ Script *BashSyntaxScriptLoader::loadScript(istream &inStream) const
     string body = readStreamAsString(inStream);
     string name = extractNameFromScript(body);
 
+    Log::debug(string("BashSyntaxScriptLoader successfully loaded: ") + name);
+
     return new FixedScript(name, body);
 }
 
@@ -39,9 +41,18 @@ string BashSyntaxScriptLoader::extractNameFromScript(const string &body) const
         throw (LoadException) {
     // This will catch the definition line
     static const string regexString(
-        "[ \t]+?[[:alnum:]_]+[ \t]+?\\([ \t]+?\\)[ \t]+?\\{[ \t]+?"
+        "[[:blank:]]*"
+        "[[:alnum:]_]+"
+        "[[:blank:]]*"
+        "\\("
+        "[[:blank:]]*"
+        "\\)"
+        "[[:blank:]]*"
+        "\\{"
+        "[[:blank:]]*"
     );
 
+    // Execute regex
     vector<string> regexResult;
     try {
         regexResult = executeRegex(regexString, body, 1);
