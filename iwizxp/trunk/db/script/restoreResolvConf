@@ -1,0 +1,6 @@
+##
+# Restores /etc/resolv.conf from the save made by backupResolvConf
+##
+restoreResolvConf() {
+    cp /etc/resolv.conf{.iwizxp.bak,}
+}

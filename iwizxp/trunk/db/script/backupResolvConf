@@ -1,0 +1,6 @@
+##
+# Backs-up /etc/resolv.conf to /etc/resolv.conf.iwizxp.bak
+##
+backupResolvConf() {
+    cp /etc/resolv.conf{,.iwizxp.bak}
+}

@@ -31,7 +31,7 @@ Dialer *PsudoEthernetUsbCablesModem::createDialer() const
     try {
         // Get path to dialer
         string path(GlobalRepository::getInstance()->
-            getDbBasePath() + "/dialer/dialer");
+            getDbBasePath() + "/dialer/pptp_cables_dialer");
 
         Log::debug(string("Loading ") + path + "...");
 

@@ -1,5 +1,0 @@
-script4() {
-    echo "gmake all"
-}
-
-# This thingie has no comment above it.

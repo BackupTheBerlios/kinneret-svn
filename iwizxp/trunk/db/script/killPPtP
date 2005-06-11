@@ -1,0 +1,15 @@
+##
+# This method finds and kills all running pptp clients running
+##
+killPPtP() {
+    for pptpClient in $pptpClients; do
+        # Extract PID of PPtP client for the selected interface
+        clientPid=`$ps | grep $pptpClient | awk '{print $1}'`
+            
+        # And kill it if presented
+        if [ -n $clientPid ]; then
+            echo "Killing PPtP client $dhcpClient"
+            kill -KILL $clientPid
+        fi
+    done
+}

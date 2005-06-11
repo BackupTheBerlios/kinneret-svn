@@ -1,0 +1,41 @@
+##
+# Starts a new DHCP client. Iterates over $dhcpClients, and selects the first
+# that fits. If no DHCP client could be brought up, the method terminates the
+# script with an error message.
+#
+# This method sets the variable currentDhcpClient upon successfull creation
+# of a DHCP client.
+#
+# This method relies on $modemEthernetDevice.
+##
+startDhcp() {
+    success=0
+    for dhcpClient in $dhcpClients; do
+        dhcpExecPath=`which $dhcpClient`
+        if [ -n "$dhcpExecPath" ]; then
+            # Execute client
+            if [ $dhcpClient == "pump" ]; then
+                # Pump gets special treatement
+                $dhcpExecPath -i $modemEthernetDevice
+            else
+                $dhcpExecPath $modemEthernetDevice
+            fi
+            
+            # Check for success
+            if [ $? -eq 0 ]; then
+                success=1
+                currentDhcpClient=$dhcpClient;
+                break
+            fi
+        fi
+    done
+
+    # Were we successful?
+    if [ $success -eq 0 ]; then
+        errorExit "Failed bringing up a DHCP client."
+    fi
+
+    # Yes!
+    echo "DHCP client $currentDhcpClient for $modemEthernetDevice started \
+        successfully."
+}

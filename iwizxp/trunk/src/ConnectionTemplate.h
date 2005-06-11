@@ -64,8 +64,6 @@ public:
     /* --- Public Methods --- */
 
     /**
-     * TODO: Implement.
-     *
      * Creates the final script by placing the dialer inside the template.
      *
      * @param dialer <code>Dialer</code> to place in the template.
@@ -75,13 +73,47 @@ public:
     /* --- Inherited from Prinable --- */
 
     /**
-     * @return The full script
+     * @return The full script. Call this after finalization.
      */
     virtual const std::string toString() const {
         return script;
     }
 
 private:
+
+    /* --- Utility Methods --- */
+
+    /**
+     * Creates the test block that should replace the string
+     * <code>{dialer}</code> found in the template.
+     *
+     * @param dialer <code>Dialer</code> to create code block from.
+     * @return Code block to replace <code>{dialer}</code>
+     */
+    std::string prepareDialerCode(Dialer *dialer) const;
+    
+    /**
+     * Creates a text-block with definitions of all the segments that are in
+     * the given vector. The method adds headers with the description of the
+     * method, if such is presented.
+     *
+     * @param scripts List of scripts to declare
+     * @return Code block containing the definition of all the methods in the
+     *         list.
+     */
+    std::string prepareScriptsSegment(std::vector<Script*> scripts) const;
+
+    /**
+     * Creates a text-block with a single method that calls all the scripts
+     * in the list by their order.
+     *
+     * @param methodName Method's name
+     * @param Ordered list of scripts to call
+     * @return Text block with one method named <code>methodName</code> which
+     *         calls the scripts in the vector by their order.
+     */
+    std::string prepareScriptCallingMethod(std::string methodName,
+        std::vector<Script*> scripts) const;
 
     /* --- Data Members --- */
 

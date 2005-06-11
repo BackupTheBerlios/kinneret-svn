@@ -1,0 +1,20 @@
+##
+# Sets default variables
+##
+setDefaultVariables() {
+    dhcpClients="dhcpcd dhclient pump"
+    pptpClients="pptp pptp-linux"
+    ps="/bin/ps auxwww"
+    route="/sbin/route"
+    netstat="/bin/netstat"
+    ifconfig="/sbin/ifconfig"
+    modprobe="/sbin/modprobe"
+}
+
+##
+# Prints an error messages and aborts.
+##
+errorExit() {
+    echo "ERROR: $1"
+    exit -1
+}

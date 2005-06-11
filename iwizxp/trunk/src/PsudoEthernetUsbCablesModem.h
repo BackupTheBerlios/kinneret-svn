@@ -96,6 +96,9 @@ private:
      * This method creates a <code>new Dialer()</code>.
      *
      * @return PPtP cables dialer.
+     *
+     * TODO: Make this a method of Modem, and let it have the name of the
+     * dialer alone.
      */ 
     Dialer *createDialer() const throw (DialerCreationException);
 

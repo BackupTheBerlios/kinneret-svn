@@ -1,0 +1,14 @@
+##
+# The method extracts the gateway address from the output of ifconfig, and
+# sets it in the variable $newGateway.
+##
+getNewGatewayFromPpp() {
+    newGateway=`$ifconfig $modemEthernetDevice | grep "inet addr:" | \
+        cut -d: -f3 | cut -d" " -f1`
+
+    if [ -z $newGateway ]; then
+        errorExit "Could not fetch new gateway"
+    fi
+
+    echo "New Gateway: $newGateway"
+}

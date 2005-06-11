@@ -1,0 +1,17 @@
+##
+# Sets the default route for $modemEthernetDevice to be $newGateway. The
+# method removes the previos gateway first.
+##
+addRouteViaNewGateway() {
+    echo "Deleting old default route"
+    $route del default dev $modemEthernetDevice
+    if [ $? -ne 0 ]; then
+        errorExit "Could not delete old default route"
+    fi
+
+    echo "Setting default route to " $NEWGW
+    $route add default gw $newGateway
+    if [ $? -ne 0 ]; then
+        errorExit "Could not set new default route"
+    fi
+}

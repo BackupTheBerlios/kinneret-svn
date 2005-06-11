@@ -21,11 +21,14 @@
 
 #include <vector>
 #include <iostream>
+// TODO: Remove
+#include <fstream>
 
 #include "Log.h"
 #include "Isp.h"
 #include "Database.h"
 #include "GlobalRepository.h"
+#include "ConnectionTemplate.h"
 
 using namespace std;
 
@@ -80,6 +83,12 @@ int main() {
             "Select a modem:");
 
         Dialer *dialer = modem->getDialer(isp);
+
+        ifstream initdFile("db/template/initd_service_template");
+        ConnectionTemplate initd(initdFile);
+        initdFile.close();
+        initd.finializeScript(dialer);
+        cout << initd.toString() << endl;
     } catch (Exception &ex) {
         Log::fatal(string("Aborting due to error: ") + ex.what());
     } catch (...) {

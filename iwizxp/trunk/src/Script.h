@@ -29,6 +29,8 @@
  * Scripts are small, usually generic, pieces of code, that are combined
  * together to create a complete dialer. Scripts are translated to Bash
  * functions in the final script, which are called in order by the dialer.
+ *
+ * TODO: DnsScript, PppSecretsScript.
  * 
  * @author duvduv.
  */
