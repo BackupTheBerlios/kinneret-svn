@@ -27,6 +27,7 @@
 #include "Printable.h"
 #include "Exception.h"
 #include "Dialer.h"
+#include "Utils.h"
 
 /**
  * This class represents a connection template. Connection templates are,
@@ -48,14 +49,16 @@ public:
      * @param inStream Stream to read the script from.
      */
     ConnectionTemplate(std::istream &inStream) : Printable() {
-        readScript(inStream);
+        script = Utils::readStreamAsString(inStream);
+
+        Log::debug("ConnectionTemplate created successfully");
     }
 
     /**
      * Destructor, does nothing.
      */
     virtual ~ConnectionTemplate() {
-        // Nothing to do
+        Log::debug("ConnectionTemplate released successfully");
     }
 
     /* --- Public Methods --- */
@@ -79,16 +82,6 @@ public:
     }
 
 private:
-
-    /* --- Private Methods --- */
-
-    /**
-     * Reads untill EOF from the stream, and stores it in
-     * <code>script</code>.
-     *
-     * TODO: Implement
-     */
-    void readScript(std::istream &inStream);
 
     /* --- Data Members --- */
 
