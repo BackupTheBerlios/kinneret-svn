@@ -26,11 +26,16 @@
 
 #include "Printable.h"
 #include "Script.h"
+#include "Log.h"
 
 /**
  * A dialer knows which scripts a required in order to establish a
  * connection, and in which order they should be executed. It is placed
  * inside a <code>ConnectionTemplate</code> to create a final script.
+ *
+ * Note: Since the <code>Dialer</code> is the class that holds all the
+ * <code>Script</code>s, it will release all the scripts it holds during
+ * destruction.
  *
  * @author duvduv
  */
@@ -42,15 +47,19 @@ public:
     /**
      * Constructor.
      */
-    Dialer() : Printable() {
-        // Nothing to do
+    Dialer(const std::string name) : Printable() {
+        this->name = name;
+
+        Log::debug("Dialer created successfully");
     }
 
     /**
      * Destructor, does nothing.
      */
     virtual ~Dialer() {
-        // Nothing to do
+        releaseScripts();
+
+        Log::debug("Dialer released successfully");
     }
 
     /* --- Public Methods --- */
@@ -67,7 +76,7 @@ public:
      *         executed in order to establish a new connection.
      */
     virtual std::vector<Script*> getConnectionScripts() const {
-        // TODO
+        return connectionScripts;
     }
 
     /**
@@ -75,7 +84,27 @@ public:
      *         executed in order to terminate a connection.
      */
     virtual std::vector<Script*> getDisconnectionScripts() const {
-        // TODO
+        return disconnectionScripts;
+    }
+
+    /**
+     * Adds a connection script to the dialer. Scripts are ordered by the
+     * order they are added.
+     *
+     * @param script Script to add to the dialer.
+     */
+    virtual void addConnectionScript(Script *script) {
+        connectionScripts.push_back(script);
+    }
+
+    /**
+     * Adds a disconnection script to the dialer. Scripts are ordered by the
+     * order they are added.
+     *
+     * @param script Script to add to the dialer.
+     */
+    virtual void addDisconnectionScript(Script *script) {
+        disconnectionScripts.push_back(script);
     }
     
     /* --- Inherited from Printable --- */
@@ -88,6 +117,26 @@ public:
     }
 
 private:
+
+    /* --- Utility Methods --- */
+
+    /**
+     * This method releases (<code>delete</code>s) all the scripts that are
+     * held by this dialer.
+     */
+    void releaseScripts();
+
+    /**
+     * This method releases (<code>delete</code>s) all the connection scripts
+     * that are held by this dialer.
+     */
+    void releaseConnectionScripts();
+    
+    /**
+     * This method releases (<code>delete</code>s) all the disconnection
+     * scripts that are held by this dialer.
+     */
+    void releaseDisconnectionScripts();
 
     /* --- Data Members --- */
 

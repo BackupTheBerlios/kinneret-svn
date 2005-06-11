@@ -25,6 +25,7 @@
 #include "SimpleFormatIspLoader.h"
 #include "SimpleFormatModemLoader.h"
 #include "BashSyntaxScriptLoader.h"
+#include "SimpleFormatDialerLoader.h"
 
 /**
  * This singleton class holds everything's that's global and configureable in
@@ -43,14 +44,22 @@ private:
     GlobalRepository() {
         ispLoader = new SimpleFormatIspLoader();
         modemLoader = new SimpleFormatModemLoader();
+        scriptLoader = new BashSyntaxScriptLoader();
+        dialerLoader = new SimpleFormatDialerLoader();
+
+        Log::debug("GlobalRepository created successfully");
     }
 
     /**
      * Destructor.
      */
     ~GlobalRepository() {
+        delete dialerLoader;
+        delete scriptLoader;
         delete modemLoader;
         delete ispLoader;
+
+        Log::debug("GlobalRepository released successfully");
     }
 
 public:
@@ -92,6 +101,13 @@ public:
     }
 
     /**
+     * @return The dialer loader we should use with the current database
+     */
+    DialerLoader *getDialerLoader() {
+        return dialerLoader;
+    }
+
+    /**
      * @return The full path to the top directory of the current database.
      */
     std::string getDbBasePath() {
@@ -111,6 +127,9 @@ private:
 
     /** Script loader */
     ScriptLoader *scriptLoader;
+
+    /** Dialer Loader */
+    DialerLoader *dialerLoader;
 };
 
 #endif

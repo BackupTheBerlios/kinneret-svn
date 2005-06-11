@@ -19,31 +19,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Modem.h"
-#include "Log.h"
+#include "Dialer.h"
 
 using namespace std;
 
-Modem::~Modem() {
-    releaseKernelModules();
-    releaseDialers();
+void Dialer::releaseScripts() {
+    releaseConnectionScripts();
+    releaseDisconnectionScripts();
 }
 
-void Modem::releaseKernelModules() {
-    vector<KernelModule*>::iterator iter;
-    for (iter = modulesVector.begin() ; iter != modulesVector.end() ; iter++) {
-        Log::debug(string("Releasing ") + (*iter)->toString() + "...");
-        delete (*iter);
-        (*iter) = 0;
-    } 
+void Dialer::releaseConnectionScripts() {
+    Log::debug("Releasing connection scripts...");
+    vector<Script*>::iterator iter;
+
+    for (iter = connectionScripts.begin() ;
+            iter != connectionScripts.end() ; 
+                iter++) {
+        if ((*iter) != 0) {
+            Log::debug(string("Releasing ") +
+                (*iter)->getFunctionName() + "...");
+            delete (*iter);
+            (*iter) = 0;
+        }
+    }
+    Log::debug("Connection scripts released successfully");
 }
 
-void Modem::releaseDialers() {
-    vector<Dialer*>::iterator iter;
-    for (iter = loadedDialers.begin() ; iter != loadedDialers.end() ; iter++) {
-        Log::debug(string("Releasing ") + (*iter)->toString() + "...");
-        delete (*iter);
-        (*iter) = 0;
-    } 
+void Dialer::releaseDisconnectionScripts() {
+    Log::debug("Releasing disconnection scripts...");
+    vector<Script*>::iterator iter;
+
+    for (iter = disconnectionScripts.begin() ;
+            iter != disconnectionScripts.end() ; 
+                iter++) {
+        if ((*iter) != 0) {
+            Log::debug(string("Releasing ") +
+                (*iter)->getFunctionName() + "...");
+            delete (*iter);
+            (*iter) = 0;
+        }
+    }
+    Log::debug("Disconnection scripts released successfully");
 }
 

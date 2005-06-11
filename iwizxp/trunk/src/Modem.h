@@ -28,6 +28,7 @@
 #include "KernelModule.h"
 #include "Isp.h"
 #include "Dialer.h"
+#include "Exception.h"
 
 /**
  * This abstact class represents a modem class, that knows which modules it
@@ -54,6 +55,10 @@ public:
      */
     virtual ~Modem();
 
+    /* --- Inner Types --- */
+
+    NewException(DialerCreationException);
+
     /* --- Abstract Methods --- */
 
     /**
@@ -70,8 +75,10 @@ public:
      * @return The appropriate dialer. The dialer is allocated using
      *         <code>new</code> and it's up to the user to
      *         <code>delete</code> it.
+     * @throw DialerCreationException When the desiered dialer could not have
+     *        been created.
      */
-    virtual const Dialer *getDialer(Isp *isp) const = 0;
+    virtual Dialer *getDialer(Isp *isp) throw (DialerCreationException) = 0;
 
     /* --- Public Methods --- */
 
@@ -123,7 +130,29 @@ protected:
         modulesVector.push_back(module);
     }
 
+    /**
+     * Adds a dialer to the list of loaded dialers. This list will be
+     * released during destruction.
+     *
+     * @param dialer A new dialer
+     */
+    void addDialer(Dialer *dialer) {
+        loadedDialers.push_back(dialer);
+    }
+
 private:
+
+    /* --- Utility Methods --- */
+
+    /**
+     * Releases kernel modules created by this modem.
+     */
+    void releaseKernelModules();
+
+    /**
+     * Releases dialers created by this modem.
+     */
+    void releaseDialers();
 
     /* --- Data Members --- */
 
@@ -132,6 +161,9 @@ private:
 
     /** List of required modules */
     std::vector<KernelModule*> modulesVector;
+
+    /** List of loaded dialers */
+    std::vector<Dialer*> loadedDialers;
 };
 
 #endif

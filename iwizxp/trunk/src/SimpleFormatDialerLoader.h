@@ -19,31 +19,53 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Modem.h"
-#include "Log.h"
+#ifndef __SIMPLE_FORMAT_DIALER_LOADER_H__
+#define __SIMPLE_FORMAT_DIALER_LOADER_H__
 
-using namespace std;
+#include "DialerLoader.h"
 
-Modem::~Modem() {
-    releaseKernelModules();
-    releaseDialers();
-}
+#define MAX_LINE 1024
 
-void Modem::releaseKernelModules() {
-    vector<KernelModule*>::iterator iter;
-    for (iter = modulesVector.begin() ; iter != modulesVector.end() ; iter++) {
-        Log::debug(string("Releasing ") + (*iter)->toString() + "...");
-        delete (*iter);
-        (*iter) = 0;
-    } 
-}
+/**
+ * This is a test class. Do not use in production code.
+ *
+ * @author duvduv
+ */
+class SimpleFormatDialerLoader : public DialerLoader {
+public:
 
-void Modem::releaseDialers() {
-    vector<Dialer*>::iterator iter;
-    for (iter = loadedDialers.begin() ; iter != loadedDialers.end() ; iter++) {
-        Log::debug(string("Releasing ") + (*iter)->toString() + "...");
-        delete (*iter);
-        (*iter) = 0;
-    } 
-}
+    /* --- Constructors ---- */
 
+    /**
+     * Constructor.
+     */
+    SimpleFormatDialerLoader() {
+        Log::debug("SimpleFormatDialerLoader created successfully");
+    }
+
+    /**
+     * Destructor.
+     */
+    virtual ~SimpleFormatDialerLoader() {
+        Log::debug("SimpleFormatDialerLoader released successfully");
+    }
+
+    /* --- Inherited from DialerLoader --- */
+
+    /**
+     * This method allocates and initializes a new dialer from a given stream.
+     *
+     * @param inStream Stream to read dialer info from. Format determined by
+     *        the implementing loader.
+     * @return A new and allocated dialer. The dialer is allocated using
+     *         <code>new</code> and it's up to the user to
+     *         <code>delete</code> it.
+     * @throws LoadExcpetion When the dialer could not be initilized from the
+     *         given stream.
+     */
+    virtual Dialer *loadDialer(std::istream &inStream) const
+        throw (LoadException);
+
+};
+
+#endif

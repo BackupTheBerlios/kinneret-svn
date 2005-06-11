@@ -66,22 +66,26 @@ int main() {
     try {
         Log::create(Log::DEBUG);
 
-        Isp *selectedIsp =
+        Isp *isp =
             selectFromList(Database::getInstance()->getIsps(),
             "Select ISP:");
 
         ConnectionMethod *connectionMethod = 
-            selectFromList(selectedIsp->getConnectionMethods(),
+            selectFromList(isp->getConnectionMethods(),
             "Select Connection Method:");
 
         Modem *modem = 
             selectFromList(Database::getInstance()->getModems(),
             "Select a modem:");
 
+        Dialer *dialer = modem->getDialer(isp);
     } catch (Exception &ex) {
         Log::fatal(string("Aborting due to error: ") + ex.what());
+    } catch (...) {
+        Log::bug("Caught ... !");
     }
 
+    Database::release();
     Log::release();
 
     return 0;

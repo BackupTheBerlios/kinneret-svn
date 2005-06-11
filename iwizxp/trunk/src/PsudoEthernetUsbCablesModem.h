@@ -48,13 +48,18 @@ public:
     PsudoEthernetUsbCablesModem(std::string name) : Modem(name) {
         // Released by ~Modem()
         addModule(new PsudoEthernetUsbModule());
+
+        // Lazy-create dialer
+        dialer = 0;
+
+        Log::debug("PsudoEthernetUsbCablesModem created successfully");
     }
 
     /**
      * Destructor.
      */
     virtual ~PsudoEthernetUsbCablesModem() {
-        // Nothing to do.
+        Log::debug("PsudoEthernetUsbCablesModem released successfully");
     }
 
     /* --- Inherited from Modem --- */
@@ -67,11 +72,37 @@ public:
     }
 
     /**
+     * This method creates the dialer required for this modem. Note that the
+     * dialer is released by the modem, and not by the user.
+     * 
      * @return The appropriate dialer.
      */
-    const Dialer *getDialer(Isp *isp) const {
-        // TODO
+    Dialer *getDialer(Isp *isp) throw (DialerCreationException) {
+        if (dialer == 0) {
+            dialer = createDialer();
+
+            // So it will be released at destruction time
+            addDialer(dialer);
+        }
+        
+        return dialer;
     }
+
+private:
+
+    /* --- Utility Methods --- */
+
+    /**
+     * This method creates a <code>new Dialer()</code>.
+     *
+     * @return PPtP cables dialer.
+     */ 
+    Dialer *createDialer() const throw (DialerCreationException);
+
+    /* --- Data Members --- */
+
+    /** The dialer */
+    Dialer *dialer;
 };
 
 #endif
