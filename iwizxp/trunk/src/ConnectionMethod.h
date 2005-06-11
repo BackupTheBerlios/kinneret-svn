@@ -25,7 +25,7 @@
 #include "Printable.h"
 
 /** 
- * This class represents a certain method an ISP offers for connection.
+ * This interface represents a certain method an ISP offers for connection.
  *
  * @author duvduv
  */

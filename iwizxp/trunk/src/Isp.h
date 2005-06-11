@@ -27,6 +27,7 @@
 #include "Printable.h"
 #include "ConnectionMethod.h"
 #include "IpAddress.h"
+#include "Log.h"
 
 /** 
  * This class represents an ISP.
@@ -45,6 +46,8 @@ public:
      */
     Isp(std::string name) : Printable() {
         this->name = name;
+
+        Log::debug(std::string("Isp: ") + name + " created successfully");
     }
     
     /** 

@@ -42,19 +42,23 @@ public:
      *
      * @param functionName The name of the funtion this script's body will be
      *        placed in.
-     * @param scriptStream The input stream we'll read the script from.
+     * @param scriptBody The fixed script.
      */
     FixedScript(const std::string &functionName,
                 const std::string &scriptBody) : Script() {
         this->functionName = functionName;
         this->scriptBody = scriptBody;
+
+        Log::debug(std::string("FixedScript: ") + functionName +
+            " created successfully");
     }
 
     /**
      * Destructor, does nothing.
      */
     virtual ~FixedScript() {
-        // Nothing to do
+        Log::debug(std::string("FixedScript: ") + functionName +
+            " released successfully");
     }
 
     /* --- Inherited from Script --- */

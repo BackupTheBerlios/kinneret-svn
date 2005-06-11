@@ -52,13 +52,15 @@ public:
         this->isp = isp;
         this->method = method;
         this->modem = modem;
+
+        Log::debug("ArgumentsScript created successfully");
     }
 
     /**
      * Destructor, does nothing.
      */
     virtual ~ArgumentsScript() {
-        // Nothing to do.
+        Log::debug("ArgumentsScript released successfully");
     }
 
     /* --- Inherited from Script --- */
@@ -72,11 +74,23 @@ public:
     }
 
     /**
+     * TODO: Implement.
+     *
      * @return A valid-syntax Bash script, that sets up all the user defined
      *         variables.
      */
-    virtual const std::string getScriptBody() const {
-        // TODO
+    virtual const std::string getScriptBody() const;
+
+    /**
+     * @return Short description of the script that will be placed in a
+     *         comment above it.
+     */
+    virtual const std::string getScriptDescription() const {
+        return
+            "This script sets all of the user arguments.\n"
+            "This is the first script called for every connection,\n"
+            "setting all the user defined variables required for the other\n"
+            "scripts to work.";
     }
 
 private:

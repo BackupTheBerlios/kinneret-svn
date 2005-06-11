@@ -48,13 +48,15 @@ public:
            std::string dialingDestination) : ConnectionMethod() {
         this->defaultGateway = defaultGateway;
         this->dialingDestination = dialingDestination;
+
+        Log::debug("Cables created successfully");
     }
 
     /** 
      * Destructor, does nothing.
      */
     virtual ~Cables() {
-        // Nothing to do.
+        Log::debug("Cables released successfully");
     }
 
     /* --- Inherited from ConnectionMethod --- */

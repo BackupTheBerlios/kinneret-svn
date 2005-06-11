@@ -53,6 +53,9 @@ public:
 
     /* --- Exceptions --- */
     
+    /**
+     * Thrown when the loader wasn't able to load the ISP.
+     */
     NewException(LoadExcpetion);
 
     /* --- Abstract Methods --- */

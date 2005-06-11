@@ -28,8 +28,11 @@ using namespace std;
 Isp::~Isp() {
     std::vector<ConnectionMethod*>::iterator iter;
     for (iter = methods.begin() ; iter != methods.end() ; iter++) {
+        Log::debug(string("Releasing ") + (*iter)->toString() + "...");
         delete (*iter);
         (*iter) = 0;
     }
+    
+    Log::debug(string("Isp: ") + name + " released successfully");
 }
 

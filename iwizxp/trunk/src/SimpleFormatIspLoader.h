@@ -39,9 +39,11 @@ public:
     /* --- Constructors --- */
 
     SimpleFormatIspLoader() : IspLoader() {
+        Log::debug("SimpleFormatIspLoader created successfully");
     }
     
     virtual ~SimpleFormatIspLoader() {
+        Log::debug("SimpleFormatIspLoader released successfully");
     }
 
     /* --- Abstract Methods --- */

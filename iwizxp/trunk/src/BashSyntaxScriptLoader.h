@@ -23,9 +23,14 @@
 #define __BASH_SYNTAX_SCRIPT_LOADER_H__
 
 #include "ScriptLoader.h"
+#include "Log.h"
 
 /**
- * TODO: JavaDocs
+ * This class reads a Bash script from the input stream, and creates
+ * {@link FixedScript}s out of it. Note that the input given must contain a
+ * single method alone.
+ *
+ * @author duvduv
  */
 class BashSyntaxScriptLoader : public ScriptLoader {
 public:
@@ -36,14 +41,14 @@ public:
      * Constructor.
      */
     BashSyntaxScriptLoader() {
-        // Nothing to do
+        Log::debug("BashSyntaxScriptLoader created successfully");
     }
 
     /**
      * Destructor.
      */
     virtual ~BashSyntaxScriptLoader() {
-        // Nothing to do
+        Log::debug("BashSyntaxScriptLoader released successfully");
     }
 
     /* --- Inherited from ScriptLoader --- */
@@ -60,6 +65,9 @@ public:
      *     echo "Here's the body"
      * }
      * </pre>
+     *
+     * <b>Note</b>: The <code>Script</code> is dynamically allocated using
+     * <code>new</code>. It is up to the caller to <code>delete</code> it.
      *
      * @param inStream Stream to load script from.
      * @return A new and initialized <code>FixedScript</code>. Note that the

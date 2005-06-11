@@ -18,59 +18,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef __SCRIPT_LOADER_H___
-#define __SCRIPT_LOADER_H___
 
-#include <istream>
+#include <fstream>
 
-#include "Script.h"
-#include "Exception.h"
+#include "PsudoEthernetUsbCablesModem.h"
+#include "GlobalRepository.h"
 
-/**
- * This interface loads a script from a stream.
- *
- * @author duvduv
- */
-class ScriptLoader {
-public:
+using namespace std;
 
-    /* --- Constructors --- */
+Dialer *PsudoEthernetUsbCablesModem::createDialer() const
+        throw (DialerCreationException) {
+    try {
+        // Get path to dialer
+        string path(GlobalRepository::getInstance()->
+            getDbBasePath() + "/dialer/dialer");
 
-    /**
-     * Constructor.
-     */
-    ScriptLoader() {
-        // Nothing to do
+        Log::debug(string("Loading ") + path + "...");
+
+        ifstream dialer(path.c_str());
+        if (!dialer.is_open()) {
+            throw DialerCreationException("Unable to open dialer file!");
+        }
+
+        // Load dialer
+        Dialer *result = GlobalRepository::getInstance()->getDialerLoader()->
+            loadDialer(dialer);
+
+        // Close file
+        dialer.close();
+
+        return result;
+    } catch (DialerLoader::LoadException &ex) {
+        throw DialerCreationException(string("Unable to load dialer: ") +
+            ex.what());
     }
+}
 
-    /**
-     * Destructor.
-     */
-    virtual ~ScriptLoader() {
-        // Nothing to do
-    }
-
-    /* --- Excpetions --- */
-
-    /**
-     * Thrown when the loader wasn't able to load the script from the stream.
-     */
-    NewException(LoadException);
-
-    /* ---- Abstract Methods --- */
-
-    /**
-     * This function loads a script from a stream.
-     *
-     * @param inStream Stream to load script from.
-     * @return A new and initialized <code>Script</code>. Note that the
-     *        <code>Script</code> is allocated using <code>new</code>, and
-     *        its up to the user to <code>delete</code> it.
-     * @throw LoadException When the given stream is in the wrong format or
-     *        any other problem occured during the loads process.
-     */
-    virtual Script *loadScript(std::istream &inStream) const
-        throw (LoadException) = 0;
-};
-
-#endif

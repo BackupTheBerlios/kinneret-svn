@@ -70,6 +70,9 @@ public:
 
     /* --- Exceptions --- */
 
+    /**
+     * Thrown if this module is unsupported by the selected kernel.
+     */
     NewException(FeatureNotSupportedException);
 
     /* --- Abstract Methods --- */

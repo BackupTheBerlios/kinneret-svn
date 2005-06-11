@@ -28,8 +28,10 @@
 using namespace std;
 using namespace Utils;
 
+Database *Database::instance = 0;
+
 Database::Database() {
-    Log::debug("Creating database...");
+    Log::debug("Creating Database...");
 
     loadIsps();
     loadModems();
@@ -38,7 +40,7 @@ Database::Database() {
 }
 
 Database::~Database() {
-    Log::debug("Releasing database...");
+    Log::debug("Releasing Database...");
     
     releaseIsps();
     releaseModems();
@@ -122,7 +124,7 @@ bool Database::loadModemFromFile(std::string file) {
     try {
         tempModem = GlobalRepository::getInstance()->
             getModemLoader()->loadModem(currentModemFile);
-    } catch (ModemLoader::LoadExcpetion &ex) {
+    } catch (ModemLoader::LoadException &ex) {
         Log::error(string("Failed: ") + ex.what());
         return false;
     }

@@ -42,14 +42,14 @@ public:
      * Constructor.
      */
     PsudoEthernetUsbModule() : KernelModule() {
-        // Nothing to do.
+        Log::debug("PsudoEthernetUsbModule created successfully");
     }
 
     /** 
      * Destructor.
      */
     virtual ~PsudoEthernetUsbModule() {
-        // Nothing to do
+        Log::debug("PsudoEthernetUsbModule released successfully");
     }
 
     /* --- Inherited from Printable --- */
