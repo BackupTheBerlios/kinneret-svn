@@ -71,8 +71,19 @@ public:
      * @return Reference to the single instance of this class.
      */
     static Database *getInstance() {
-        static Database instance;
-        return &instance;
+        if (instance == 0) {
+            instance = new Database();
+        }
+        
+        return instance;
+    }
+
+    /**
+     * This method releases the database. Call it once you're done. It should
+     * start the chain of releases in the application.
+     */
+    static void release() {
+        delete instance;
     }
 
     /* --- Public Methods --- */
@@ -164,6 +175,9 @@ private:
     void releaseModems();
 
     /* --- Data Members --- */
+
+    /** Singleton instance */
+    static Database *instance;
 
     /** All the available ISPs */
     std::vector<Isp*> isps;
