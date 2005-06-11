@@ -37,7 +37,7 @@ string Utils::readStreamAsString(istream &inStream) {
     ostringstream result;
 
     while (!inStream.eof()) {
-        result << inStream.get();
+        result << static_cast<char>(inStream.get());
     }
 
     return result.str();
@@ -82,6 +82,9 @@ vector<string> Utils::enumDirectory(string directory)
 
 vector<string> Utils::executeRegex(const string &regexString,
         const string &matchString, int maxResults) throw (RegexException) {
+
+    // TODO: Would this function work on non-ascii strings?
+    
     vector<string> result;
     
     // Buffer for regex error strings
@@ -89,6 +92,7 @@ vector<string> Utils::executeRegex(const string &regexString,
 
     // Compile RegEx
     regex_t compiledRegex;
+
     int ret = regcomp(&compiledRegex, regexString.c_str(), REG_EXTENDED);
     if (ret != 0) {
         regerror(ret, &compiledRegex, errorBuffer, ERROR_BUFFER_SIZE);
@@ -96,31 +100,33 @@ vector<string> Utils::executeRegex(const string &regexString,
             string("Unable to compile regex: ") + errorBuffer);
     }
 
-    // Execute Regex to find title
+    // Create results buffer
     regmatch_t *regexMatches = new regmatch_t[maxResults];
     if (regexMatches == 0) {
         regfree(&compiledRegex);
         throw RegexException("Unable to allocate resuls array!");
     }
     
+    // Execute regex
     ret = regexec(&compiledRegex, matchString.c_str(),
         maxResults, regexMatches, 0);
 
     // Collect results
     if (ret != REG_NOMATCH) {
-        int i;
-        regmatch_t *current;
-        for (current = regexMatches, i = 0 ;
-                i < maxResults ; i++, current++) {
+        regmatch_t *current = regexMatches;
+        for (int i = 0 ; i < maxResults ; i++, current++) {
 
+            // See if this is a valid result
             if ((current->rm_so != -1) && (current->rm_eo != -1)) {
-                // Valid match
-                result.push_back(
-                    matchString.substr(current->rm_so, current->rm_eo));
+
+                // Push it to the result vector
+                result.push_back(matchString.substr(current->rm_so,
+                    current->rm_eo - current->rm_so));
             }
         }
     }
     
+    // Free stuff
     delete[] regexMatches;
     regfree(&compiledRegex);
 
