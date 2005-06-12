@@ -22,6 +22,7 @@
 #include <sstream>
 
 #include "ConnectionTemplate.h"
+#include "Database.h"
 
 using namespace std;
 
@@ -34,28 +35,37 @@ void ConnectionTemplate::finializeScript(Dialer *dialer) {
 }
 
 string ConnectionTemplate::prepareDialerCode(Dialer *dialer) const {
+    // All the scripts, including the default pre- and post- scripts.
+    vector<Script*> allConnectionScripts = dialer->getConnectionScripts();
+    vector<Script*> allDisconnectionScripts = dialer->getDisconnectionScripts();
+
+    // Add default dialers settings
+    addDefaults(allConnectionScripts, allDisconnectionScripts);
+
+    // Set to prevent doubles
     set<string> alreadyWritten;
 
-    string connectionMethods =
-        prepareScriptsSegment(dialer->getConnectionScripts(),
-            alreadyWritten);
+    // Method definitions
+    string connectionMethods = prepareScriptsSegment(allConnectionScripts,
+        alreadyWritten);
 
-    string disconnectionMethods =
-        prepareScriptsSegment(dialer->getDisconnectionScripts(),
-            alreadyWritten);
+    string disconnectionMethods = prepareScriptsSegment(allDisconnectionScripts,
+        alreadyWritten);
 
+    // Calling methods
     string connectMethod = prepareScriptCallingMethod("connect",
         "This method calls the methods above in the correct order.\n"
         "Call this method when you wish to create a new connection.",
-        dialer->getConnectionScripts());
+        allConnectionScripts);
 
     string disconnectMethod = prepareScriptCallingMethod("disconnect",
         "This method calls the methods above in the correct order.\n"
         "Call this method when you wish to eliminate a current connection.",
-        dialer->getDisconnectionScripts());
+        allDisconnectionScripts);
 
     ostringstream result;
 
+    // Result
     result <<
         "# --- Connection Methods --- #" << endl << endl <<
         connectionMethods << endl << endl <<
@@ -94,7 +104,7 @@ string ConnectionTemplate::prepareScriptsSegment(vector<Script*> scripts,
             // The method already defined. Leave a comment that we've notcied
             // that.
             result << "# " << (*iter)->getFunctionName() <<
-                " already found in script." << endl;
+                " already found in script." << endl << endl;
         }
     }
 
@@ -142,5 +152,29 @@ string ConnectionTemplate::formatDescription(string description) const {
         "##";
 
     return result.str();
+}
+
+void ConnectionTemplate::addDefaults(vector<Script*> &connectionScripts,
+        vector<Script*> &disconnectionScripts) const {
+    Dialer *preDialer = Database::getInstance()->getDefaultPreDialer();
+    Dialer *postDialer = Database::getInstance()->getDefaultPostDialer();
+
+    // Prepend
+    connectionScripts.insert(connectionScripts.begin(),
+        preDialer->getConnectionScripts().begin(),
+        preDialer->getConnectionScripts().end());
+
+    disconnectionScripts.insert(disconnectionScripts.begin(),
+        preDialer->getDisconnectionScripts().begin(),
+        preDialer->getDisconnectionScripts().end());
+
+    // Append
+    connectionScripts.insert(connectionScripts.end(),
+        postDialer->getConnectionScripts().begin(),
+        postDialer->getConnectionScripts().end());
+
+    disconnectionScripts.insert(disconnectionScripts.end(),
+        postDialer->getDisconnectionScripts().begin(),
+        postDialer->getDisconnectionScripts().end());
 }
 

@@ -124,8 +124,31 @@ public:
      * @return The full path to the top directory of the current database.
      */
     std::string getDbBasePath() {
-        // TODO: Load from configuration
+        // TODO: From configuration
         return "db";
+    }
+
+    /**
+     * @return Name of default pre-dialer dialer. The pre-dialer dialer is a
+     *         regular dialer, except that it doesn't connect to anywhere.
+     *         It's simply there to setup defaults in the script (like
+     *         calling the user arguments method and setting up default
+     *         variables).
+     */
+    std::string getDefaultPreDialerName() {
+        // TODO: From configuration
+        return "pre";
+    }
+
+    /**
+     * @return Name of default post-dialer dialer. The post-dialer dialer is a
+     *         regular dialer, except that it doesn't disconnect anything.
+     *         It's simply there to undo what's been done in the pre-dialer
+     *         (like restoring /etc/resolv.conf).
+     */
+    std::string getDefaultPostDialerName() {
+        // TODO: From configuration
+        return "post";
     }
 
 private:

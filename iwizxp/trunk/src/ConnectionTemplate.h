@@ -141,6 +141,15 @@ private:
      */
     std::string formatDescription(std::string description) const;
 
+    /**
+     * Prepends and appends default scripts to the given lists.
+     *
+     * @param connectionScripts List of connection scripts.
+     * @param disconnectionScripts List of disconnection scripts.
+     */
+    void addDefaults(std::vector<Script*> &connectionScripts,
+        std::vector<Script*> &disconnectionScripts) const;
+
     /* --- Data Members --- */
 
     /** The script */

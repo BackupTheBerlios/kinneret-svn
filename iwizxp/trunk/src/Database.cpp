@@ -35,6 +35,7 @@ Database::Database() {
 
     loadIsps();
     loadModems();
+    loadDefaultDialers();
 
     Log::debug("Database created.");
 }
@@ -42,6 +43,7 @@ Database::Database() {
 Database::~Database() {
     Log::debug("Releasing Database...");
     
+    releaseDefaultDialers();
     releaseIsps();
     releaseModems();
 
@@ -179,6 +181,53 @@ void Database::releaseModems() {
         Log::debug("Releasing " + (*modemsIter)->getName());
         delete (*modemsIter);
         (*modemsIter) = 0;
+    }
+}
+
+void Database::loadDefaultDialers() throw (DatabaseCreationException) {
+    try {
+        // TODO: Refactor extract method
+        string path(GlobalRepository::getInstance()->
+            getDbBasePath() + "/dialer/" +
+            GlobalRepository::getInstance()->getDefaultPreDialerName());
+
+        ifstream inFile(path.c_str());
+        if (!inFile.is_open()) {
+            throw DatabaseCreationException(string("Unable to open ") + path);
+        }
+
+        defaultPreDialer = GlobalRepository::getInstance()->
+            getDialerLoader()->loadDialer(inFile);
+
+        inFile.close();
+
+        path = GlobalRepository::getInstance()->getDbBasePath() + "/dialer/" +
+            GlobalRepository::getInstance()->getDefaultPostDialerName();
+
+        inFile.open(path.c_str());
+        if (!inFile.is_open()) {
+            throw DatabaseCreationException(string("Unable to open ") + path);
+        }
+
+        defaultPostDialer = GlobalRepository::getInstance()->
+            getDialerLoader()->loadDialer(inFile);
+
+        inFile.close();
+    } catch (DialerLoader::LoadException &ex) {
+        throw DatabaseCreationException(
+            string("Unable to create default dialers: ") + ex.what());
+    }
+}
+
+void Database::releaseDefaultDialers() {
+    if (defaultPreDialer != 0) {
+        delete defaultPreDialer;
+        defaultPreDialer = 0;
+    }
+
+    if (defaultPostDialer != 0) {
+        delete defaultPostDialer;
+        defaultPostDialer = 0;
     }
 }
 

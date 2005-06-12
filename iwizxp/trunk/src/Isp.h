@@ -78,14 +78,14 @@ public:
     /** 
      * @return Vector of DNS servers.
      */
-    const std::vector<IpAddress> getDnsServers() const {
+    const std::vector<IpAddress> &getDnsServers() const {
         return dnsServers;
     }
 
     /** 
      * @return Vector of supported connection methods.
      */
-    std::vector<ConnectionMethod*> getConnectionMethods() const {
+    const std::vector<ConnectionMethod*> &getConnectionMethods() const {
         return methods;
     }
 

@@ -91,15 +91,29 @@ public:
     /**
      * @return List of all of the available ISPs.
      */
-    std::vector<Isp*> getIsps() const {
+    const std::vector<Isp*> &getIsps() const {
         return isps;
     }
 
     /**
      * @return List of all the available modems.
      */
-    std::vector<Modem*> getModems() const {
+    const std::vector<Modem*> &getModems() const {
         return modems;
+    }
+
+    /**
+     * @return The default pre-dialer
+     */
+    Dialer *getDefaultPreDialer() {
+        return defaultPreDialer;
+    }
+
+    /**
+     * @return The default post-dialer
+     */
+    Dialer *getDefaultPostDialer() {
+        return defaultPostDialer;
     }
 
     /* --- Exceptions --- */
@@ -174,6 +188,16 @@ private:
      */
     void releaseModems();
 
+    /**
+     * Loads the default dialers.
+     */
+    void loadDefaultDialers() throw (DatabaseCreationException);
+
+    /**
+     * Releases the default dialers.
+     */
+    void releaseDefaultDialers();
+
     /* --- Data Members --- */
 
     /** Singleton instance */
@@ -184,6 +208,12 @@ private:
 
     /** All the available modems */
     std::vector<Modem*> modems;
+
+    /** The default pre-dialer */
+    Dialer *defaultPreDialer;
+
+    /** The default post-dialer */
+    Dialer *defaultPostDialer;
 };
 
 #endif

@@ -75,7 +75,7 @@ public:
      * @return An ordered list of the <code>Script</code>s that has to be
      *         executed in order to establish a new connection.
      */
-    virtual std::vector<Script*> getConnectionScripts() const {
+    virtual const std::vector<Script*> &getConnectionScripts() const {
         return connectionScripts;
     }
 
@@ -83,7 +83,7 @@ public:
      * @return An ordered list of the <code>Script</code>s that has to be
      *         executed in order to terminate a connection.
      */
-    virtual std::vector<Script*> getDisconnectionScripts() const {
+    virtual const std::vector<Script*> &getDisconnectionScripts() const {
         return disconnectionScripts;
     }
 
