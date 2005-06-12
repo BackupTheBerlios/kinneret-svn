@@ -1,0 +1,12 @@
+Pre-dialer Scripts
+7
+default
+setupUserArguments
+loadModules
+backupResolvConf
+setupResolvConf
+backupPppSecrets
+setupPppSecrets
+2
+default
+setupUserArguments
