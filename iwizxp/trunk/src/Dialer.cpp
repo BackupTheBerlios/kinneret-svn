@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "Dialer.h"
+#include "ArgumentsScript.h"
 
 using namespace std;
 
@@ -35,7 +36,9 @@ void Dialer::releaseConnectionScripts() {
     for (iter = connectionScripts.begin() ;
             iter != connectionScripts.end() ; 
                 iter++) {
-        if ((*iter) != 0) {
+        // Don't release ArgumentsScript - it's a singleton that has to be
+        // released individually AND ONLY ONCE!
+        if (((*iter) != 0) && ((*iter) != ArgumentsScript::getInstance())) {
             Log::debug(string("Releasing ") +
                 (*iter)->getFunctionName() + "...");
             delete (*iter);

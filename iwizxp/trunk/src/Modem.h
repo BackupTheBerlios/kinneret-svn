@@ -85,7 +85,7 @@ public:
     /**
      * @return List of modules that has to be probed.
      */
-    virtual std::vector<KernelModule*> getKernelModules() const {
+    virtual const std::vector<KernelModule*> &getKernelModules() const {
         return modulesVector;
     }
 

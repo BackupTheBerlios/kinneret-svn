@@ -29,6 +29,7 @@
 #include "Database.h"
 #include "GlobalRepository.h"
 #include "ConnectionTemplate.h"
+#include "ArgumentsScript.h"
 
 using namespace std;
 
@@ -73,14 +74,19 @@ int main() {
         Isp *isp =
             selectFromList(Database::getInstance()->getIsps(),
             "Select ISP:");
+        ArgumentsScript::getInstance()->setIsp(isp);
 
         ConnectionMethod *connectionMethod = 
             selectFromList(isp->getConnectionMethods(),
             "Select Connection Method:");
+        ArgumentsScript::getInstance()->setConnectionMethod(connectionMethod);
 
         Modem *modem = 
             selectFromList(Database::getInstance()->getModems(),
             "Select a modem:");
+        // TODO: resolv kernel and ask
+        ArgumentsScript::getInstance()->setModem(modem,
+            KernelModule::LINUX2_6);
 
         Dialer *dialer = modem->getDialer(isp);
 
@@ -95,6 +101,7 @@ int main() {
         Log::bug("Caught ... !");
     }
 
+    ArgumentsScript::release();
     Database::release();
     GlobalRepository::release();
     Log::release();

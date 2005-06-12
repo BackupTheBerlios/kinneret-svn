@@ -23,6 +23,7 @@
 
 #include "SimpleFormatDialerLoader.h"
 #include "GlobalRepository.h"
+#include "ArgumentsScript.h"
 
 #include "Log.h"
 
@@ -47,6 +48,11 @@ Dialer *SimpleFormatDialerLoader::loadDialer(istream &inStream) const
     for (int i = 0 ; i < count ; i++) {
         inStream.getline(name, MAX_LINE, '\n');
         Script *script;
+
+        if (string(name) == ArgumentsScript::getInstance()->getFunctionName()) {
+            result->addConnectionScript(ArgumentsScript::getInstance());
+            continue;
+        }
 
         string fileName(GlobalRepository::getInstance()->
                 getDbBasePath() + "/script/" + name);

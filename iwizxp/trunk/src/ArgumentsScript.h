@@ -22,37 +22,44 @@
 #ifndef __ARGUMENTS_SCRIPT_H__
 #define __ARGUMENTS_SCRIPT_H__
 
+#include <map>
+
 #include "Script.h"
+
 #include "Isp.h"
-#include "ConnectionMethod.h"
 #include "Modem.h"
+#include "ConnectionMethod.h"
 
 /**
+ * TODO: Explain singleton
+ *
  * This class represents the script that sets all of the user arguments. This
  * is the first script called for every connection, setting all the user
  * defined variables required for the other scripts to work.
  *
+ * The script defines the variables:
+ * <ul>
+ * <li>$defaultGateway (from <code>ConnectionMethod</code>)</li>
+ * <li>$dialingDestination (from <code>ConnectionMethod</code>)</li>
+ * <li>$modules (from <code>Modem</code>)</li>
+ * <li>$nameservers (from <code>Isp</code>)</li>
+ * <li>$searchGroups (from <code>Isp</code>)</li>
+ * <li>$modemEthernetDevice (from TODO)</li>
+ * <li>$username (from TODO)</li>
+ * <li>$password (from TODO)</li>
+ * </ul>
+ *
  * @author duvduv
  */
 class ArgumentsScript : public Script {
-public:
+private:
 
     /* --- Constructors --- */
 
     /**
-     * Constructor.
-     *
-     * @param isp Selected ISP.
-     * @param method Selected connection method.
-     * @param modem Selected modem.
+     * Constructor. Does nothing.
      */
-    ArgumentsScript(const Isp *isp,
-                    const ConnectionMethod *method,
-                    const Modem *modem) : Script() {
-        this->isp = isp;
-        this->method = method;
-        this->modem = modem;
-
+    ArgumentsScript() : Script() {
         Log::debug("ArgumentsScript created successfully");
     }
 
@@ -60,8 +67,49 @@ public:
      * Destructor, does nothing.
      */
     virtual ~ArgumentsScript() {
+        instance = 0;
         Log::debug("ArgumentsScript released successfully");
     }
+
+public:
+
+    /* --- Singleton --- */
+    /**
+     * TODO
+     */
+    static ArgumentsScript *getInstance() {
+        if (instance == 0) {
+            instance = new ArgumentsScript();
+        }
+
+        return instance;
+    }
+
+    /**
+     * TODO
+     */
+    static void release() {
+        if (instance != 0) {
+            delete instance;
+        }
+    }
+
+    /* --- Public Methods --- */
+
+    /**
+     * TODO
+     */
+    void setIsp(const Isp *isp);
+
+    /**
+     * TODO
+     */
+    void setModem(const Modem *modem, KernelModule::KernelClass kernelClass);
+
+    /**
+     * TODO
+     */
+    void setConnectionMethod(const ConnectionMethod *method);
 
     /* --- Inherited from Script --- */
 
@@ -74,8 +122,6 @@ public:
     }
 
     /**
-     * TODO: Implement.
-     *
      * @return A valid-syntax Bash script, that sets up all the user defined
      *         variables.
      */
@@ -97,14 +143,13 @@ private:
 
     /* --- Data Members --- */
 
-    /** Selected ISP */
-    const Isp *isp;
+    /** Names -&gt; Values map */
+    std::map<std::string, std::string> values;
 
-    /** Selected connection method */
-    const ConnectionMethod *method;
+    /* --- Singleton --- */
 
-    /** Selected modem */
-    const Modem *modem;
+    /** The instance */
+    static ArgumentsScript *instance;
 };
 
 #endif
