@@ -81,18 +81,7 @@ string ConnectionTemplate::prepareScriptsSegment(vector<Script*> scripts,
             // If there is a description, add it as a header
             string desc = (*iter)->getScriptDescription();
             if (desc.length() > 0) {
-                // Replace newlines with commented newlines
-                string::size_type newline = desc.find('\n');
-                while (newline != string::npos) {
-                    desc.replace(newline, 1, "\n# ");
-                    newline = desc.find('\n', newline + 1);
-                }
-
-                // Write header
-                result <<
-                    "##" << endl <<
-                    "# " << desc << endl <<
-                    "##" << endl;
+                result << formatDescription(desc) << endl;
             }
 
             // Write script body
@@ -119,6 +108,25 @@ string ConnectionTemplate::prepareScriptCallingMethod(string methodName,
         result << '\t' << (*iter)->getFunctionName() << "()" << endl;
     }
     result << "}" << endl;
+
+    return result.str();
+}
+
+string ConnectionTemplate::formatDescription(string description) const {
+    ostringstream result;
+    
+    // Replace newlines with commented newlines
+    string::size_type newline = description.find('\n');
+    while (newline != string::npos) {
+        description.replace(newline, 1, "\n# ");
+        newline = description.find('\n', newline + 1);
+    }
+
+    // Write header
+    result <<
+        "##" << endl <<
+        "# " << description << endl <<
+        "##";
 
     return result.str();
 }

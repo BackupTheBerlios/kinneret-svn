@@ -123,6 +123,22 @@ private:
     std::string prepareScriptCallingMethod(std::string methodName,
         std::vector<Script*> scripts) const;
 
+    /**
+     * This method formats a decription string to be of the format:
+     * <pre>
+     * ##
+     * # description
+     * ##
+     * </pre>
+     * By appending an prepending '##', and replacing every newline with a
+     * commented newline (e.g. '#\n ').
+     *
+     * @param description A regulat description string, with (or without)
+     *        newlines.
+     * @return Formated comment to be places at the header.
+     */
+    std::string formatDescription(std::string description) const;
+
     /* --- Data Members --- */
 
     /** The script */
