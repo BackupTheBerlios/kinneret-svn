@@ -12,4 +12,6 @@ waitForIp() {
         grepReturnCode=$?
         let counter++
     done
+
+    echo " Done."
 }

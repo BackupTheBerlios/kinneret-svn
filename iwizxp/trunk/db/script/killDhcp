@@ -12,8 +12,10 @@ killDhcp() {
             
         # And kill it if presented
         if [ -n $clientPid ]; then
-            echo "Killing DHCP client $dhcpClient for $modemEthernetDevice"
+            echo -n "Killing DHCP client ($dhcpClient) for \
+                $modemEthernetDevice... "
             kill -KILL $clientPid
+            echo "Done."
         fi
     done
 }

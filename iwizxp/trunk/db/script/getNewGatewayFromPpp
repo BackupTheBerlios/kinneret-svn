@@ -3,12 +3,14 @@
 # sets it in the variable $newGateway.
 ##
 getNewGatewayFromPpp() {
+    echo -n "Fetching new gateway... "
+
     newGateway=`$ifconfig $modemEthernetDevice | grep "inet addr:" | \
         cut -d: -f3 | cut -d" " -f1`
 
     if [ -z $newGateway ]; then
-        errorExit "Could not fetch new gateway"
+        errorExit "Could not fetch new gateway."
     fi
 
-    echo "New Gateway: $newGateway"
+    echo "New Gateway is $newGateway."
 }

@@ -3,15 +3,17 @@
 # method removes the previos gateway first.
 ##
 addRouteViaNewGateway() {
-    echo "Deleting old default route"
+    echo -n "Deleting old default route... "
     $route del default dev $modemEthernetDevice
     if [ $? -ne 0 ]; then
-        errorExit "Could not delete old default route"
+        errorExit "Could not delete old default route."
     fi
+    echo "Done."
 
-    echo "Setting default route to " $NEWGW
+    echo -n "Setting default route to $newGateway... "
     $route add default gw $newGateway
     if [ $? -ne 0 ]; then
-        errorExit "Could not set new default route"
+        errorExit "Could not set new default route."
     fi
+    echo "Done."
 }

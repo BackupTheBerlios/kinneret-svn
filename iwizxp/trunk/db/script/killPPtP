@@ -8,8 +8,9 @@ killPPtP() {
             
         # And kill it if presented
         if [ -n $clientPid ]; then
-            echo "Killing PPtP client $dhcpClient"
+            echo -n "Killing PPtP client ($pptpClient)... "
             kill -KILL $clientPid
+            echo "Done."
         fi
     done
 }

@@ -9,6 +9,8 @@
 # This method relies on $modemEthernetDevice.
 ##
 startDhcp() {
+    echo -n "Bringing up DHCP client... "
+
     success=0
     for dhcpClient in $dhcpClients; do
         dhcpExecPath=`which $dhcpClient`
@@ -32,10 +34,10 @@ startDhcp() {
 
     # Were we successful?
     if [ $success -eq 0 ]; then
-        errorExit "Failed bringing up a DHCP client."
+        errorExit "Failed to bring up DHCP client."
     fi
 
     # Yes!
-    echo "DHCP client $currentDhcpClient for $modemEthernetDevice started \
+    echo "$currentDhcpClient for $modemEthernetDevice started \
         successfully."
 }

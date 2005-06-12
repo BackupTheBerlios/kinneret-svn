@@ -1,14 +1,16 @@
 ##
-# Adds a route via the gatyeway received by DHCP to the selected device whn
+# Adds a route via the gateway received by DHCP to the selected device when
 # accessing the ISP's gateway.
 #
 # Relies on: $modemEthernetDevice, $dhcpGateway and $defaultGateway.
 ##
 addRouteViaDhcpGateway() {
-    echo "Adding route via " $dhcpGateway
+    echo -n "Adding route via $dhcpGateway... "
 
     $route add -host $defaultGateway gw $dhcpGateway dev $modemEthernetDevice
     if [ $? -ne 0 ]; then
-        errorExit "Failed adding route via $dhcpGateway"
+        errorExit "Failed adding route via $dhcpGateway."
     fi
+
+    echo "Done."
 }

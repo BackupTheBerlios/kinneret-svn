@@ -6,7 +6,7 @@ findDhcpcdGateway() {
     for path in "/etc/dhcpc" "/var/lib/dhcpc" "invalid"; do
         if [ -f "$path/dhcpcd-$modemEthernetDevice.info" ]; then
             cat $path/dhcpcd-$modemEthernetDevice.info | grep GATEWAY | \
-                cut -d"=" -f2
+                cut -d= -f2
             break;
         fi
     done
@@ -38,6 +38,7 @@ findPumpGateway() {
 # It relies on: $currentDhcpClient and $modemEthernetDevice.
 ##
 findDhcpGateway() {
+    echo -n "Looking for DHCP gateway... "
     case $currentDhcpClient in
     "dhcpcd" )
         dhcpGateway=`findDhcpcdGateway`
@@ -60,5 +61,5 @@ findDhcpGateway() {
         errorExit "Failed fetching gateway."
     fi
 
-    echo "Gateway is $dhcpGateway";
+    echo "Gateway is $dhcpGateway.";
 }

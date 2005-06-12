@@ -4,6 +4,8 @@
 # Relies on $username, $dialingDestination and $defaultGateway.
 ##
 startPPtP() {
+    echo "Starting PPtP... "
+
     remotenameOption="remotename $dialingDestination"
 
     # If username contains @CActcom or @cactcom, we don't need the remotename
@@ -12,7 +14,6 @@ startPPtP() {
         remotenameOption=""
     fi
 
-    echo "Starting PPtP..."
     success=0
     for pptpClient in $pptpClients; do
         pptpExecPath="`which $pptpClient`"
@@ -36,4 +37,6 @@ startPPtP() {
     if [ $success -eq 0 ]; then
         errorExit "PPtP execution failed."
     fi
+
+    echo "PPtP started successfully."
 }
