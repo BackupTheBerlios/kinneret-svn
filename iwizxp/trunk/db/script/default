@@ -9,6 +9,7 @@ setDefaultVariables() {
     netstat="/bin/netstat"
     ifconfig="/sbin/ifconfig"
     modprobe="/sbin/modprobe"
+    rmmod="/sbin/rmmod"
 }
 
 ##

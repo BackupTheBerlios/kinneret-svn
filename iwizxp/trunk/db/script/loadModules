@@ -1,0 +1,17 @@
+##
+# This method modprobes all the modules needed by the dialer.
+#
+# Relies on $modules.
+##
+loadModules() {
+    if [ -n $modules ]; then
+        for module in $modules; do
+            echo -n "Loading $module... "
+            $modprobe $module
+            if [ $? -ne 0 ]; then
+                errorExit "Failure."
+            fi
+            echo "Done."
+        done
+    fi
+}
