@@ -116,12 +116,14 @@ private:
      * in the list by their order.
      *
      * @param methodName Method's name
+     * @param description Methods description (will be placed in a comment
+     *        above it)
      * @param scripts Ordered list of scripts to call
      * @return Text block with one method named <code>methodName</code> which
      *         calls the scripts in the vector by their order.
      */
     std::string prepareScriptCallingMethod(std::string methodName,
-        std::vector<Script*> scripts) const;
+        std::string description, std::vector<Script*> scripts) const;
 
     /**
      * This method formats a decription string to be of the format:

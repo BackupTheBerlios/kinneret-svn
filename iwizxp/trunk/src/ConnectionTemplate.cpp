@@ -45,9 +45,13 @@ string ConnectionTemplate::prepareDialerCode(Dialer *dialer) const {
             alreadyWritten);
 
     string connectMethod = prepareScriptCallingMethod("connect",
+        "This method calls the methods above in the correct order.\n"
+        "Call this method when you wish to create a new connection.",
         dialer->getConnectionScripts());
 
     string disconnectMethod = prepareScriptCallingMethod("disconnect",
+        "This method calls the methods above in the correct order.\n"
+        "Call this method when you wish to eliminate a current connection.",
         dialer->getDisconnectionScripts());
 
     ostringstream result;
@@ -98,15 +102,24 @@ string ConnectionTemplate::prepareScriptsSegment(vector<Script*> scripts,
 }
 
 string ConnectionTemplate::prepareScriptCallingMethod(string methodName,
-        vector<Script*> scripts) const {
+        string description, vector<Script*> scripts) const {
     ostringstream result;
 
-    vector<Script*>::iterator iter;
-
+    // Add description
+    if (description.length() > 0) {
+        result << formatDescription(description) << endl;
+    }
+    
+    // Method decleration
     result << methodName << "() {" << endl;
+
+    // Methods body
+    vector<Script*>::iterator iter;
     for (iter = scripts.begin() ; iter != scripts.end() ; iter++) {
         result << '\t' << (*iter)->getFunctionName() << "()" << endl;
     }
+
+    // Close
     result << "}" << endl;
 
     return result.str();
