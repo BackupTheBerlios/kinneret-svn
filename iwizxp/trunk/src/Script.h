@@ -30,7 +30,7 @@
  * together to create a complete dialer. Scripts are translated to Bash
  * functions in the final script, which are called in order by the dialer.
  *
- * TODO: DnsScript, PppSecretsScript.
+ * TODO: DnsScript, PppSecretsScript, modprobeScript
  * 
  * @author duvduv.
  */
