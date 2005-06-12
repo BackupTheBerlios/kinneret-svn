@@ -30,6 +30,14 @@ Dialer *PsudoEthernetUsbCablesModem::createDialer() const
         throw (DialerCreationException) {
     try {
         // Get path to dialer
+        // TODO: From configuration:
+        // <modem>
+        // ...
+        //     <dialer>
+        //         <default>some_dialer</default>
+        //         <exception isp="someIsp">other_dialer</exception>
+        //     </dialer>
+        // </modem>
         string path(GlobalRepository::getInstance()->
             getDbBasePath() + "/dialer/pptp_cables_dialer");
 
