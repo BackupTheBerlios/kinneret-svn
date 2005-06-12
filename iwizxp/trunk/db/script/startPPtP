@@ -4,7 +4,7 @@
 # Relies on $username, $dialingDestination and $defaultGateway.
 ##
 startPPtP() {
-    echo "Starting PPtP... "
+    echo -n "Starting PPtP... "
 
     remotenameOption="remotename $dialingDestination"
 
