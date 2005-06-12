@@ -93,7 +93,8 @@ vector<string> Utils::executeRegex(const string &regexString,
     // Compile RegEx
     regex_t compiledRegex;
 
-    int ret = regcomp(&compiledRegex, regexString.c_str(), REG_EXTENDED);
+    int ret = regcomp(&compiledRegex, regexString.c_str(),
+        REG_EXTENDED | REG_NEWLINE);
     if (ret != 0) {
         regerror(ret, &compiledRegex, errorBuffer, ERROR_BUFFER_SIZE);
         throw RegexException(

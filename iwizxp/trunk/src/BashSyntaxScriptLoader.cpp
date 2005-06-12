@@ -41,7 +41,7 @@ string BashSyntaxScriptLoader::extractNameFromScript(const string &body) const
         throw (LoadException) {
     // This will catch the definition line
     static const string regexString(
-        "[[:blank:]]*"
+        "^[[:blank:]]*"
         "[[:alnum:]_]+"
         "[[:blank:]]*"
         "\\("
