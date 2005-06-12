@@ -34,11 +34,15 @@ void ConnectionTemplate::finializeScript(Dialer *dialer) {
 }
 
 string ConnectionTemplate::prepareDialerCode(Dialer *dialer) const {
+    set<string> alreadyWritten;
+
     string connectionMethods =
-        prepareScriptsSegment(dialer->getConnectionScripts());
+        prepareScriptsSegment(dialer->getConnectionScripts(),
+            alreadyWritten);
 
     string disconnectionMethods =
-        prepareScriptsSegment(dialer->getDisconnectionScripts());
+        prepareScriptsSegment(dialer->getDisconnectionScripts(),
+            alreadyWritten);
 
     string connectMethod = prepareScriptCallingMethod("connect",
         dialer->getConnectionScripts());
@@ -61,29 +65,44 @@ string ConnectionTemplate::prepareDialerCode(Dialer *dialer) const {
     return result.str();
 }
 
-string ConnectionTemplate::prepareScriptsSegment(vector<Script*> scripts)
-        const {
+string ConnectionTemplate::prepareScriptsSegment(vector<Script*> scripts,
+        set<string> &alreadyWritten) const {
     ostringstream result;
 
     vector<Script*>::iterator iter;
     for (iter = scripts.begin() ; iter != scripts.end() ; iter++) {
-        string desc = (*iter)->getScriptDescription();
-        if (desc.length() > 0) {
-            // Replace newlines with commented newlines
-            string::size_type newline = desc.find('\n');
-            while (newline != string::npos) {
-                desc.replace(newline, 1, "\n# ");
-                newline = desc.find('\n', newline + 1);
+        // Write the body only of it wasn't written before
+        if (alreadyWritten.find((*iter)->getFunctionName()) ==
+                alreadyWritten.end()) {
+
+            // Add it to the set
+            alreadyWritten.insert((*iter)->getFunctionName());
+
+            // If there is a description, add it as a header
+            string desc = (*iter)->getScriptDescription();
+            if (desc.length() > 0) {
+                // Replace newlines with commented newlines
+                string::size_type newline = desc.find('\n');
+                while (newline != string::npos) {
+                    desc.replace(newline, 1, "\n# ");
+                    newline = desc.find('\n', newline + 1);
+                }
+
+                // Write header
+                result <<
+                    "##" << endl <<
+                    "# " << desc << endl <<
+                    "##" << endl;
             }
 
-            result <<
-                "##" << endl <<
-                "# " << desc << endl <<
-                "##" << endl;
+            // Write script body
+            result << (*iter)->getScriptBody() << endl;
+        } else {
+            // The method already defined. Leave a comment that we've notcied
+            // that.
+            result << "# " << (*iter)->getFunctionName() <<
+                " already found in script." << endl;
         }
-
-        // TODO: Make sure there are no double definitions (name set?)
-        result << (*iter)->getScriptBody() << endl;
     }
 
     return result.str();

@@ -23,6 +23,7 @@
 #define __CONNECTION_TEMPLATE_H__
 
 #include <istream>
+#include <set>
 
 #include "Printable.h"
 #include "Exception.h"
@@ -98,17 +99,24 @@ private:
      * method, if such is presented.
      *
      * @param scripts List of scripts to declare
+     * @param alreadyWritten Set of function names of the function that were
+     *        already written. This is used to prevent double definitions of
+     *        the same method. The set will be modified by this method. Every
+     *        <b>new</b> method that's written to the files will be added to
+     *        the set, so it can be used incrementally with perceeding calls
+     *        to this method.
      * @return Code block containing the definition of all the methods in the
      *         list.
      */
-    std::string prepareScriptsSegment(std::vector<Script*> scripts) const;
+    std::string prepareScriptsSegment(std::vector<Script*> scripts,
+        std::set<std::string> &alreadyWritten) const;
 
     /**
      * Creates a text-block with a single method that calls all the scripts
      * in the list by their order.
      *
      * @param methodName Method's name
-     * @param Ordered list of scripts to call
+     * @param scripts Ordered list of scripts to call
      * @return Text block with one method named <code>methodName</code> which
      *         calls the scripts in the vector by their order.
      */
