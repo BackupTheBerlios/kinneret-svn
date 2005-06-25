@@ -77,6 +77,14 @@ void ArgumentsScript::setConnectionMethod(const ConnectionMethod *method) {
     values["dialingDestination"] = method->getDialingDestination();
     values["defaultGateway"] = method->getDefaultGateway();
 }
+
+void ArgumentsScript::setUserInput(const UserInput *input) {
+    values["username"] = input->getUsername();
+
+    if (input->hasEthernetDevice()) {
+        values["modemEthernetDevice"] = input->getModemEthernetDevice();
+    }
+}
     
 const string ArgumentsScript::getScriptBody() const {
     ostringstream result;
@@ -89,6 +97,7 @@ const string ArgumentsScript::getScriptBody() const {
             (*iter).second << "\"" << endl;
     }
 
+    // Close method
     result << "}" << endl;
 
     return result.str();

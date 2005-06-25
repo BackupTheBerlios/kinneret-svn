@@ -126,7 +126,7 @@ string ConnectionTemplate::prepareScriptCallingMethod(string methodName,
     // Methods body
     vector<Script*>::iterator iter;
     for (iter = scripts.begin() ; iter != scripts.end() ; iter++) {
-        result << '\t' << (*iter)->getFunctionName() << "()" << endl;
+        result << '\t' << (*iter)->getFunctionName() << endl;
     }
 
     // Close

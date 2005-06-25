@@ -11,3 +11,13 @@ repository, do the following in order to build iwiz:
 4. (optional) run doxygen to generate API documentation.
 
 Don't run 'gmake install', yet.
+
+Compilation Dependencies
+========================
+- Xerces-C >= 2.6.0
+
+Run-time Dependencies
+=====================
+- stty (from coreutils)
+- pptp{,-linux} (for PPtP)
+- rpppoe (for PPPoE)

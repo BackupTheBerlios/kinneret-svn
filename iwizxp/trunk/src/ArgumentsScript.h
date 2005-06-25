@@ -29,6 +29,7 @@
 #include "Isp.h"
 #include "Modem.h"
 #include "ConnectionMethod.h"
+#include "UserInput.h"
 
 /**
  * TODO: Explain singleton
@@ -44,9 +45,9 @@
  * <li>$modules (from <code>Modem</code>)</li>
  * <li>$nameservers (from <code>Isp</code>)</li>
  * <li>$searchGroups (from <code>Isp</code>)</li>
- * <li>$modemEthernetDevice (from TODO)</li>
- * <li>$username (from TODO)</li>
- * <li>$password (from TODO)</li>
+ * <li>$modemEthernetDevice (from <code>UserInput</code>)</li>
+ * <li>$username (from <code>UserInput</code>)</li>
+ * <li>$password (at runtime, using <code>getPasswordFromUser</code>)</li>
  * </ul>
  *
  * @author duvduv
@@ -74,6 +75,7 @@ private:
 public:
 
     /* --- Singleton --- */
+
     /**
      * TODO
      */
@@ -110,6 +112,11 @@ public:
      * TODO
      */
     void setConnectionMethod(const ConnectionMethod *method);
+
+    /**
+     * TODO
+     */
+    void setUserInput(const UserInput *input);
 
     /* --- Inherited from Script --- */
 

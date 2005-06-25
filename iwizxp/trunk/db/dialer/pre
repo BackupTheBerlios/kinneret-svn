@@ -1,7 +1,8 @@
 Pre-dialer Scripts
-7
+8
 default
 setupUserArguments
+getPasswordFromUser
 loadModules
 backupResolvConf
 setupResolvConf

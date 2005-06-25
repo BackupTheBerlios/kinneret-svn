@@ -90,6 +90,18 @@ int main() {
 
         Dialer *dialer = modem->getDialer(isp);
 
+        UserInput input;
+        string str;
+        cout << "Enter username: ";
+        cin >> str;
+        input.setUsername(str);
+
+        cout << "Enter modem device: ";
+        cin >> str;
+        input.setModemEthernetDevice(str);
+
+        ArgumentsScript::getInstance()->setUserInput(&input);
+
         ifstream initdFile("db/template/initd_service_template");
         ConnectionTemplate initd(initdFile);
         initdFile.close();
