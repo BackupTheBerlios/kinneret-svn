@@ -43,14 +43,14 @@ Isp::~Isp() {
     Log::debug(string("Isp: ") + name + " released successfully");
 }
 
-void Isp::fromXML(const DOMElement *root) throw (XMLFormatException) {
+void Isp::fromXML(const DOMElement *root) throw (XMLSerializationException) {
     extractNameFromXML(root);
     extractDnsServersFromXML(root);
     extractConnectionMethodsFromXML(root);
 }
 
 void Isp::extractNameFromXML(const xercesc::DOMElement *root)
-        throw (XMLFormatException) {
+        throw (XMLSerializationException) {
     vector<const DOMNode*> rootNameNodes;
     getElementsByTagName(rootNameNodes, root, "name", 1);
 
@@ -62,7 +62,7 @@ void Isp::extractNameFromXML(const xercesc::DOMElement *root)
     // Take the first
     const DOMNode *nameTag = rootNameNodes[0];
     if (nameTag == 0) {
-        throw XMLFormatException("Couldn't get <name> tag element!");
+        throw XMLSerializationException("Couldn't get <name> tag element!");
     }
 
     // Extract and trim its text content.
@@ -72,7 +72,7 @@ void Isp::extractNameFromXML(const xercesc::DOMElement *root)
 }
 
 void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root)
-        throw (XMLFormatException) {
+        throw (XMLSerializationException) {
     vector<const DOMNode*> dnsServerNodes;
     getElementsByTagName(dnsServerNodes, root, "dns", 1);
 
@@ -83,7 +83,7 @@ void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root)
 
     const DOMNode *dnsElement = dnsServerNodes[0];
     if (dnsElement == 0) {
-        throw XMLFormatException("Couldn't get <dns> tag element!");
+        throw XMLSerializationException("Couldn't get <dns> tag element!");
     }
 
     // Get a sorted list of servers
@@ -101,7 +101,7 @@ void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root)
 }
 
 void Isp::extractConnectionMethodsFromXML(const xercesc::DOMElement *root)
-        throw (XMLFormatException) {
+        throw (XMLSerializationException) {
     vector<const DOMNode*> methodNodes;
     getElementsByTagName(methodNodes, root, "methods", 1);
 
@@ -112,7 +112,7 @@ void Isp::extractConnectionMethodsFromXML(const xercesc::DOMElement *root)
 
     const DOMNode *methodsElement = methodNodes[0];
     if (methodsElement == 0) {
-        throw XMLFormatException("Couldn't get <methods> tag element!");
+        throw XMLSerializationException("Couldn't get <methods> tag element!");
     }
 
     // Get a sorted list of servers

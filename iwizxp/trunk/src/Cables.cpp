@@ -28,18 +28,18 @@ using namespace std;
 using namespace xercesc;
 using namespace Utils;
 
-void Cables::fromXML(const DOMElement *root) throw (XMLFormatException) {
+void Cables::fromXML(const DOMElement *root) throw (XMLSerializationException) {
     extractGatewayFromXML(root);
     extractDialingDestinationFromXML(root);
 }
 
 void Cables::extractGatewayFromXML(const DOMElement *root)
-        throw (XMLFormatException) {
+        throw (XMLSerializationException) {
     vector<const DOMNode*> gatewayNodes;
     getElementsByTagName(gatewayNodes, root, "gateway");
 
     if (gatewayNodes.size() == 0) {
-        throw XMLFormatException("No <gateway> element!");
+        throw XMLSerializationException("No <gateway> element!");
     } else if (gatewayNodes.size() > 1) {
         Log::warning("More than one <gateway> element found, using first.");
     }
@@ -49,12 +49,12 @@ void Cables::extractGatewayFromXML(const DOMElement *root)
 }
 
 void Cables::extractDialingDestinationFromXML(const DOMElement *root)
-        throw (XMLFormatException) {
+        throw (XMLSerializationException) {
     vector<const DOMNode*> destinationNodes;
     getElementsByTagName(destinationNodes, root, "destination");
 
     if (destinationNodes.size() == 0) {
-        throw XMLFormatException("No <destination> element!");
+        throw XMLSerializationException("No <destination> element!");
     } else if (destinationNodes.size() > 1) {
         Log::warning("More than one <destination> element found, using first.");
     }

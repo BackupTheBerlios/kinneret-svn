@@ -24,6 +24,8 @@
 
 #include <vector>
 
+#include <xercesc/dom/DOMElement.hpp>
+
 #include "Printable.h"
 #include "ConnectionMethod.h"
 #include "IpAddress.h"
@@ -52,7 +54,7 @@ public:
     /**
      * TODO
      */
-    Isp(const xercesc::DOMElement *root) throw (XMLFormatException) :
+    Isp(const xercesc::DOMElement *root) throw (XMLSerializationException) :
             Printable(), XMLReadable() {
         fromXML(root);
         Log::debug(std::string("Isp: ") + name + " created successfully");
@@ -121,7 +123,8 @@ public:
      * We make this method not-virtual so we could call it from the
      * constructor.
      */
-    void fromXML(const xercesc::DOMElement *root) throw (XMLFormatException);
+    void fromXML(const xercesc::DOMElement *root)
+        throw (XMLSerializationException);
 
 private:
 
@@ -131,19 +134,19 @@ private:
      * TODO
      */
     void extractNameFromXML(const xercesc::DOMElement *root)
-        throw (XMLFormatException);
+        throw (XMLSerializationException);
 
     /**
      * TODO
      */
     void extractDnsServersFromXML(const xercesc::DOMElement *root)
-        throw (XMLFormatException);
+        throw (XMLSerializationException);
 
     /**
      * TODO
      */
     void extractConnectionMethodsFromXML(const xercesc::DOMElement *root)
-        throw (XMLFormatException);
+        throw (XMLSerializationException);
 
     /* --- Data Members --- */
 

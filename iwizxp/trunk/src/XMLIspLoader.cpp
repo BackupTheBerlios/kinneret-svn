@@ -46,8 +46,8 @@ Isp *XMLIspLoader::loadIsp(istream &inStream) const throw (LoadExcpetion) {
 
     try {
         return new Isp(document->getDocumentElement());
-    } catch (const XMLReadable::XMLFormatException &ex) {
-        Log::error("Got XMLFormatException while creating Isp...");
+    } catch (const XMLReadable::XMLSerializationException &ex) {
+        Log::error("Got XMLSerializationException while creating Isp...");
         throw LoadExcpetion(ex.what());
     }
 }
