@@ -19,56 +19,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __CONNECTION_METHOD_H__
-#define __CONNECTION_METHOD_H__
+#include "Cables.h"
 
-#include "Printable.h"
-#include "XMLReadable.h"
+#include "Utils.h"
+#include "xts.h"
 
-/** 
- * This interface represents a certain method an ISP offers for connection.
- *
- * @author duvduv
- */
-class ConnectionMethod : public Printable, public XMLReadable {
-public:
+using namespace std;
+using namespace xercesc;
+using namespace Utils;
 
-    /* --- Constructors --- */
+void Cables::fromXML(const DOMElement *root) throw (XMLFormatException) {
+    extractGatewayFromXML(root);
+    extractDialingDestinationFromXML(root);
+}
 
-    /** 
-     * Constructor.
-     */
-    ConnectionMethod() : Printable(), XMLReadable() {
-        // Nothing to do
+void Cables::extractGatewayFromXML(const DOMElement *root)
+        throw (XMLFormatException) {
+    vector<const DOMNode*> gatewayNodes;
+    getElementsByTagName(gatewayNodes, root, "gateway");
+
+    if (gatewayNodes.size() == 0) {
+        throw XMLFormatException("No <gateway> element!");
+    } else if (gatewayNodes.size() > 1) {
+        Log::warning("More than one <gateway> element found, using first.");
     }
 
-    /** 
-     * Destructor. 
-     */
-    virtual ~ConnectionMethod() {
-        // Nothing to do
+    defaultGateway = xts(gatewayNodes[0]->getTextContent(), true);
+    Log::debug("Default Gateway: " + defaultGateway);
+}
+
+void Cables::extractDialingDestinationFromXML(const DOMElement *root)
+        throw (XMLFormatException) {
+    vector<const DOMNode*> destinationNodes;
+    getElementsByTagName(destinationNodes, root, "destination");
+
+    if (destinationNodes.size() == 0) {
+        throw XMLFormatException("No <destination> element!");
+    } else if (destinationNodes.size() > 1) {
+        Log::warning("More than one <destination> element found, using first.");
     }
 
-    /* --- Abstract Methods --- */
-
-    /** 
-     * Does this connected method requires that we'll set a default gateway?
-     *
-     * @return <code>true</code>, if we should, <code>false</code> otherwise.
-     */
-    virtual bool hasDefaultGateway() const = 0;
-    
-    /** 
-     * @return The default gateway. An IP address, or a resolvable URI.
-     */
-    virtual std::string getDefaultGateway() const = 0;
-
-    /** 
-     * @return The dialing destination. Whether a phone number, or a PPtP
-     *         host etc.
-     */
-    virtual std::string getDialingDestination() const = 0;
-};
-
-
-#endif
+    dialingDestination = xts(destinationNodes[0]->getTextContent(), true);
+    Log::debug("Dialing Destination: " + dialingDestination);
+}

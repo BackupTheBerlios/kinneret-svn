@@ -19,56 +19,44 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __CONNECTION_METHOD_H__
-#define __CONNECTION_METHOD_H__
+#ifndef __XML_ISP_LOADER_H__
+#define __XML_ISP_LOADER_H__
 
-#include "Printable.h"
-#include "XMLReadable.h"
+#include "IspLoader.h"
 
-/** 
- * This interface represents a certain method an ISP offers for connection.
+/**
+ * TODO: JavaDocs
  *
  * @author duvduv
  */
-class ConnectionMethod : public Printable, public XMLReadable {
+class XMLIspLoader : public IspLoader {
 public:
 
-    /* --- Constructors --- */
+    /* --- Constructors ---- */
 
-    /** 
+    /**
      * Constructor.
+     * TODO: JavaDocs
      */
-    ConnectionMethod() : Printable(), XMLReadable() {
-        // Nothing to do
+    XMLIspLoader() {
+        Log::debug("XMLIspLoader created successfully");
     }
 
-    /** 
-     * Destructor. 
+    /**
+     * Destructor.
+     * TODO: JavaDocs
      */
-    virtual ~ConnectionMethod() {
-        // Nothing to do
+    virtual ~XMLIspLoader() {
+        Log::debug("XMLIspLoader released successfully");
     }
 
-    /* --- Abstract Methods --- */
+    /* --- Public Methods --- */
 
-    /** 
-     * Does this connected method requires that we'll set a default gateway?
-     *
-     * @return <code>true</code>, if we should, <code>false</code> otherwise.
+    /**
+     * TODO
      */
-    virtual bool hasDefaultGateway() const = 0;
-    
-    /** 
-     * @return The default gateway. An IP address, or a resolvable URI.
-     */
-    virtual std::string getDefaultGateway() const = 0;
-
-    /** 
-     * @return The dialing destination. Whether a phone number, or a PPtP
-     *         host etc.
-     */
-    virtual std::string getDialingDestination() const = 0;
+    virtual Isp *loadIsp(std::istream &inStream) const
+        throw (LoadExcpetion);
 };
-
 
 #endif

@@ -11,5 +11,8 @@ iwizxp_SOURCES = Modem.cpp \
 				 Dialer.cpp \
 				 GlobalRepository.cpp \
 				 ConnectionTemplate.cpp \
-				 ArgumentsScript.cpp
+				 ArgumentsScript.cpp \
+				 XMLIspLoader.cpp \
+				 xts.cpp \
+				 Cables.cpp
 iwizxp_INCLUDES = -I$(top_srcdir)/src

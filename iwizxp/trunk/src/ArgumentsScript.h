@@ -33,6 +33,7 @@
 
 /**
  * TODO: Explain singleton
+ * This 
  *
  * This class represents the script that sets all of the user arguments. This
  * is the first script called for every connection, setting all the user
@@ -77,7 +78,10 @@ public:
     /* --- Singleton --- */
 
     /**
-     * TODO
+     * Singeton access point.
+     *
+     * @return A pointer to the single instance of
+     *         <code>ArgumentsScript</code> in the system.
      */
     static ArgumentsScript *getInstance() {
         if (instance == 0) {
@@ -88,7 +92,8 @@ public:
     }
 
     /**
-     * TODO
+     * Releases the instance. Call this when you don't need this script
+     * anymore.
      */
     static void release() {
         if (instance != 0) {
@@ -99,22 +104,39 @@ public:
     /* --- Public Methods --- */
 
     /**
-     * TODO
+     * Initializes ISP related variables according to the given ISP.
+     *
+     * @param isp ISP to get data from.
      */
     void setIsp(const Isp *isp);
 
     /**
-     * TODO
+     * Initializes modem related variables according to the given modem and
+     * kernel class.
+     *
+     * This is where the actual translation from the
+     * <code>KernelModule</code> class to actual module name takes place.
+     *
+     * @param modem The modem that the user wishes to connect with.
+     * @param kernelClass The target kernel this script is going to run on.
+     *
+     * TODO: Why won't set two variables, one with the 2.4 names, and one
+     * with the 2.6 names, and let the script decide at runtime which to
+     * load?
      */
     void setModem(const Modem *modem, KernelModule::KernelClass kernelClass);
 
     /**
-     * TODO
+     * Sets connection method related variables.
+     *
+     * @param method The connection method the script is going to use.
      */
     void setConnectionMethod(const ConnectionMethod *method);
 
     /**
-     * TODO
+     * Sets variables that comes from the user (like username etc.).
+     *
+     * @param input The user's input to use.
      */
     void setUserInput(const UserInput *input);
 

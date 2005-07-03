@@ -28,6 +28,7 @@
 using namespace std;
 using namespace Utils;
 
+// Singleton instance
 Database *Database::instance = 0;
 
 Database::Database() {
@@ -96,6 +97,7 @@ void Database::loadIsps() {
     // And load
     vector<string>::iterator iter;
     for (iter = ispFiles.begin() ; iter != ispFiles.end() ; iter++) {
+        // TODO: Load only XML files
         if (loadIspFromFile(*iter) == false) {
             Log::error("Skipping...");
         }
@@ -151,6 +153,7 @@ void Database::loadModems() {
 
     vector<string>::iterator iter;
     for (iter = modemFiles.begin() ; iter != modemFiles.end() ; iter++) {
+        // TODO: Load only XML files
         if (loadModemFromFile(*iter) == false) {
             Log::error("Skipping...");
         }

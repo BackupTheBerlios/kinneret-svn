@@ -28,13 +28,14 @@
 #include "ConnectionMethod.h"
 #include "IpAddress.h"
 #include "Log.h"
+#include "XMLReadable.h"
 
 /** 
  * This class represents an ISP.
  *
  * @author duvduv
  */
-class Isp : public Printable {
+class Isp : public Printable, public XMLReadable {
 public:
 
     /* --- Constructors --- */
@@ -44,9 +45,16 @@ public:
      *
      * @param name ISP's name.
      */
-    Isp(std::string name) : Printable() {
+    Isp(const std::string name) : Printable(), XMLReadable() {
         this->name = name;
+    }
 
+    /**
+     * TODO
+     */
+    Isp(const xercesc::DOMElement *root) throw (XMLFormatException) :
+            Printable(), XMLReadable() {
+        fromXML(root);
         Log::debug(std::string("Isp: ") + name + " created successfully");
     }
     
@@ -105,7 +113,37 @@ public:
         return getName();
     }
 
+    /* --- Inherited from XMLReadable --- */
+    
+    /**
+     * TODO
+     *
+     * We make this method not-virtual so we could call it from the
+     * constructor.
+     */
+    void fromXML(const xercesc::DOMElement *root) throw (XMLFormatException);
+
 private:
+
+    /* --- Utilitiy --- */
+
+    /**
+     * TODO
+     */
+    void extractNameFromXML(const xercesc::DOMElement *root)
+        throw (XMLFormatException);
+
+    /**
+     * TODO
+     */
+    void extractDnsServersFromXML(const xercesc::DOMElement *root)
+        throw (XMLFormatException);
+
+    /**
+     * TODO
+     */
+    void extractConnectionMethodsFromXML(const xercesc::DOMElement *root)
+        throw (XMLFormatException);
 
     /* --- Data Members --- */
 

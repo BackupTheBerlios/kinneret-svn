@@ -22,10 +22,12 @@
 #ifndef __GLOBAL_REPOSITORY_H__
 #define __GLOBAL_REPOSITORY_H__
 
-#include "SimpleFormatIspLoader.h"
-#include "SimpleFormatModemLoader.h"
-#include "BashSyntaxScriptLoader.h"
-#include "SimpleFormatDialerLoader.h"
+#include <xercesc/dom/DOMBuilder.hpp>
+
+#include "IspLoader.h"
+#include "ModemLoader.h"
+#include "ScriptLoader.h"
+#include "DialerLoader.h"
 
 /**
  * This singleton class holds everything's that's global and configureable in
@@ -42,10 +44,8 @@ private:
      * Private constrcutor. Creates the loaders.
      */
     GlobalRepository() {
-        ispLoader = new SimpleFormatIspLoader();
-        modemLoader = new SimpleFormatModemLoader();
-        scriptLoader = new BashSyntaxScriptLoader();
-        dialerLoader = new SimpleFormatDialerLoader();
+        setupLoaders();
+        setupXerces();
 
         Log::debug("GlobalRepository created successfully");
     }
@@ -54,10 +54,8 @@ private:
      * Destructor.
      */
     ~GlobalRepository() {
-        delete dialerLoader;
-        delete scriptLoader;
-        delete modemLoader;
-        delete ispLoader;
+        releaseXerces();
+        releaseLoaders();
 
         Log::debug("GlobalRepository released successfully");
     }
@@ -151,7 +149,36 @@ public:
         return "post";
     }
 
+    /**
+     * TODO
+     */
+    xercesc::DOMBuilder *getDOMBuilder() {
+        return domBuilder;
+    }
+
 private:
+
+    /* --- Utilities --- */
+
+    /**
+     * TODO
+     */
+    void setupLoaders();
+
+    /**
+     * TODO
+     */
+    void releaseLoaders();
+
+    /**
+     * TODO
+     */
+    void setupXerces();
+
+    /**
+     * TODO
+     */
+    void releaseXerces();
 
     /* --- Data Members --- */
 
@@ -169,6 +196,9 @@ private:
 
     /** Dialer Loader */
     DialerLoader *dialerLoader;
+
+    /** Xerces' DOM Parser */
+    xercesc::DOMBuilder *domBuilder;
 };
 
 #endif

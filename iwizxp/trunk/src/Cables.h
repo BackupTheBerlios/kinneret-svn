@@ -24,6 +24,8 @@
 
 #include "ConnectionMethod.h"
 
+#include "Log.h"
+
 /** 
  * This <code>ConnectedMethod</code> represents a connection using a cables
  * modem.
@@ -50,6 +52,14 @@ public:
         this->dialingDestination = dialingDestination;
 
         Log::debug("Cables created successfully");
+    }
+
+    /**
+     * TODO
+     */
+    Cables(const xercesc::DOMElement *root) throw (XMLFormatException) :
+            ConnectionMethod() {
+        fromXML(root);
     }
 
     /** 
@@ -91,7 +101,28 @@ public:
         return "Cables";
     }
 
+    /* --- Inherited from XMLReadable --- */
+
+    /** 
+     * TODO
+     */
+    void fromXML(const xercesc::DOMElement *root) throw (XMLFormatException);
+
 private:
+
+    /* --- Private Methods --- */
+
+    /**
+     * TODO
+     */
+    void extractGatewayFromXML(const xercesc::DOMElement *root)
+        throw (XMLFormatException);
+
+    /**
+     * TODO
+     */
+    void extractDialingDestinationFromXML(const xercesc::DOMElement *root)
+        throw (XMLFormatException);
 
     /* --- Data Members --- */
 

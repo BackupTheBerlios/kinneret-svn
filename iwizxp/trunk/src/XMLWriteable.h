@@ -19,56 +19,42 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __CONNECTION_METHOD_H__
-#define __CONNECTION_METHOD_H__
+#ifndef __XML_WRITEABLE_H__
+#define __XML_WRITEABLE_H__
 
-#include "Printable.h"
-#include "XMLReadable.h"
+#include <xercesc/dom/DOMElement.hpp>
 
-/** 
- * This interface represents a certain method an ISP offers for connection.
+/**
+ * This interface provides the ability to serialize an instance of a derived
+ * class to DOM tree that can be written as XML. It does that through the
+ * <code>toXML</code> method, which adds to the given DOM tree a sub-tree,
+ * under a certain, given, element, a DOM tree that can be used later to
+ * de-serialize this class using <code>XMLReadable</code>.
  *
  * @author duvduv
  */
-class ConnectionMethod : public Printable, public XMLReadable {
+class XMLWriteable {
 public:
 
-    /* --- Constructors --- */
+    /* --- Constructors ---- */
 
-    /** 
-     * Constructor.
+    /**
+     * Destructor.
      */
-    ConnectionMethod() : Printable(), XMLReadable() {
+    virtual ~XMLWriteable() {
         // Nothing to do
     }
 
-    /** 
-     * Destructor. 
-     */
-    virtual ~ConnectionMethod() {
-        // Nothing to do
-    }
+    /* --- Public Methods --- */
 
-    /* --- Abstract Methods --- */
-
-    /** 
-     * Does this connected method requires that we'll set a default gateway?
+    /**
+     * Serializes this object to XML. The root element will be placed under
+     * <code>root</code>.
      *
-     * @return <code>true</code>, if we should, <code>false</code> otherwise.
+     * @param root The root element that will be the father of the root
+     *        element of this class' serialization.
      */
-    virtual bool hasDefaultGateway() const = 0;
-    
-    /** 
-     * @return The default gateway. An IP address, or a resolvable URI.
-     */
-    virtual std::string getDefaultGateway() const = 0;
-
-    /** 
-     * @return The dialing destination. Whether a phone number, or a PPtP
-     *         host etc.
-     */
-    virtual std::string getDialingDestination() const = 0;
+    virtual void toXML(xercesc::DOMElement *root) const = 0;
 };
-
 
 #endif

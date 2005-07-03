@@ -19,56 +19,52 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __CONNECTION_METHOD_H__
-#define __CONNECTION_METHOD_H__
+#ifndef __XML_READABLE_H__
+#define __XML_READABLE_H__
 
-#include "Printable.h"
-#include "XMLReadable.h"
+#include <xercesc/dom/DOMElement.hpp>
 
-/** 
- * This interface represents a certain method an ISP offers for connection.
+#include "Exception.h"
+
+/**
+ * This interface provide a class the ability to be de-serialized from XML. It
+ * does that through the <code>fromXML</code> method, that receives a DOM
+ * tree element, and using the tree under it, constructs and initializes an
+ * object.
  *
  * @author duvduv
  */
-class ConnectionMethod : public Printable, public XMLReadable {
+class XMLReadable {
 public:
 
-    /* --- Constructors --- */
+    /* --- Exceptions --- */
 
-    /** 
-     * Constructor.
+    /**
+     * Serialization exception occures when the given DOM tree cannot be used
+     * as a tree for the creation of this object.
      */
-    ConnectionMethod() : Printable(), XMLReadable() {
+    NewException(XMLSerializationException);
+
+    /* --- Constructors ---- */
+
+    /**
+     * Destructor.
+     */
+    virtual ~XMLReadable() {
         // Nothing to do
     }
 
-    /** 
-     * Destructor. 
-     */
-    virtual ~ConnectionMethod() {
-        // Nothing to do
-    }
+    /* --- Public Methods --- */
 
-    /* --- Abstract Methods --- */
-
-    /** 
-     * Does this connected method requires that we'll set a default gateway?
+    /**
+     * Initializes the object from a DOM tree.
      *
-     * @return <code>true</code>, if we should, <code>false</code> otherwise.
+     * @param root Element inside a docuement that is the root of a tree that
+     *        can be used to build this object.
+     * @throw XMLSerializationException Thrown when the given root element
+     *        cannot be used to initialize this object.
      */
-    virtual bool hasDefaultGateway() const = 0;
-    
-    /** 
-     * @return The default gateway. An IP address, or a resolvable URI.
-     */
-    virtual std::string getDefaultGateway() const = 0;
-
-    /** 
-     * @return The dialing destination. Whether a phone number, or a PPtP
-     *         host etc.
-     */
-    virtual std::string getDialingDestination() const = 0;
+    virtual void fromXML(const xercesc::DOMElement *root) = 0;
 };
-
 
 #endif

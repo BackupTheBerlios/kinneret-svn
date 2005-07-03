@@ -19,8 +19,66 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <xercesc/dom/DOMImplementation.hpp>
+#include <xercesc/dom/DOMImplementationLS.hpp>
+#include <xercesc/dom/DOMImplementationRegistry.hpp>
+#include <xercesc/dom/DOMBuilder.hpp>
+#include <xercesc/util/XMLUniDefs.hpp>
+
 #include "GlobalRepository.h"
+
+#include "Utils.h"
+#include "XMLIspLoader.h"
+#include "SimpleFormatModemLoader.h"
+#include "BashSyntaxScriptLoader.h"
+#include "SimpleFormatDialerLoader.h"
+
+using namespace std;
+using namespace xercesc;
 
 // Singleton instance
 GlobalRepository *GlobalRepository::instance = 0;
+
+void GlobalRepository::setupLoaders() {
+    ispLoader = new XMLIspLoader();
+    modemLoader = new SimpleFormatModemLoader();
+    scriptLoader = new BashSyntaxScriptLoader();
+    dialerLoader = new SimpleFormatDialerLoader();
+}
+
+void GlobalRepository::releaseLoaders() {
+    delete dialerLoader;
+    delete scriptLoader;
+    delete modemLoader;
+    delete ispLoader;
+}
+
+void GlobalRepository::setupXerces() {
+    // Initialize Xerces
+    try {
+        XMLPlatformUtils::Initialize();
+    } catch (const XMLException &ex) {
+        Utils::xmlExceptionOccured(ex);
+        // TODO: Something smart
+    }
+
+    // LS
+    static const XMLCh ls[] = { chLatin_L, chLatin_S, chNull };
+    DOMImplementationLS *domImplementation =
+        dynamic_cast<DOMImplementationLS*>
+            (DOMImplementationRegistry::getDOMImplementation(ls));
+
+    if (domImplementation == 0) {
+        // TODO: Somethind smart
+    }
+
+    domBuilder = domImplementation->createDOMBuilder(
+        DOMImplementationLS::MODE_SYNCHRONOUS, 0);
+
+}
+
+void GlobalRepository::releaseXerces() {
+    domBuilder->release();
+    XMLPlatformUtils::Terminate();
+}
 

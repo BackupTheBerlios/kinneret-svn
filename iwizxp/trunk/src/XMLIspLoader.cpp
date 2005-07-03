@@ -19,56 +19,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __CONNECTION_METHOD_H__
-#define __CONNECTION_METHOD_H__
+#include <xercesc/dom/DOMDocument.hpp>
 
-#include "Printable.h"
-#include "XMLReadable.h"
+#include "XMLIspLoader.h"
 
-/** 
- * This interface represents a certain method an ISP offers for connection.
- *
- * @author duvduv
- */
-class ConnectionMethod : public Printable, public XMLReadable {
-public:
+#include "Utils.h"
 
-    /* --- Constructors --- */
+using namespace std;
+using namespace xercesc;
+using namespace Utils;
 
-    /** 
-     * Constructor.
-     */
-    ConnectionMethod() : Printable(), XMLReadable() {
-        // Nothing to do
+Isp *XMLIspLoader::loadIsp(istream &inStream) const throw (LoadExcpetion) {
+    DOMDocument *document;
+    try {
+        document = Utils::documentFromStream(inStream);
+    } catch (const XMLException &ex) {
+        xmlExceptionOccured(ex);
+        throw LoadExcpetion("XMLException, see above");
+    } catch (const DOMException &ex) {
+        xmlExceptionOccured(ex);
+        throw LoadExcpetion("XMLException, see above");
+    } catch (const SAXException &ex) {
+        xmlExceptionOccured(ex);
+        throw LoadExcpetion("XMLException, see above");
     }
 
-    /** 
-     * Destructor. 
-     */
-    virtual ~ConnectionMethod() {
-        // Nothing to do
+    try {
+        return new Isp(document->getDocumentElement());
+    } catch (const XMLReadable::XMLFormatException &ex) {
+        Log::error("Got XMLFormatException while creating Isp...");
+        throw LoadExcpetion(ex.what());
     }
+}
 
-    /* --- Abstract Methods --- */
-
-    /** 
-     * Does this connected method requires that we'll set a default gateway?
-     *
-     * @return <code>true</code>, if we should, <code>false</code> otherwise.
-     */
-    virtual bool hasDefaultGateway() const = 0;
-    
-    /** 
-     * @return The default gateway. An IP address, or a resolvable URI.
-     */
-    virtual std::string getDefaultGateway() const = 0;
-
-    /** 
-     * @return The dialing destination. Whether a phone number, or a PPtP
-     *         host etc.
-     */
-    virtual std::string getDialingDestination() const = 0;
-};
-
-
-#endif

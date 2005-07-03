@@ -19,56 +19,40 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __CONNECTION_METHOD_H__
-#define __CONNECTION_METHOD_H__
+#include "xts.h"
 
-#include "Printable.h"
-#include "XMLReadable.h"
+using namespace std;
+using namespace xercesc;
 
-/** 
- * This interface represents a certain method an ISP offers for connection.
- *
- * @author duvduv
- */
-class ConnectionMethod : public Printable, public XMLReadable {
-public:
+Utils::xts::xts(const string &str) {
+    xmlString = XMLString::transcode(str.c_str());
+    cString = 0;
+}
 
-    /* --- Constructors --- */
-
-    /** 
-     * Constructor.
-     */
-    ConnectionMethod() : Printable(), XMLReadable() {
-        // Nothing to do
+Utils::xts::xts(const XMLCh *str, bool trim) {
+    if (trim) {
+        XMLCh *replicate = XMLString::replicate(str);
+        XMLString::trim(replicate);
+        cString = XMLString::transcode(replicate);
+        XMLString::release(&replicate);
+    } else {
+        cString = XMLString::transcode(str);
     }
 
-    /** 
-     * Destructor. 
-     */
-    virtual ~ConnectionMethod() {
-        // Nothing to do
+    xmlString = 0;
+}
+            
+Utils::xts::~xts() {
+    if (xmlString != 0) {
+        XMLString::release(&xmlString);
     }
 
-    /* --- Abstract Methods --- */
+    if (cString != 0) {
+        XMLString::release(&cString);
+    }
+}
 
-    /** 
-     * Does this connected method requires that we'll set a default gateway?
-     *
-     * @return <code>true</code>, if we should, <code>false</code> otherwise.
-     */
-    virtual bool hasDefaultGateway() const = 0;
-    
-    /** 
-     * @return The default gateway. An IP address, or a resolvable URI.
-     */
-    virtual std::string getDefaultGateway() const = 0;
+string Utils::xts::asString() const {
+    return string(cString);
+}
 
-    /** 
-     * @return The dialing destination. Whether a phone number, or a PPtP
-     *         host etc.
-     */
-    virtual std::string getDialingDestination() const = 0;
-};
-
-
-#endif

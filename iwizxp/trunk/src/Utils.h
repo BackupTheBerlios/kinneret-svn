@@ -26,6 +26,10 @@
 #include <istream>
 #include <vector>
 
+#include <xercesc/dom/DOM.hpp>
+#include <xercesc/sax/SAXException.hpp>
+#include <xercesc/dom/DOMDocument.hpp>
+
 #include "Exception.h"
 
 /**
@@ -80,6 +84,51 @@ namespace Utils {
     std::vector<std::string> executeRegex(const std::string &regexString,
         const std::string &matchString, int maxResults)
         throw (RegexException);
+
+    /**
+     * TODO
+     */
+    xercesc::DOMDocument *documentFromStream(std::istream &inStream);
+
+    /**
+     * TODO
+     */
+    void getElementsByTagName(
+        std::vector<const xercesc::DOMNode*> &result,
+        const xercesc::DOMNode *root,
+        std::string tagName,
+        int depth = 1,
+        int level = 0);
+    
+    /**
+     * TODO
+     */
+    void xmlExceptionOccured(const xercesc::XMLException &ex);
+
+    /**
+     * TODO
+     */
+    void xmlExceptionOccured(const xercesc::SAXException &ex);
+    
+    /**
+     * TODO
+     */
+    void xmlExceptionOccured(const xercesc::DOMException &ex);
+
+    /**
+     * TODO
+     */
+    std::string getAttribute(const xercesc::DOMNode *node,
+        std::string attribute);
+
+    /**
+     * TODO
+     */
+    void sortXMLList(std::vector<const xercesc::DOMNode*> &result,
+        const xercesc::DOMNode *listNode,
+        std::string itemTag,
+        std::string countAttribute = "count",
+        std::string itemAttribute = "item");
 }
 
 #endif
