@@ -78,7 +78,7 @@ namespace Utils {
      * @return Vector of sub-strings of <code>string</code> that matched
      *         <code>regex</code>. If there was not match, the returned
      *         vector will be empty.
-     * @throw RegexException When the regex couldnot bo compiled or executed.
+     * @throws RegexException When the regex couldnot bo compiled or executed.
      */
     std::vector<std::string> executeRegex(const std::string &regexString,
         const std::string &matchString, int maxResults);

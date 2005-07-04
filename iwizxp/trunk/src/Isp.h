@@ -54,7 +54,7 @@ public:
     /**
      * TODO
      *
-     * @throw XMLSerializationException TODO
+     * @throws XMLSerializationException TODO
      */
     Isp(const xercesc::DOMElement *root) : Printable(), XMLReadable() {
         fromXML(root);
@@ -124,7 +124,7 @@ public:
      * We make this method not-virtual so we could call it from the
      * constructor.
      *
-     * @throw XMLSerializationException TODO
+     * @throws XMLSerializationException TODO
      */
     void fromXML(const xercesc::DOMElement *root);
 
@@ -135,21 +135,21 @@ private:
     /**
      * TODO
      *
-     * @throw XMLSerializationException TODO
+     * @throws XMLSerializationException TODO
      */
     void extractNameFromXML(const xercesc::DOMElement *root);
 
     /**
      * TODO
      *
-     * @throw XMLSerializationException TODO
+     * @throws XMLSerializationException TODO
      */
     void extractDnsServersFromXML(const xercesc::DOMElement *root);
 
     /**
      * TODO
      *
-     * @throw XMLSerializationException TODO
+     * @throws XMLSerializationException TODO
      */
     void extractConnectionMethodsFromXML(const xercesc::DOMElement *root);
 

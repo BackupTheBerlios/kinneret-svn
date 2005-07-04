@@ -75,7 +75,7 @@ public:
      * @return The appropriate dialer. The dialer is allocated using
      *         <code>new</code> and it's up to the user to
      *         <code>delete</code> it.
-     * @throw DialerCreationException When the desiered dialer could not have
+     * @throws DialerCreationException When the desiered dialer could not have
      *        been created.
      */
     virtual Dialer *getDialer(Isp *isp) = 0;

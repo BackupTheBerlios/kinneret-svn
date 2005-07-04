@@ -61,7 +61,7 @@ public:
      *
      * @param root Element inside a docuement that is the root of a tree that
      *        can be used to build this object.
-     * @throw XMLSerializationException Thrown when the given root element
+     * @throws XMLSerializationException Thrown when the given root element
      *        cannot be used to initialize this object.
      */
     virtual void fromXML(const xercesc::DOMElement *root) = 0;

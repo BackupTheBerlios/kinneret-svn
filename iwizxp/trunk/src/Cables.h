@@ -57,7 +57,7 @@ public:
     /**
      * TODO
      *
-     * @throw XMLSerializationException TODO
+     * @throws XMLSerializationException TODO
      */
     Cables(const xercesc::DOMElement *root) : ConnectionMethod() {
         fromXML(root);
@@ -106,7 +106,7 @@ public:
 
     /** 
      * TODO
-     * @throw XMLSerializationException TODO
+     * @throws XMLSerializationException TODO
      */
     void fromXML(const xercesc::DOMElement *root);
 
@@ -116,13 +116,13 @@ private:
 
     /**
      * TODO
-     * @throw XMLSerializationException TODO
+     * @throws XMLSerializationException TODO
      */
     void extractGatewayFromXML(const xercesc::DOMElement *root);
 
     /**
      * TODO
-     * @throw XMLSerializationException TODO
+     * @throws XMLSerializationException TODO
      */
     void extractDialingDestinationFromXML(const xercesc::DOMElement *root);
 

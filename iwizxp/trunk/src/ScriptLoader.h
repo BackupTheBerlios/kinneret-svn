@@ -66,7 +66,7 @@ public:
      * @return A new and initialized <code>Script</code>. Note that the
      *        <code>Script</code> is allocated using <code>new</code>, and
      *        its up to the user to <code>delete</code> it.
-     * @throw LoadException When the given stream is in the wrong format or
+     * @throws LoadException When the given stream is in the wrong format or
      *        any other problem occured during the loads process.
      */
     virtual Script *loadScript(std::istream &inStream) const = 0;
