@@ -134,8 +134,7 @@ private:
      * @throw DirectoryEnumerationException When the directory could not be
      *        enumerated.
      */
-    std::vector<std::string> enumIsps() const
-        throw (Utils::DirectoryEnumerationException);
+    std::vector<std::string> enumIsps() const;
 
     /**
      * This utility method loads an ISP from a file and adds it to the
@@ -153,8 +152,7 @@ private:
      * @throw DirectoryEnumerationException When the directory could not be
      *        enumerated.
      */
-    std::vector<std::string> enumModems() const
-        throw (Utils::DirectoryEnumerationException);
+    std::vector<std::string> enumModems() const;
 
     /**
      * This utility method loads a modem from a file and adds it to the
@@ -168,12 +166,16 @@ private:
     /**
      * This private method enumerates and attempts to load every file that's
      * under the modems directory in the database.
+     *
+     * @throw DatabaseCreationException TODO
      */
     void loadModems();
 
     /**
      * This private method enumerates and attempts to load every file that's
      * under the ISPs directory in the database.
+     *
+     * @throw DatabaseCreationException TODO
      */
     void loadIsps();
 
@@ -190,8 +192,10 @@ private:
 
     /**
      * Loads the default dialers.
+     *
+     * @throw DatabaseCreationException TODO
      */
-    void loadDefaultDialers() throw (DatabaseCreationException);
+    void loadDefaultDialers();
 
     /**
      * Releases the default dialers.

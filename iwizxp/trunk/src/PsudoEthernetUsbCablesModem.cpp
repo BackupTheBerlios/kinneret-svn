@@ -26,8 +26,7 @@
 
 using namespace std;
 
-Dialer *PsudoEthernetUsbCablesModem::createDialer() const
-        throw (DialerCreationException) {
+Dialer *PsudoEthernetUsbCablesModem::createDialer() const {
     try {
         // Get path to dialer
         // TODO: From configuration:

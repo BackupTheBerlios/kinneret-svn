@@ -51,8 +51,7 @@ Database::~Database() {
     Log::debug("Database released.");
 }
 
-vector<string> Database::enumIsps() const
-        throw (DirectoryEnumerationException) {
+vector<string> Database::enumIsps() const {
     return enumDirectory(GlobalRepository::getInstance()->
         getDbBasePath() + "/isp");
 }
@@ -109,8 +108,7 @@ void Database::loadIsps() {
     }
 }
 
-vector<string> Database::enumModems() const
-        throw (DirectoryEnumerationException) {
+vector<string> Database::enumModems() const {
     return enumDirectory(GlobalRepository::getInstance()->
         getDbBasePath() + "/modem");
 }
@@ -187,7 +185,7 @@ void Database::releaseModems() {
     }
 }
 
-void Database::loadDefaultDialers() throw (DatabaseCreationException) {
+void Database::loadDefaultDialers() {
     try {
         // TODO: Refactor extract method
         string path(GlobalRepository::getInstance()->

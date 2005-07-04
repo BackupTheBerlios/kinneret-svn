@@ -69,8 +69,7 @@ public:
      * @throw LoadException When the given stream is in the wrong format or
      *        any other problem occured during the loads process.
      */
-    virtual Script *loadScript(std::istream &inStream) const
-        throw (LoadException) = 0;
+    virtual Script *loadScript(std::istream &inStream) const = 0;
 };
 
 #endif

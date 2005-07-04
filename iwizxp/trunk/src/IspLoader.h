@@ -70,8 +70,7 @@ public:
      * @throws LoadExcpetion When the loades could not have initialized a new
      *         ISP from the given stream.
      */
-    virtual Isp *loadIsp(std::istream &inStream) const
-        throw (LoadExcpetion) = 0;
+    virtual Isp *loadIsp(std::istream &inStream) const = 0;
 };
 
 #endif

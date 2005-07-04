@@ -48,7 +48,7 @@ public:
 
     /* --- Abstract Methods --- */
 
-    virtual Isp *loadIsp(std::istream &inStream) const throw (LoadExcpetion) {
+    virtual Isp *loadIsp(std::istream &inStream) const {
         // Load name
         char name[MAX_LINE];
         inStream.getline(name, MAX_LINE, '\n');

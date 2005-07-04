@@ -86,8 +86,7 @@ public:
      * @throws FeatureNotSupportedException When the given kernel class does
      *         not support this module.
      */
-    virtual std::string getName(KernelClass kernelClass) const
-        throw (FeatureNotSupportedException) = 0;
+    virtual std::string getName(KernelClass kernelClass) const = 0;
 };
 
 #endif

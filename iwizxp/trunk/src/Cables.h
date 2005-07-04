@@ -56,9 +56,10 @@ public:
 
     /**
      * TODO
+     *
+     * @throw XMLSerializationException TODO
      */
-    Cables(const xercesc::DOMElement *root) throw (XMLSerializationException) :
-            ConnectionMethod() {
+    Cables(const xercesc::DOMElement *root) : ConnectionMethod() {
         fromXML(root);
     }
 
@@ -105,9 +106,9 @@ public:
 
     /** 
      * TODO
+     * @throw XMLSerializationException TODO
      */
-    void fromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException);
+    void fromXML(const xercesc::DOMElement *root);
 
 private:
 
@@ -115,15 +116,15 @@ private:
 
     /**
      * TODO
+     * @throw XMLSerializationException TODO
      */
-    void extractGatewayFromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException);
+    void extractGatewayFromXML(const xercesc::DOMElement *root);
 
     /**
      * TODO
+     * @throw XMLSerializationException TODO
      */
-    void extractDialingDestinationFromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException);
+    void extractDialingDestinationFromXML(const xercesc::DOMElement *root);
 
     /* --- Data Members --- */
 

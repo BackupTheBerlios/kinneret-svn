@@ -85,8 +85,7 @@ DOMDocument *Utils::documentFromStream(istream &inStream) {
     }
 }
 
-vector<string> Utils::enumDirectory(string directory)
-        throw (Utils::DirectoryEnumerationException) {
+vector<string> Utils::enumDirectory(string directory) {
     vector<string> files;
 
     Log::debug(string("Enumerating ") + directory + string("..."));
@@ -123,7 +122,7 @@ vector<string> Utils::enumDirectory(string directory)
 }
 
 vector<string> Utils::executeRegex(const string &regexString,
-        const string &matchString, int maxResults) throw (RegexException) {
+        const string &matchString, int maxResults) {
 
     // TODO: Would this function work on non-ascii strings?
     

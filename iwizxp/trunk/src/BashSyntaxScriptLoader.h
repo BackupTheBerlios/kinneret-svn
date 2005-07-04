@@ -76,8 +76,7 @@ public:
      * @throw LoadException When the given stream is in the wrong format or
      *        any other problem occured during the loads process.
      */
-    virtual Script *loadScript(std::istream &inStream) const
-        throw (LoadException);
+    virtual Script *loadScript(std::istream &inStream) const;
 
 private:
 
@@ -91,8 +90,7 @@ private:
      * @throws LoadException When the name could not have been extracted from
      *         the given body.
      */
-    virtual std::string extractNameFromScript(const std::string &body) const
-        throw (LoadException);
+    virtual std::string extractNameFromScript(const std::string &body) const;
 
     /**
      * This method extracts the method's name out of it's definition line.
@@ -104,7 +102,7 @@ private:
      *         the given definition.
      */
     virtual std::string extractNameFromDefinitionLine(const std::string &body)
-        const throw (LoadException);
+        const;
 };
 
 #endif

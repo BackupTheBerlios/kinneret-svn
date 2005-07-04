@@ -54,9 +54,10 @@ public:
 
     /**
      * TODO
+     *
+     * @throws LoadExcpetion TODO
      */
-    virtual Isp *loadIsp(std::istream &inStream) const
-        throw (LoadExcpetion);
+    virtual Isp *loadIsp(std::istream &inStream) const;
 };
 
 #endif

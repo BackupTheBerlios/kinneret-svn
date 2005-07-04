@@ -27,8 +27,7 @@
 using namespace std;
 using namespace Utils;
 
-Script *BashSyntaxScriptLoader::loadScript(istream &inStream) const
-        throw (ScriptLoader::LoadException) {
+Script *BashSyntaxScriptLoader::loadScript(istream &inStream) const {
     string body = readStreamAsString(inStream);
     string name = extractNameFromScript(body);
 
@@ -37,8 +36,7 @@ Script *BashSyntaxScriptLoader::loadScript(istream &inStream) const
     return new FixedScript(name, body);
 }
 
-string BashSyntaxScriptLoader::extractNameFromScript(const string &body) const
-        throw (LoadException) {
+string BashSyntaxScriptLoader::extractNameFromScript(const string &body) const {
     // This will catch the definition line
     static const string regexString(
         "^[[:blank:]]*"
@@ -69,7 +67,7 @@ string BashSyntaxScriptLoader::extractNameFromScript(const string &body) const
 }
 
 string BashSyntaxScriptLoader::extractNameFromDefinitionLine(const string &body)
-        const throw (LoadException) {
+        const {
     // This will catch the title line
     static const string regexString("[[:alnum:]_]+");
 

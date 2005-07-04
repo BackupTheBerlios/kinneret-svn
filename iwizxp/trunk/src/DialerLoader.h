@@ -72,8 +72,7 @@ public:
      * @throws LoadExcpetion When the dialer could not be initilized from the
      *         given stream.
      */
-    virtual Dialer *loadDialer(std::istream &inStream) const
-        throw (LoadException) = 0;
+    virtual Dialer *loadDialer(std::istream &inStream) const = 0;
 };
 
 #endif

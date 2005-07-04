@@ -29,8 +29,7 @@
 
 using namespace std;
 
-Dialer *SimpleFormatDialerLoader::loadDialer(istream &inStream) const
-        throw (LoadException) {
+Dialer *SimpleFormatDialerLoader::loadDialer(istream &inStream) const {
     Dialer *result;
     
     // Load name

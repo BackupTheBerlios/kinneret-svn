@@ -62,8 +62,7 @@ namespace Utils {
      *         could not be enumerated. The exception contains in
      *         <code>what()</code> the reason.
      */
-    std::vector<std::string> enumDirectory(std::string directory) 
-        throw (DirectoryEnumerationException);
+    std::vector<std::string> enumDirectory(std::string directory);
 
     /**
      * This exception is thorwn when regex operation failes
@@ -82,8 +81,7 @@ namespace Utils {
      * @throw RegexException When the regex couldnot bo compiled or executed.
      */
     std::vector<std::string> executeRegex(const std::string &regexString,
-        const std::string &matchString, int maxResults)
-        throw (RegexException);
+        const std::string &matchString, int maxResults);
 
     /**
      * TODO

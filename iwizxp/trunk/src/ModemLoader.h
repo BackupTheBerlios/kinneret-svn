@@ -69,8 +69,7 @@ public:
      * @throws LoadExcpetion When the modem could not be initilized from the
      *         given stream.
      */
-    virtual Modem *loadModem(std::istream &inStream) const
-        throw (LoadException) = 0;
+    virtual Modem *loadModem(std::istream &inStream) const = 0;
 };
 
 #endif

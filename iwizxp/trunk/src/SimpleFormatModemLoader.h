@@ -48,8 +48,7 @@ public:
 
     /* --- Abstract Methods --- */
 
-    virtual Modem *loadModem(std::istream &inStream) const
-            throw (LoadException) {
+    virtual Modem *loadModem(std::istream &inStream) const {
         Modem *result = 0;
 
         // Load name

@@ -43,14 +43,13 @@ Isp::~Isp() {
     Log::debug(string("Isp: ") + name + " released successfully");
 }
 
-void Isp::fromXML(const DOMElement *root) throw (XMLSerializationException) {
+void Isp::fromXML(const DOMElement *root) {
     extractNameFromXML(root);
     extractDnsServersFromXML(root);
     extractConnectionMethodsFromXML(root);
 }
 
-void Isp::extractNameFromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException) {
+void Isp::extractNameFromXML(const xercesc::DOMElement *root) {
     vector<const DOMNode*> rootNameNodes;
     getElementsByTagName(rootNameNodes, root, "name", 1);
 
@@ -71,8 +70,7 @@ void Isp::extractNameFromXML(const xercesc::DOMElement *root)
     Log::debug(string("Isp's name: ") + name);
 }
 
-void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException) {
+void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root) {
     vector<const DOMNode*> dnsServerNodes;
     getElementsByTagName(dnsServerNodes, root, "dns", 1);
 
@@ -100,8 +98,7 @@ void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root)
     }
 }
 
-void Isp::extractConnectionMethodsFromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException) {
+void Isp::extractConnectionMethodsFromXML(const xercesc::DOMElement *root) {
     vector<const DOMNode*> methodNodes;
     getElementsByTagName(methodNodes, root, "methods", 1);
 

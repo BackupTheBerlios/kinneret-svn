@@ -78,7 +78,7 @@ public:
      * @throw DialerCreationException When the desiered dialer could not have
      *        been created.
      */
-    virtual Dialer *getDialer(Isp *isp) throw (DialerCreationException) = 0;
+    virtual Dialer *getDialer(Isp *isp) = 0;
 
     /* --- Public Methods --- */
 

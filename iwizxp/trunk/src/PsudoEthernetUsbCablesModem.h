@@ -76,8 +76,9 @@ public:
      * dialer is released by the modem, and not by the user.
      * 
      * @return The appropriate dialer.
+     * @throws DialerCreationException TODO
      */
-    Dialer *getDialer(Isp *isp) throw (DialerCreationException) {
+    Dialer *getDialer(Isp *isp) {
         if (dialer == 0) {
             dialer = createDialer();
 
@@ -99,8 +100,10 @@ private:
      *
      * TODO: Make this a method of Modem, and let it have the name of the
      * dialer alone.
+     *
+     * @throws DialerCreationException TODO
      */ 
-    Dialer *createDialer() const throw (DialerCreationException);
+    Dialer *createDialer() const; 
 
     /* --- Data Members --- */
 

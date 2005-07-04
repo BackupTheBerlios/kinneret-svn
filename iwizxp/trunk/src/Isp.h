@@ -53,9 +53,10 @@ public:
 
     /**
      * TODO
+     *
+     * @throw XMLSerializationException TODO
      */
-    Isp(const xercesc::DOMElement *root) throw (XMLSerializationException) :
-            Printable(), XMLReadable() {
+    Isp(const xercesc::DOMElement *root) : Printable(), XMLReadable() {
         fromXML(root);
         Log::debug(std::string("Isp: ") + name + " created successfully");
     }
@@ -122,9 +123,10 @@ public:
      *
      * We make this method not-virtual so we could call it from the
      * constructor.
+     *
+     * @throw XMLSerializationException TODO
      */
-    void fromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException);
+    void fromXML(const xercesc::DOMElement *root);
 
 private:
 
@@ -132,21 +134,24 @@ private:
 
     /**
      * TODO
+     *
+     * @throw XMLSerializationException TODO
      */
-    void extractNameFromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException);
+    void extractNameFromXML(const xercesc::DOMElement *root);
 
     /**
      * TODO
+     *
+     * @throw XMLSerializationException TODO
      */
-    void extractDnsServersFromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException);
+    void extractDnsServersFromXML(const xercesc::DOMElement *root);
 
     /**
      * TODO
+     *
+     * @throw XMLSerializationException TODO
      */
-    void extractConnectionMethodsFromXML(const xercesc::DOMElement *root)
-        throw (XMLSerializationException);
+    void extractConnectionMethodsFromXML(const xercesc::DOMElement *root);
 
     /* --- Data Members --- */
 

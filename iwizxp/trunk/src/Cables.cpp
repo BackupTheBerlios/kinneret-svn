@@ -28,13 +28,12 @@ using namespace std;
 using namespace xercesc;
 using namespace Utils;
 
-void Cables::fromXML(const DOMElement *root) throw (XMLSerializationException) {
+void Cables::fromXML(const DOMElement *root) {
     extractGatewayFromXML(root);
     extractDialingDestinationFromXML(root);
 }
 
-void Cables::extractGatewayFromXML(const DOMElement *root)
-        throw (XMLSerializationException) {
+void Cables::extractGatewayFromXML(const DOMElement *root) {
     vector<const DOMNode*> gatewayNodes;
     getElementsByTagName(gatewayNodes, root, "gateway");
 
@@ -48,8 +47,7 @@ void Cables::extractGatewayFromXML(const DOMElement *root)
     Log::debug("Default Gateway: " + defaultGateway);
 }
 
-void Cables::extractDialingDestinationFromXML(const DOMElement *root)
-        throw (XMLSerializationException) {
+void Cables::extractDialingDestinationFromXML(const DOMElement *root) {
     vector<const DOMNode*> destinationNodes;
     getElementsByTagName(destinationNodes, root, "destination");
 

@@ -29,7 +29,7 @@ using namespace std;
 using namespace xercesc;
 using namespace Utils;
 
-Isp *XMLIspLoader::loadIsp(istream &inStream) const throw (LoadExcpetion) {
+Isp *XMLIspLoader::loadIsp(istream &inStream) const {
     DOMDocument *document;
     try {
         document = Utils::documentFromStream(inStream);

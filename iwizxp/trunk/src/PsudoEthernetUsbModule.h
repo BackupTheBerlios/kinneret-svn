@@ -67,9 +67,9 @@ public:
      * @return the module that has to be <i>modprobe</i>d in the selected
      *         kernel class. <code>CDCEther</code> for 2.4, and
      *         <code>usbnet</code> for 2.6.
+     * @throws FeatureNotSupportedException TODO
      */
-    virtual std::string getName(KernelClass kernelClass) const
-            throw (FeatureNotSupportedException) {
+    virtual std::string getName(KernelClass kernelClass) const {
         switch (kernelClass) {
         case KernelModule::LINUX2_4:
             return "CDCEther";
