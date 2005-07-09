@@ -45,12 +45,12 @@ void ArgumentsScript::setIsp(const Isp *isp) {
 
     values["nameservers"] = nameservers.str();
 
-    // TODO: search groups
+    // TODO: search groups (setup to $searchGroups)
 }
 
-void ArgumentsScript::setModem(const Modem *modem,
-        KernelModule::KernelClass kernelClass) {
-    ostringstream modules;
+void ArgumentsScript::setModem(const Modem *modem) {
+    ostringstream modules2_4;
+    ostringstream modules2_6;
     
     vector<KernelModule*>::const_iterator iter;
     for (iter = modem->getKernelModules().begin() ;
@@ -59,18 +59,21 @@ void ArgumentsScript::setModem(const Modem *modem,
         try {
             // Space modules up
             if (iter != modem->getKernelModules().begin()) {
-                modules << " ";
+                modules2_4 << " ";
+                modules2_6 << " ";
             }
             
             // Add module to the list
-            modules << (*iter)->getName(kernelClass);
+            modules2_4 << (*iter)->getName(KernelModule::LINUX2_4);
+            modules2_6 << (*iter)->getName(KernelModule::LINUX2_6);
         } catch (KernelModule::FeatureNotSupportedException &ex) {
             Log::warning((*iter)->toString() + " is not supported under the "
                 "selected kernel, skipping.");
         }
     }
 
-    values["modules"] = modules.str();
+    values["modules2_4"] = modules2_4.str();
+    values["modules2_6"] = modules2_6.str();
 }
 
 void ArgumentsScript::setConnectionMethod(const ConnectionMethod *method) {
