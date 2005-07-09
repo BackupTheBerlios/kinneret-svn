@@ -49,41 +49,13 @@ void ArgumentsScript::setIsp(const Isp *isp) {
 }
 
 void ArgumentsScript::setModem(const Modem *modem) {
-    ostringstream modules2_4;
-    ostringstream modules2_6;
-    
-    vector<KernelModule*>::const_iterator iter;
-    for (iter = modem->getKernelModules().begin() ;
-            iter != modem->getKernelModules().end() ; 
-            iter++) {
-        try {
-            // Space modules up
-            if (iter != modem->getKernelModules().begin()) {
-                modules2_4 << " ";
-                modules2_6 << " ";
-            }
-            
-            // Add module to the list
-            try {
-                modules2_4 << (*iter)->getName(KernelModule::LINUX2_4);
-            } catch (KernelModule::FeatureNotSupportedException &ex) {
-                // Nothing, leave blank
-            }
+    values["modules2_4"] =
+        buildKernelClassModulesList(modem, KernelModule::LINUX2_4);
 
-            try {
-                modules2_6 << (*iter)->getName(KernelModule::LINUX2_6);
-            } catch (KernelModule::FeatureNotSupportedException &ex) {
-                // Nothing, leave blank
-            }
-        } catch (KernelModule::FeatureNotSupportedException &ex) {
-            Log::warning((*iter)->toString() + " is not supported under the "
-                "selected kernel, skipping.");
-        }
-    }
-
-    values["modules2_4"] = modules2_4.str();
-    values["modules2_6"] = modules2_6.str();
+    values["modules2_6"] =
+        buildKernelClassModulesList(modem, KernelModule::LINUX2_6);
 }
+
 
 void ArgumentsScript::setConnectionMethod(const ConnectionMethod *method) {
     values["dialingDestination"] = method->getDialingDestination();
@@ -114,3 +86,33 @@ const string ArgumentsScript::getScriptBody() const {
 
     return result.str();
 }
+
+string ArgumentsScript::buildKernelClassModulesList(const Modem *modem,
+        KernelModule::KernelClass kernelClass) {
+    vector<string> supportedModules;
+
+    // First pass, see which modules are good for us
+    for (int i = 0 ; i < modem->getKernelModules().size() ; i++) {
+        KernelModule *current = modem->getKernelModules()[i];
+        try {
+            supportedModules.push_back(current->getName(kernelClass));
+        } catch (KernelModule::FeatureNotSupportedException &ex) {
+            // Leave outside
+        }
+    }
+
+    // Second pass, make the string
+    ostringstream result;
+
+    for (int i = 0 ; i < supportedModules.size() ; i++) {
+        result << supportedModules[i];
+        
+        // Add a space if this modules isn't the last
+        if (i < (supportedModules.size() - 1)) {
+            result << " ";
+        }
+    }
+
+    return result.str();
+}
+

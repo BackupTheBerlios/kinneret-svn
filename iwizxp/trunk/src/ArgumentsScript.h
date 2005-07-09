@@ -165,6 +165,14 @@ public:
 
 private:
 
+    /* --- Helpers --- */
+
+    /**
+     * TODO: JavaDocs
+     */
+    std::string buildKernelClassModulesList(const Modem *modem,
+        KernelModule::KernelClass kernelClass);
+
     /* --- Data Members --- */
 
     /** Names -&gt; Values map */
