@@ -19,45 +19,60 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <fstream>
+#include "KernelModule.h"
 
-#include "PsudoEthernetUsbCablesModem.h"
-#include "GlobalRepository.h"
+#include "Log.h"
+#include "Utils.h"
+#include "xts.h"
 
 using namespace std;
+using namespace xercesc;
+using namespace Utils;
+using namespace Utils::DOM;
 
-Dialer *PsudoEthernetUsbCablesModem::createDialer() const {
-    try {
-        // Get path to dialer
-        // TODO: From configuration:
-        // <modem>
-        // ...
-        //     <dialer>
-        //         <default>some_dialer</default>
-        //         <exception isp="someIsp">other_dialer</exception>
-        //     </dialer>
-        // </modem>
-        string path(GlobalRepository::getInstance()->
-            getDbBasePath() + "/dialer/pptp_cables_dialer");
+void KernelModule::fromXML(DOMElement *root) {
+    NamedXMLReadable::fromXML(root);
 
-        Log::debug(string("Loading ") + path + "...");
+    vector<DOMElement*> modprobeNodes;
+    getElementsByTagName(modprobeNodes, root, "modprobe");
 
-        ifstream dialer(path.c_str());
-        if (!dialer.is_open()) {
-            throw DialerCreationException("Unable to open dialer file!");
+    if (modprobeNodes.size() <= 0) {
+        throw XMLSerializationException("No <modprobe> elements found!");
+    }
+
+    for (int i = 0 ; i < modprobeNodes.size() ; i++) {
+        if (modprobeNodes[i] == 0) {
+            Log::warning("Empty entry in list, skipping...");
+            continue;
         }
 
-        // Load dialer
-        Dialer *result = GlobalRepository::getInstance()->getDialerLoader()->
-            loadDialer(dialer);
+        KernelClass kernel = kernelClassFromXML(modprobeNodes[i]);
+        names[kernel] = xts(modprobeNodes[i]->getTextContent(), true);
+    }
+}
 
-        // Close file
-        dialer.close();
+KernelModule::KernelClass KernelModule::kernelClassFromXML(
+        DOMElement *element) const {
+    string classString = getAttributeValue(element, "kernel");
 
-        return result;
-    } catch (DialerLoader::LoadException &ex) {
-        throw DialerCreationException(string("Unable to load dialer: ") +
-            ex.what());
+    if (classString == "2.4") {
+        return LINUX2_4;
+    } else if (classString == "2.6") {
+        return LINUX2_6;
+    } else {
+        throw XMLSerializationException(string("Unknown kernel class: ") +
+            classString);
+    }
+}
+
+string KernelModule::getName(KernelClass kernelClass) const {
+    map<KernelClass, string>::const_iterator name =
+        names.find(kernelClass);
+
+    if (name == names.end()) {
+        throw FeatureNotSupportedException("No support for this module.");
+    } else {
+        return name->second;
     }
 }
 

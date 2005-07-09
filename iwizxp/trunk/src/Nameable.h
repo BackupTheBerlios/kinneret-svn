@@ -19,41 +19,72 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Cables.h"
+#ifndef __NAMEABLE_H__
+#define __NAMEABLE_H__
 
-#include "Utils.h"
-#include "xts.h"
+#include "Printable.h"
 
-using namespace std;
-using namespace xercesc;
-using namespace Utils;
-using namespace Utils::DOM;
+/**
+ * TODO: JavaDocs
+ *
+ * @author duvduv
+ */
+class Nameable : public Printable {
+public:
 
-void Cables::fromXML(DOMElement *root) {
-    extractGatewayFromXML(root);
-    extractDialingDestinationFromXML(root);
-}
+    /* --- Constructors ---- */
 
-void Cables::extractGatewayFromXML(DOMElement *root) {
-    DOMElement *gatewayNode = getLoneElementByTagName(root, "gateway");
-    
-    if (gatewayNode == 0) {
-        throw XMLSerializationException("No <gateway> element!");
+    /**
+     * Constructor.
+     * TODO: JavaDocs
+     */
+    Nameable(const std::string name) : Printable () {
+        this->name = name;
     }
 
-    defaultGateway = xts(gatewayNode->getTextContent(), true);
-    Log::debug("Default Gateway: " + defaultGateway);
-}
-
-void Cables::extractDialingDestinationFromXML(DOMElement *root) {
-    DOMElement *destinationNode = getLoneElementByTagName(root,
-        "destination");
-
-    if (destinationNode == 0) {
-        throw XMLSerializationException("No <destination> element!");
+    /**
+     * Destructor.
+     * TODO: JavaDocs
+     */
+    virtual ~Nameable() {
+        // Nothing to do
     }
 
-    dialingDestination = xts(destinationNode->getTextContent(), true);
-    Log::debug("Dialing Destination: " + dialingDestination);
-}
+    /* --- Public Methods --- */
 
+    /**
+     * TODO: JavaDocs
+     */
+    virtual std::string getName() const {
+        return name;
+    }
+
+    /* --- Inherited from Printable --- */
+
+    /**
+     * TODO: JavaDocs
+     */
+    virtual const std::string toString() const {
+        return getName();
+    }
+
+protected:
+
+    /* --- Protected Methods --- */
+
+    /**
+     * TODO: JavaDocs
+     */
+    void setName(std::string name) {
+        this->name = name;
+    }
+
+private:
+
+    /* --- Data Members --- */
+
+    /** TODO: JavaDocs */
+    std::string name;
+};
+
+#endif

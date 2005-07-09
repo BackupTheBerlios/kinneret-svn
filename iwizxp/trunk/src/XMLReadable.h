@@ -64,7 +64,7 @@ public:
      * @throws XMLSerializationException Thrown when the given root element
      *        cannot be used to initialize this object.
      */
-    virtual void fromXML(const xercesc::DOMElement *root) = 0;
+    virtual void fromXML(xercesc::DOMElement *root) = 0;
 };
 
 #endif

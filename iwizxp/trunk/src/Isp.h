@@ -26,18 +26,17 @@
 
 #include <xercesc/dom/DOMElement.hpp>
 
-#include "Printable.h"
+#include "NamedXMLReadable.h"
 #include "ConnectionMethod.h"
 #include "IpAddress.h"
 #include "Log.h"
-#include "XMLReadable.h"
 
 /** 
  * This class represents an ISP.
  *
  * @author duvduv
  */
-class Isp : public Printable, public XMLReadable {
+class Isp : public NamedXMLReadable {
 public:
 
     /* --- Constructors --- */
@@ -47,7 +46,7 @@ public:
      *
      * @param name ISP's name.
      */
-    Isp(const std::string name) : Printable(), XMLReadable() {
+    Isp(const std::string name) : NamedXMLReadable(name) {
         this->name = name;
     }
 
@@ -56,7 +55,7 @@ public:
      *
      * @throws XMLSerializationException TODO
      */
-    Isp(const xercesc::DOMElement *root) : Printable(), XMLReadable() {
+    Isp(xercesc::DOMElement *root) : NamedXMLReadable() {
         fromXML(root);
         Log::debug(std::string("Isp: ") + name + " created successfully");
     }
@@ -100,22 +99,6 @@ public:
         return methods;
     }
 
-    /**
-     * @return ISP's name.
-     */
-    const std::string getName() const {
-        return name;
-    }
-
-    /* --- Inherited from Printable --- */
-
-    /** 
-     * @return ISP's name.
-     */
-    virtual const std::string toString() const {
-        return getName();
-    }
-
     /* --- Inherited from XMLReadable --- */
     
     /**
@@ -126,7 +109,7 @@ public:
      *
      * @throws XMLSerializationException TODO
      */
-    void fromXML(const xercesc::DOMElement *root);
+    void fromXML(xercesc::DOMElement *root);
 
 private:
 
@@ -137,21 +120,14 @@ private:
      *
      * @throws XMLSerializationException TODO
      */
-    void extractNameFromXML(const xercesc::DOMElement *root);
+    void extractDnsServersFromXML(xercesc::DOMElement *root);
 
     /**
      * TODO
      *
      * @throws XMLSerializationException TODO
      */
-    void extractDnsServersFromXML(const xercesc::DOMElement *root);
-
-    /**
-     * TODO
-     *
-     * @throws XMLSerializationException TODO
-     */
-    void extractConnectionMethodsFromXML(const xercesc::DOMElement *root);
+    void extractConnectionMethodsFromXML(xercesc::DOMElement *root);
 
     /* --- Data Members --- */
 

@@ -6,7 +6,6 @@ iwizxp_SOURCES = Modem.cpp \
 				 Isp.cpp \
 				 BashSyntaxScriptLoader.cpp \
 				 Utils.cpp \
-				 PsudoEthernetUsbCablesModem.cpp \
 				 SimpleFormatDialerLoader.cpp \
 				 Dialer.cpp \
 				 GlobalRepository.cpp \
@@ -15,5 +14,8 @@ iwizxp_SOURCES = Modem.cpp \
 				 XMLIspLoader.cpp \
 				 xts.cpp \
 				 Cables.cpp \
-				 DOMUtils.cpp
+				 DOMUtils.cpp \
+				 XMLModemLoader.cpp \
+				 NamedXMLReadable.cpp \
+				 KernelModule.cpp
 iwizxp_INCLUDES = -I$(top_srcdir)/src

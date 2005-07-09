@@ -23,8 +23,9 @@
 #define __MODEM_H__
 
 #include <vector>
+#include <map>
 
-#include "Printable.h"
+#include "NamedXMLReadable.h"
 #include "KernelModule.h"
 #include "Isp.h"
 #include "Dialer.h"
@@ -36,7 +37,7 @@
  *
  * @author duvduv
  */
-class Modem : public Printable {
+class Modem : public NamedXMLReadable {
 public:
 
     /* --- Constructors --- */
@@ -46,8 +47,17 @@ public:
      *
      * @param name Modem's name.
      */
-    Modem(std::string name) : Printable() {
-        this->name = name;
+    Modem(const std::string name) : NamedXMLReadable(name) {
+        // Nothing to do
+    }
+
+    /**
+     * TODO
+     *
+     * @throws XMLSerializationException TODO
+     */
+    Modem(xercesc::DOMElement *root) : NamedXMLReadable() {
+        fromXML(root);
     }
 
     /**
@@ -62,13 +72,6 @@ public:
     /* --- Abstract Methods --- */
 
     /**
-     * @return <code>true</code> if the current modem requires special
-     *         modules to be loaded to the kernel, or <code>false</code>
-     *         otherwise.
-     */
-    virtual bool needModules() const = 0;
-
-    /**
      * @param isp Selected ISP. Dialers my change due to the selected ISP
      *        (e.g. ADSL PPtP connection to Bezeq\@int is different than any
      *        other ISP).
@@ -78,7 +81,7 @@ public:
      * @throws DialerCreationException When the desiered dialer could not have
      *        been created.
      */
-    virtual Dialer *getDialer(Isp *isp) = 0;
+    virtual Dialer *getDialer(Isp *isp);
 
     /* --- Public Methods --- */
 
@@ -89,21 +92,14 @@ public:
         return modulesVector;
     }
 
-    /**
-     * @return Modem's name.
-     */
-    virtual const std::string getName() const {
-        return name;
-    }
-
-    /* --- Inherited from Printable --- */
+    /* --- Inherited from XMLReadable --- */
 
     /**
-     * @return Modem's name.
+     * TODO: JavaDocs
+     *
+     * @throws XMLSerializationException TODO
      */
-    virtual const std::string toString() const {
-        return getName();
-    }
+    void fromXML(xercesc::DOMElement *root);
 
 protected:
 
@@ -140,9 +136,44 @@ protected:
         loadedDialers.push_back(dialer);
     }
 
+    /**
+     * TODO: JavaDocs
+     *
+     * @throws XMLSerializationException
+     */
+    void loadModulesFromXML(xercesc::DOMElement *root);
+    
+    /**
+     * TODO: JavaDocs
+     *
+     * @throws XMLSerializationException
+     */
+    void loadDialersFromXML(xercesc::DOMElement *root);
+
 private:
 
     /* --- Utility Methods --- */
+
+    /**
+     * TODO: JavaDocs
+     *
+     * @throws XMLSerializationException
+     */
+    void loadDefaultDialer(xercesc::DOMElement *dialerNode);
+    
+    /**
+     * TODO: JavaDocs
+     *
+     * @throws XMLSerializationException
+     */
+    void loadExceptions(xercesc::DOMElement *dialerNode);
+
+    /**
+     * TODO: JavaDocs
+     *
+     * @throws XMLSerializationException
+     */
+    Dialer *loadDialerByName(std::string name);
 
     /**
      * Releases kernel modules created by this modem.
@@ -156,8 +187,11 @@ private:
 
     /* --- Data Members --- */
 
-    /** Modem's name */
-    std::string name;
+    /** TODO: JavaDocs */
+    Dialer *defaultDialer;
+
+    /** TODO: JavaDocs */
+    std::map<std::string, Dialer*> exceptions;
 
     /** List of required modules */
     std::vector<KernelModule*> modulesVector;

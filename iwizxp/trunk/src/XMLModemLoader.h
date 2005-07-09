@@ -19,69 +19,45 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __PSUDO_ETHERNET_USB_MODULE_H__
-#define __PSUDO_ETHERNET_USB_MODULE_H__
+#ifndef __XML_MODEM_LOADER_H__
+#define __XML_MODEM_LOADER_H__
 
-#include "KernelModule.h"
+#include "ModemLoader.h"
 
-/** 
- * This psudo-module is the module that has to be loaded in order to obtain
- * the psudo-ethernet interface that bridges between the USB-connected modem
- * and the ethernet device required by pppd.
+/**
+ * TODO: JavaDocs
  *
- * This modules is supported by 2.4 and 2.6 kernels.
- *
- * @author duvduv.
+ * @author duvduv
  */
-class PsudoEthernetUsbModule : public KernelModule {
+class XMLModemLoader : public ModemLoader {
 public:
 
-    /* --- Constructors --- */
+    /* --- Constructors ---- */
 
-    /** 
+    /**
      * Constructor.
+     * TODO: JavaDocs
      */
-    PsudoEthernetUsbModule() : KernelModule() {
-        Log::debug("PsudoEthernetUsbModule created successfully");
+    XMLModemLoader() {
+        Log::debug("XMLModemLoader created successfully");
     }
 
-    /** 
+    /**
      * Destructor.
+     * TODO: JavaDocs
      */
-    virtual ~PsudoEthernetUsbModule() {
-        Log::debug("PsudoEthernetUsbModule released successfully");
+    virtual ~XMLModemLoader() {
+        Log::debug("XMLModemLoader released successfully");
     }
 
-    /* --- Inherited from Printable --- */
+    /* --- Public Methods --- */
 
-    /** 
-     * @returns Descriptive name of this psudo-module.
+    /**
+     * TODO
+     *
+     * @throws LoadExcpetion TODO
      */
-    virtual const std::string toString() const {
-        return "Psudo ethernet USB modem";
-    }
-
-    /* --- Inherited from KernelModule --- */
-
-    /** 
-     * @return the module that has to be <i>modprobe</i>d in the selected
-     *         kernel class. <code>CDCEther</code> for 2.4, and
-     *         <code>usbnet</code> for 2.6.
-     * @throws FeatureNotSupportedException TODO
-     */
-    virtual std::string getName(KernelClass kernelClass) const {
-        switch (kernelClass) {
-        case KernelModule::LINUX2_4:
-            return "CDCEther";
-
-        case KernelModule::LINUX2_6:
-            return "usbnet";
-
-        default:
-            throw FeatureNotSupportedException(
-                "Module is supported by Linux 2.4 and 2.6.");
-        }
-    }
+    virtual Modem *loadModem(std::istream &inStream) const;
 };
 
 #endif

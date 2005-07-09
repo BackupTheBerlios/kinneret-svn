@@ -22,7 +22,9 @@
 #ifndef __KERNEL_MODULE_H__
 #define __KERNEL_MODULE_H__
 
-#include "Printable.h"
+#include <map>
+
+#include "NamedXMLReadable.h"
 #include "Exception.h"
 
 /** 
@@ -36,7 +38,7 @@
  *
  * @author duvduv
  */
-class KernelModule : public Printable {
+class KernelModule : public NamedXMLReadable {
 public:
 
     /* --- Inner Types --- */
@@ -57,8 +59,8 @@ public:
     /** 
      * Constructor.
      */
-    KernelModule() : Printable() {
-        // Nothing to do.
+    KernelModule(xercesc::DOMElement *root) : NamedXMLReadable() {
+        fromXML(root);
     }
 
     /** 
@@ -75,7 +77,7 @@ public:
      */
     NewException(FeatureNotSupportedException);
 
-    /* --- Abstract Methods --- */
+    /* --- Getters --- */
 
     /** 
      * Decides what's the module name the given kernel class supports.
@@ -86,7 +88,32 @@ public:
      * @throws FeatureNotSupportedException When the given kernel class does
      *         not support this module.
      */
-    virtual std::string getName(KernelClass kernelClass) const = 0;
+    virtual std::string getName(KernelClass kernelClass) const;
+
+    /* --- Inherited from XMLReadable --- */
+
+    /**
+     * TODO
+     *
+     * @throws XMLSerializationException
+     */
+    void fromXML(xercesc::DOMElement *root);
+
+private:
+
+    /* --- Helper Methods --- */
+
+    /**
+     * TODO: JavaDocs
+     *
+     * @throws XMLSerializationException
+     */
+    KernelClass kernelClassFromXML(xercesc::DOMElement *element) const;
+
+    /* --- Data Members --- */
+
+    /** TODO: JavaDocs */
+    std::map<KernelClass, std::string> names;
 };
 
 #endif

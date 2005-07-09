@@ -30,7 +30,7 @@
 #include "Utils.h"
 #include "xts.h"
 #include "XMLIspLoader.h"
-#include "SimpleFormatModemLoader.h"
+#include "XMLModemLoader.h"
 #include "BashSyntaxScriptLoader.h"
 #include "SimpleFormatDialerLoader.h"
 
@@ -42,7 +42,7 @@ GlobalRepository *GlobalRepository::instance = 0;
 
 void GlobalRepository::setupLoaders() {
     ispLoader = new XMLIspLoader();
-    modemLoader = new SimpleFormatModemLoader();
+    modemLoader = new XMLModemLoader();
     scriptLoader = new BashSyntaxScriptLoader();
     dialerLoader = new SimpleFormatDialerLoader();
 }

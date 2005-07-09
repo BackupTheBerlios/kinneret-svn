@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modem>
+    <!-- Modem's name -->
+    <name>Foodem</name>
+
+    <!-- The dialer for this modem -->
+    <dialer>
+        <default>pptp_cables_dialer</default>
+        <exceptions count="1">
+            <exception item="1" isp="UltraWeb">pptp_cables_dialer</exception>
+        </exceptions>
+    </dialer>
+
+    <!--
+       - List of modules, each item is a serialization of KernelModule, and can
+       - be passed to fromXML.
+       -->
+    <modules count="2">
+        <module item="1">
+            <name>LeModule</name>
+            <modprobe kernel="2.6">joodee</modprobe>
+        </module>
+        <module item="2">
+            <name>MooMoo</name>
+            <modprobe kernel="2.4">yaakee</modprobe>
+            <modprobe kernel="2.6">woowee</modprobe>
+        </module>
+    </modules>
+</modem>

@@ -137,11 +137,28 @@ namespace Utils {
          * @param level Recursion counter (should not be set manually!)
          */
         void getElementsByTagName(
-                std::vector<const xercesc::DOMElement*> &result,
-                const xercesc::DOMElement *root,
-                std::string tagName,
-                int depth = 1,
-                int level = 0);
+            std::vector<xercesc::DOMElement*> &result,
+            xercesc::DOMElement *root,
+            std::string tagName,
+            int depth = 1,
+            int level = 0);
+
+        /**
+         * This method looks for a single elements that matches the given
+         * name up to the given depth from the root. In case it find more
+         * than on mtching element, a warning message is issued, and the
+         * first element found is returned.
+         *
+         * @param root The root node of the search
+         * @param tagName Name of the tag we're looking
+         * @param depth Maximum depth for the search, default is one.
+         * @return The first element that's found (in case we found more than
+         *         one, or <code>null</code>, in case nothing was found.
+         */
+        xercesc::DOMElement *getLoneElementByTagName(
+            xercesc::DOMElement *root,
+            std::string tagName,
+            int depth = 1);
 
         /**
          * This method extracts the value of an attribute from the given
@@ -152,7 +169,7 @@ namespace Utils {
          * @return Attribute's value (or an empty string if the attribute
          *         doesn't exists).
          */
-        std::string getAttributeValue(const xercesc::DOMElement *node,
+        std::string getAttributeValue(xercesc::DOMElement *node,
             std::string attribute);
 
         /**
@@ -223,8 +240,8 @@ namespace Utils {
          *        example).
          */
         void elementsArrayFromXML(
-                std::vector<const xercesc::DOMElement*> &result,
-                const xercesc::DOMElement *arrayNode,
+                std::vector<xercesc::DOMElement*> &result,
+                xercesc::DOMElement *arrayNode,
                 std::string itemTag,
                 std::string countAttribute = "count",
                 std::string itemAttribute = "item");

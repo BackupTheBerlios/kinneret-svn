@@ -19,55 +19,32 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __SIMPLE_FORMAT_MODEM_LOADER_H__
-#define __SIMPLE_FORMAT_MODEM_LOADER_H__
+#include <xercesc/dom/DOMDocument.hpp>
 
-#include <istream>
+#include "XMLModemLoader.h"
 
-#include "ModemLoader.h"
-#include "Exception.h"
-#include "PsudoEthernetUsbCablesModem.h"
+#include "Utils.h"
 
-#define MAX_LINE 1024
+using namespace std;
+using namespace xercesc;
+using namespace Utils;
+using namespace Utils::DOM;
 
-/**
- * Test class. Do not use in production code.
- */
-class SimpleFormatModemLoader : public ModemLoader {
-public:
-
-    /* --- Constructors --- */
-
-    SimpleFormatModemLoader() : ModemLoader() {
-        Log::debug("SimpleFormatModemLoader created successfully");
-    }
-    
-    virtual ~SimpleFormatModemLoader() {
-        Log::debug("SimpleFormatModemLoader released successfully");
+Modem *XMLModemLoader::loadModem(istream &inStream) const {
+    DOMDocument *document;
+    try {
+        document = Utils::DOM::parseDocumentFromStream(inStream);
+        document->normalizeDocument();
+        removeWhitespaceTextNodes(document->getDocumentElement());
+    } catch (const DOMParseException &ex) {
+        throw LoadException("XMLException, see above");
     }
 
-    /* --- Abstract Methods --- */
-
-    virtual Modem *loadModem(std::istream &inStream) const {
-        Modem *result = 0;
-
-        // Load name
-        char name[MAX_LINE];
-        inStream.getline(name, MAX_LINE, '\n');
-
-        // Load class
-        char modemClass[MAX_LINE];
-        inStream.getline(modemClass, MAX_LINE, '\n');
-
-        std::string mc(modemClass);
-        if (mc == "PsudoEthernetUsbCablesModem") {
-            result = new PsudoEthernetUsbCablesModem(std::string(name));
-        } else {
-            throw LoadException(std::string("Unknown modem: ") + name);
-        }
-
-        return result;
+    try {
+        return new Modem(document->getDocumentElement());
+    } catch (const XMLReadable::XMLSerializationException &ex) {
+        Log::error("Got XMLSerializationException while creating Isp...");
+        throw LoadException(ex.what());
     }
-};
+}
 
-#endif

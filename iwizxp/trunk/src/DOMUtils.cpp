@@ -100,8 +100,28 @@ bool Utils::DOM::isIgnoreable(DOMNode *node) {
     return true;
 }
 
-void Utils::DOM::getElementsByTagName(vector<const DOMElement*> &result,
-        const DOMElement *root, string tagName, int depth, int level) {
+DOMElement *Utils::DOM::getLoneElementByTagName(DOMElement *root,
+        string tagName, int depth) {
+    vector<DOMElement*> matchingNodes;
+    getElementsByTagName(matchingNodes, root, tagName, depth);
+
+    // Warn, if more than one node found
+    if (matchingNodes.size() > 1) {
+        Log::warning(string("More than one <" + tagName + "> tag found, using" 
+            " first."));
+    }
+
+    // Return null if nothing was found
+    if (matchingNodes.size() <= 0) {
+        return 0;
+    }
+
+    // Return the first element
+    return matchingNodes[0];
+}
+
+void Utils::DOM::getElementsByTagName(vector<DOMElement*> &result,
+        DOMElement *root, string tagName, int depth, int level) {
     if (root == 0) {
         return;
     }
@@ -132,8 +152,7 @@ void Utils::DOM::getElementsByTagName(vector<const DOMElement*> &result,
     }
 }
 
-string Utils::DOM::getAttributeValue(const DOMElement *node,
-        string attribute) {
+string Utils::DOM::getAttributeValue(DOMElement *node, string attribute) {
     DOMNamedNodeMap *nodeAttributes = node->getAttributes();
 
     if (nodeAttributes == 0) {
@@ -151,8 +170,8 @@ string Utils::DOM::getAttributeValue(const DOMElement *node,
 }
 
 void Utils::DOM::elementsArrayFromXML(
-        vector<const DOMElement*> &result,
-        const DOMElement *arrayNode,
+        vector<DOMElement*> &result,
+        DOMElement *arrayNode,
         string itemTag,
         string countAttribute,
         string itemAttribute) {

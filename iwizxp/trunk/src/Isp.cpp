@@ -44,59 +44,22 @@ Isp::~Isp() {
     Log::debug(string("Isp: ") + name + " released successfully");
 }
 
-void Isp::fromXML(const DOMElement *root) {
-    extractNameFromXML(root);
+void Isp::fromXML(DOMElement *root) {
+    NamedXMLReadable::fromXML(root);
     extractDnsServersFromXML(root);
     extractConnectionMethodsFromXML(root);
 }
 
-void Isp::extractNameFromXML(const xercesc::DOMElement *root) {
-    vector<const DOMElement*> rootNameNodes;
-    getElementsByTagName(rootNameNodes, root, "name", 1);
+void Isp::extractDnsServersFromXML(xercesc::DOMElement *root) {
+    DOMElement *dnsServerNode = getLoneElementByTagName(root, "dns");
 
-    // Warn, if more than one node found
-    if (rootNameNodes.size() > 1) {
-        Log::warning(string("More than one <name> tag found, using first."));
-    }
-
-    if (rootNameNodes.size() <= 0) {
-        throw XMLSerializationException("No <name> tag found!");
-    }
-
-    // Take the first
-    const DOMElement *nameTag = rootNameNodes[0];
-
-    if (nameTag == 0) {
-        throw XMLSerializationException("Couldn't get <name> tag element!");
-    }
-
-    // Extract and trim its text content.
-    name = xts(nameTag->getTextContent(), true);
-            
-    Log::debug(string("Isp's name: ") + name);
-}
-
-void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root) {
-    vector<const DOMElement*> dnsServerNodes;
-    getElementsByTagName(dnsServerNodes, root, "dns", 1);
-
-    // Warn, if more than one node found
-    if (dnsServerNodes.size() > 1) {
-        Log::warning(string("More than one <dns> tag found, using first."));
-    }
-
-    if (dnsServerNodes.size() <= 0) {
+    if (dnsServerNode == 0) {
         throw XMLSerializationException("No <dns> tag found!");
     }
 
-    const DOMElement *dnsElement = dnsServerNodes[0];
-    if (dnsElement == 0) {
-        throw XMLSerializationException("Couldn't get <dns> tag element!");
-    }
-
     // Get a sorted list of servers
-    vector<const DOMElement*> items;
-    elementsArrayFromXML(items, dnsElement, "server");
+    vector<DOMElement*> items;
+    elementsArrayFromXML(items, dnsServerNode, "server");
 
     // And add them
     for (int i = 0 ; i < items.size() ; i++) {
@@ -108,36 +71,26 @@ void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root) {
     }
 }
 
-void Isp::extractConnectionMethodsFromXML(const xercesc::DOMElement *root) {
-    vector<const DOMElement*> methodNodes;
-    getElementsByTagName(methodNodes, root, "methods", 1);
+void Isp::extractConnectionMethodsFromXML(xercesc::DOMElement *root) {
+    DOMElement *methodNode = getLoneElementByTagName(root, "methods");
 
-    // Warn, if more than one node found
-    if (methodNodes.size() > 1) {
-        Log::warning(string("More than one <method> tag found, using first."));
-    }
-
-    if (methodNodes.size() <= 0) {
+    if (methodNode == 0) {
         throw XMLSerializationException("No <methods> tag found!");
     }
 
-    const DOMElement *methodsElement = methodNodes[0];
-    if (methodsElement == 0) {
-        throw XMLSerializationException("Couldn't get <methods> tag element!");
-    }
-
     // Get a sorted list of servers
-    vector<const DOMElement*> items;
-    elementsArrayFromXML(items, methodsElement, "method");
+    vector<DOMElement*> items;
+    elementsArrayFromXML(items, methodNode, "method");
 
     // And add them
     for (int i = 0 ; i < items.size() ; i++) {
         if (items[i] != 0) {
+            // TODO: Refactor-extract method: loadConnectionMethod or use a
+            // factory
             string methodType = getAttributeValue(items[i], "type");
             if (methodType == "Cables") {
                 if (items[i]->getNodeType() == DOMNode::ELEMENT_NODE) {
-                    const DOMElement *element =
-                        dynamic_cast<const DOMElement*>(items[i]);
+                    DOMElement *element = dynamic_cast<DOMElement*>(items[i]);
 
                     if (element == 0) {
                         Log::error("Object-type mismatch");

@@ -64,8 +64,17 @@ void ArgumentsScript::setModem(const Modem *modem) {
             }
             
             // Add module to the list
-            modules2_4 << (*iter)->getName(KernelModule::LINUX2_4);
-            modules2_6 << (*iter)->getName(KernelModule::LINUX2_6);
+            try {
+                modules2_4 << (*iter)->getName(KernelModule::LINUX2_4);
+            } catch (KernelModule::FeatureNotSupportedException &ex) {
+                // Nothing, leave blank
+            }
+
+            try {
+                modules2_6 << (*iter)->getName(KernelModule::LINUX2_6);
+            } catch (KernelModule::FeatureNotSupportedException &ex) {
+                // Nothing, leave blank
+            }
         } catch (KernelModule::FeatureNotSupportedException &ex) {
             Log::warning((*iter)->toString() + " is not supported under the "
                 "selected kernel, skipping.");

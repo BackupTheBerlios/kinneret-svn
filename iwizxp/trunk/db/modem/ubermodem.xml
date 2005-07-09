@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modem>
+    <!-- Modem's name -->
+    <name>UberModem</name>
+
+    <!-- The dialer for this modem -->
+    <dialer>
+        <default>pptp_cables_dialer</default>
+        <exceptions count="1">
+            <exception item="1" isp="UberNET">pptp_cables_dialer</exception>
+        </exceptions>
+    </dialer>
+
+    <!--
+       - List of modules, each item is a serialization of KernelModule, and can
+       - be passed to fromXML.
+       -->
+    <modules count="1">
+        <module item="1">
+            <name>Psudo-ethernet USB device</name>
+            <modprobe kernel="2.4">CDCEther</modprobe>
+            <modprobe kernel="2.6">usbnet</modprobe>
+        </module>
+    </modules>
+</modem>

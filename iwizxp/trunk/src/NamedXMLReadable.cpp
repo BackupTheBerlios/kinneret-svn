@@ -19,9 +19,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Cables.h"
+#include "NamedXMLReadable.h"
 
 #include "Utils.h"
+#include "Log.h"
 #include "xts.h"
 
 using namespace std;
@@ -29,31 +30,20 @@ using namespace xercesc;
 using namespace Utils;
 using namespace Utils::DOM;
 
-void Cables::fromXML(DOMElement *root) {
-    extractGatewayFromXML(root);
-    extractDialingDestinationFromXML(root);
+void NamedXMLReadable::fromXML(xercesc::DOMElement *root) {
+    extractNameFromXML(root);
 }
 
-void Cables::extractGatewayFromXML(DOMElement *root) {
-    DOMElement *gatewayNode = getLoneElementByTagName(root, "gateway");
-    
-    if (gatewayNode == 0) {
-        throw XMLSerializationException("No <gateway> element!");
+void NamedXMLReadable::extractNameFromXML(xercesc::DOMElement *root) {
+    const DOMElement *nameTag = getLoneElementByTagName(root, "name");
+
+    if (nameTag == 0) {
+        throw XMLSerializationException("Couldn't get <name> tag element!");
     }
 
-    defaultGateway = xts(gatewayNode->getTextContent(), true);
-    Log::debug("Default Gateway: " + defaultGateway);
-}
-
-void Cables::extractDialingDestinationFromXML(DOMElement *root) {
-    DOMElement *destinationNode = getLoneElementByTagName(root,
-        "destination");
-
-    if (destinationNode == 0) {
-        throw XMLSerializationException("No <destination> element!");
-    }
-
-    dialingDestination = xts(destinationNode->getTextContent(), true);
-    Log::debug("Dialing Destination: " + dialingDestination);
+    // Extract and trim its text content.
+    setName(xts(nameTag->getTextContent(), true));
+            
+    Log::debug(string("Name: ") + getName());
 }
 

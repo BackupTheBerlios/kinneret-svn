@@ -19,41 +19,58 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Cables.h"
+#ifndef __NAMED_XML_READABLE_H__
+#define __NAMED_XML_READABLE_H__
 
-#include "Utils.h"
-#include "xts.h"
+#include "Nameable.h"
+#include "XMLReadable.h"
 
-using namespace std;
-using namespace xercesc;
-using namespace Utils;
-using namespace Utils::DOM;
+/**
+ * TODO: JavaDocs
+ */
+class NamedXMLReadable : public Nameable, public XMLReadable {
+public:
 
-void Cables::fromXML(DOMElement *root) {
-    extractGatewayFromXML(root);
-    extractDialingDestinationFromXML(root);
-}
+    /* --- Constructors ---- */
 
-void Cables::extractGatewayFromXML(DOMElement *root) {
-    DOMElement *gatewayNode = getLoneElementByTagName(root, "gateway");
-    
-    if (gatewayNode == 0) {
-        throw XMLSerializationException("No <gateway> element!");
+    /**
+     * Constructor.
+     * TODO: JavaDocs
+     */
+    NamedXMLReadable(const std::string name) : Nameable(name), XMLReadable() {
+        // Nothing to do
     }
 
-    defaultGateway = xts(gatewayNode->getTextContent(), true);
-    Log::debug("Default Gateway: " + defaultGateway);
-}
-
-void Cables::extractDialingDestinationFromXML(DOMElement *root) {
-    DOMElement *destinationNode = getLoneElementByTagName(root,
-        "destination");
-
-    if (destinationNode == 0) {
-        throw XMLSerializationException("No <destination> element!");
+    /**
+     * TODO: JavaDocs
+     */
+    NamedXMLReadable() : Nameable(""), XMLReadable() {
+        // Nothing to do
     }
 
-    dialingDestination = xts(destinationNode->getTextContent(), true);
-    Log::debug("Dialing Destination: " + dialingDestination);
-}
+    /**
+     * Destructor.
+     * TODO: JavaDocs
+     */
+    virtual ~NamedXMLReadable() {
+        // Nothing to do
+    }
 
+    /* --- Inherited from XMLReadable --- */
+
+    /**
+     * TODO: JavaDocs
+     */
+    virtual void fromXML(xercesc::DOMElement *root);
+
+private:
+
+    /* --- Helper Methods --- */
+
+    /**
+     * TODO: JavaDocs
+     */
+    void extractNameFromXML(xercesc::DOMElement *root);
+};
+
+#endif
