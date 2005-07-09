@@ -84,9 +84,7 @@ int main() {
         Modem *modem = 
             selectFromList(Database::getInstance()->getModems(),
             "Select a modem:");
-        // TODO: resolv kernel and ask
-        ArgumentsScript::getInstance()->setModem(modem,
-            KernelModule::LINUX2_6);
+        ArgumentsScript::getInstance()->setModem(modem);
 
         Dialer *dialer = modem->getDialer(isp);
 
