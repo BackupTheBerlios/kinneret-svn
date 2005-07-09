@@ -28,19 +28,15 @@
 using namespace std;
 using namespace xercesc;
 using namespace Utils;
+using namespace Utils::DOM;
 
 Isp *XMLIspLoader::loadIsp(istream &inStream) const {
     DOMDocument *document;
     try {
-        document = Utils::documentFromStream(inStream);
-    } catch (const XMLException &ex) {
-        xmlExceptionOccured(ex);
-        throw LoadExcpetion("XMLException, see above");
-    } catch (const DOMException &ex) {
-        xmlExceptionOccured(ex);
-        throw LoadExcpetion("XMLException, see above");
-    } catch (const SAXException &ex) {
-        xmlExceptionOccured(ex);
+        document = Utils::DOM::parseDocumentFromStream(inStream);
+        document->normalizeDocument();
+        removeWhitespaceTextNodes(document->getDocumentElement());
+    } catch (const DOMParseException &ex) {
         throw LoadExcpetion("XMLException, see above");
     }
 

@@ -28,6 +28,7 @@
 #include "GlobalRepository.h"
 
 #include "Utils.h"
+#include "xts.h"
 #include "XMLIspLoader.h"
 #include "SimpleFormatModemLoader.h"
 #include "BashSyntaxScriptLoader.h"
@@ -58,7 +59,7 @@ void GlobalRepository::setupXerces() {
     try {
         XMLPlatformUtils::Initialize();
     } catch (const XMLException &ex) {
-        Utils::xmlExceptionOccured(ex);
+        Utils::DOM::xmlExceptionOccured(ex);
         // TODO: Something smart
     }
 
@@ -75,6 +76,8 @@ void GlobalRepository::setupXerces() {
     domBuilder = domImplementation->createDOMBuilder(
         DOMImplementationLS::MODE_SYNCHRONOUS, 0);
 
+    domBuilder->setFeature(Utils::xts("comments"), false);
+    domBuilder->setFeature(Utils::xts("whitespace-in-element-content"), false);
 }
 
 void GlobalRepository::releaseXerces() {

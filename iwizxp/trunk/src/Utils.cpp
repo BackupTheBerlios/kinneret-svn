@@ -25,12 +25,7 @@
 
 #include <sstream>
 
-#include <xercesc/dom/DOMNode.hpp>
-#include <xercesc/framework/Wrapper4InputSource.hpp>
-#include <xercesc/framework/MemBufInputSource.hpp>
-
 #include "Utils.h"
-#include "xts.h"
 
 #include "GlobalRepository.h"
 #include "Log.h"
@@ -39,7 +34,6 @@
 #define ERROR_BUFFER_SIZE 1024
 
 using namespace std;
-using namespace xercesc;
 using namespace Utils;
 
 string Utils::readStreamAsString(istream &inStream) {
@@ -50,39 +44,6 @@ string Utils::readStreamAsString(istream &inStream) {
     }
 
     return result.str();
-}
-
-DOMDocument *Utils::documentFromStream(istream &inStream) {
-    // Calculate stream length
-    istream::pos_type location = inStream.tellg();
-    inStream.seekg(0, ios::end);
-    istream::pos_type streamLength = inStream.tellg() - location;
-    inStream.seekg(location, ios::beg);
-
-    // Allocate buffer and read stream
-    char *xmlBuffer = new char[streamLength];
-    inStream.read(xmlBuffer, streamLength);
-
-    // Parse from memory
-    try {
-        DOMBuilder *builder = GlobalRepository::getInstance()->getDOMBuilder();
-        // MemBufInputSource adopts xmlBuffer
-        MemBufInputSource *memBuf = new MemBufInputSource(
-            reinterpret_cast<XMLByte*>(xmlBuffer), streamLength,
-                "StreamDocument", true);
-        
-        // Wrapper4InputSource adopts the MemBufInputSource
-        return builder->parse(Wrapper4InputSource(memBuf));
-    } catch (const XMLException &ex) {
-        xmlExceptionOccured(ex);
-        // TODO: Something smart
-    } catch (const DOMException &ex) {
-        xmlExceptionOccured(ex);
-        // TODO: Something smart
-    } catch (const SAXException &ex) {
-        xmlExceptionOccured(ex);
-        // TODO: Something smart
-    }
 }
 
 vector<string> Utils::enumDirectory(string directory) {
@@ -173,123 +134,4 @@ vector<string> Utils::executeRegex(const string &regexString,
     regfree(&compiledRegex);
 
     return result;
-}
-
-void Utils::xmlExceptionOccured(const XMLException &ex) {
-    ostringstream message;
-    message << "XMLException Occured:\n" <<
-        "\tfile: " << ex.getSrcFile() << "\n" <<
-        "\tline: " << ex.getSrcLine() << "\n";
-
-    char *errorMessage = XMLString::transcode(ex.getMessage());
-    message << "Message is:\n" << errorMessage;
-
-    Log::error(message.str());
-    
-    XMLString::release(&errorMessage);
-}
-
-void Utils::xmlExceptionOccured(const SAXException &ex) {
-    char *message = XMLString::transcode(ex.getMessage());
-    Log::error(string("SAXException Occured, Message is:\n") +
-            message);
-    XMLString::release(&message);
-}
-
-void Utils::xmlExceptionOccured(const DOMException &ex) {
-    char *message = XMLString::transcode(ex.msg);
-    Log::error(string("DOMException Occured, Message is:\n") +
-            message);
-    XMLString::release(&message);
-}
-
-void Utils::getElementsByTagName(vector<const DOMNode*> &result,
-        const DOMNode *root, string tagName, int depth, int level) {
-    // Stop condition
-    if ((level > depth) || (root == 0)) {
-        return;
-    }
-
-    // Check match
-    if (xts(root->getNodeName()).asString() == tagName) {
-        result.push_back(root);
-    }
-
-    // Get inside
-    if (root->hasChildNodes()) {
-        getElementsByTagName(result, root->getFirstChild(),
-            tagName, depth, level + 1);
-    }
-
-    // Next, pnly under root, not alongside it.
-    if (level > 0) {
-        getElementsByTagName(result, root->getNextSibling(),
-            tagName, depth, level);
-    }
-}
-
-string Utils::getAttribute(const DOMNode *node, string attribute) {
-    DOMNamedNodeMap *nodeAttributes = node->getAttributes();
-
-    if (nodeAttributes == 0) {
-        Log::debug("Not a DOMElement - no attributes");
-        return "";
-    }
-    
-    DOMNode *attributeNode = nodeAttributes->getNamedItem(xts(attribute));
-    if (attributeNode == 0) {
-        Log::debug("Couldn't find " + attribute + " attribute.");
-        return "";
-    } else {
-        return xts(attributeNode->getTextContent());
-    }
-}
-
-void Utils::sortXMLList(vector<const DOMNode*> &result,
-        const DOMNode *listNode,
-        string itemTag,
-        string countAttribute,
-        string itemAttribute) {
-
-    string countAttributeValue = getAttribute(listNode, countAttribute);
-
-    if (countAttributeValue.length() == 0) {
-        Log::debug(xts(listNode->getNodeName()).asString() + " has no '" +
-            countAttribute + "' attribute!");
-        return;
-    }
-
-    const int count = atoi(countAttributeValue.c_str());
-
-    if (!listNode->hasChildNodes()) {
-        Log::debug("Empty list");
-        return;
-    }
-
-    // Resize vector
-    result.empty();
-    result.resize(count);
-    for (int i = 0 ; i < count ; i++) {
-        result[i] = 0;
-    }
-    
-    DOMNode *child = listNode->getFirstChild();
-
-    while (child != 0) {
-        if (xts(child->getNodeName()).asString() != itemTag) {
-            // Wrong tag name
-        } else {
-            string itemNumber = getAttribute(child, itemAttribute);
-            
-            // Check attribute
-            if (itemNumber.length() == 0) {
-                // No item attribute
-                Log::debug("No '" + itemAttribute + "' attribute, ignoring.");
-            } else {
-                // Get item and add node
-                result[atoi(itemNumber.c_str()) - 1] = child;
-            }
-        }
-        child = child->getNextSibling();
-    }
 }

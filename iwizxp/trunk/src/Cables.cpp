@@ -27,6 +27,7 @@
 using namespace std;
 using namespace xercesc;
 using namespace Utils;
+using namespace Utils::DOM;
 
 void Cables::fromXML(const DOMElement *root) {
     extractGatewayFromXML(root);
@@ -34,7 +35,7 @@ void Cables::fromXML(const DOMElement *root) {
 }
 
 void Cables::extractGatewayFromXML(const DOMElement *root) {
-    vector<const DOMNode*> gatewayNodes;
+    vector<const DOMElement*> gatewayNodes;
     getElementsByTagName(gatewayNodes, root, "gateway");
 
     if (gatewayNodes.size() == 0) {
@@ -48,7 +49,7 @@ void Cables::extractGatewayFromXML(const DOMElement *root) {
 }
 
 void Cables::extractDialingDestinationFromXML(const DOMElement *root) {
-    vector<const DOMNode*> destinationNodes;
+    vector<const DOMElement*> destinationNodes;
     getElementsByTagName(destinationNodes, root, "destination");
 
     if (destinationNodes.size() == 0) {

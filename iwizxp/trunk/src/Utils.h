@@ -61,6 +61,8 @@ namespace Utils {
      * @throws DirectoryEnumerationException Thrown when the given directory
      *         could not be enumerated. The exception contains in
      *         <code>what()</code> the reason.
+     *
+     * TODO: Support name pattern-match using regex :)
      */
     std::vector<std::string> enumDirectory(std::string directory);
 
@@ -84,49 +86,170 @@ namespace Utils {
         const std::string &matchString, int maxResults);
 
     /**
-     * TODO
+     * The DOM namespace holds all kind of helper methods for handling DOM
+     * trees.
      */
-    xercesc::DOMDocument *documentFromStream(std::istream &inStream);
+    namespace DOM {
+        /**
+         * Thrown by parsing method that cannot parse.
+         */
+        NewException(DOMParseException);
+        
+        /**
+         * This method reads the entire given stream, and attempts to parse
+         * it as an XML document.
+         *
+         * Note that the stream is read entirely, and not rewinded. This
+         * means that information in the stream will not be available to
+         * anyone after this method, unless the stream is rewinded using
+         * <code>seekg()</code> or something similar.
+         * 
+         * @param inStream The input stream to read the XML document from.
+         * @return The DOM representation of the documents that was in the
+         *         stream.
+         * @throws DOMParseException Thrown when the parser isn't available
+         *         from the global repository, or when the parser could not
+         *         parse the given stream.
+         */
+        xercesc::DOMDocument *parseDocumentFromStream(std::istream &inStream);
 
-    /**
-     * TODO
-     */
-    void getElementsByTagName(
-        std::vector<const xercesc::DOMNode*> &result,
-        const xercesc::DOMNode *root,
-        std::string tagName,
-        int depth = 1,
-        int level = 0);
-    
-    /**
-     * TODO
-     */
-    void xmlExceptionOccured(const xercesc::XMLException &ex);
+        /**
+         * TODO: JavaDocs
+         */
+        void removeWhitespaceTextNodes(xercesc::DOMNode *node);
 
-    /**
-     * TODO
-     */
-    void xmlExceptionOccured(const xercesc::SAXException &ex);
-    
-    /**
-     * TODO
-     */
-    void xmlExceptionOccured(const xercesc::DOMException &ex);
+        /**
+         * TODO: JavaDocs
+         */
+        bool isIgnoreable(xercesc::DOMNode *node);
 
-    /**
-     * TODO
-     */
-    std::string getAttribute(const xercesc::DOMNode *node,
-        std::string attribute);
+        /**
+         * This method traverses the given tree up to a certain depth, and looks
+         * for elements with the given name.
+         *
+         * @param result Result vector to store the elements found. Note that
+         *        the vector will not be emptied upon calling this method.
+         *        Elements are appended at the end of the vector (using
+         *        <code>push_back()</code>).
+         * @param root The root node, with represents level 0.
+         * @param tagName The name of the tag that is looked for
+         * @param depth Maximum depth to get into. Default is one level.
+         * @param level Recursion counter (should not be set manually!)
+         */
+        void getElementsByTagName(
+                std::vector<const xercesc::DOMElement*> &result,
+                const xercesc::DOMElement *root,
+                std::string tagName,
+                int depth = 1,
+                int level = 0);
 
-    /**
-     * TODO
-     */
-    void sortXMLList(std::vector<const xercesc::DOMNode*> &result,
-        const xercesc::DOMNode *listNode,
-        std::string itemTag,
-        std::string countAttribute = "count",
-        std::string itemAttribute = "item");
+        /**
+         * This method extracts the value of an attribute from the given
+         * element.
+         *
+         * @param node Element with atrribute(s).
+         * @param attribute Requested attribute's name
+         * @return Attribute's value (or an empty string if the attribute
+         *         doesn't exists).
+         */
+        std::string getAttributeValue(const xercesc::DOMElement *node,
+            std::string attribute);
+
+        /**
+         * This method builds a sorted array of <code>DOMElement</code>s from
+         * the special structure defined in the XML for an array.
+         *
+         * Example:
+         * The XML document:
+         * <pre>
+         * &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+         * &lt;document&gt;
+         * &nbsp;&lt;someArray count="3"&gt;
+         * &nbsp;&nbsp;&lt;someItem item="1"&gt;someValue1&lt;/someItem&gt;
+         * &nbsp;&nbsp;&lt;someItem item="3"&gt;someValue3&lt;/someItem&gt;
+         * &nbsp;&nbsp;&lt;foo&gt;bar&lt;/foo&gt;
+         * &nbsp;&nbsp;&lt;someItem item="2"&gt;someValue2&lt;/someItem&gt;
+         * &nbsp;&lt;/someArray&gt;
+         * &lt;/document&gt;
+         * </pre>
+         * When passed to this method, with:
+         * <pre>
+         * arrayNode == someArray's DOMElement
+         * itemTag == "someItem"
+         * countAttribute == "count"
+         * itemAttribute == "item"
+         * </pre>
+         * Results in:
+         * <pre>
+         * result.size() == 3
+         * result[0]-&gt;getTextContent() == "someValue1"
+         * result[1]-&gt;getTextContent() == "someValue2"
+         * result[2]-&gt;getTextContent() == "someValue3"
+         * </pre>
+         * Even though the elements are not sorted correctly in the document
+         * and there were unrelated elements in the middle of the list (they
+         * are simply ignored).
+         *
+         * <b>Note</b>: The count in the XML is one-based, while zero-based in
+         * the result vector.
+         *
+         * In case of format failure in the array element, <code>result</code>
+         * will hold an empty vector of unknown length.
+         *
+         * In case of format failure in one of the elements, its entry in the
+         * vector will hold <code>null</code>.
+         *
+         * @param result Vector to store the results in. <b>Note</b>: The
+         *        given <code>vector</code> will be emptied and resized - Data
+         *        in the vector will be lost!
+         * @param arrayNode The node that begin the array (someArray's
+         *        element in the example). This elements must have the
+         *        attribute <code>countAttribute</code> that holds a valid
+         *        decimal number representation that could be parsed using
+         *        <code>atoi()</code> to an integer. Value of this attribute
+         *        must match exactly the number of <code>itemTag</code>s
+         *        under <code>arrayNode</code>.
+         * @param itemTag The name of the tag of the elements that's under
+         *        <code>arrayNode</code> that are list elements
+         *        (<code>someItem</code> in the example).
+         * @param countAttribute The name of the attribute found in
+         *        <code>arrayNode</code> that holds the decimal
+         *        representation of the number of elements in this array
+         *        (<code>count</code> by default, and in the example).
+         * @param itemAttribute The name of the attribute found under each
+         *        <code>itemTag</code> that holds the representation of the
+         *        index of the elements in the array. This value should be
+         *        <i>one-based</i> (<code>item</code> by default, and in the
+         *        example).
+         */
+        void elementsArrayFromXML(
+                std::vector<const xercesc::DOMElement*> &result,
+                const xercesc::DOMElement *arrayNode,
+                std::string itemTag,
+                std::string countAttribute = "count",
+                std::string itemAttribute = "item");
+
+        /**
+         * Logs a nice error message to the logger.
+         *
+         * @param ex Exception to log.
+         */
+        void xmlExceptionOccured(const xercesc::XMLException &ex);
+
+        /**
+         * Logs a nice error message to the logger.
+         *
+         * @param ex Exception to log.
+         */
+        void xmlExceptionOccured(const xercesc::SAXException &ex);
+
+        /**
+         * Logs a nice error message to the logger.
+         *
+         * @param ex Exception to log.
+         */
+        void xmlExceptionOccured(const xercesc::DOMException &ex);
+    }
 }
 
 #endif

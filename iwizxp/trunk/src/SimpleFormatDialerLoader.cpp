@@ -59,6 +59,9 @@ Dialer *SimpleFormatDialerLoader::loadDialer(istream &inStream) const {
         Log::debug(string("Loading: ") + fileName);
 
         ifstream file(fileName.c_str());
+        if (!file) {
+            throw LoadException(fileName + " cannot be opened.");
+        }
 
         try {
             script = GlobalRepository::getInstance()->
@@ -73,12 +76,19 @@ Dialer *SimpleFormatDialerLoader::loadDialer(istream &inStream) const {
         result->addConnectionScript(script);
     }
 
+    Log::debug("--- Disconnection ---");
+
     inStream >> count;
     inStream.ignore(MAX_LINE, '\n');
 
     for (int i = 0 ; i < count ; i++) {
         inStream.getline(name, MAX_LINE, '\n');
         Script *script;
+
+        if (string(name) == ArgumentsScript::getInstance()->getFunctionName()) {
+            result->addConnectionScript(ArgumentsScript::getInstance());
+            continue;
+        }
 
         string fileName(GlobalRepository::getInstance()->
                 getDbBasePath() + "/script/" + name);

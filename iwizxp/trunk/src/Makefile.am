@@ -14,5 +14,6 @@ iwizxp_SOURCES = Modem.cpp \
 				 ArgumentsScript.cpp \
 				 XMLIspLoader.cpp \
 				 xts.cpp \
-				 Cables.cpp
+				 Cables.cpp \
+				 DOMUtils.cpp
 iwizxp_INCLUDES = -I$(top_srcdir)/src

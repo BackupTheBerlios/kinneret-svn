@@ -31,6 +31,7 @@
 using namespace std;
 using namespace xercesc;
 using namespace Utils;
+using namespace Utils::DOM;
 
 Isp::~Isp() {
     std::vector<ConnectionMethod*>::iterator iter;
@@ -50,7 +51,7 @@ void Isp::fromXML(const DOMElement *root) {
 }
 
 void Isp::extractNameFromXML(const xercesc::DOMElement *root) {
-    vector<const DOMNode*> rootNameNodes;
+    vector<const DOMElement*> rootNameNodes;
     getElementsByTagName(rootNameNodes, root, "name", 1);
 
     // Warn, if more than one node found
@@ -58,8 +59,13 @@ void Isp::extractNameFromXML(const xercesc::DOMElement *root) {
         Log::warning(string("More than one <name> tag found, using first."));
     }
 
+    if (rootNameNodes.size() <= 0) {
+        throw XMLSerializationException("No <name> tag found!");
+    }
+
     // Take the first
-    const DOMNode *nameTag = rootNameNodes[0];
+    const DOMElement *nameTag = rootNameNodes[0];
+
     if (nameTag == 0) {
         throw XMLSerializationException("Couldn't get <name> tag element!");
     }
@@ -71,7 +77,7 @@ void Isp::extractNameFromXML(const xercesc::DOMElement *root) {
 }
 
 void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root) {
-    vector<const DOMNode*> dnsServerNodes;
+    vector<const DOMElement*> dnsServerNodes;
     getElementsByTagName(dnsServerNodes, root, "dns", 1);
 
     // Warn, if more than one node found
@@ -79,14 +85,18 @@ void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root) {
         Log::warning(string("More than one <dns> tag found, using first."));
     }
 
-    const DOMNode *dnsElement = dnsServerNodes[0];
+    if (dnsServerNodes.size() <= 0) {
+        throw XMLSerializationException("No <dns> tag found!");
+    }
+
+    const DOMElement *dnsElement = dnsServerNodes[0];
     if (dnsElement == 0) {
         throw XMLSerializationException("Couldn't get <dns> tag element!");
     }
 
     // Get a sorted list of servers
-    vector<const DOMNode*> items;
-    sortXMLList(items, dnsElement, "server");
+    vector<const DOMElement*> items;
+    elementsArrayFromXML(items, dnsElement, "server");
 
     // And add them
     for (int i = 0 ; i < items.size() ; i++) {
@@ -99,7 +109,7 @@ void Isp::extractDnsServersFromXML(const xercesc::DOMElement *root) {
 }
 
 void Isp::extractConnectionMethodsFromXML(const xercesc::DOMElement *root) {
-    vector<const DOMNode*> methodNodes;
+    vector<const DOMElement*> methodNodes;
     getElementsByTagName(methodNodes, root, "methods", 1);
 
     // Warn, if more than one node found
@@ -107,19 +117,23 @@ void Isp::extractConnectionMethodsFromXML(const xercesc::DOMElement *root) {
         Log::warning(string("More than one <method> tag found, using first."));
     }
 
-    const DOMNode *methodsElement = methodNodes[0];
+    if (methodNodes.size() <= 0) {
+        throw XMLSerializationException("No <methods> tag found!");
+    }
+
+    const DOMElement *methodsElement = methodNodes[0];
     if (methodsElement == 0) {
         throw XMLSerializationException("Couldn't get <methods> tag element!");
     }
 
     // Get a sorted list of servers
-    vector<const DOMNode*> items;
-    sortXMLList(items, methodsElement, "method");
+    vector<const DOMElement*> items;
+    elementsArrayFromXML(items, methodsElement, "method");
 
     // And add them
     for (int i = 0 ; i < items.size() ; i++) {
         if (items[i] != 0) {
-            string methodType = getAttribute(items[i], "type");
+            string methodType = getAttributeValue(items[i], "type");
             if (methodType == "Cables") {
                 if (items[i]->getNodeType() == DOMNode::ELEMENT_NODE) {
                     const DOMElement *element =
