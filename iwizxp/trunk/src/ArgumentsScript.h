@@ -33,7 +33,6 @@
 
 /**
  * TODO: Explain singleton
- * This 
  *
  * This class represents the script that sets all of the user arguments. This
  * is the first script called for every connection, setting all the user
@@ -119,12 +118,8 @@ public:
      *
      * @param modem The modem that the user wishes to connect with.
      * @param kernelClass The target kernel this script is going to run on.
-     *
-     * TODO: Why won't set two variables, one with the 2.4 names, and one
-     * with the 2.6 names, and let the script decide at runtime which to
-     * load?
      */
-    void setModem(const Modem *modem, KernelModule::KernelClass kernelClass);
+    void setModem(const Modem *modem);
 
     /**
      * Sets connection method related variables.

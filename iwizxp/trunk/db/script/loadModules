@@ -4,7 +4,24 @@
 # Relies on $modules.
 ##
 loadModules() {
-    if [ -n $modules ]; then
+    kernel="`uname -r | cut -d. -f-2`"
+
+    case "$kernel" in
+        2.4)
+        echo "Found 2.4 kernel"
+        modules="$modules2_4"
+        ;;
+
+        2.6)
+        echo "Found 2.6 kernel"
+        modules="$modules2_6"
+        ;;
+        *)
+        errorExit "Unknown kernel $kernel."
+        modules=""
+    esac
+    
+    if [ -n "$modules" ]; then
         for module in $modules; do
             echo -n "Loading $module... "
             $modprobe $module
