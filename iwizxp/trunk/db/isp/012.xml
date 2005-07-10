@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<isp>
+    <name>012.net</name>
+
+    <!-- DNS Servers -->
+    <dns count="2">
+        <server item="1">212.117.129.3</server>
+        <server item="2">212.117.128.6</server>
+    </dns>
+
+    <!-- Connection Methods -->
+    <methods count="2">
+        <method item="1" type="Cables">
+            <gateway>cablepns.012.net.il</gateway>
+            <destination>cablepns.012.net.il</destination>
+        </method>
+        <method item="2" type="Dialup">
+            <servers count="5">
+                <server item="1">
+                    <location>Jerusalem</location>
+                    <number>02-5692888</number>
+                </server>
+                <server item="2">
+                    <location>Center</location>
+                    <number>03-9299012</number>
+                </server>
+                <server item="3">
+                    <location>North</location>
+                    <number>04-8138555</number>
+                </server>
+                <server item="4">
+                    <location>Sharon</location>
+                    <number>09-8605012</number>
+                </server>
+                <server item="5">
+                    <location>South</location>
+                    <number>08-9308012</number>
+                </server>
+            </servers>
+        </method>
+    </methods>
+</isp>

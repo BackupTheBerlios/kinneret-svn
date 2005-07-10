@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<isp>
+    <name>Bezeqint@net</name>
+
+    <!-- DNS Servers -->
+    <dns count="2">
+        <server item="1">192.114.47.4</server>
+        <server item="2">192.114.47.52</server>
+    </dns>
+
+    <!-- Connection Methods -->
+    <methods count="2">
+        <method item="1" type="Cables">
+            <gateway>192.117.122.13</gateway>
+            <destination>192.117.122.13</destination>
+        </method>
+        <method item="2" type="Dialup">
+            <servers count="6">
+                <server item="1">
+                    <location>Jerusalem</location>
+                    <number>02-5414888</number>
+                </server>
+                <server item="2">
+                    <location>Tel-Aviv</location>
+                    <number>03-7251111</number>
+                </server>
+                <server item="3">
+                    <location>Petah Tikwa</location>
+                    <number>03-9277777</number>
+                </server>
+                <server item="4">
+                    <location>Haifa</location>
+                    <number>04-8137777</number>
+                </server>
+                <server item="5">
+                    <location>Sharon</location>
+                    <number>09-7755555</number>
+                </server>
+                <server item="6">
+                    <location>South</location>
+                    <number>08-9126666</number>
+                </server>
+            </servers>
+        </method>
+    </methods>
+</isp>
