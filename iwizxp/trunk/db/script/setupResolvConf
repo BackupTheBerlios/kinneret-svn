@@ -10,10 +10,10 @@ setupResolvConf() {
 
     if [ -n "$searchGroups" ]; then
         echo "search $searchGroups" >> /etc/resolv.conf
-    do
+    fi
 
     for nameserver in $nameservers; do
        echo "nameserver $nameserver" >> /etc/resolv.conf 
-    do
+    done
     echo "Done."
 }
