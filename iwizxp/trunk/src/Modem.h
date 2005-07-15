@@ -32,8 +32,14 @@
 #include "Exception.h"
 
 /**
- * This abstact class represents a modem class, that knows which modules it
- * needes and hot to set it appropriately.
+ * This class represents a modem. A modem knows whcih modules it needs in
+ * order to work, and which dialer it should use.
+ *
+ * <b>About exceptions</b>:
+ * Most modems work with a single dialer. There are some exceptional cases,
+ * where a modem will require a different dialer when connectin to a certain
+ * ISP (like Bezeqint, that might require an additional flag when dialing
+ * with PPtP).
  *
  * @author duvduv
  */
@@ -52,9 +58,11 @@ public:
     }
 
     /**
-     * TODO
+     * Constructor from XML.
      *
-     * @throws XMLSerializationException TODO
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     Modem(xercesc::DOMElement *root) : NamedXMLReadable() {
         fromXML(root);
@@ -95,9 +103,11 @@ public:
     /* --- Inherited from XMLReadable --- */
 
     /**
-     * TODO: JavaDocs
+     * De-serializes from XML. Loads all the dialers and modules.
      *
-     * @throws XMLSerializationException TODO
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     void fromXML(xercesc::DOMElement *root);
 
@@ -136,42 +146,58 @@ protected:
         loadedDialers.push_back(dialer);
     }
 
-    /**
-     * TODO: JavaDocs
-     *
-     * @throws XMLSerializationException
-     */
-    void loadModulesFromXML(xercesc::DOMElement *root);
-    
-    /**
-     * TODO: JavaDocs
-     *
-     * @throws XMLSerializationException
-     */
-    void loadDialersFromXML(xercesc::DOMElement *root);
-
 private:
 
     /* --- Utility Methods --- */
 
     /**
-     * TODO: JavaDocs
+     * Loads the list of the required modules for the modem. Created a
+     * <code>KernelModule</code> for every entry, and de-serializes from XML
+     * using the item node as the root node of the module.
      *
-     * @throws XMLSerializationException
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat or deserialization of the module failed.
+     */
+    void loadModulesFromXML(xercesc::DOMElement *root);
+    
+    /**
+     * Loads the default dialer, and the exceptions, from XML.
+     *
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
+     */
+    void loadDialersFromXML(xercesc::DOMElement *root);
+
+    /**
+     * Extracts the name of the default dialer from the tag, loads the dialer
+     * and sets it as the default dialer for this modem.
+     *
+     * @param dialerNode node of the dialer we wish to load.
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     void loadDefaultDialer(xercesc::DOMElement *dialerNode);
     
     /**
-     * TODO: JavaDocs
+     * Fills the exceptions map. Sorts the list, loads the dialers and puts
+     * them in the map.
      *
-     * @throws XMLSerializationException
+     * @param dialerNode Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     void loadExceptions(xercesc::DOMElement *dialerNode);
 
     /**
-     * TODO: JavaDocs
+     * Loads a dialer by its name. <code>DialerLoader</code> takes the dialer
+     * as a stream. This method creates the stream it requires, and invokes
+     * to loading process.
      *
-     * @throws XMLSerializationException
+     * @param name Name of the dialer
+     * @return An intizalizes dialer
+     * @throws XMLSerializationException When the dialer failed to load.
      */
     Dialer *loadDialerByName(std::string name);
 
@@ -187,10 +213,10 @@ private:
 
     /* --- Data Members --- */
 
-    /** TODO: JavaDocs */
+    /** Default dialer to use, if the given ISP does not except */
     Dialer *defaultDialer;
 
-    /** TODO: JavaDocs */
+    /** Map between exceptional ISPs and the matching dialers */
     std::map<std::string, Dialer*> exceptions;
 
     /** List of required modules */

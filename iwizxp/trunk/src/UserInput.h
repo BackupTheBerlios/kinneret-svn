@@ -25,7 +25,9 @@
 #include <string>
 
 /**
- * TODO: JavaDocs
+ * The "user input" is the part of the user arguments that cannot be obtained
+ * in any other way except asking the user (thigs like username, and all sort
+ * of preferences).
  *
  * @author: duvduv
  */
@@ -36,7 +38,6 @@ public:
 
     /**
      * Constructor.
-     * TODO: JavaDocs
      */
     UserInput() {
         autodetectInterface = false;
@@ -44,7 +45,6 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
      */
     virtual ~UserInput() {
         // Nothing to do
@@ -53,51 +53,62 @@ public:
     /* --- Public Methods --- */
 
     /**
-     * TODO: JavaDocs
+     * @return Username
      */
     virtual std::string getUsername() const {
         return username;
     }
 
     /**
-     * TODO: JavaDocs
+     * @return <code>true</code>, if the user specified a device.
+     *         <code>false</code> otherwise.
      */
     virtual bool hasEthernetDevice() const {
-        return modemEthernetDevice.size() > 0;
+        return modemEthernetDevice.length() > 0;
     }
 
     /**
-     * TODO: JavaDocs
+     * @return Name of the modem device (e.g. <code>eth0, eth1</code> etc.)
      */
     virtual std::string getModemEthernetDevice() const {
         return modemEthernetDevice;
     }
 
     /**
-     * TODO: JavaDocs
+     * @return <code>true</code>, if the user wishes the final script will
+     *         attempt to auto-detect the ethernet device (usually created
+     *         using <code>usbnet</code> and modules of this sort).
+     *         <code>false</code> otherwise.
      */
-    virtual bool isAutodetectInterface() const {
+    virtual bool useInterfaceAutodetection() const {
         return autodetectInterface;
     }
 
     /**
-     * TODO: JavaDocs
+     * Sets the username.
+     * 
+     * @param username Username
      */
     virtual void setUsername(const std::string username) {
         this->username = username;
     }
 
     /**
-     * TODO: JavaDocs
+     * Sets the modem device.
+     *
+     * @param device Device's string.
      */ 
     virtual void setModemEthernetDevice(const std::string device) {
         this->modemEthernetDevice = device;
     }
 
     /**
-     * TODO: JavaDocs
+     * @param autodetect Whether to auto-detect or not.
+     *
+     * TODO: Prevent the case where auto-detection is disabled and there's no
+     * default device.
      */ 
-    virtual void setAutodetectInterface(bool autodetect) {
+    virtual void setInterfaceAutodetection(bool autodetect) {
         autodetectInterface = autodetect;
     }
 
@@ -111,7 +122,9 @@ private:
     /** Device (e.g eth0, eth1, etc.) */
     std::string modemEthernetDevice;
 
-    /** Should we attempt newtork interface auto-detection? */
+    /**
+     * Should we attempt newtork interface auto-detection? No, by default.
+     */
     bool autodetectInterface;
 };
 

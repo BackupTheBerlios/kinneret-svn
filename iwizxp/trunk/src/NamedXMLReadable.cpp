@@ -31,10 +31,6 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 void NamedXMLReadable::fromXML(xercesc::DOMElement *root) {
-    extractNameFromXML(root);
-}
-
-void NamedXMLReadable::extractNameFromXML(xercesc::DOMElement *root) {
     const DOMElement *nameTag = getLoneElementByTagName(root, "name");
 
     if (nameTag == 0) {

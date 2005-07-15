@@ -150,7 +150,7 @@ public:
     }
 
     /**
-     * TODO
+     * @return An initialized and ready to use <code>DOMBuilder</code>.
      */
     xercesc::DOMBuilder *getDOMBuilder() {
         return domBuilder;
@@ -161,22 +161,27 @@ private:
     /* --- Utilities --- */
 
     /**
-     * TODO
+     * Instantiates the correct loaders that match the database.
      */
     void setupLoaders();
 
     /**
-     * TODO
+     * Releases all the loaders that were instantiated at
+     * <code>setupLoaders</code>
      */
     void releaseLoaders();
 
     /**
-     * TODO
+     * Initializes Xerces-c and creates the <code>DOMBuilder</code> returned
+     * by <code>getDOMBuilder</code>.
+     *
+     * The <code>DOMBuilder</code> is set to ignore comment elements, and not
+     * present them in the final tree.
      */
     void setupXerces();
 
     /**
-     * TODO
+     * Releases Xerces-c.
      */
     void releaseXerces();
 

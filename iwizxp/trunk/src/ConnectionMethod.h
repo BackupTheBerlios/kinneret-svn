@@ -70,5 +70,4 @@ public:
     virtual std::string getDialingDestination() const = 0;
 };
 
-
 #endif

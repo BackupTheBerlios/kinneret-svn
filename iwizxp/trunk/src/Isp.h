@@ -51,9 +51,11 @@ public:
     }
 
     /**
-     * TODO
+     * Constructor. De-serializes from XML.
      *
-     * @throws XMLSerializationException TODO
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     Isp(xercesc::DOMElement *root) : NamedXMLReadable() {
         fromXML(root);
@@ -102,12 +104,14 @@ public:
     /* --- Inherited from XMLReadable --- */
     
     /**
-     * TODO
+     * Initializes variables according to the given element.
      *
      * We make this method not-virtual so we could call it from the
      * constructor.
      *
-     * @throws XMLSerializationException TODO
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     void fromXML(xercesc::DOMElement *root);
 
@@ -116,16 +120,24 @@ private:
     /* --- Utilitiy --- */
 
     /**
-     * TODO
-     *
-     * @throws XMLSerializationException TODO
+     * Sorts the list of DNS servers from the XML, and sets the current list
+     * to be it.
+     * 
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     void extractDnsServersFromXML(xercesc::DOMElement *root);
 
     /**
-     * TODO
-     *
-     * @throws XMLSerializationException TODO
+     * Sorts the list of <code>ConnectionMethod</code>s from the XML, creates
+     * the method and de-serializes them from XML, giving them the item
+     * element as the root element.
+     * 
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat, or one of the connection methods failed to
+     *         de-serialize.
      */
     void extractConnectionMethodsFromXML(xercesc::DOMElement *root);
 

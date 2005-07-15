@@ -26,7 +26,11 @@
 #include "XMLReadable.h"
 
 /**
- * TODO: JavaDocs
+ * This class is a <code>Nameable</code> class, that can load its name from
+ * XML. It does that using the <code>&lt;name&gt;</code> tag found under the
+ * root.
+ * 
+ * @author duvduv
  */
 class NamedXMLReadable : public Nameable, public XMLReadable {
 public:
@@ -34,15 +38,16 @@ public:
     /* --- Constructors ---- */
 
     /**
-     * Constructor.
-     * TODO: JavaDocs
+     * Constructor - use it if you wish to loads from XML later.
+     *
+     * @param name Name.
      */
     NamedXMLReadable(const std::string name) : Nameable(name), XMLReadable() {
         // Nothing to do
     }
 
     /**
-     * TODO: JavaDocs
+     * Constructor - use it if you wish to loads from XML later.
      */
     NamedXMLReadable() : Nameable(""), XMLReadable() {
         // Nothing to do
@@ -50,7 +55,6 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
      */
     virtual ~NamedXMLReadable() {
         // Nothing to do
@@ -59,7 +63,13 @@ public:
     /* --- Inherited from XMLReadable --- */
 
     /**
-     * TODO: JavaDocs
+     * Loads the name of the object from the <code>&lt;name&gt;</code> tad
+     * that's in it.
+     *
+     * @param root Root node. Must contain a <code>name</code> tag right
+     *        below it in the hirarchy.
+     * @throws XMLSerializationException If the tag isn't found under the
+     *         given root.
      */
     virtual void fromXML(xercesc::DOMElement *root);
 

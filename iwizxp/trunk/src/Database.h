@@ -164,7 +164,7 @@ private:
      * This private method enumerates and attempts to load every file that's
      * under the modems directory in the database.
      *
-     * @throws DatabaseCreationException TODO
+     * @throws DatabaseCreationException Thrown when no modems were found.
      */
     void loadModems();
 
@@ -172,7 +172,7 @@ private:
      * This private method enumerates and attempts to load every file that's
      * under the ISPs directory in the database.
      *
-     * @throws DatabaseCreationException TODO
+     * @throws DatabaseCreationException Thrown when no ISPs were found.
      */
     void loadIsps();
 
@@ -190,7 +190,8 @@ private:
     /**
      * Loads the default dialers.
      *
-     * @throws DatabaseCreationException TODO
+     * @throws DatabaseCreationException Thrown when the default diealers
+     *        (pre and post) could not be loaded.
      */
     void loadDefaultDialers();
 

@@ -93,9 +93,12 @@ public:
     /* --- Inherited from XMLReadable --- */
 
     /**
-     * TODO
+     * De-serializes from XML. Loads all the names for all the kernel
+     * classes.
      *
-     * @throws XMLSerializationException
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     void fromXML(xercesc::DOMElement *root);
 
@@ -104,15 +107,24 @@ private:
     /* --- Helper Methods --- */
 
     /**
-     * TODO: JavaDocs
+     * Extracts the value of the <code>kernel</code> attribute from the given
+     * element, and translate it to <code>KernelClass</code>.
      *
-     * @throws XMLSerializationException
+     * Format of the attribute is very simple, and goes like the regular
+     * kernel notation (<code>&lt;major&gt;.&lt;minor&gt;</code>, e.g.
+     * <code>2.4</code> and <code>2.6</code>).
+     *
+     * @return Class that corresponds the attribute in the element.
+     * @param element Element that has an <code>kernel</code> attribute.
+     * @throws XMLSerializationException When the given elements doesn't have
+     *         a <code>kernel</code> attribue, or the attribute is not
+     *         formatted correctly.
      */
     KernelClass kernelClassFromXML(xercesc::DOMElement *element) const;
 
     /* --- Data Members --- */
 
-    /** TODO: JavaDocs */
+    /** Maps between kernel class and the name of the module in that class  */
     std::map<KernelClass, std::string> names;
 };
 

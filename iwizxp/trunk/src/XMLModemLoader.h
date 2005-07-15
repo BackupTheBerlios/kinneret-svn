@@ -25,7 +25,7 @@
 #include "ModemLoader.h"
 
 /**
- * TODO: JavaDocs
+ * Loads a modem from XML.
  *
  * @author duvduv
  */
@@ -36,7 +36,6 @@ public:
 
     /**
      * Constructor.
-     * TODO: JavaDocs
      */
     XMLModemLoader() {
         Log::debug("XMLModemLoader created successfully");
@@ -44,7 +43,6 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
      */
     virtual ~XMLModemLoader() {
         Log::debug("XMLModemLoader released successfully");
@@ -53,9 +51,14 @@ public:
     /* --- Public Methods --- */
 
     /**
-     * TODO
+     * This method parses the stream as if it was XML, and de-serializes a
+     * modem from the parsed DOM tree.
      *
-     * @throws LoadExcpetion TODO
+     * @param inStream The stream to parse.
+     * @return A new and initialized <code>Modem</code>.
+     * @throws LoadExcpetion Thrown when the stream could not be parsed, or
+     *         an <code>XMLSerializationException</code> was thrown from
+     *         <code>Modem</code>'s <code>fromXML</code>.
      */
     virtual Modem *loadModem(std::istream &inStream) const;
 };

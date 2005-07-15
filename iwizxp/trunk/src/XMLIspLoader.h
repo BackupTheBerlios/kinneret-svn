@@ -25,7 +25,7 @@
 #include "IspLoader.h"
 
 /**
- * TODO: JavaDocs
+ * Loads ISPs from XML.
  *
  * @author duvduv
  */
@@ -36,7 +36,6 @@ public:
 
     /**
      * Constructor.
-     * TODO: JavaDocs
      */
     XMLIspLoader() {
         Log::debug("XMLIspLoader created successfully");
@@ -44,7 +43,6 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
      */
     virtual ~XMLIspLoader() {
         Log::debug("XMLIspLoader released successfully");
@@ -53,9 +51,15 @@ public:
     /* --- Public Methods --- */
 
     /**
-     * TODO
+     * Loads an ISP from a stream. <code>stream</code> should contain valid
+     * XML. This method parses the stream to a DOM document, then
+     * de-serialize an ISP from the top-level <code>&lt;isp&gt;</code> tag.
      *
-     * @throws LoadExcpetion TODO
+     * @param inStream The stream to build a DOM tree from.
+     * @return A new and initialized <code>Isp</code>.
+     * @throws LoadExcpetion Thrown when the loads wasn't able to parse the
+     *         stream, or an <code>XMLSerializationException</code> was
+     *         thrown from <code>Isp</code>'s <code>fromXML()</code>.
      */
     virtual Isp *loadIsp(std::istream &inStream) const;
 };

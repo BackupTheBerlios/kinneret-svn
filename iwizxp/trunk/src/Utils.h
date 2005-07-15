@@ -114,12 +114,25 @@ namespace Utils {
         xercesc::DOMDocument *parseDocumentFromStream(std::istream &inStream);
 
         /**
-         * TODO: JavaDocs
+         * Recursively goes over the tree that <code>node</code> is its root,
+         * and removes any text node that cotains whitespaces alone (should
+         * be done by the normalization, but doesn't for some reason).
+         *
+         * TODO: If someone could tell me how to make Xerces' DOMBuilder to
+         * act as it should, please tell me. This method is not a method I
+         * like...
+         *
+         * @param node Any node that's under this node will be removed, if
+         *        its an ignoreable text node.
          */
         void removeWhitespaceTextNodes(xercesc::DOMNode *node);
 
         /**
-         * TODO: JavaDocs
+         * Used by <code>removeWhitespaceTextNodes</code>.
+         *
+         * @param node Node to test
+         * @return <code>true</code> if the given node is a text node that
+         *         holds nothing but whitespaces.
          */
         bool isIgnoreable(xercesc::DOMNode *node);
 

@@ -55,9 +55,11 @@ public:
     }
 
     /**
-     * TODO
+     * Constructor. De-serializes from XML.
      *
-     * @throws XMLSerializationException TODO
+     * @param root Root node of this object in the DOM tree.
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     Cables(xercesc::DOMElement *root) : ConnectionMethod() {
         fromXML(root);
@@ -105,8 +107,10 @@ public:
     /* --- Inherited from XMLReadable --- */
 
     /** 
-     * TODO
-     * @throws XMLSerializationException TODO
+     * De-serializes an object from XML.
+     * 
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     void fromXML(xercesc::DOMElement *root);
 
@@ -115,14 +119,22 @@ private:
     /* --- Private Methods --- */
 
     /**
-     * TODO
-     * @throws XMLSerializationException TODO
+     * Extracts the gateway from the XML representation of this object and
+     * sets it as the current gateway.
+     *
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     void extractGatewayFromXML(xercesc::DOMElement *root);
 
     /**
-     * TODO
-     * @throws XMLSerializationException TODO
+     * Extracts the dialing destination of the given XML, and sets it as the
+     * current dialing destination.
+     * 
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
     void extractDialingDestinationFromXML(xercesc::DOMElement *root);
 

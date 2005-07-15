@@ -143,7 +143,7 @@ int main() {
                 "Do you wish to enable modem device autodetection?") == "yes") {
             enableAutodetect = true;
         }
-        input.setAutodetectInterface(enableAutodetect);
+        input.setInterfaceAutodetection(enableAutodetect);
         
         vector<string> modemDevice = getAllInterfaces();
         if (enableAutodetect == true) {

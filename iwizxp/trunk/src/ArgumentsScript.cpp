@@ -65,7 +65,7 @@ void ArgumentsScript::setConnectionMethod(const ConnectionMethod *method) {
 void ArgumentsScript::setUserInput(const UserInput *input) {
     values["username"] = input->getUsername();
 
-    if (input->isAutodetectInterface()) {
+    if (input->useInterfaceAutodetection()) {
         values["autodetectInterface"] = "yes";
     }
 

@@ -25,7 +25,16 @@
 #include "Printable.h"
 
 /**
- * TODO: JavaDocs
+ * This class is nameable, meaning, it has a name. For non-derived code, this
+ * class is immutable, they cannot change the name. Derived classes can set
+ * the name, but it is advised to do this once during construction.
+ *
+ * TODO: This might be desiged a bit smarter. The <code>setName</code> method
+ * exists for the benefit of <code>NamedXMLReadable</code>, that doesn't know
+ * the name of the object at construction time, but must change it in
+ * <code>fromXML</code>. Problem is, derived classes can change their name
+ * whenevery they want - which is not what we intended. <code>Nameable</code>
+ * shoule be immutable.
  *
  * @author duvduv
  */
@@ -36,7 +45,8 @@ public:
 
     /**
      * Constructor.
-     * TODO: JavaDocs
+     * 
+     * @param name Name
      */
     Nameable(const std::string name) : Printable () {
         this->name = name;
@@ -44,7 +54,6 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
      */
     virtual ~Nameable() {
         // Nothing to do
@@ -53,7 +62,7 @@ public:
     /* --- Public Methods --- */
 
     /**
-     * TODO: JavaDocs
+     * @return Name
      */
     virtual std::string getName() const {
         return name;
@@ -62,7 +71,7 @@ public:
     /* --- Inherited from Printable --- */
 
     /**
-     * TODO: JavaDocs
+     * @return Name
      */
     virtual const std::string toString() const {
         return getName();
@@ -73,7 +82,7 @@ protected:
     /* --- Protected Methods --- */
 
     /**
-     * TODO: JavaDocs
+     * @param name New name
      */
     void setName(std::string name) {
         this->name = name;
@@ -83,7 +92,7 @@ private:
 
     /* --- Data Members --- */
 
-    /** TODO: JavaDocs */
+    /** Name */
     std::string name;
 };
 

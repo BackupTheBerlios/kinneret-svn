@@ -110,14 +110,9 @@ public:
     void setIsp(const Isp *isp);
 
     /**
-     * Initializes modem related variables according to the given modem and
-     * kernel class.
-     *
-     * This is where the actual translation from the
-     * <code>KernelModule</code> class to actual module name takes place.
+     * Initializes modem related variables according to the given modem.
      *
      * @param modem The modem that the user wishes to connect with.
-     * @param kernelClass The target kernel this script is going to run on.
      */
     void setModem(const Modem *modem);
 
@@ -168,7 +163,16 @@ private:
     /* --- Helpers --- */
 
     /**
-     * TODO: JavaDocs
+     * This method builds a list of space seperated names that can be
+     * assigned as the value for <code>modules2_4</code> or
+     * <code>modules2_6</code>. Modules that are not supported in the
+     * requested kernel class are left out of the list.
+     *
+     * @param modem Modem, to get the list of modules from
+     * @param kernelClass Kernel class to get the module names for
+     * @return A space-seperated list of module names. Modules that are not
+     *         supported are left out. And empty string is returned if none
+     *         is.
      */
     std::string buildKernelClassModulesList(const Modem *modem,
         KernelModule::KernelClass kernelClass);
