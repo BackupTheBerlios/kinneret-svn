@@ -39,8 +39,13 @@ using namespace Utils;
 string Utils::readStreamAsString(istream &inStream) {
     ostringstream result;
 
-    while (!inStream.eof()) {
-        result << static_cast<char>(inStream.get());
+    while (1) {
+        char got = static_cast<char>(inStream.get());
+        if (!inStream.eof()) {
+            result << got;
+        } else {
+            break;
+        }
     }
 
     return result.str();
