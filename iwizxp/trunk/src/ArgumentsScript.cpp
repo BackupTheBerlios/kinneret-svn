@@ -65,6 +65,10 @@ void ArgumentsScript::setConnectionMethod(const ConnectionMethod *method) {
 void ArgumentsScript::setUserInput(const UserInput *input) {
     values["username"] = input->getUsername();
 
+    if (input->isAutodetectInterface()) {
+        values["autodetectInterface"] = "yes";
+    }
+
     if (input->hasEthernetDevice()) {
         values["modemEthernetDevice"] = input->getModemEthernetDevice();
     }

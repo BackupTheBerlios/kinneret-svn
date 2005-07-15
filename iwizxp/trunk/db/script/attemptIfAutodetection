@@ -1,0 +1,9 @@
+##
+# This method simple records all the available interfaces. It will be used
+# later (after a modprobe) to determent which interface is the new interface
+# created by it.
+##
+attemptIfAutodetection() {
+    # Get all the interfaces available, and store them in a variable.
+    ifAutodetectionBefore=`getAllNetworkInterfaces`
+}

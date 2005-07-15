@@ -1,9 +1,11 @@
 Pre-dialer Scripts
-8
+10
 default
 setupUserArguments
 getPasswordFromUser
+attemptIfAutodetection
 loadModules
+finishIfAutodetection
 backupResolvConf
 setupResolvConf
 backupPppSecrets

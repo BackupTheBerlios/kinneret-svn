@@ -1,0 +1,44 @@
+##
+# This script finializes the interface auto-detection process. It does that
+# by comparing $attemptIfAutodetection and the current state of the
+# interfaces, resolving all the new interfaces, and taking the first.
+#
+# In case no interface found, and the user requested auto-detection, and not
+# default interface was supplied, this script will fail.
+##
+finishIfAutodetection() {
+    # Again, get all the interfaces
+    ifAutodetectionAfter=`getAllNetworkInterfaces`
+
+    # The new interface
+    newInterface=""
+
+    # See if we have a record of what was before the modprobe
+    if [ -n "$ifAutodetectionBefore" ]; then
+        # Remove from the new list all the elements from the old list. If an
+        # interface was added, we'll find it (if we find more than one, we'll
+        # take the first).
+        newInterface="`echo $ifAutodetectionAfter | tr " " "\n" \
+            | grep -E -v \`echo $ifAutodetectionBefore | tr " " '|'\` \
+            | cut -d" " -f1`"
+    fi
+
+    if [ -z "$newInterface" ]; then
+        # In case we found no new interface, we see if a default interface
+        # was specified. If not, an error message is emitted.
+        if [ -z "$modemEthernetDevice" ]; then
+            errorExit "Unable to auto-detect new network interface."
+        else 
+            echo "Interface: $modemEthernetDevice"
+        fi
+    else
+        # We found a new interface, override current, if auto-detection is
+        # desired.
+        if [ -n "$autodetectInterface" ]; then
+            echo "Auto-detected interface: $newInterface"
+            modemEthernetDevice="$newInterface"
+        else
+            echo "Found $newInterface, but auto-detection is off."
+        fi
+    fi
+}

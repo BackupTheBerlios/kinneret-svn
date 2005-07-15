@@ -39,7 +39,7 @@ public:
      * TODO: JavaDocs
      */
     UserInput() {
-        // Nothing to do
+        autodetectInterface = false;
     }
 
     /**
@@ -76,6 +76,13 @@ public:
     /**
      * TODO: JavaDocs
      */
+    virtual bool isAutodetectInterface() const {
+        return autodetectInterface;
+    }
+
+    /**
+     * TODO: JavaDocs
+     */
     virtual void setUsername(const std::string username) {
         this->username = username;
     }
@@ -87,6 +94,13 @@ public:
         this->modemEthernetDevice = device;
     }
 
+    /**
+     * TODO: JavaDocs
+     */ 
+    virtual void setAutodetectInterface(bool autodetect) {
+        autodetectInterface = autodetect;
+    }
+
 private:
 
     /* --- Data Members --- */
@@ -96,6 +110,9 @@ private:
 
     /** Device (e.g eth0, eth1, etc.) */
     std::string modemEthernetDevice;
+
+    /** Should we attempt newtork interface auto-detection? */
+    bool autodetectInterface;
 };
 
 #endif
