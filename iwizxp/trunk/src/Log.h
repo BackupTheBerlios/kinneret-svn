@@ -23,6 +23,9 @@
 #define __LOG_H__
 
 #include <string>
+#include <map>
+
+#include "Exception.h"
 
 /**
  * Singleton logger.
@@ -32,6 +35,16 @@
 class Log {
 public:
 
+    /* --- Inner Types --- */
+    
+    /**
+     * Supported Log levels
+     */
+    enum LogLevel {
+        ALL, DEBUG, INFO, WARNING,
+        ERROR, FATAL, BUG, NONE
+    };
+
     /* --- Public Static Methods --- */
 
     /**
@@ -39,7 +52,7 @@ public:
      *
      * @param level Log level to initilize logger with.
      */
-    static void create(int level);
+    static void create(LogLevel level);
 
     /**
      * Releases the logger;
@@ -88,33 +101,40 @@ public:
      */
     static void debug(const std::string &msg);
 
-    /* --- Constants --- */
+    /**
+     * Translate the string to log level.
+     *
+     * @param level String representation of a log-level. String is case
+     *        insensitive and must be one of:
+     *        <ul>
+     *        <li>none</li>
+     *        <li>bug</li>
+     *        <li>fatal</li>
+     *        <li>error</li>
+     *        <li>warning</li>
+     *        <li>info</li>
+     *        <li>debug</li>
+     *        <li>all</li>
+     *        </ul>
+     * @return Log-level corresponding the given string.
+     * @throws FormatException When the given string is unknown
+     */
+    static LogLevel levelFromString(std::string level);
 
-    /** Nothing */
-    static const int NONE = 7;
+    /* --- Exceptions --- */
 
-    /** Bug level */
-    static const int BUG = 6;
-
-    /** Fatal log level */
-    static const int FATAL = 5;
-
-    /** Error log level */
-    static const int ERROR = 4;
-
-    /** Warning log level */
-    static const int WARNING = 3;
-
-    /** Info log level */
-    static const int INFO = 2;
-
-    /** Debug log level */
-    static const int DEBUG = 1;
-
-    /** Log all */
-    static const int ALL = 0;
+    /**
+     * Thrown when the string given to <code>levelFromString</code> is
+     * unknown.
+     */
+    NewException(FormatException);
 
 private:
+
+    /**
+     * Fills the map of log-levels.
+     */
+    static void initLogLevels();
 
     /* --- Private Methods --- */
 
@@ -124,7 +144,7 @@ private:
      * @param level Log level this message is logged at
      * @param msg Messages
      */
-    void log(int level, const std::string &msg);
+    void log(LogLevel level, const std::string &msg);
 
     /* --- Singleton --- */
 
@@ -133,12 +153,15 @@ private:
      *
      * @param level Log level this logger is at
      */
-    Log(int level);
+    Log(LogLevel level);
 
     /* --- Data Members --- */
 
     /** Current log level */
-    int logLevel;
+    LogLevel logLevel;
+
+    /** Maps between log levels and their names */
+    static std::map<LogLevel, std::string> levelNames;
 
     /* --- Singeton instance --- */
 

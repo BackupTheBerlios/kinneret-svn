@@ -94,6 +94,17 @@ namespace Utils {
     std::vector<std::string> enumNetworkInterfaces();
 
     /**
+     * This is a wrapper function for STL functors that collide.
+     * See:
+     * http://coding.derkeiler.com/Archive/C_CPP/comp.lang.cpp/2003-10/1411.html
+     *
+     * Any better idea?
+     */
+    template<int (*F)(int)> int safeStl(unsigned char c) {
+        return F(c);
+    }
+
+    /**
      * The DOM namespace holds all kind of helper methods for handling DOM
      * trees.
      */
