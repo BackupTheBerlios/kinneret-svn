@@ -4,6 +4,8 @@
 # Relies on $modules.
 ##
 unloadModules() {
+    setupModules
+
     if [ -n $modules ]; then
         for module in $modules; do
             echo -n "Unloading $module... "

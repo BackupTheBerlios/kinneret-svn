@@ -27,3 +27,28 @@ getAllNetworkInterfaces() {
     $ifconfig -a | grep "^[^[:space:]]" | cut -d" " -f1
 }
 
+##
+# This method sets the content of $modules according to the currently-runninf
+# kernel.
+#
+# Relies on $modules2_4 and $modules2_6.
+##
+setupModules() {
+    kernel="`uname -r | cut -d. -f-2`"
+
+    case "$kernel" in
+        2.4)
+        echo "Found 2.4 kernel"
+        modules="$modules2_4"
+        ;;
+
+        2.6)
+        echo "Found 2.6 kernel"
+        modules="$modules2_6"
+        ;;
+        *)
+        errorExit "Unknown kernel $kernel."
+        modules=""
+    esac
+}
+
