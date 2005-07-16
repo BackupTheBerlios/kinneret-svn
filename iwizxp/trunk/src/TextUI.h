@@ -25,8 +25,10 @@
 #include "WizardListener.h"
 
 /**
-    // TODO
- * @authur Itay 'z9u2k' Duvdevani
+ * This class makes the wizard a "text-mode" wizard by implementing a text
+ * interface.
+ * 
+ * @author Itay 'z9u2k' Duvdevani
  */
 class TextUI : public WizardListener {
 public:
@@ -49,15 +51,37 @@ public:
 
     /* --- Public Methods --- */
 
-    // TODO
+    /**
+     * Displayes a nasty string to <code>STDERR</code>.
+     *
+     * @param what The error message, supplied by the wizard.
+     */
     void fatal(std::string what);
-    // TODO
+    
+    /**
+     * Displayes the list of options on the screen and asks the user for one.
+     *
+     * @param what Prompt - diplayed above the list.
+     * @param choises List of choises
+     * @return Index of the selected option
+     */
     int selectFromList(std::string what,
         std::vector<std::string> choises);
-    // TODO
+    
+    /**
+     * Displayes a prompt to the screen and gets a string from the user using
+     * <code>STDIN</code>.
+     *
+     * @param what The prompt
+     * @return String from <code>STDIN</code>.
+     */
     std::string requestString(std::string what);
     
-    // TODO
+    /**
+     * Prints a message to <code>STDOUT</code>.
+     *
+     * @param what The message
+     */ 
     void notify(std::string what);
 };
 

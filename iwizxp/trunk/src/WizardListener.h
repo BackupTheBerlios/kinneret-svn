@@ -53,17 +53,42 @@ public:
 
     /* --- Public Methods --- */
 
-    // TODO
+    /**
+     * Called when there was a fatal error in the <code>Wizard</code> and it
+     * is about to shut down.
+     *
+     * @param what What happened.
+     */
     virtual void fatal(std::string what) = 0;
     
-    // TODO
+    /**
+     * Fired from the <code>Wizard</code> when the user has to select an
+     * option from a list.
+     *
+     * @param what The prompt, explaining to the user what his selection
+     *        affects.
+     * @param choises List of strings, naming the choises the user has.
+     * @return The index of the selected choise (zero-based).
+     */
     virtual int selectFromList(std::string what,
         std::vector<std::string> choises) = 0;
 
-    // TODO
+    /**
+     * Fired by the <code>Wizard</code> when a string input is required (like
+     * when requesting a username).
+     *
+     * @param what The prompt, specifing what is to be entered.
+     * @return The string the user entered.
+     */
     virtual std::string requestString(std::string what) = 0;
 
-    // TODO
+    /**
+     * Fired by the <code>Wizard</code> when a certain notification is to be
+     * displayed to the user (like bad input, specifing what is to be
+     * entered).
+     *
+     * @param what The message to display to the user.
+     */
     virtual void notify(std::string what) = 0;
 };
 

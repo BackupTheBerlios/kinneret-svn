@@ -34,7 +34,7 @@
 
 using namespace std;
 
-template<class T> T Wizard::selectFromList(vector<T> list, string what) {
+template<class T> T Wizard::selectFromList(string what, vector<T> list) {
     vector<string> toListener;
     int selection;
 
@@ -51,37 +51,58 @@ template<class T> T Wizard::selectFromList(vector<T> list, string what) {
         toListener.push_back(itemString);
     }
 
-    selection = listener->selectFromList(what, toListener);
+    selection = safeSelectFromList(what, toListener);
     return list[selection];
+}
+
+int Wizard::safeSelectFromList(string what, vector<string> list) {
+    int selection;
+
+    while (1) {
+        selection = listener->selectFromList(what, list);
+        if ((selection < 0) || (selection >= list.size())) {
+            listener->notify("Selected choise is out-of-range. "
+                "Please retry.");
+        } else {
+            break;
+        }
+    }
+
+    return selection;
 }
 
 int Wizard::go() {
     try {
-        Isp *isp = selectFromList(Database::getInstance()->getIsps(),
-            "Select ISP:");
+        Isp *isp = selectFromList("Select ISP",
+            Database::getInstance()->getIsps());
 
         ConnectionMethod *connectionMethod = 
-            selectFromList(isp->getConnectionMethods(),
-            "Select Connection Method:");
+            selectFromList("Select Connection Method",
+                isp->getConnectionMethods());
 
 
-        Modem *modem = selectFromList(Database::getInstance()->getModems(),
-            "Select a modem:");
+        Modem *modem = selectFromList("Select modem", 
+            Database::getInstance()->getModems());
 
         Dialer *dialer = modem->getDialer(isp);
 
         UserInput input;
         string username;
-        do {
+        while (1) {
             username = listener->requestString("Enter username: ");
-        } while (username.length() <= 0);
+            if (username.length() <= 0) {
+                listener->notify("Username cannot be an empty string.");
+            } else {
+                break;
+            }
+        };
         input.setUsername(username);
 
         bool enableAutodetect = false;
         vector<string> autodetectionChoses;
         autodetectionChoses.push_back("yes");
         autodetectionChoses.push_back("no");
-        if (listener->selectFromList("Do you wish to enable modem "
+        if (safeSelectFromList("Do you wish to enable modem "
                 "device autodetection?", autodetectionChoses) == 0) {
             enableAutodetect = true;
         }
@@ -92,8 +113,8 @@ int Wizard::go() {
             modemDevice.push_back("Auto-detect");
         }
 
-        int selection = listener->selectFromList("Select modem device:",
-            modemDevice);
+        int selection = safeSelectFromList(
+            "Select modem device:", modemDevice);
         if (modemDevice[selection] != "Auto-detect") {
             input.setModemEthernetDevice(modemDevice[selection]);
         }

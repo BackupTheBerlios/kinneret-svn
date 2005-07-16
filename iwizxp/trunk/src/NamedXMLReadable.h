@@ -72,15 +72,6 @@ public:
      *         given root.
      */
     virtual void fromXML(xercesc::DOMElement *root);
-
-private:
-
-    /* --- Helper Methods --- */
-
-    /**
-     * TODO: JavaDocs
-     */
-    void extractNameFromXML(xercesc::DOMElement *root);
 };
 
 #endif
