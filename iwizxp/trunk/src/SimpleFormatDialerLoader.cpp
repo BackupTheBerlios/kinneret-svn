@@ -48,8 +48,10 @@ Dialer *SimpleFormatDialerLoader::loadDialer(istream &inStream) const {
         inStream.getline(name, MAX_LINE, '\n');
         Script *script;
 
-        if (string(name) == ArgumentsScript::getInstance()->getFunctionName()) {
-            result->addConnectionScript(ArgumentsScript::getInstance());
+        if (string(name) == GlobalRepository::getInstance()->
+                getArgumentsScript()->getFunctionName()) {
+            result->addConnectionScript(GlobalRepository::getInstance()->
+                getArgumentsScript());
             continue;
         }
 
@@ -85,8 +87,10 @@ Dialer *SimpleFormatDialerLoader::loadDialer(istream &inStream) const {
         inStream.getline(name, MAX_LINE, '\n');
         Script *script;
 
-        if (string(name) == ArgumentsScript::getInstance()->getFunctionName()) {
-            result->addConnectionScript(ArgumentsScript::getInstance());
+        if (string(name) == GlobalRepository::getInstance()->
+                getArgumentsScript()->getFunctionName()) {
+            result->addConnectionScript(GlobalRepository::getInstance()->
+                    getArgumentsScript());
             continue;
         }
 

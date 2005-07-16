@@ -21,6 +21,7 @@
 
 #include "Dialer.h"
 #include "ArgumentsScript.h"
+#include "GlobalRepository.h"
 
 using namespace std;
 
@@ -38,7 +39,8 @@ void Dialer::releaseConnectionScripts() {
                 iter++) {
         // Don't release ArgumentsScript - it's a singleton that has to be
         // released individually AND ONLY ONCE!
-        if (((*iter) != 0) && ((*iter) != ArgumentsScript::getInstance())) {
+        if (((*iter) != 0) && ((*iter) != GlobalRepository::getInstance()->
+                getArgumentsScript())) {
             Log::debug(string("Releasing ") +
                 (*iter)->getFunctionName() + "...");
             delete (*iter);

@@ -32,7 +32,7 @@
 #include "UserInput.h"
 
 /**
- * TODO: Explain singleton
+ * TODO: Explain why in global repository (pre/post dialers etc)
  *
  * This class represents the script that sets all of the user arguments. This
  * is the first script called for every connection, setting all the user
@@ -53,7 +53,7 @@
  * @author duvduv
  */
 class ArgumentsScript : public Script {
-private:
+public:
 
     /* --- Constructors --- */
 
@@ -68,36 +68,7 @@ private:
      * Destructor, does nothing.
      */
     virtual ~ArgumentsScript() {
-        instance = 0;
         Log::debug("ArgumentsScript released successfully");
-    }
-
-public:
-
-    /* --- Singleton --- */
-
-    /**
-     * Singeton access point.
-     *
-     * @return A pointer to the single instance of
-     *         <code>ArgumentsScript</code> in the system.
-     */
-    static ArgumentsScript *getInstance() {
-        if (instance == 0) {
-            instance = new ArgumentsScript();
-        }
-
-        return instance;
-    }
-
-    /**
-     * Releases the instance. Call this when you don't need this script
-     * anymore.
-     */
-    static void release() {
-        if (instance != 0) {
-            delete instance;
-        }
     }
 
     /* --- Public Methods --- */
@@ -181,11 +152,6 @@ private:
 
     /** Names -&gt; Values map */
     std::map<std::string, std::string> values;
-
-    /* --- Singleton --- */
-
-    /** The instance */
-    static ArgumentsScript *instance;
 };
 
 #endif

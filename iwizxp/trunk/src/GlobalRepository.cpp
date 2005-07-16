@@ -45,9 +45,11 @@ void GlobalRepository::setupLoaders() {
     modemLoader = new XMLModemLoader();
     scriptLoader = new BashSyntaxScriptLoader();
     dialerLoader = new SimpleFormatDialerLoader();
+    argumentsScript = new ArgumentsScript();
 }
 
 void GlobalRepository::releaseLoaders() {
+    delete argumentsScript;
     delete dialerLoader;
     delete scriptLoader;
     delete modemLoader;

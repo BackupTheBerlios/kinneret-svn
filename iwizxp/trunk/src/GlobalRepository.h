@@ -28,6 +28,7 @@
 #include "ModemLoader.h"
 #include "ScriptLoader.h"
 #include "DialerLoader.h"
+#include "ArgumentsScript.h"
 
 /**
  * This singleton class holds everything's that's global and configureable in
@@ -156,6 +157,13 @@ public:
         return domBuilder;
     }
 
+    /**
+     * @return The global arguments script.
+     */
+    ArgumentsScript *getArgumentsScript() {
+        return argumentsScript;
+    }
+
 private:
 
     /* --- Utilities --- */
@@ -204,6 +212,9 @@ private:
 
     /** Xerces' DOM Parser */
     xercesc::DOMBuilder *domBuilder;
+
+    /** The arguments script of the system */
+    ArgumentsScript *argumentsScript;
 };
 
 #endif

@@ -119,10 +119,13 @@ int Wizard::go() {
             input.setModemEthernetDevice(modemDevice[selection]);
         }
 
-        ArgumentsScript::getInstance()->setIsp(isp);
-        ArgumentsScript::getInstance()->setConnectionMethod(connectionMethod);
-        ArgumentsScript::getInstance()->setModem(modem);
-        ArgumentsScript::getInstance()->setUserInput(&input);
+        ArgumentsScript *argumentsScript =
+            GlobalRepository::getInstance()->getArgumentsScript();
+        
+        argumentsScript->setIsp(isp);
+        argumentsScript->setConnectionMethod(connectionMethod);
+        argumentsScript->setModem(modem);
+        argumentsScript->setUserInput(&input);
 
         // TODO: This is TEST CODE!
         ifstream initdFile("db/template/initd_service_template");
@@ -143,7 +146,6 @@ int Wizard::go() {
         return -1;
     }
 
-    ArgumentsScript::release();
     Database::release();
     GlobalRepository::release();
 

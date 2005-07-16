@@ -25,9 +25,6 @@
 
 using namespace std;
 
-// Instance
-ArgumentsScript *ArgumentsScript::instance = 0;
-
 void ArgumentsScript::setIsp(const Isp *isp) {
     ostringstream nameservers;
     
