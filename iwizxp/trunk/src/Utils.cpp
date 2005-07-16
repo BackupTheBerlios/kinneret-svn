@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <net/if.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <regex.h>
@@ -140,3 +141,19 @@ vector<string> Utils::executeRegex(const string &regexString,
 
     return result;
 }
+
+vector<string> Utils::enumNetworkInterfaces() {
+    vector<string> result;
+    
+    struct if_nameindex *index = if_nameindex();
+    struct if_nameindex *current = index;
+    while (current->if_index != 0) {
+        result.push_back(current->if_name);
+        current++;
+    }
+
+    if_freenameindex(index);
+
+    return result;
+}
+

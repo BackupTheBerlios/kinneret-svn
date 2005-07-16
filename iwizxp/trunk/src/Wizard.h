@@ -19,20 +19,70 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Wizard.h"
-#include "TextUI.h"
-#include "Log.h"
+#ifndef __WIZARD_H__
+#define __WIZARD_H__
 
-int main() {
-    Log::create(Log::DEBUG);
+#include "WizardListener.h"
 
-    Wizard wizard;
-    TextUI ui;
+/**
+ * The wizard is the class that puts it all together. It's the main manager,
+ * deciding which information it needs when, the class that does it all.
+ *
+ * You never touch it. You register as a listener to it (by implementing
+ * <code>WizardListener</code>) and supply it with information when it
+ * requests you.
+ * 
+ * @author duvduv
+ */
+class Wizard {
+public:
 
-    wizard.setListener(&ui);
-    int result = wizard.go();
+    /* --- Constructors ---- */
 
-    Log::release();
+    /**
+     * Constructor.
+     */
+    Wizard() {
+        listener = 0;
+    }
 
-    return result;
-}
+    /**
+     * Destructor.
+     */
+    virtual ~Wizard() {
+        // Nothing to do
+    }
+
+    /* --- Public Methods --- */
+
+    /**
+     * Starts the wizard. After calling this method, several events will be
+     * fired from the wizard to its listener.
+     *
+     * @return 0 on success, non-zero otherwize.
+     */
+    int go();
+
+    /**
+     * Sets the listener to this wizard.
+     *
+     * @param listener The listener
+     */
+    void setListener(WizardListener *listener) {
+        this->listener = listener;
+    }
+
+private:
+
+    /* --- Utilities --- */
+
+    // TODO
+    template<class T> T selectFromList(std::vector<T> list, std::string what);
+
+    /* --- Data Members --- */
+
+    /** The listener that supplies us with all the data we request */
+    WizardListener *listener;
+};
+
+#endif

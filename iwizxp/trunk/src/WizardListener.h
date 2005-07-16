@@ -19,20 +19,52 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Wizard.h"
-#include "TextUI.h"
-#include "Log.h"
+#ifndef __WIZARD_LISTENER_H__
+#define __WIZARD_LISTENER_H__
 
-int main() {
-    Log::create(Log::DEBUG);
+#include <string>
+#include <vector>
 
-    Wizard wizard;
-    TextUI ui;
+/**
+ * This interface should be implemented by the UI. Once the
+ * <code>Wizard</code> starts, methods of this interface will be called by
+ * it, to get information from the user.
+ *
+ * @author duvduv
+ */
+class WizardListener {
+public:
 
-    wizard.setListener(&ui);
-    int result = wizard.go();
+    /* --- Constructors ---- */
 
-    Log::release();
+    /**
+     * Constructor.
+     */
+    WizardListener() {
+        // Nothing to do
+    }
 
-    return result;
-}
+    /**
+     * Destructor.
+     */
+    virtual ~WizardListener() {
+        // Nothing to do
+    }
+
+    /* --- Public Methods --- */
+
+    // TODO
+    virtual void fatal(std::string what) = 0;
+    
+    // TODO
+    virtual int selectFromList(std::string what,
+        std::vector<std::string> choises) = 0;
+
+    // TODO
+    virtual std::string requestString(std::string what) = 0;
+
+    // TODO
+    virtual void notify(std::string what) = 0;
+};
+
+#endif

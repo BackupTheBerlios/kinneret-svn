@@ -19,20 +19,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Wizard.h"
-#include "TextUI.h"
-#include "Log.h"
+#ifndef __TEXT_UI_H__
+#define __TEXT_UI_H__
 
-int main() {
-    Log::create(Log::DEBUG);
+#include "WizardListener.h"
 
-    Wizard wizard;
-    TextUI ui;
+/**
+    // TODO
+ * @authur Itay 'z9u2k' Duvdevani
+ */
+class TextUI : public WizardListener {
+public:
 
-    wizard.setListener(&ui);
-    int result = wizard.go();
+    /* --- Constructors ---- */
 
-    Log::release();
+    /**
+     * Constructor.
+     */
+    TextUI() {
+        // Nothing to do
+    }
 
-    return result;
-}
+    /**
+     * Destructor.
+     */
+    virtual ~TextUI() {
+        // Nothing to do
+    }
+
+    /* --- Public Methods --- */
+
+    // TODO
+    void fatal(std::string what);
+    // TODO
+    int selectFromList(std::string what,
+        std::vector<std::string> choises);
+    // TODO
+    std::string requestString(std::string what);
+    
+    // TODO
+    void notify(std::string what);
+};
+
+#endif

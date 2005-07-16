@@ -19,20 +19,51 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Wizard.h"
+#include <iostream>
+
 #include "TextUI.h"
-#include "Log.h"
 
-int main() {
-    Log::create(Log::DEBUG);
+using namespace std;
 
-    Wizard wizard;
-    TextUI ui;
+void TextUI::fatal(string what) {
+    cerr << "---------- FATAL ----------" << endl <<
+        what << endl;
+}
 
-    wizard.setListener(&ui);
-    int result = wizard.go();
+int TextUI::selectFromList(string what, vector<string> choises) {
+    int selection, i;
 
-    Log::release();
+    do {
+        cout << what << endl;
+        for (i = 0 ; i < choises.size() ; i++) {
+            cout << (i + 1) << ") " << choises[i] << endl;
+        }
+
+        if (i > 1) {
+            cout << "Selection [1-" << i << "]: ";
+            cin >> selection;
+        } else {
+            selection = 1;
+            cout << "One-choise, auto-selected." << endl;
+        }
+
+        cout << endl;
+    } while ((selection <= 0) || (selection > choises.size()));
+
+    // Selection is one-based, but vetor's index is zero based.
+    return (selection - 1);
+}
+
+string TextUI::requestString(string what) {
+    string result;
+
+    cout << what;
+    cin >> result;
 
     return result;
 }
+
+void TextUI::notify(string what) {
+    cout << what << endl;
+}
+

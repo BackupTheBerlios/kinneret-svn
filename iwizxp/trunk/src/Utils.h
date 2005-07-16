@@ -86,6 +86,14 @@ namespace Utils {
         const std::string &matchString, int maxResults);
 
     /**
+     * This method enums all the availble network interfaces in the system
+     * into a vector.
+     *
+     * @return A vector with the names of all the available interfaces.
+     */ 
+    std::vector<std::string> enumNetworkInterfaces();
+
+    /**
      * The DOM namespace holds all kind of helper methods for handling DOM
      * trees.
      */
