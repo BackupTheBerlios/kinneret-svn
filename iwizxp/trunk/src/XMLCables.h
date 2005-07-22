@@ -19,10 +19,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __CABLES_CONNECTION_METHOD_H__
-#define __CABLES_CONNECTION_METHOD_H__
+#ifndef __XML_CABLES_CONNECTION_METHOD_H__
+#define __XML_CABLES_CONNECTION_METHOD_H__
 
 #include "ConnectionMethod.h"
+#include "XMLReadable.h"
 
 #include "Log.h"
 
@@ -34,10 +35,17 @@
  *
  * @author duvduv
  */
-class Cables : public ConnectionMethod {
+class XMLCables : public ConnectionMethod, public XMLReadable {
 public:
 
     /* --- Constructors --- */
+
+    /**
+     * Default constructor.
+     */
+    XMLCables() {
+        // Nothing to do
+    }
 
     /** 
      * Constructor.
@@ -46,29 +54,18 @@ public:
      * @param dialingDestination The place where the PPtP should dial to
      *        (non-DHCP cables connection are usually PPtP).
      */
-    Cables(std::string defaultGateway,
-           std::string dialingDestination) : ConnectionMethod() {
+    XMLCables(std::string defaultGateway,
+           std::string dialingDestination) {
         this->defaultGateway = defaultGateway;
         this->dialingDestination = dialingDestination;
 
         Log::debug("Cables created successfully");
     }
 
-    /**
-     * Constructor. De-serializes from XML.
-     *
-     * @param root Root node of this object in the DOM tree.
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    Cables(xercesc::DOMElement *root) : ConnectionMethod() {
-        fromXML(root);
-    }
-
     /** 
      * Destructor, does nothing.
      */
-    virtual ~Cables() {
+    virtual ~XMLCables() {
         Log::debug("Cables released successfully");
     }
 

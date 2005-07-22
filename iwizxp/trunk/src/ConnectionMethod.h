@@ -23,24 +23,16 @@
 #define __CONNECTION_METHOD_H__
 
 #include "Printable.h"
-#include "XMLReadable.h"
 
 /** 
  * This interface represents a certain method an ISP offers for connection.
  *
  * @author duvduv
  */
-class ConnectionMethod : public Printable, public XMLReadable {
+class ConnectionMethod : public Printable {
 public:
 
     /* --- Constructors --- */
-
-    /** 
-     * Constructor.
-     */
-    ConnectionMethod() : Printable(), XMLReadable() {
-        // Nothing to do
-    }
 
     /** 
      * Destructor. 

@@ -23,7 +23,7 @@
 
 #include "Utils.h"
 #include "xts.h"
-#include "Cables.h"
+#include "XMLCables.h"
 
 using namespace std;
 using namespace xercesc;
@@ -82,7 +82,9 @@ void XMLIsp::extractConnectionMethodsFromXML(xercesc::DOMElement *root) {
                         Log::error("Object-type mismatch");
                     } else {                    
                         Log::debug("Adding ConnectionMethod: Cables.");
-                        addConnectionMethod(new Cables(element));
+                        XMLCables *cables = new XMLCables();
+                        cables->fromXML(element);
+                        addConnectionMethod(cables);
                     }
                 }
             } else {

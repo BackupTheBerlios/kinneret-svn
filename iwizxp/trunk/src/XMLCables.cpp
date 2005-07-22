@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "Cables.h"
+#include "XMLCables.h"
 
 #include "Utils.h"
 #include "xts.h"
@@ -29,12 +29,12 @@ using namespace xercesc;
 using namespace Utils;
 using namespace Utils::DOM;
 
-void Cables::fromXML(DOMElement *root) {
+void XMLCables::fromXML(DOMElement *root) {
     extractGatewayFromXML(root);
     extractDialingDestinationFromXML(root);
 }
 
-void Cables::extractGatewayFromXML(DOMElement *root) {
+void XMLCables::extractGatewayFromXML(DOMElement *root) {
     DOMElement *gatewayNode = getLoneElementByTagName(root, "gateway");
     
     if (gatewayNode == 0) {
@@ -45,7 +45,7 @@ void Cables::extractGatewayFromXML(DOMElement *root) {
     Log::debug("Default Gateway: " + defaultGateway);
 }
 
-void Cables::extractDialingDestinationFromXML(DOMElement *root) {
+void XMLCables::extractDialingDestinationFromXML(DOMElement *root) {
     DOMElement *destinationNode = getLoneElementByTagName(root,
         "destination");
 

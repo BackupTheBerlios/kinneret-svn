@@ -13,7 +13,7 @@ iwizxp_SOURCES = Modem.cpp \
 				 ArgumentsScript.cpp \
 				 XMLIspLoader.cpp \
 				 xts.cpp \
-				 Cables.cpp \
+				 XMLCables.cpp \
 				 DOMUtils.cpp \
 				 XMLModemLoader.cpp \
 				 NamedXMLReadable.cpp \
