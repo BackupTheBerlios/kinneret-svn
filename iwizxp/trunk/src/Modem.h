@@ -25,7 +25,7 @@
 #include <vector>
 #include <map>
 
-#include "NamedXMLReadable.h"
+#include "Nameable.h"
 #include "KernelModule.h"
 #include "Isp.h"
 #include "Dialer.h"
@@ -41,31 +41,29 @@
  * ISP (like Bezeqint, that might require an additional flag when dialing
  * with PPtP).
  *
+ * TODO: Explain why Nameable is a vritual base.
+ *
  * @author duvduv
  */
-class Modem : public NamedXMLReadable {
+class Modem : public virtual Nameable {
 public:
 
     /* --- Constructors --- */
+
+    /**
+     * Defult constructor.
+     */
+    Modem() : Nameable() {
+        // Nothing to do
+    }
 
     /**
      * Constructor.
      *
      * @param name Modem's name.
      */
-    Modem(const std::string name) : NamedXMLReadable(name) {
+    Modem(const std::string name) : Nameable(name) {
         // Nothing to do
-    }
-
-    /**
-     * Constructor from XML.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    Modem(xercesc::DOMElement *root) : NamedXMLReadable() {
-        fromXML(root);
     }
 
     /**
@@ -99,17 +97,6 @@ public:
     virtual const std::vector<KernelModule*> &getKernelModules() const {
         return modulesVector;
     }
-
-    /* --- Inherited from XMLReadable --- */
-
-    /**
-     * De-serializes from XML. Loads all the dialers and modules.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void fromXML(xercesc::DOMElement *root);
 
 protected:
 
@@ -146,49 +133,22 @@ protected:
         loadedDialers.push_back(dialer);
     }
 
-private:
-
-    /* --- Utility Methods --- */
-
     /**
-     * Loads the list of the required modules for the modem. Created a
-     * <code>KernelModule</code> for every entry, and de-serializes from XML
-     * using the item node as the root node of the module.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat or deserialization of the module failed.
+     * @param defaultDialer New default dialer
      */
-    void loadModulesFromXML(xercesc::DOMElement *root);
-    
-    /**
-     * Loads the default dialer, and the exceptions, from XML.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void loadDialersFromXML(xercesc::DOMElement *root);
+    void setDefaultDialer(Dialer *defaultDialer) {
+        this->defaultDialer = defaultDialer;
+    }
 
     /**
-     * Extracts the name of the default dialer from the tag, loads the dialer
-     * and sets it as the default dialer for this modem.
+     * Adds a new exception.
      *
-     * @param dialerNode node of the dialer we wish to load.
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
+     * @param isp Isp that excepts
+     * @param dialer Dialer to use
      */
-    void loadDefaultDialer(xercesc::DOMElement *dialerNode);
-    
-    /**
-     * Fills the exceptions map. Sorts the list, loads the dialers and puts
-     * them in the map.
-     *
-     * @param dialerNode Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void loadExceptions(xercesc::DOMElement *dialerNode);
+    void addException(const std::string isp, Dialer *dialer) {
+        exceptions[isp] = dialer;
+    }
 
     /**
      * Loads a dialer by its name. <code>DialerLoader</code> takes the dialer
@@ -197,9 +157,11 @@ private:
      *
      * @param name Name of the dialer
      * @return An intizalizes dialer
-     * @throws XMLSerializationException When the dialer failed to load.
+     * @throws DialerCreationException When the dialer failed to load.
      */
     Dialer *loadDialerByName(std::string name);
+
+private:
 
     /**
      * Releases kernel modules created by this modem.

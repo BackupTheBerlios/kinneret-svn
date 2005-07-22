@@ -19,18 +19,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __XML_ISP_H__
-#define __XML_ISP_H__
+#ifndef __XML_MODEM_H__
+#define __XML_MODEM_H__
 
-#include "Isp.h"
+#include "Modem.h"
 #include "NamedXMLReadable.h"
 
 /**
  * TODO: JavaDocs
- *
- * @author duvduv
  */
-class XMLIsp : public Isp, public NamedXMLReadable {
+class XMLModem : public Modem, public NamedXMLReadable {
 public:
 
     /* --- Constructors ---- */
@@ -39,7 +37,7 @@ public:
      * Constructor.
      * TODO: JavaDocs
      */
-    XMLIsp() : Isp(), NamedXMLReadable() {
+    XMLModem() : Modem(), NamedXMLReadable() {
         // Nothing to do
     }
 
@@ -47,17 +45,14 @@ public:
      * Destructor.
      * TODO: JavaDocs
      */
-    virtual ~XMLIsp() {
+    virtual ~XMLModem() {
         // Nothing to do
     }
 
     /* --- Inherited from XMLReadable --- */
-    
+
     /**
-     * Initializes variables according to the given element.
-     *
-     * We make this method not-virtual so we could call it from the
-     * constructor.
+     * De-serializes from XML. Loads all the dialers and modules.
      *
      * @param root Root node of the object
      * @throws XMLSerializationException When the given XML is of incorrect
@@ -67,29 +62,47 @@ public:
 
 private:
 
-    /* --- Utilitiy --- */
+    /* --- Utility Methods --- */
 
     /**
-     * Sorts the list of DNS servers from the XML, and sets the current list
-     * to be it.
-     * 
+     * Loads the list of the required modules for the modem. Created a
+     * <code>KernelModule</code> for every entry, and de-serializes from XML
+     * using the item node as the root node of the module.
+     *
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat or deserialization of the module failed.
+     */
+    void loadModulesFromXML(xercesc::DOMElement *root);
+    
+    /**
+     * Loads the default dialer, and the exceptions, from XML.
+     *
      * @param root Root node of the object
      * @throws XMLSerializationException When the given XML is of incorrect
      *         fromat.
      */
-    void extractDnsServersFromXML(xercesc::DOMElement *root);
+    void loadDialersFromXML(xercesc::DOMElement *root);
 
     /**
-     * Sorts the list of <code>ConnectionMethod</code>s from the XML, creates
-     * the method and de-serializes them from XML, giving them the item
-     * element as the root element.
-     * 
-     * @param root Root node of the object
+     * Extracts the name of the default dialer from the tag, loads the dialer
+     * and sets it as the default dialer for this modem.
+     *
+     * @param dialerNode node of the dialer we wish to load.
      * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat, or one of the connection methods failed to
-     *         de-serialize.
+     *         fromat.
      */
-    void extractConnectionMethodsFromXML(xercesc::DOMElement *root);
+    void loadDefaultDialer(xercesc::DOMElement *dialerNode);
+    
+    /**
+     * Fills the exceptions map. Sorts the list, loads the dialers and puts
+     * them in the map.
+     *
+     * @param dialerNode Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
+     */
+    void loadExceptions(xercesc::DOMElement *dialerNode);
 };
 
 #endif

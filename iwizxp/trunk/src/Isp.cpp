@@ -34,6 +34,6 @@ Isp::~Isp() {
         (*iter) = 0;
     }
     
-    Log::debug(string("Isp: ") + name + " released successfully");
+    Log::debug(string("Isp: ") + getName() + " released successfully");
 }
 

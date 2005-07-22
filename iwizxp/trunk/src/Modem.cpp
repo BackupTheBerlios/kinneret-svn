@@ -25,97 +25,10 @@
 
 #include "Log.h"
 #include "Utils.h"
-#include "xts.h"
 #include "GlobalRepository.h"
 
 using namespace std;
-using namespace xercesc;
 using namespace Utils;
-using namespace Utils::DOM;
-
-void Modem::fromXML(DOMElement *root) {
-    NamedXMLReadable::fromXML(root);
-    loadModulesFromXML(root);
-    loadDialersFromXML(root);
-}
-
-void Modem::loadModulesFromXML(DOMElement *root) {
-    DOMElement *modulesNode = getLoneElementByTagName(root, "modules");
-
-    if (modulesNode == 0) {
-        throw XMLSerializationException("No <modules> tag found!");
-    }
-
-    // Get a sorted list of servers
-    vector<DOMElement*> items;
-    elementsArrayFromXML(items, modulesNode, "module");
-
-    for (int i = 0 ; i < items.size() ; i++) {
-        addModule(new KernelModule(items[i]));
-    }
-}
-
-void Modem::loadDialersFromXML(DOMElement *root) {
-    DOMElement *dialerNode = getLoneElementByTagName(root, "dialer");
-    if (dialerNode == 0) {
-        throw XMLSerializationException("No <dialer> element!");
-    }
-
-    loadDefaultDialer(dialerNode);
-    loadExceptions(dialerNode);
-}
-
-void Modem::loadDefaultDialer(DOMElement *dialerNode) {
-    DOMElement *defaultDialerNode =
-        getLoneElementByTagName(dialerNode, "default");
-
-    if (defaultDialerNode == 0) {
-        throw XMLSerializationException("No <default> element!");
-    }
-
-    string dialerName = xts(defaultDialerNode->getTextContent(), true);
-    if (dialerName.length() == 0) {
-        throw XMLSerializationException("Empty dialer name!");
-    }
-
-    defaultDialer = loadDialerByName(dialerName);
-}
-
-void Modem::loadExceptions(DOMElement *dialerNode) {
-    DOMElement *exceptionsNode =
-        getLoneElementByTagName(dialerNode, "exceptions");
-    if (exceptionsNode == 0) {
-        throw XMLSerializationException("No <exceptions> element!");
-    }
-
-    vector<DOMElement*> exceptionElements;
-    elementsArrayFromXML(exceptionElements, dialerNode, "exception");
-
-    if (exceptionElements.size() <= 0) {
-        Log::debug("No Exceptions");
-    } else {
-        for (int i = 0 ; i < exceptionElements.size() ; i++) {
-            if (exceptionElements[i] == 0) {
-                Log::warning("Incorrect item entry, skipping...");
-                continue;
-            }
-            
-            string isp = getAttributeValue(exceptionElements[i], "isp");
-            if (isp.length() == 0) {
-                throw XMLSerializationException("No 'isp' attribute found in"
-                    " exception!");
-            }
-
-            string dialer = xts(exceptionElements[i]->getTextContent(), true);
-            if (dialer.length() == 0) {
-                throw XMLSerializationException("Empty dialer found in "
-                    "exception!");
-            }
-
-            exceptions[isp] = loadDialerByName(dialer);
-        }
-    }
-}
 
 Dialer *Modem::loadDialerByName(string name) {
     string dialerName =
@@ -124,7 +37,7 @@ Dialer *Modem::loadDialerByName(string name) {
     ifstream dialerStream(dialerName.c_str(), ios::in);
 
     if (!dialerStream.is_open()) {
-        throw XMLSerializationException("Unable to load default dialer!");
+        throw DialerCreationException("Unable to load default dialer!");
     }
 
     Dialer *dialer = 0;
@@ -134,9 +47,11 @@ Dialer *Modem::loadDialerByName(string name) {
             GlobalRepository::getInstance()->getDialerLoader()->
                 loadDialer(dialerStream);
     } catch (DialerLoader::LoadException &ex) {
-        throw XMLSerializationException(string("LoadException: ") + ex.what());
+        // Close stream an re-throw
+        dialerStream.close();
+        throw DialerCreationException(string("LoadException: ") + ex.what());
     }
-
+        
     dialerStream.close();
 
     if (dialer != 0) {

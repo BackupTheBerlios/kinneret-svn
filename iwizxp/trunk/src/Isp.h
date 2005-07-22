@@ -100,9 +100,6 @@ private:
 
     /* --- Data Members --- */
 
-    /** Name */
-    std::string name;
-
     /** List of DNS servers */
     std::vector<IpAddress> dnsServers;
     

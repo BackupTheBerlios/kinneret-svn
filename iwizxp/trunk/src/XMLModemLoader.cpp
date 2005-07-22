@@ -22,6 +22,7 @@
 #include <xercesc/dom/DOMDocument.hpp>
 
 #include "XMLModemLoader.h"
+#include "XMLModem.h"
 
 #include "Utils.h"
 
@@ -41,7 +42,9 @@ Modem *XMLModemLoader::loadModem(istream &inStream) const {
     }
 
     try {
-        return new Modem(document->getDocumentElement());
+        XMLModem *result = new XMLModem();
+        result->fromXML(document->getDocumentElement());
+        return result;
     } catch (const XMLReadable::XMLSerializationException &ex) {
         Log::error("Got XMLSerializationException while creating Isp...");
         throw LoadException(ex.what());
