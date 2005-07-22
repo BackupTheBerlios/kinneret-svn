@@ -21,17 +21,10 @@
 
 #include <sstream>
 
-#include <xercesc/dom/DOMElement.hpp>
-
 #include "Isp.h"
 #include "Cables.h"
-#include "Utils.h"
-#include "xts.h"
 
 using namespace std;
-using namespace xercesc;
-using namespace Utils;
-using namespace Utils::DOM;
 
 Isp::~Isp() {
     std::vector<ConnectionMethod*>::iterator iter;
@@ -42,67 +35,5 @@ Isp::~Isp() {
     }
     
     Log::debug(string("Isp: ") + name + " released successfully");
-}
-
-void Isp::fromXML(DOMElement *root) {
-    NamedXMLReadable::fromXML(root);
-    extractDnsServersFromXML(root);
-    extractConnectionMethodsFromXML(root);
-}
-
-void Isp::extractDnsServersFromXML(xercesc::DOMElement *root) {
-    DOMElement *dnsServerNode = getLoneElementByTagName(root, "dns");
-
-    if (dnsServerNode == 0) {
-        throw XMLSerializationException("No <dns> tag found!");
-    }
-
-    // Get a sorted list of servers
-    vector<DOMElement*> items;
-    elementsArrayFromXML(items, dnsServerNode, "server");
-
-    // And add them
-    for (int i = 0 ; i < items.size() ; i++) {
-        if (items[i] != 0) {
-            Log::debug("Adding DNS Server: " +
-                xts(items[i]->getTextContent(), true).asString());
-            addDnsServer(IpAddress(xts(items[i]->getTextContent(), true)));
-        }
-    }
-}
-
-void Isp::extractConnectionMethodsFromXML(xercesc::DOMElement *root) {
-    DOMElement *methodNode = getLoneElementByTagName(root, "methods");
-
-    if (methodNode == 0) {
-        throw XMLSerializationException("No <methods> tag found!");
-    }
-
-    // Get a sorted list of servers
-    vector<DOMElement*> items;
-    elementsArrayFromXML(items, methodNode, "method");
-
-    // And add them
-    for (int i = 0 ; i < items.size() ; i++) {
-        if (items[i] != 0) {
-            // TODO: Refactor-extract method: loadConnectionMethod or use a
-            // factory
-            string methodType = getAttributeValue(items[i], "type");
-            if (methodType == "Cables") {
-                if (items[i]->getNodeType() == DOMNode::ELEMENT_NODE) {
-                    DOMElement *element = dynamic_cast<DOMElement*>(items[i]);
-
-                    if (element == 0) {
-                        Log::error("Object-type mismatch");
-                    } else {                    
-                        Log::debug("Adding ConnectionMethod: Cables.");
-                        addConnectionMethod(new Cables(element));
-                    }
-                }
-            } else {
-                Log::debug("Unknown connection method " + methodType);
-            }
-        }
-    }
 }
 

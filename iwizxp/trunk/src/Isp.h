@@ -24,9 +24,7 @@
 
 #include <vector>
 
-#include <xercesc/dom/DOMElement.hpp>
-
-#include "NamedXMLReadable.h"
+#include "Nameable.h"
 #include "ConnectionMethod.h"
 #include "IpAddress.h"
 #include "Log.h"
@@ -34,32 +32,29 @@
 /** 
  * This class represents an ISP.
  *
+ * TODO: explain why Nameable is a virtual base.
+ *
  * @author duvduv
  */
-class Isp : public NamedXMLReadable {
+class Isp : public virtual Nameable {
 public:
 
     /* --- Constructors --- */
+
+    /**
+     * Constructor.
+     */
+    Isp() : Nameable() {
+        // Nothing to do
+    }
 
     /** 
      * Constructor.
      *
      * @param name ISP's name.
      */
-    Isp(const std::string name) : NamedXMLReadable(name) {
-        this->name = name;
-    }
-
-    /**
-     * Constructor. De-serializes from XML.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    Isp(xercesc::DOMElement *root) : NamedXMLReadable() {
-        fromXML(root);
-        Log::debug(std::string("Isp: ") + name + " created successfully");
+    Isp(const std::string name) : Nameable(name) {
+        // Nothing to do
     }
     
     /** 
@@ -101,45 +96,7 @@ public:
         return methods;
     }
 
-    /* --- Inherited from XMLReadable --- */
-    
-    /**
-     * Initializes variables according to the given element.
-     *
-     * We make this method not-virtual so we could call it from the
-     * constructor.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void fromXML(xercesc::DOMElement *root);
-
 private:
-
-    /* --- Utilitiy --- */
-
-    /**
-     * Sorts the list of DNS servers from the XML, and sets the current list
-     * to be it.
-     * 
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void extractDnsServersFromXML(xercesc::DOMElement *root);
-
-    /**
-     * Sorts the list of <code>ConnectionMethod</code>s from the XML, creates
-     * the method and de-serializes them from XML, giving them the item
-     * element as the root element.
-     * 
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat, or one of the connection methods failed to
-     *         de-serialize.
-     */
-    void extractConnectionMethodsFromXML(xercesc::DOMElement *root);
 
     /* --- Data Members --- */
 

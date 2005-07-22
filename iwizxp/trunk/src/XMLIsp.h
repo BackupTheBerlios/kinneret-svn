@@ -19,61 +19,79 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __NAMED_XML_READABLE_H__
-#define __NAMED_XML_READABLE_H__
+#ifndef __XML_ISP_H__
+#define __XML_ISP_H__
 
-#include "Nameable.h"
-#include "XMLReadable.h"
+#include <xercesc/dom/DOMElement.hpp>
+
+#include "Isp.h"
+#include "NamedXMLReadable.h"
 
 /**
- * This class is a <code>Nameable</code> class, that can load its name from
- * XML. It does that using the <code>&lt;name&gt;</code> tag found under the
- * root.
+ * TODO: JavaDocs
  *
- * TODO: Explain why Nameable is a virtual base.
- * 
  * @author duvduv
  */
-class NamedXMLReadable : public virtual Nameable, public XMLReadable {
+class XMLIsp : public Isp, public NamedXMLReadable {
 public:
 
     /* --- Constructors ---- */
 
     /**
-     * Constructor - use it if you wish to loads from XML later.
-     *
-     * @param name Name.
+     * Constructor.
+     * TODO: JavaDocs
      */
-    NamedXMLReadable(const std::string name) : Nameable(name), XMLReadable() {
-        // Nothing to do
-    }
-
-    /**
-     * Constructor - use it if you wish to loads from XML later.
-     */
-    NamedXMLReadable() : Nameable(), XMLReadable() {
+    XMLIsp() : Isp(), NamedXMLReadable() {
         // Nothing to do
     }
 
     /**
      * Destructor.
+     * TODO: JavaDocs
      */
-    virtual ~NamedXMLReadable() {
+    virtual ~XMLIsp() {
         // Nothing to do
     }
 
     /* --- Inherited from XMLReadable --- */
+    
+    /**
+     * Initializes variables according to the given element.
+     *
+     * We make this method not-virtual so we could call it from the
+     * constructor.
+     *
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
+     */
+    void fromXML(xercesc::DOMElement *root);
+
+private:
+
+    /* --- Utilitiy --- */
 
     /**
-     * Loads the name of the object from the <code>&lt;name&gt;</code> tad
-     * that's in it.
-     *
-     * @param root Root node. Must contain a <code>name</code> tag right
-     *        below it in the hirarchy.
-     * @throws XMLSerializationException If the tag isn't found under the
-     *         given root.
+     * Sorts the list of DNS servers from the XML, and sets the current list
+     * to be it.
+     * 
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
-    virtual void fromXML(xercesc::DOMElement *root);
+    void extractDnsServersFromXML(xercesc::DOMElement *root);
+
+    /**
+     * Sorts the list of <code>ConnectionMethod</code>s from the XML, creates
+     * the method and de-serializes them from XML, giving them the item
+     * element as the root element.
+     * 
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat, or one of the connection methods failed to
+     *         de-serialize.
+     */
+    void extractConnectionMethodsFromXML(xercesc::DOMElement *root);
 };
 
 #endif

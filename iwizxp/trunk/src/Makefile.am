@@ -19,5 +19,6 @@ iwizxp_SOURCES = Modem.cpp \
 				 NamedXMLReadable.cpp \
 				 KernelModule.cpp \
 				 Wizard.cpp \
-				 TextUI.cpp
+				 TextUI.cpp \
+				 XMLIsp.cpp
 iwizxp_INCLUDES = -I$(top_srcdir)/src

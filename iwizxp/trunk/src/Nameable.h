@@ -44,6 +44,14 @@ public:
     /* --- Constructors ---- */
 
     /**
+     * Default contrcutor. Used by someone who wishes to set the name after
+     * construction.
+     */
+    Nameable() : Printable() {
+        // Empty constructor
+    }
+
+    /**
      * Constructor.
      * 
      * @param name Name

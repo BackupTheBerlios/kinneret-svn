@@ -22,6 +22,7 @@
 #include <xercesc/dom/DOMDocument.hpp>
 
 #include "XMLIspLoader.h"
+#include "XMLIsp.h"
 
 #include "Utils.h"
 
@@ -41,7 +42,9 @@ Isp *XMLIspLoader::loadIsp(istream &inStream) const {
     }
 
     try {
-        return new Isp(document->getDocumentElement());
+        XMLIsp *result = new XMLIsp();
+        result->fromXML(document->getDocumentElement());
+        return result;
     } catch (const XMLReadable::XMLSerializationException &ex) {
         Log::error("Got XMLSerializationException while creating Isp...");
         throw LoadExcpetion(ex.what());
