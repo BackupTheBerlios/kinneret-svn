@@ -23,6 +23,7 @@
 
 #include "Utils.h"
 #include "xts.h"
+#include "XMLKernelModule.h"
 
 using namespace std;
 using namespace xercesc;
@@ -47,7 +48,9 @@ void XMLModem::loadModulesFromXML(DOMElement *root) {
     elementsArrayFromXML(items, modulesNode, "module");
 
     for (int i = 0 ; i < items.size() ; i++) {
-        addModule(new KernelModule(items[i]));
+        XMLKernelModule *module = new XMLKernelModule();
+        module->fromXML(items[i]);
+        addModule(module);
     }
 }
 

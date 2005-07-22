@@ -19,25 +19,59 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef __XML_KERNEL_MODULE_H__
+#define __XML_KERNEL_MODULE_H__
+
 #include "KernelModule.h"
+#include "NamedXMLReadable.h"
 
-#include "Log.h"
-#include "Utils.h"
-#include "xts.h"
+/**
+ * TODO: JavaDocs
+ */
+class XMLKernelModule : public KernelModule, NamedXMLReadable {
+public:
 
-using namespace std;
-using namespace xercesc;
-using namespace Utils;
-using namespace Utils::DOM;
+    /* --- Constructors ---- */
 
-string KernelModule::getName(KernelClass kernelClass) const {
-    map<KernelClass, string>::const_iterator name =
-        names.find(kernelClass);
-
-    if (name == names.end()) {
-        throw FeatureNotSupportedException("No support for this module.");
-    } else {
-        return name->second;
+    /**
+     * Destructor.
+     * TODO: JavaDocs
+     */
+    virtual ~XMLKernelModule() {
+        // Nothing to do
     }
-}
 
+    /* --- Inherited from XMLReadable --- */
+
+    /**
+     * De-serializes from XML. Loads all the names for all the kernel
+     * classes.
+     *
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
+     */
+    void fromXML(xercesc::DOMElement *root);
+
+private:
+
+    /* --- Helper Methods --- */
+
+    /**
+     * Extracts the value of the <code>kernel</code> attribute from the given
+     * element, and translate it to <code>KernelClass</code>.
+     *
+     * Format of the attribute is very simple, and goes like the regular
+     * kernel notation (<code>&lt;major&gt;.&lt;minor&gt;</code>, e.g.
+     * <code>2.4</code> and <code>2.6</code>).
+     *
+     * @return Class that corresponds the attribute in the element.
+     * @param element Element that has an <code>kernel</code> attribute.
+     * @throws XMLSerializationException When the given elements doesn't have
+     *         a <code>kernel</code> attribue, or the attribute is not
+     *         formatted correctly.
+     */
+    KernelClass kernelClassFromXML(xercesc::DOMElement *element) const;
+};
+
+#endif

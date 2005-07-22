@@ -24,7 +24,7 @@
 
 #include <map>
 
-#include "NamedXMLReadable.h"
+#include "Nameable.h"
 #include "Exception.h"
 
 /** 
@@ -35,10 +35,11 @@
  * classes should provide the module name for the 2.4 and 2.6 kernels.
  *
  * TODO: Add support for arguments.
+ * TODO: Explain why Nameable is a virtual base.
  *
  * @author duvduv
  */
-class KernelModule : public NamedXMLReadable {
+class KernelModule : public virtual Nameable {
 public:
 
     /* --- Inner Types --- */
@@ -55,13 +56,6 @@ public:
     };
 
     /* --- Constructors --- */
-
-    /** 
-     * Constructor.
-     */
-    KernelModule(xercesc::DOMElement *root) : NamedXMLReadable() {
-        fromXML(root);
-    }
 
     /** 
      * Destructor.
@@ -90,37 +84,21 @@ public:
      */
     virtual std::string getName(KernelClass kernelClass) const;
 
-    /* --- Inherited from XMLReadable --- */
+protected:
+
+    /* --- Access Methods --- */
 
     /**
-     * De-serializes from XML. Loads all the names for all the kernel
-     * classes.
+     * Adds a new name for a specific kernel class.
      *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
+     * @param kernelClass Class
+     * @param name Name of the module in that class
      */
-    void fromXML(xercesc::DOMElement *root);
+    void addName(KernelClass kernelClass, const std::string name) {
+        names[kernelClass] = name;
+    }
 
 private:
-
-    /* --- Helper Methods --- */
-
-    /**
-     * Extracts the value of the <code>kernel</code> attribute from the given
-     * element, and translate it to <code>KernelClass</code>.
-     *
-     * Format of the attribute is very simple, and goes like the regular
-     * kernel notation (<code>&lt;major&gt;.&lt;minor&gt;</code>, e.g.
-     * <code>2.4</code> and <code>2.6</code>).
-     *
-     * @return Class that corresponds the attribute in the element.
-     * @param element Element that has an <code>kernel</code> attribute.
-     * @throws XMLSerializationException When the given elements doesn't have
-     *         a <code>kernel</code> attribue, or the attribute is not
-     *         formatted correctly.
-     */
-    KernelClass kernelClassFromXML(xercesc::DOMElement *element) const;
 
     /* --- Data Members --- */
 

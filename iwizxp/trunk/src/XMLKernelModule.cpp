@@ -19,25 +19,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "KernelModule.h"
+#include "XMLKernelModule.h"
 
-#include "Log.h"
 #include "Utils.h"
 #include "xts.h"
+#include "Log.h"
 
 using namespace std;
 using namespace xercesc;
 using namespace Utils;
 using namespace Utils::DOM;
 
-string KernelModule::getName(KernelClass kernelClass) const {
-    map<KernelClass, string>::const_iterator name =
-        names.find(kernelClass);
+void XMLKernelModule::fromXML(DOMElement *root) {
+    NamedXMLReadable::fromXML(root);
 
-    if (name == names.end()) {
-        throw FeatureNotSupportedException("No support for this module.");
+    vector<DOMElement*> modprobeNodes;
+    getElementsByTagName(modprobeNodes, root, "modprobe");
+
+    if (modprobeNodes.size() <= 0) {
+        throw XMLSerializationException("No <modprobe> elements found!");
+    }
+
+    for (int i = 0 ; i < modprobeNodes.size() ; i++) {
+        if (modprobeNodes[i] == 0) {
+            Log::warning("Empty entry in list, skipping...");
+            continue;
+        }
+
+        KernelClass kernel = kernelClassFromXML(modprobeNodes[i]);
+        addName(kernel, xts(modprobeNodes[i]->getTextContent(), true));
+    }
+}
+
+KernelModule::KernelClass XMLKernelModule::kernelClassFromXML(
+        DOMElement *element) const {
+    string classString = getAttributeValue(element, "kernel");
+
+    if (classString == "2.4") {
+        return LINUX2_4;
+    } else if (classString == "2.6") {
+        return LINUX2_6;
     } else {
-        return name->second;
+        throw XMLSerializationException(string("Unknown kernel class: ") +
+            classString);
     }
 }
 
