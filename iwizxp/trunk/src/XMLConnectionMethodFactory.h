@@ -19,16 +19,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __XML_KERNEL_MODULE_H__
-#define __XML_KERNEL_MODULE_H__
+#ifndef __XML_CONNECTION_METHOD_FACTORY_H__
+#define __XML_CONNECTION_METHOD_FACTORY_H__
 
-#include "KernelModule.h"
-#include "NamedXMLReadable.h"
+#include <string>
+
+#include "XMLConnectionMethod.h"
+#include "Log.h"
 
 /**
  * TODO: JavaDocs
  */
-class XMLKernelModule : public KernelModule, public NamedXMLReadable {
+class XMLConnectionMethodFactory {
 public:
 
     /* --- Constructors ---- */
@@ -37,41 +39,33 @@ public:
      * Destructor.
      * TODO: JavaDocs
      */
-    virtual ~XMLKernelModule() {
+    virtual ~XMLConnectionMethodFactory() {
         // Nothing to do
     }
 
-    /* --- Inherited from XMLReadable --- */
+    /* --- Public Methods --- */
 
     /**
-     * De-serializes from XML. Loads all the names for all the kernel
-     * classes.
      *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
      */
-    void fromXML(xercesc::DOMElement *root);
+    static ConnectionMethod *create(const std::string name,
+            xercesc::DOMElement *element) {
+        XMLConnectionMethod *result = 0;
 
-private:
+        if (name == "Cables") {
+            result = new XMLCables();
+        } /* else if (name == "ADSL") {
+             result = new XMLAdsl();
+        } ... */
 
-    /* --- Helper Methods --- */
+        if (result != 0) {
+            result->fromXML(element);
+        } else {
+            Log::debug(std::string("Unknown connection method: ") + name);
+        }
 
-    /**
-     * Extracts the value of the <code>kernel</code> attribute from the given
-     * element, and translate it to <code>KernelClass</code>.
-     *
-     * Format of the attribute is very simple, and goes like the regular
-     * kernel notation (<code>&lt;major&gt;.&lt;minor&gt;</code>, e.g.
-     * <code>2.4</code> and <code>2.6</code>).
-     *
-     * @return Class that corresponds the attribute in the element.
-     * @param element Element that has an <code>kernel</code> attribute.
-     * @throws XMLSerializationException When the given elements doesn't have
-     *         a <code>kernel</code> attribue, or the attribute is not
-     *         formatted correctly.
-     */
-    KernelClass kernelClassFromXML(xercesc::DOMElement *element) const;
+        return result;
+    }
 };
 
 #endif

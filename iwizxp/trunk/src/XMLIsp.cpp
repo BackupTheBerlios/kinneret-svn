@@ -24,6 +24,7 @@
 #include "Utils.h"
 #include "xts.h"
 #include "XMLCables.h"
+#include "XMLConnectionMethodFactory.h"
 
 using namespace std;
 using namespace xercesc;
@@ -71,24 +72,13 @@ void XMLIsp::extractConnectionMethodsFromXML(xercesc::DOMElement *root) {
     // And add them
     for (int i = 0 ; i < items.size() ; i++) {
         if (items[i] != 0) {
-            // TODO: Refactor-extract method: loadConnectionMethod or use a
-            // factory
             string methodType = getAttributeValue(items[i], "type");
-            if (methodType == "Cables") {
-                if (items[i]->getNodeType() == DOMNode::ELEMENT_NODE) {
-                    DOMElement *element = dynamic_cast<DOMElement*>(items[i]);
 
-                    if (element == 0) {
-                        Log::error("Object-type mismatch");
-                    } else {                    
-                        Log::debug("Adding ConnectionMethod: Cables.");
-                        XMLCables *cables = new XMLCables();
-                        cables->fromXML(element);
-                        addConnectionMethod(cables);
-                    }
-                }
-            } else {
-                Log::debug("Unknown connection method " + methodType);
+            ConnectionMethod *method =
+                XMLConnectionMethodFactory::create(methodType, items[i]);
+
+            if (method != 0) {
+                addConnectionMethod(method);
             }
         }
     }

@@ -22,7 +22,7 @@
 #ifndef __XML_CABLES_CONNECTION_METHOD_H__
 #define __XML_CABLES_CONNECTION_METHOD_H__
 
-#include "ConnectionMethod.h"
+#include "XMLConnectionMethod.h"
 #include "XMLReadable.h"
 
 #include "Log.h"
@@ -35,7 +35,7 @@
  *
  * @author duvduv
  */
-class XMLCables : public ConnectionMethod, public XMLReadable {
+class XMLCables : public XMLConnectionMethod {
 public:
 
     /* --- Constructors --- */
