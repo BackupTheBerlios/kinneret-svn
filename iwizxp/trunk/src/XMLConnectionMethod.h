@@ -26,7 +26,10 @@
 #include "XMLReadable.h"
 
 /**
- * TODO: JavaDocs
+ * This class represents a connection method that can be de-serialized from
+ * XML.
+ *
+ * @author Itay 'z9u2k' Duvdevani
  */
 class XMLConnectionMethod : public ConnectionMethod, public XMLReadable{
 public:
@@ -35,7 +38,8 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
+     *
+     * Does nothing.
      */
     virtual ~XMLConnectionMethod() {
         // Nothing to do

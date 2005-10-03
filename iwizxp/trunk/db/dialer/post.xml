@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialer>
+    <name>Post-dialer Scripts</name>
+
+    <!-- No connection post-scripts -->
+
+    <!-- Disconnection Scripts -->
+    <disconnection count="3">
+        <script item="1">restorePppSecrets</script>
+        <script item="2">restoreResolvConf</script>
+        <script item="3">unloadModules</script>
+    </disconnection>
+</dialer>

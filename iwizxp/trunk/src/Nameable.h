@@ -25,16 +25,17 @@
 #include "Printable.h"
 
 /**
- * This class is nameable, meaning, it has a name. For non-derived code, this
- * class is immutable, they cannot change the name. Derived classes can set
- * the name, but it is advised to do this once during construction.
+ * This class is nameable, meaning, it has a name. For non-derived classes, this
+ * class is immutable, the name is set once and never changes. Derived
+ * classes can set the name, but it is advised to do it only once, during
+ * construction, or near it.
  *
  * TODO: This might be desiged a bit smarter. The <code>setName</code> method
  * exists for the benefit of <code>NamedXMLReadable</code>, that doesn't know
  * the name of the object at construction time, but must change it in
  * <code>fromXML</code>. Problem is, derived classes can change their name
- * whenevery they want - which is not what we intended. <code>Nameable</code>
- * shoule be immutable.
+ * whenevery they want - which is not what we intended (<code>Nameable</code>
+ * shoule be immutable).
  *
  * @author duvduv
  */
@@ -52,16 +53,16 @@ public:
     }
 
     /**
-     * Constructor.
+     * Constructor. Does nothinf interesting.
      * 
-     * @param name Name
+     * @param name The name of this <code>Nameable</code>.
      */
     Nameable(const std::string name) : Printable () {
         this->name = name;
     }
 
     /**
-     * Destructor.
+     * Destructor. Does nothing interesting.
      */
     virtual ~Nameable() {
         // Nothing to do
@@ -70,7 +71,7 @@ public:
     /* --- Public Methods --- */
 
     /**
-     * @return Name
+     * @return Name of this <code>Nameable</code>.
      */
     virtual std::string getName() const {
         return name;
@@ -79,7 +80,7 @@ public:
     /* --- Inherited from Printable --- */
 
     /**
-     * @return Name
+     * @return Name of this <code>Nameble</code>.
      */
     virtual const std::string toString() const {
         return getName();
@@ -90,7 +91,7 @@ protected:
     /* --- Protected Methods --- */
 
     /**
-     * @param name New name
+     * @param name New name.
      */
     void setName(std::string name) {
         this->name = name;
@@ -100,7 +101,7 @@ private:
 
     /* --- Data Members --- */
 
-    /** Name */
+    /** Our Name */
     std::string name;
 };
 

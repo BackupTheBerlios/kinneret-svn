@@ -26,8 +26,8 @@
 
 /**
  * The "user input" is the part of the user arguments that cannot be obtained
- * in any other way except asking the user (thigs like username, and all sort
- * of preferences).
+ * in any other way except asking the user directly (thigs like username, and
+ * all sort of preferences).
  *
  * @author: duvduv
  */
@@ -38,13 +38,15 @@ public:
 
     /**
      * Constructor.
+     *
+     * Sets autodetection of ethernet interfaces to false.
      */
     UserInput() {
         autodetectInterface = false;
     }
 
     /**
-     * Destructor.
+     * Destructor. Does nothing interesting.
      */
     virtual ~UserInput() {
         // Nothing to do
@@ -60,6 +62,9 @@ public:
     }
 
     /**
+     * The ethernet device is the device (virtual or real) we use to
+     * establich the connection with the ISP.
+     * 
      * @return <code>true</code>, if the user specified a device.
      *         <code>false</code> otherwise.
      */
@@ -68,6 +73,10 @@ public:
     }
 
     /**
+     * The modem device is the device (virtual or real) we use to establish
+     * connection with the ISP. Usually, it is an ethernet device of the form
+     * eth<i>n</i> - where <i>n</i> is the interface index.
+     * 
      * @return Name of the modem device (e.g. <code>eth0, eth1</code> etc.)
      */
     virtual std::string getModemEthernetDevice() const {
@@ -75,7 +84,12 @@ public:
     }
 
     /**
-     * @return <code>true</code>, if the user wishes the final script will
+     * Interface autodetection attempt auto-detection of the interface that
+     * <code>modprobe</code> created.  Since the device might be different at
+     * some times (like, when installing a new ethernet card), this feature
+     * might be useful for USB modems.
+     * 
+     * @return <code>true</code>, if the user wishes that final script will
      *         attempt to auto-detect the ethernet device (usually created
      *         using <code>usbnet</code> and modules of this sort).
      *         <code>false</code> otherwise.

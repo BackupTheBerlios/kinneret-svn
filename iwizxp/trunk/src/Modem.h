@@ -32,16 +32,17 @@
 #include "Exception.h"
 
 /**
- * This class represents a modem. A modem knows whcih modules it needs in
+ * This class represents a modem. A modem knows which modules it needs in
  * order to work, and which dialer it should use.
  *
- * <b>About exceptions</b>:
+ * <b>About dialer exceptions</b>:
  * Most modems work with a single dialer. There are some exceptional cases,
  * where a modem will require a different dialer when connectin to a certain
  * ISP (like Bezeqint, that might require an additional flag when dialing
  * with PPtP).
  *
- * TODO: Explain why Nameable is a vritual base.
+ * Regarding <code>Nameable</code> as a virtual base, see comment at
+ * {@link Isp}.
  *
  * @author duvduv
  */
@@ -51,7 +52,11 @@ public:
     /* --- Constructors --- */
 
     /**
-     * Defult constructor.
+     * Defult constructor. Creates an unnamed dialer. This constructor is
+     * used by subclasses that doesn't know the name of the modem at
+     * construction time.
+     *
+     * @see #setName
      */
     Modem() : Nameable() {
         // Nothing to do
@@ -73,11 +78,16 @@ public:
 
     /* --- Inner Types --- */
 
+    /**
+     * Thrown when the modem could not determent which dialer to use.
+     */
     NewException(DialerCreationException);
 
     /* --- Abstract Methods --- */
 
     /**
+     * Determents which dialer to use with the given configuration.
+     *
      * @param isp Selected ISP. Dialers my change due to the selected ISP
      *        (e.g. ADSL PPtP connection to Bezeq\@int is different than any
      *        other ISP).
@@ -144,7 +154,7 @@ protected:
      * Adds a new exception.
      *
      * @param isp Isp that excepts
-     * @param dialer Dialer to use
+     * @param dialer Dialer to use in case the given ISP was chosen.
      */
     void addException(const std::string isp, Dialer *dialer) {
         exceptions[isp] = dialer;

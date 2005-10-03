@@ -32,7 +32,18 @@
 /** 
  * This class represents an ISP.
  *
- * TODO: explain why Nameable is a virtual base.
+ * A note about the virtual base <code>Nameable</code>:
+ * An ISP is a <code>Nameable</code> object. The ISP object is responsible for
+ * the ISP-ish behaviour of the object, alone.
+ * The idea is that each class will have a single responsibility. That's why,
+ * <code>Isp</code> has a son named <code>XMLIsp</code>. <code>XMLIsp</code>
+ * is responsible for the serialization and deserialization of the ISP to and
+ * from XML, alone.  Since <code>XMLIsp</code> is a son of
+ * <code>NamedXMLReadable</code> as well, <code>Nameable</code> must be a
+ * virtual base (Look at the hirarchy of <code>NamedXMLReadable</code>).
+ * According to this design, if someday other methods of serialization will
+ * be required, all we'll have to do is to sub-class <code>Isp</code> and
+ * change the <code>IspLoader</code> at the <code>GlobalRepository</code>.
  *
  * @author duvduv
  */
@@ -42,14 +53,18 @@ public:
     /* --- Constructors --- */
 
     /**
-     * Constructor.
+     * Constructor. Creates an unnamed ISP.
+     * This constructor is presented for the use of classes that does not
+     * know the name of the ISP at construction time, but will know it later.
+     *
+     * @see #setName
      */
     Isp() : Nameable() {
         // Nothing to do
     }
 
     /** 
-     * Constructor.
+     * Constructor. Creates a named ISP.
      *
      * @param name ISP's name.
      */
@@ -83,14 +98,14 @@ public:
     }
     
     /** 
-     * @return Vector of DNS servers.
+     * @return DNS servers.
      */
     const std::vector<IpAddress> &getDnsServers() const {
         return dnsServers;
     }
 
     /** 
-     * @return Vector of supported connection methods.
+     * @return Supported connection methods.
      */
     const std::vector<ConnectionMethod*> &getConnectionMethods() const {
         return methods;
@@ -100,7 +115,7 @@ private:
 
     /* --- Data Members --- */
 
-    /** List of DNS servers */
+    /** Ordered list of DNS servers */
     std::vector<IpAddress> dnsServers;
     
     /** List of supported connection methods */

@@ -26,9 +26,13 @@
 
 #include "XMLConnectionMethod.h"
 #include "Log.h"
+#include "XMLCables.h"
 
 /**
- * TODO: JavaDocs
+ * This class serves as a factory for creating connection methods out of
+ * theis names.
+ *
+ * @author Itay 'z9u2k' Duvdevani
  */
 class XMLConnectionMethodFactory {
 public:
@@ -37,7 +41,8 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
+     *
+     * Does nothing.
      */
     virtual ~XMLConnectionMethodFactory() {
         // Nothing to do
@@ -46,26 +51,34 @@ public:
     /* --- Public Methods --- */
 
     /**
+     * The method creates a <code>ConnectionMethod</code> according to the
+     * given name. After the instantiation, the created
+     * <code>XMLConnectionMethod</code> is de-serialized from the given
+     * element.
      *
+     * @param name Name of the connection method.
+     * @param element Element to de-serialize the method from.
+     * @return An initialized <code>ConnectionMethod</code> on success, or
+     *         <code>null</code> on failure.
      */
     static ConnectionMethod *create(const std::string name,
-            xercesc::DOMElement *element) {
-        XMLConnectionMethod *result = 0;
+            xercesc::DOMElement *element);
 
-        if (name == "Cables") {
-            result = new XMLCables();
-        } /* else if (name == "ADSL") {
-             result = new XMLAdsl();
-        } ... */
+private:
 
-        if (result != 0) {
-            result->fromXML(element);
-        } else {
-            Log::debug(std::string("Unknown connection method: ") + name);
-        }
+    /* --- Constants --- */
 
-        return result;
-    }
+    /** Attribute value for cables method */
+    static const std::string CABLES_NAME;
+    
+    /** Attribute value for ADSL method */
+    static const std::string ADSL_NAME;
+    
+    /** Attribute value for ISDN method */
+    static const std::string ISDN_NAME;
+    
+    /** Attribute value for dialup method */
+    static const std::string DIALUP_NAME;
 };
 
 #endif

@@ -60,14 +60,16 @@ public:
     /* --- Abstract Methods --- */
 
     /**
-     * This method allocates and initializes a new modem from a given stream.
+     * Pure-virtual method which allocates and initializes a new modem from a
+     * given stream. Note that the modem is allocated with <code>new</code>,
+     * and it's up to the user to <code>delete</code> it.
      *
-     * @param inStream Stream to read modem info from. Format determined by
-     *        the implementing loader.
-     * @return A new and allocated modem. The modem is allocated using
-     * <code>new</code> and it's up to the user to <code>delete</code> it.
-     * @throws LoadExcpetion When the modem could not be initilized from the
-     *         given stream.
+     * @param inStream Stream to read modem's info from.
+     * @return A new and initialized <code>Modem</code> (or one of its
+     *         subclasses).
+     * @throws LoadExcpetion When the loades could not have initialized a new
+     *         modem from the given stream (serialization error, stream error,
+     *         memory error, etc.)
      */
     virtual Modem *loadModem(std::istream &inStream) const = 0;
 };

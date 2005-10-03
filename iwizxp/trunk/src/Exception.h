@@ -25,9 +25,11 @@
 #include <string>
 #include <exception>
 
-/*
+/**
+ * A Macro for creating new exceptions.
+ * 
  * All the exceptions inherit from Exception, which inherits from
- * std::exception. Use this macro to create new exceptions.
+ * std::exception.
  */
 #define NewException(name) \
 class name : public Exception { \
@@ -53,7 +55,7 @@ public:
     /* --- Constructors --- */
 
     /**
-     * Constructor.
+     * Constructor. Sets the reason for this exception.
      *
      * @param what The reason for the exception.
      */
@@ -69,7 +71,7 @@ public:
     }
 
     /**
-     * Destructor.
+     * Destructor, does nothing.
      */
     virtual ~Exception() throw () {
         // Nothing to do

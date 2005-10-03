@@ -25,8 +25,12 @@
 #include <string>
 
 /**
- * An abstract class.
- * Think of <code>Object.toString()</code> from Java.
+ * Think of this class as Java's <code>Object.toString()</code> - All
+ * implementing classes should be able to presents themselvs as a printable
+ * string.
+ *
+ * This abstract class supplies an implicit conversion to
+ * <code>std::string</code> using <code>toString()</code>.
  *
  * @author duvduv
  */
@@ -36,14 +40,14 @@ public:
     /* --- Construcotrs --- */
     
     /**
-     * Constructor.
+     * Default constructor. Does nothing interesting.
      */
     Printable() {
         // Nothing to do
     }
 
     /** 
-     * Destructor.
+     * Destructor. Does nothing interesting.
      */
     virtual ~Printable() {
         // Nothing to do

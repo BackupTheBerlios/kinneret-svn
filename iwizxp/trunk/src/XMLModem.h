@@ -26,7 +26,9 @@
 #include "NamedXMLReadable.h"
 
 /**
- * TODO: JavaDocs
+ * This class represents a modem that can be de-serialized from XML.
+ * 
+ * @author duvudv
  */
 class XMLModem : public Modem, public NamedXMLReadable {
 public:
@@ -35,7 +37,8 @@ public:
 
     /**
      * Constructor.
-     * TODO: JavaDocs
+     *
+     * Does nothing.
      */
     XMLModem() : Modem(), NamedXMLReadable() {
         // Nothing to do
@@ -43,7 +46,8 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
+     *
+     * Does nothing.
      */
     virtual ~XMLModem() {
         // Nothing to do

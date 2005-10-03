@@ -19,60 +19,34 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __DIALER_LOADER_H__
-#define __DIALER_LOADER_H__
+#include <string>
 
-#include <istream>
+#include "XMLConnectionMethodFactory.h"
 
-#include "Dialer.h"
-#include "Exception.h"
+using namespace std;
 
-/**
- * This interface represents a class that is able to load a dialer from a
- * stream.
- *
- * @author duvduv
- */
-class DialerLoader {
-public:
+const string XMLConnectionMethodFactory::CABLES_NAME = "Cables";
+const string XMLConnectionMethodFactory::ADSL_NAME   = "ADSL";
+const string XMLConnectionMethodFactory::ISDN_NAME   = "ISDN";
+const string XMLConnectionMethodFactory::DIALUP_NAME = "Dialup";
 
-    /* --- Constructors ---- */
+ConnectionMethod *XMLConnectionMethodFactory::create(const std::string name,
+        xercesc::DOMElement *element) {
+    XMLConnectionMethod *result = 0;
 
-    /**
-     * Constructor, does nothing.
-     */
-    DialerLoader() {
-        // Nothing to do
+    if (name == CABLES_NAME) {
+        result = new XMLCables();
+    } /* else if (name == ADSL_NAME) {
+         result = new XMLAdsl();
+    } ... */
+
+    if (result != 0) {
+        result->fromXML(element);
+    } else {
+        // TODO: Throw something?
+        Log::debug(std::string("Unknown connection method: ") + name);
     }
 
-    /**
-     * Destructor, does nothing.
-     */
-    virtual ~DialerLoader() {
-        // Nothing to do
-    }
+    return result;
+}
 
-    /* --- Inner Types --- */
-
-    /**
-     * Thrown when load fails.
-     */
-    NewException(LoadException);
-
-    /* --- Abstract Methods --- */
-
-    /**
-     * This method allocates and initializes a new dialer from a given stream.
-     *
-     * @param inStream Stream to read dialer info from. Format determined by
-     *        the implementing loader.
-     * @return A new and allocated dialer. The dialer is allocated using
-     *         <code>new</code> and it's up to the caller to
-     *         <code>delete</code> it.
-     * @throws LoadExcpetion When a new dialer cannot be created from the
-     *         given stream.
-     */
-    virtual Dialer *loadDialer(std::istream &inStream) const = 0;
-};
-
-#endif

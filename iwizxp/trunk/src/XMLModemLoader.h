@@ -36,16 +36,20 @@ public:
 
     /**
      * Constructor.
+     *
+     * Does nothing.
      */
     XMLModemLoader() {
-        Log::debug("XMLModemLoader created successfully");
+        Log::debug("Constructing XMLModemLoader");
     }
 
     /**
      * Destructor.
+     *
+     * Does nothing.
      */
     virtual ~XMLModemLoader() {
-        Log::debug("XMLModemLoader released successfully");
+        Log::debug("Destroying XMLModemLoader");
     }
 
     /* --- Public Methods --- */

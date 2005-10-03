@@ -26,7 +26,7 @@
 #include "NamedXMLReadable.h"
 
 /**
- * TODO: JavaDocs
+ * This class represents an ISP that can be de-serialized from XML.
  *
  * @author duvduv
  */
@@ -37,7 +37,8 @@ public:
 
     /**
      * Constructor.
-     * TODO: JavaDocs
+     *
+     * Does nothing.
      */
     XMLIsp() : Isp(), NamedXMLReadable() {
         // Nothing to do
@@ -45,7 +46,8 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
+     *
+     * Does nothing.
      */
     virtual ~XMLIsp() {
         // Nothing to do

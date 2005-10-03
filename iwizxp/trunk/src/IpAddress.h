@@ -69,5 +69,4 @@ private:
     std::string ipAddress;
 };
 
-
 #endif

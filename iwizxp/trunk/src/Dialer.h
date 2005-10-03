@@ -24,52 +24,51 @@
 
 #include <vector>
 
-#include "Printable.h"
+#include "Nameable.h"
 #include "Script.h"
 #include "Log.h"
 
 /**
- * A dialer knows which scripts a required in order to establish a
- * connection, and in which order they should be executed. It is placed
- * inside a <code>ConnectionTemplate</code> to create a final script.
- *
- * Note: Since the <code>Dialer</code> is the class that holds all the
- * <code>Script</code>s, it will release all the scripts it holds during
- * destruction.
+ * A dialer is an ordered set of scripts, that should be executed in the
+ * given order to establish or terminate a connection. The dialer is
+ * represented in the script as a bunch of method definitions, and two
+ * methods, <code>connect</code> and <code>disconnect</code>, that call the
+ * above method in the given order. This code block is placed inside the
+ * <code>ConnectionTemplate</code>.
+ * 
+ * Note: At destruction time, the <code>Dialer</code> will
+ * <code>delete</code> all the <code>Script</code>s it knows.
  *
  * @author duvduv
+ * @see ConnectionTemplate
  */
-class Dialer : public Printable {
+class Dialer : public Nameable {
 public:
 
     /* --- Constructors --- */
 
     /**
-     * Constructor.
+     * Constructor, does nothing interesting.
+     *
+     * @param name Dialer's name
      */
-    Dialer(const std::string name) : Printable() {
+    Dialer(const std::string name) : Nameable(name) {
         this->name = name;
 
-        Log::debug("Dialer created successfully");
+        Log::debug("Constructing Dialer");
     }
 
     /**
-     * Destructor, does nothing.
+     * Destructor. Attempts to release all the <code>Script</code>s that this
+     * dialer knows.
      */
     virtual ~Dialer() {
         releaseScripts();
 
-        Log::debug("Dialer released successfully");
+        Log::debug("Destroying Dialer");
     }
 
     /* --- Public Methods --- */
-
-    /**
-     * @return Name of the dialer
-     */
-    virtual const std::string getName() const {
-        return name;
-    }
 
     /**
      * @return An ordered list of the <code>Script</code>s that has to be
@@ -88,8 +87,8 @@ public:
     }
 
     /**
-     * Adds a connection script to the dialer. Scripts are ordered by the
-     * order they are added.
+     * Adds a connection script to the dialer. Scripts are executed by the
+     * order they were added (FIFO).
      *
      * @param script Script to add to the dialer.
      */
@@ -98,8 +97,8 @@ public:
     }
 
     /**
-     * Adds a disconnection script to the dialer. Scripts are ordered by the
-     * order they are added.
+     * Adds a disconnection script to the dialer. Scripts are executed by the
+     * order they were added (FIFO).
      *
      * @param script Script to add to the dialer.
      */
@@ -107,15 +106,6 @@ public:
         disconnectionScripts.push_back(script);
     }
     
-    /* --- Inherited from Printable --- */
-
-    /**
-     * @return The name of the dialer.
-     */
-    virtual const std::string toString() const {
-        return getName();
-    }
-
 private:
 
     /* --- Utility Methods --- */

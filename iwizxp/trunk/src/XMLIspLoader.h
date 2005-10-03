@@ -36,16 +36,20 @@ public:
 
     /**
      * Constructor.
+     *
+     * Does nothing.
      */
     XMLIspLoader() {
-        Log::debug("XMLIspLoader created successfully");
+        Log::debug("Creating XMLIspLoader");
     }
 
     /**
      * Destructor.
+     *
+     * Does nothing.
      */
     virtual ~XMLIspLoader() {
-        Log::debug("XMLIspLoader released successfully");
+        Log::debug("Destroying XMLIspLoader");
     }
 
     /* --- Public Methods --- */

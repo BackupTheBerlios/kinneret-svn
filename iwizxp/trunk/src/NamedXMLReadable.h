@@ -27,10 +27,13 @@
 
 /**
  * This class is a <code>Nameable</code> class, that can load its name from
- * XML. It does that using the <code>&lt;name&gt;</code> tag found under the
+ * XML. It loads its name from the <code>&lt;name&gt;</code> tag found under the
  * root.
  *
- * TODO: Explain why Nameable is a virtual base.
+ * A note regarding the virtual base <code>Nameable</code> can be found at
+ * the description of the {@link Isp} class.
+ *
+ * @see Isp
  * 
  * @author duvduv
  */
@@ -40,7 +43,8 @@ public:
     /* --- Constructors ---- */
 
     /**
-     * Constructor - use it if you wish to loads from XML later.
+     * Constructor. Use it when you know the name of the
+     * <code>Nameable</code> at construction time.
      *
      * @param name Name.
      */
@@ -49,14 +53,19 @@ public:
     }
 
     /**
-     * Constructor - use it if you wish to loads from XML later.
+     * Constructor. Use it when the name is not known at construction time.
+     * In this case, use the <code>setName</code> method the set the name
+     * later. It is advised to do this only once, <code>Nameable</code>
+     * should be an immutable class.
+     *
+     * @see #setName()
      */
     NamedXMLReadable() : Nameable(), XMLReadable() {
         // Nothing to do
     }
 
     /**
-     * Destructor.
+     * Destructor. Does nothing interesting.
      */
     virtual ~NamedXMLReadable() {
         // Nothing to do
@@ -65,8 +74,11 @@ public:
     /* --- Inherited from XMLReadable --- */
 
     /**
-     * Loads the name of the object from the <code>&lt;name&gt;</code> tad
+     * Loads the name of the object from the <code>&lt;name&gt;</code> tag
      * that's in it.
+     *
+     * Note that if the tag is present, but empty, the name of this class
+     * will be empty as well.
      *
      * @param root Root node. Must contain a <code>name</code> tag right
      *        below it in the hirarchy.

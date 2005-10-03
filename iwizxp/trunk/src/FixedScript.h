@@ -27,8 +27,15 @@
 #include "Script.h"
 
 /**
- * This is a fiex script. This script is simply loaded from an input stream,
- * and printed to the template as it was read.
+ * This is a fixed script. This script is simply loaded from an input stream,
+ * and printed to the dialer as it was read.
+ *
+ * Most of the scripts are fixed scripts. Do not confuse fixed scripts with
+ * static scripts, fixed scripts might behave in a dynamic manner (most of
+ * the scripts in the database act according to the environment variables).
+ *
+ * A fixes scripts usually does something very specific, and might be treated
+ * as a "method that was refactored out".
  *
  * @author duvduv
  */
@@ -40,47 +47,46 @@ public:
     /**
      * Constructor. Loads the script from the input stream.
      *
-     * @param functionName The name of the funtion this script's body will be
-     *        placed in.
-     * @param scriptBody The fixed script.
+     * @param functionName The name of the funtion.
+     * @param scriptBody The script as a srting.
      */
     FixedScript(const std::string &functionName,
                 const std::string &scriptBody) : Script() {
         this->functionName = functionName;
         this->scriptBody = scriptBody;
 
-        Log::debug(std::string("FixedScript: ") + functionName +
-            " created successfully");
+        Log::debug(std::string("Constructing FixedScript (") +
+            functionName + ")");
     }
 
     /**
      * Destructor, does nothing.
      */
     virtual ~FixedScript() {
-        Log::debug(std::string("FixedScript: ") + functionName +
-            " released successfully");
+        Log::debug(std::string("Destroying FixedScript (") +
+            functionName + ")");
     }
 
     /* --- Inherited from Script --- */
 
     /**
-     * @return The function name
+     * @return The function name.
      */
     virtual const std::string getFunctionName() const {
         return functionName;
     }
 
     /**
-     * @return The body, as it was read from the input stream.
+     * @return The body.
      */
     virtual const std::string getScriptBody() const {
         return scriptBody;
     }
 
     /**
-     * We return an empty string since the script is fixed and we count that
-     * the given script already containes a comment.
-     *
+     * In this case, we leave the description empty. We trust the body itself
+     * already containes a comment that describes it.
+     * 
      * @return An empty string.
      */
     virtual const std::string getScriptDescription() const {

@@ -27,7 +27,8 @@
 #include "Exception.h"
 
 /**
- * This interface loads a script from a stream.
+ * This interface loads a script from a stream. The stream is a serialization
+ * of the script, that allows the loads to re-create th script.
  *
  * @author duvduv
  */
@@ -37,14 +38,14 @@ public:
     /* --- Constructors --- */
 
     /**
-     * Constructor.
+     * Constructor. Does nothing interesting.
      */
     ScriptLoader() {
         // Nothing to do
     }
 
     /**
-     * Destructor.
+     * Destructor. Does nothing interesting.
      */
     virtual ~ScriptLoader() {
         // Nothing to do
@@ -60,7 +61,9 @@ public:
     /* ---- Abstract Methods --- */
 
     /**
-     * This function loads a script from a stream.
+     * This function loads a script from a stream. The stream must be in a
+     * fromat that's known to the loads, or an <code>LoadException</code>
+     * will be thrown.
      *
      * @param inStream Stream to load script from.
      * @return A new and initialized <code>Script</code>. Note that the

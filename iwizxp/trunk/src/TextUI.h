@@ -26,7 +26,8 @@
 
 /**
  * This class makes the wizard a "text-mode" wizard by implementing a text
- * interface.
+ * interface. By registering an instance of this class to a
+ * <code>Wizard</code>, you will get a text-based application.
  * 
  * @author Itay 'z9u2k' Duvdevani
  */
@@ -36,14 +37,14 @@ public:
     /* --- Constructors ---- */
 
     /**
-     * Constructor.
+     * Constructor. Does nothing interesting.
      */
     TextUI() {
         // Nothing to do
     }
 
     /**
-     * Destructor.
+     * Destructor. Does nothing interesting.
      */
     virtual ~TextUI() {
         // Nothing to do
@@ -61,15 +62,15 @@ public:
     /**
      * Displayes the list of options on the screen and asks the user for one.
      *
-     * @param what Prompt - diplayed above the list.
-     * @param choises List of choises
-     * @return Index of the selected option
+     * @param what Prompt, diplayed above the list.
+     * @param choises List of choises.
+     * @return Index of the selected option.
      */
     int selectFromList(std::string what,
         std::vector<std::string> choises);
     
     /**
-     * Displayes a prompt to the screen and gets a string from the user using
+     * Displayes a prompt to the screen and gets a string from the user from
      * <code>STDIN</code>.
      *
      * @param what The prompt

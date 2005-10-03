@@ -28,14 +28,19 @@
 #include "Exception.h"
 
 /** 
- * This abstract class represents a kernel modules which should be loaded for
- * the connection to succeede.
+ * This class represents a module that's required by the connection process.
+ * This class provides abstractation above the actual name of the module that
+ * has to be <code>modprobe</code>d. It knows all the names this modules have
+ * under every kernel that supports it. The dialer should determent at
+ * runtime which name to use (this class will add a name for both
+ * <code>$modules2_4</code> and <code>$modules2_6</code>. The script
+ * <code>loadModules</code> determents which one to use using
+ * <code>uname</code>).
+ * 
+ * Regarding the virtual base <code>Nameable</code>, see comment at
+ * {@link Isp}.
  *
- * The class provides abstractation above the module name. Implementaing
- * classes should provide the module name for the 2.4 and 2.6 kernels.
- *
- * TODO: Add support for arguments.
- * TODO: Explain why Nameable is a virtual base.
+ * TODO: Add support for modprobe arguments.
  *
  * @author duvduv
  */
@@ -74,7 +79,8 @@ public:
     /* --- Getters --- */
 
     /** 
-     * Decides what's the module name the given kernel class supports.
+     * Decides what's the name of the modules under the requested kernel
+     * class.
      * 
      * @param kernelClass The kernel class we're interested in.
      * @return The name of the modules that has to be <i>modprobe</i>d with
@@ -92,7 +98,8 @@ protected:
      * Adds a new name for a specific kernel class.
      *
      * @param kernelClass Class
-     * @param name Name of the module in that class
+     * @param name Name of the module in that class (what we'll pass to
+     *             <i>modprobe</i>).
      */
     void addName(KernelClass kernelClass, const std::string name) {
         names[kernelClass] = name;
@@ -102,7 +109,7 @@ private:
 
     /* --- Data Members --- */
 
-    /** Maps between kernel class and the name of the module in that class  */
+    /** Maps between kernel class and the name of the module in that class */
     std::map<KernelClass, std::string> names;
 };
 

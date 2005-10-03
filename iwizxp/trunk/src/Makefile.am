@@ -22,5 +22,6 @@ iwizxp_SOURCES = Modem.cpp \
 				 TextUI.cpp \
 				 XMLIsp.cpp \
 				 XMLModem.cpp \
-				 XMLKernelModule.cpp
+				 XMLKernelModule.cpp \
+				 XMLConnectionMethodFactory.cpp
 iwizxp_INCLUDES = -I$(top_srcdir)/src

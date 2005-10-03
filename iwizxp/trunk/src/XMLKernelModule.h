@@ -26,7 +26,9 @@
 #include "NamedXMLReadable.h"
 
 /**
- * TODO: JavaDocs
+ * This class represents a kernel module that can be de-serialized from XML.
+ *
+ * @author duvduv.
  */
 class XMLKernelModule : public KernelModule, public NamedXMLReadable {
 public:
@@ -35,7 +37,8 @@ public:
 
     /**
      * Destructor.
-     * TODO: JavaDocs
+     *
+     * Does nothing.
      */
     virtual ~XMLKernelModule() {
         // Nothing to do

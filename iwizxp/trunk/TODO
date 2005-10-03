@@ -1,0 +1,18 @@
+2005-07-16
+==========
+- There's something wrong in the way I handle and store Cables connection
+  method. Problem exists in representation of ConnectionMethod as a whole.
+  Clearification is neede for the usage of dialing destination and default
+  gateway.
+- Finish XML configuration issues (dialer and templates).
+- Finish migrating ISPs
+- Add support for LAN and ADSL (after connection method re-design)
+- Use schema (xsd) validation on loaded XMLs
+- Supply an elborated explenation regarding steps in the Wizard when asking
+  something from the listener.
+- Review debug prints. Currently they are pretty useless for debugging.
+- Add external configuration for eberything's that's TODOed "from configuration"
+  at the global repository (add a --config flag while we're at it).
+- Add GTK+ and QT frontends.
+- suid + chmod +x the final script
+- Make sure released executable is suided.

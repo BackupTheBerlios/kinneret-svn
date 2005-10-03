@@ -67,8 +67,8 @@ public:
     virtual const std::string getScriptBody() const = 0;
 
     /**
-     * @return Short description of the script that will be placed in a
-     *         comment above it.
+     * @return Short description of the script. The description will be placed
+     *         in a comment the script's body in the final code.
      */
     virtual const std::string getScriptDescription() const = 0;
 };

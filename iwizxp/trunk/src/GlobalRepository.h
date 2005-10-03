@@ -31,8 +31,13 @@
 #include "ArgumentsScript.h"
 
 /**
- * This singleton class holds everything's that's global and configureable in
- * the system.
+ * The global repository is a singleton repository, that holds configuration
+ * variables, and system-shared object.
+ *
+ * It differs from <code>Database</code> by that fact that it doesn't hold
+ * anything concrete, except configuration variables.
+ *
+ * Things in the global repository never change at runtime.
  * 
  * @author duvduv
  */
@@ -42,23 +47,21 @@ private:
     /* --- Private Constructors --- */
 
     /**
-     * Private constrcutor. Creates the loaders.
+     * Private constrcutor. Creates the loaders and sets up Xerces.
      */
     GlobalRepository() {
+        Log::debug("Constructing GlobalRepository");
         setupLoaders();
         setupXerces();
-
-        Log::debug("GlobalRepository created successfully");
     }
 
     /**
-     * Destructor.
+     * Destructor, deletes the loaders and releases Xerces.
      */
     ~GlobalRepository() {
+        Log::debug("Destroying GlobalRepository");
         releaseXerces();
         releaseLoaders();
-
-        Log::debug("GlobalRepository released successfully");
     }
 
 public:
@@ -69,7 +72,7 @@ public:
      * The singleton access method.
      *
      * @return Pointer to the single instance of <code>GlobalRepository</code>
-     * in the system.
+     *         in the system.
      */
     static GlobalRepository *getInstance() {
         if (instance == 0) {
@@ -80,7 +83,7 @@ public:
     }
 
     /**
-     * This methos releases the global repositoy.
+     * Releases the instance.
      */
     static void release() {
         if (instance != 0) {
@@ -159,6 +162,7 @@ public:
 
     /**
      * @return The global arguments script.
+     * @see ArgumentsScript
      */
     ArgumentsScript *getArgumentsScript() {
         return argumentsScript;
@@ -176,11 +180,13 @@ private:
     /**
      * Releases all the loaders that were instantiated at
      * <code>setupLoaders</code>
+     *
+     * @see #setupLoaders
      */
     void releaseLoaders();
 
     /**
-     * Initializes Xerces-c and creates the <code>DOMBuilder</code> returned
+     * Initializes Xerces-C and creates the <code>DOMBuilder</code> returned
      * by <code>getDOMBuilder</code>.
      *
      * The <code>DOMBuilder</code> is set to ignore comment elements, and not
@@ -189,7 +195,7 @@ private:
     void setupXerces();
 
     /**
-     * Releases Xerces-c.
+     * Releases Xerces-C.
      */
     void releaseXerces();
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" ecoding="UTF-8"?>
+<dialer>
+    <name>Pre-dialer Scripts</name>
+
+    <!-- Connection Scripts -->
+    <connection count="10">
+        <script item="1">default</script>
+        <script item="2">setupUserArguments</script>
+        <script item="3">getPasswordFromUser</script>
+        <script item="4">attemptIfAutodetection</script>
+        <script item="5">loadModules</script>
+        <script item="6">finishIfAutodetection</script>
+        <script item="7">backupResolvConf</script>
+        <script item="8">setupResolvConf</script>
+        <script item="9">backupPppSecrets</script>
+        <script item="10">setupPppSecrets</script>
+    </connection>
+
+    <!-- Disconnection Scripts -->
+    <disconnection count="2">
+        <script item="1">default</script>
+        <script item="2">setupUserArguments</script>
+    </disconnection>
+</dialer>

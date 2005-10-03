@@ -54,7 +54,7 @@ namespace Utils {
         /**
          * Convers a standart <code>string</code> to <code>XMLCh*</code>.
          *
-         * @param str String to convert to <code>CMLCh*</code> string.
+         * @param str String to convert to <code>XMLCh*</code> string.
          */
         xts(const std::string &str);
 

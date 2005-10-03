@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+    <name>init.d service script</name>
+    <description>
+        This template creates an init.d script (start, stop) that can be called
+        by init at boot time to bring up internet connection.
+        This script can be used as stand-alone as well.
+    </description>
+    <file>initd_service_template</file>
+</template>

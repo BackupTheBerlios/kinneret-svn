@@ -64,7 +64,6 @@ public:
      *         given stream.
      */
     virtual Dialer *loadDialer(std::istream &inStream) const;
-
 };
 
 #endif

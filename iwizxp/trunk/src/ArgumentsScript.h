@@ -32,11 +32,9 @@
 #include "UserInput.h"
 
 /**
- * TODO: Explain why in global repository (pre/post dialers etc)
- *
  * This class represents the script that sets all of the user arguments. This
- * is the first script called for every connection, setting all the user
- * defined variables required for the other scripts to work.
+ * is the first script called for every action, setting all the user defined
+ * variables required for the other scripts to work.
  *
  * The script defines the variables:
  * <ul>
@@ -50,6 +48,19 @@
  * <li>$password (at runtime, using <code>getPasswordFromUser</code>)</li>
  * </ul>
  *
+ * A note regarding the usage of this class:
+ * The <code>GlobalRepository</code> holds an instrance of this class. You
+ * should use this instance, and not create one of your own. This is because
+ * this script may be used in more than one dialer (usually, both pre-dialer and
+ * post-dialer will call this script). If we held more than one instance of
+ * this class, we had to make sure the instances were synchronized with each
+ * other (e.g. changes in one script should reflect in the other), and there
+ * was the possibility that they both were in the final script, rendering it
+ * unusuable.  Therefore, every time a script is loaded, check that it's
+ * not the <code>ArgumentsScript</code>, if it is, use the one that's in
+ * the <code>GlobalRepository</code>. You can look at it as some sort of a
+ * Singleton.
+ *
  * @author duvduv
  */
 class ArgumentsScript : public Script {
@@ -58,17 +69,17 @@ public:
     /* --- Constructors --- */
 
     /**
-     * Constructor. Does nothing.
+     * Default Constructor. Does nothing but printing a pretty log message.
      */
-    ArgumentsScript() : Script() {
-        Log::debug("ArgumentsScript created successfully");
+    ArgumentsScript() {
+        Log::debug("Constructing ArgumentsScript");
     }
 
     /**
-     * Destructor, does nothing.
+     * Destructor. Does nothing but printing a pretty log message.
      */
     virtual ~ArgumentsScript() {
-        Log::debug("ArgumentsScript released successfully");
+        Log::debug("Destroying ArgumentsScript");
     }
 
     /* --- Public Methods --- */
@@ -135,14 +146,14 @@ private:
 
     /**
      * This method builds a list of space seperated names that can be
-     * assigned as the value for <code>modules2_4</code> or
-     * <code>modules2_6</code>. Modules that are not supported in the
-     * requested kernel class are left out of the list.
+     * assigned as the values for <code>modules2_4</code> or
+     * <code>modules2_6</code>. Modules that are not supported by the
+     * requested kernel class will be left out of the list.
      *
      * @param modem Modem, to get the list of modules from
      * @param kernelClass Kernel class to get the module names for
      * @return A space-seperated list of module names. Modules that are not
-     *         supported are left out. And empty string is returned if none
+     *         supported are left out. An empty string is returned if none
      *         is.
      */
     std::string buildKernelClassModulesList(const Modem *modem,
@@ -150,7 +161,11 @@ private:
 
     /* --- Data Members --- */
 
-    /** Names -&gt; Values map */
+    /**
+     * Names -&gt; Values map.
+     *
+     * Maps between variables name and their values.
+     */
     std::map<std::string, std::string> values;
 };
 

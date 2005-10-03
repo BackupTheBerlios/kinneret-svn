@@ -38,7 +38,8 @@
 namespace Utils {
 
     /**
-     * This method reads a whole stream into a string.
+     * This method reads a whole stream into a string. It is adviceable that
+     * the stream will not be composed of binary data.
      *
      * @param inStream Stream to read (untill EOF).
      * @return Stream's content, as <code>std::string</code>.
@@ -46,7 +47,7 @@ namespace Utils {
     std::string readStreamAsString(std::istream &inStream);
 
     /**
-     * Indicates that an enumeration attempt of a directory has failed.
+     * Indicates that an enumeration attempt of a directory failed.
      */
     NewException(DirectoryEnumerationException);
 
@@ -67,38 +68,37 @@ namespace Utils {
     std::vector<std::string> enumDirectory(std::string directory);
 
     /**
-     * This exception is thorwn when regex operation failes
+     * This exception is thrown when regex operation failes.
      */
     NewException(RegexException);
 
     /**
      * This method compiles and executes a regex expression over a string.
      *
-     * @param regexString Extended regular expression to execute
-     * @param matchString String to execute the regex upon
-     * @param maxResults Maximum number of matches
+     * @param regexString Extended regular expression to execute.
+     * @param matchString String to execute the regex upon.
+     * @param maxResults Maximum number of matches.
      * @return Vector of sub-strings of <code>string</code> that matched
      *         <code>regex</code>. If there was not match, the returned
      *         vector will be empty.
-     * @throws RegexException When the regex couldnot bo compiled or executed.
+     * @throws RegexException When the regex could not be compiled or executed.
      */
     std::vector<std::string> executeRegex(const std::string &regexString,
         const std::string &matchString, int maxResults);
 
     /**
      * This method enums all the availble network interfaces in the system
-     * into a vector.
+     * into a vector of names.
      *
-     * @return A vector with the names of all the available interfaces.
+     * @return A vector with the names of all the available network interfaces.
      */ 
     std::vector<std::string> enumNetworkInterfaces();
 
     /**
      * This is a wrapper function for STL functors that collide.
-     * See:
-     * http://coding.derkeiler.com/Archive/C_CPP/comp.lang.cpp/2003-10/1411.html
+     * @see http://coding.derkeiler.com/Archive/C_CPP/comp.lang.cpp/2003-10/1411.html
      *
-     * Any better idea?
+     * TODO: Got any better idea?
      */
     template<int (*F)(int)> int safeStl(unsigned char c) {
         return F(c);

@@ -41,14 +41,14 @@ public:
      * Constructor.
      */
     BashSyntaxScriptLoader() {
-        Log::debug("BashSyntaxScriptLoader created successfully");
+        Log::debug("Constructing BashSyntaxScriptLoader");
     }
 
     /**
      * Destructor.
      */
     virtual ~BashSyntaxScriptLoader() {
-        Log::debug("BashSyntaxScriptLoader released successfully");
+        Log::debug("Destroying BashSyntaxScriptLoader");
     }
 
     /* --- Inherited from ScriptLoader --- */
@@ -61,6 +61,9 @@ public:
      *
      * Example script:
      * <pre>
+     * ##
+     * # Descriptive comment :)
+     * ##
      * myScriptName() {
      *     echo "Here's the body"
      * }
@@ -72,9 +75,9 @@ public:
      * @param inStream Stream to load script from.
      * @return A new and initialized <code>FixedScript</code>. Note that the
      *        <code>Script</code> is allocated using <code>new</code>, and
-     *        its up to the user to <code>delete</code> it.
+     *        its up to the caller to <code>delete</code> it.
      * @throws LoadException When the given stream is in the wrong format or
-     *        any other problem occured during the loads process.
+     *         any other problem occured during the load process.
      */
     virtual Script *loadScript(std::istream &inStream) const;
 
@@ -83,23 +86,24 @@ private:
     /* --- Private Methods --- */
 
     /**
-     * This method extracts the method's name out of the script using regex.
+     * Extracts the method's name out of the script using regex.
      *
-     * @param body The entire script
-     * @return The function's name
+     * @param body The entire script - as read from the stram.
+     * @return Method name
      * @throws LoadException When the name could not have been extracted from
-     *         the given body.
+     *         the given body (reason in the exception).
      */
     virtual std::string extractNameFromScript(const std::string &body) const;
 
     /**
-     * This method extracts the method's name out of it's definition line.
+     * Extracts the method's name out of it's definition line.
      *
-     * @param body The definition line (leading and trailing spaces are
-     *        allowed).
-     * @return The function's name
+     * @param body The definition line of the method (leading and trailing
+     *             spaces are allowed). e.g.:<code>myMethodName() {</code>
+     *             will be a valid input.
+     * @return The method's name
      * @throws LoadException When the name could not have been extracted from
-     *         the given definition.
+     *         the given definition (specific reasin in the exception).
      */
     virtual std::string extractNameFromDefinitionLine(const std::string &body)
         const;

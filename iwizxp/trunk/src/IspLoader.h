@@ -61,14 +61,16 @@ public:
     /* --- Abstract Methods --- */
 
     /**
-     * Abstact methos which allocates and initializes a new ISP from a given
-     * stream. Note that the ISP is allocated with <code>new</code>, and it's
-     * up to the user to <code>delete</code> it.
+     * Pure-virtual method which allocates and initializes a new ISP from a
+     * given stream. Note that the ISP is allocated with <code>new</code>,
+     * and it's up to the user to <code>delete</code> it.
      *
      * @param inStream Stream to read ISP's info from.
-     * @return A new and initialized ISP.
+     * @return A new and initialized <code>Isp</code> (or one of its
+     *         subclasses).
      * @throws LoadExcpetion When the loades could not have initialized a new
-     *         ISP from the given stream.
+     *         ISP from the given stream (serialization error, stream error,
+     *         memory error, etc.)
      */
     virtual Isp *loadIsp(std::istream &inStream) const = 0;
 };
