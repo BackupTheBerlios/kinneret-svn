@@ -40,7 +40,7 @@ using namespace Utils;
 string Utils::readStreamAsString(istream &inStream) {
     ostringstream result;
 
-    while (1) {
+    while (true) {
         char got = static_cast<char>(inStream.get());
         if (!inStream.eof()) {
             result << got;

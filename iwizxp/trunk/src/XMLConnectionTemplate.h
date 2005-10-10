@@ -19,53 +19,55 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __XML_ISP_LOADER_H__
-#define __XML_ISP_LOADER_H__
+#ifndef __XML_CONNECTION_TEMPLATE_H__
+#define __XML_CONNECTION_TEMPLATE_H__
 
-#include "IspLoader.h"
+#include "ConnectionTemplate.h"
+#include "NamedXMLReadable.h"
 
 /**
- * Loads ISPs from XML.
+ * TODO: JavaDocs
  *
- * @author duvduv
+ * @author Itay 'z9u2k' Duvdevani
  */
-class XMLIspLoader : public IspLoader {
+class XMLConnectionTemplate : public NamedXMLReadable,
+                              public ConnectionTemplate {
 public:
 
     /* --- Constructors ---- */
 
     /**
-     * Constructor.
-     *
-     * Does nothing.
-     */
-    XMLIspLoader() {
-        Log::debug("Creating XMLIspLoader");
-    }
-
-    /**
      * Destructor.
-     *
-     * Does nothing.
+     * TODO: JavaDocs
      */
-    virtual ~XMLIspLoader() {
-        Log::debug("Destroying XMLIspLoader");
+    virtual ~XMLConnectionTemplate() {
+        // Nothing to do
     }
 
-    /* --- Public Methods --- */
+    /* --- Inherited from XMLReadable --- */
 
     /**
-     * Loads an ISP from a stream. <code>stream</code> should contain valid
-     * XML. This method parses the stream to a DOM document, then
-     * de-serialize an ISP from the top-level <code>&lt;isp&gt;</code> tag.
+     * De-serializes from XML. Loads all the names for all the kernel
+     * classes.
      *
-     * @param inStream The stream to build a DOM tree from.
-     * @return A new and initialized <code>Isp</code>.
-     * @throws LoadException Thrown when the loads wasn't able to parse the
-     *         stream, or an <code>XMLSerializationException</code> was
-     *         thrown from <code>Isp</code>'s <code>fromXML()</code>.
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
      */
-    virtual Isp *loadIsp(std::istream &inStream) const;
+    void fromXML(xercesc::DOMElement *root);
+
+    /* --- Inherited from Printable --- */
+
+    /**
+     * TODO: JavaDocs
+     */
+    virtual const std::string toString() const {
+        return getName() + " - " + getDescription();
+    }
+
+private:
+
+    /* --- Data Members --- */
 };
 
 #endif

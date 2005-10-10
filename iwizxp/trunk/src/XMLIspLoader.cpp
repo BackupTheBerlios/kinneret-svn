@@ -38,7 +38,7 @@ Isp *XMLIspLoader::loadIsp(istream &inStream) const {
         document->normalizeDocument();
         removeWhitespaceTextNodes(document->getDocumentElement());
     } catch (const DOMParseException &ex) {
-        throw LoadExcpetion("XMLException, see above");
+        throw LoadException("XMLException, see above");
     }
 
     try {
@@ -47,7 +47,7 @@ Isp *XMLIspLoader::loadIsp(istream &inStream) const {
         return result;
     } catch (const XMLReadable::XMLSerializationException &ex) {
         Log::error("Got XMLSerializationException while creating Isp...");
-        throw LoadExcpetion(ex.what());
+        throw LoadException(ex.what());
     }
 }
 

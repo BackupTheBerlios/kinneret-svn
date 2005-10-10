@@ -28,6 +28,7 @@
 #include "ModemLoader.h"
 #include "ScriptLoader.h"
 #include "DialerLoader.h"
+#include "ConnectionTemplateLoader.h"
 #include "ArgumentsScript.h"
 
 /**
@@ -123,6 +124,13 @@ public:
     }
 
     /**
+     * TODO: JavaDocs
+     */
+    ConnectionTemplateLoader *getConnectionTemplateLoader() {
+        return connectionTemplateLoader;
+    }
+
+    /**
      * @return The full path to the top directory of the current database.
      */
     std::string getDbBasePath() {
@@ -215,6 +223,9 @@ private:
 
     /** Dialer Loader */
     DialerLoader *dialerLoader;
+
+    /** TODO: JavaDocs */
+    ConnectionTemplateLoader *connectionTemplateLoader;
 
     /** Xerces' DOM Parser */
     xercesc::DOMBuilder *domBuilder;

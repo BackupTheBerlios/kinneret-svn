@@ -1,10 +1,11 @@
 2005-07-16
 ==========
+- JavaDoc fixes are required (plenty of TODOs etc.)
 - There's something wrong in the way I handle and store Cables connection
   method. Problem exists in representation of ConnectionMethod as a whole.
   Clearification is neede for the usage of dialing destination and default
   gateway.
-- Finish XML configuration issues (dialer and templates).
+- Finish XML configuration issues (dialer).
 - Finish migrating ISPs
 - Add support for LAN and ADSL (after connection method re-design)
 - Use schema (xsd) validation on loaded XMLs

@@ -24,11 +24,14 @@
 
 #include "Isp.h"
 #include "Modem.h"
+#include "ConnectionTemplate.h"
 #include "Log.h"
 #include "Exception.h"
 #include "Utils.h"
 
 /**
+ * TODO: Refactor extract class IspDatabase, ModemDatabase etc?
+ *
  * This class represents the databse.
  *
  * The DB is the dude that handles and manages all the things you might find
@@ -115,6 +118,13 @@ public:
      */
     const std::vector<Modem*> &getModems() const {
         return modems;
+    }
+
+    /**
+     * @return List of all available connection templates.
+     */
+    const std::vector<ConnectionTemplate*> &getConnectionTemplates() const {
+        return connectionTemplates;
     }
 
     /**
@@ -234,6 +244,21 @@ private:
     void loadIsps();
 
     /**
+     * TODO: JavaDocs
+     */
+    std::vector<std::string> enumConnectionTemplates() const;
+
+    /**
+     * TODO: JavaDocs
+     */
+    bool loadConnectionTemplateFromFile(const std::string &file);
+
+    /**
+     * TODO: JavaDocs
+     */
+    void loadConnectionTemplates();
+
+    /**
      * The method releases every ISP allocated using <code>loadIsps()</code>.
      */
     void releaseIsps();
@@ -243,6 +268,11 @@ private:
      * <code>loadModems()</code>.
      */
     void releaseModems();
+
+    /**
+     * TODO: JavaDocs
+     */
+    void releaseConnectionTemplates();
 
     /**
      * Loads the default dialers.
@@ -270,6 +300,9 @@ private:
 
     /** All the available modems */
     std::vector<Modem*> modems;
+
+    /** All the available connection templates */
+    std::vector<ConnectionTemplate*> connectionTemplates;
 
     /** The default pre-dialer */
     Dialer *defaultPreDialer;

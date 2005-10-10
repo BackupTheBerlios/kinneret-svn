@@ -31,6 +31,8 @@
 #include "Utils.h"
 
 /**
+ * TODO: Review JavaDocs.
+ *
  * This class represents a connection template. Connection templates are,
  * well, templates for the dialer. The template decides if the produced
  * scripts will be standalone, an init.d script or whatever. It supplies the
@@ -43,21 +45,16 @@
  *
  * @author duvduv
  */
-class ConnectionTemplate : public Printable {
+class ConnectionTemplate : public virtual Nameable {
 public:
 
     /* --- Constructors --- */
 
     /**
-     * Constructor. Reads the template from the stream.
-     *
-     * @param inStream Stream to read the script from.
+     * Empty constructor.
      */
-    ConnectionTemplate(std::istream &inStream) : Printable() {
-        Log::debug("Constructing ConnectionTemplate");
-
-        Log::debug("Converting istream to string");
-        script = Utils::readStreamAsString(inStream);
+    ConnectionTemplate() : Nameable("") {
+        this->finalized = false;
     }
 
     /**
@@ -70,6 +67,16 @@ public:
     /* --- Public Methods --- */
 
     /**
+     * TODO: JavaDocs
+     */
+    void loadTemplate(std::istream &inStream) {
+        Log::debug("Loading template...");
+        script = Utils::readStreamAsString(inStream);
+    }
+
+    /**
+     * TODO: Review JavaDocs.
+     *
      * Creates the final script by placing the dialer inside the template.
      * The method replaces the string <code>{dialer}</code> with the code
      * from the dialer, which should create the methods <code>connect</code>
@@ -77,15 +84,20 @@ public:
      *
      * @param dialer <code>Dialer</code> to place in the template.
      */
-    void finializeScript(Dialer *dialer);
-
-    /* --- Inherited from Prinable --- */
+    std::string getFinalScript(Dialer *dialer);
 
     /**
-     * @return The full script. Call this after finalization.
+     * TODO: JavaDocs
      */
-    virtual const std::string toString() const {
-        return script;
+    void setDescription(const std::string description) {
+        this->description = description;
+    }
+
+    /**
+     * TODO: JavaDocs
+     */
+    std::string getDescription() const {
+        return description;
     }
 
 private:
@@ -191,6 +203,12 @@ private:
 
     /** The script */
     std::string script;
+
+    /** Template's description */
+    std::string description;
+
+    /** Was this script already finalized */
+    bool finalized;
 };
 
 #endif

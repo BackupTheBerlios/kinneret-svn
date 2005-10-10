@@ -127,14 +127,23 @@ int Wizard::go() {
         argumentsScript->setModem(modem);
         argumentsScript->setUserInput(&input);
 
-        // TODO: This is TEST CODE!
-        ifstream initdFile("db/template/initd_service_template");
-        ConnectionTemplate initd(initdFile);
-        initdFile.close();
-        initd.finializeScript(dialer);
-        ofstream outFile("internet.sh", ios::trunc);
-        outFile << initd.toString() << endl;
-        outFile.close();
+        ConnectionTemplate *connectionTempate = selectFromList(
+            "Select connection template",
+            Database::getInstance()->getConnectionTemplates());
+
+        string outputFile;
+        while (1) {
+            outputFile = listener->requestString("Output file: ");
+            if (outputFile.length() <= 0) {
+                listener->notify("Output file cannot be an empty string.");
+            } else {
+                break;
+            }
+        };
+
+        ofstream outputFileStream(outputFile.c_str(), ios::trunc);
+        outputFileStream << connectionTempate->getFinalScript(dialer) << endl;
+        outputFileStream.close();
     } catch (Exception &ex) {
         string message = string("Aborting due to error: ") + ex.what();
         Log::fatal(message);

@@ -19,53 +19,56 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __XML_ISP_LOADER_H__
-#define __XML_ISP_LOADER_H__
+#include "XMLConnectionTemplate.h"
 
-#include "IspLoader.h"
+#include <fstream>
 
-/**
- * Loads ISPs from XML.
- *
- * @author duvduv
- */
-class XMLIspLoader : public IspLoader {
-public:
+#include "Utils.h"
+#include "Log.h"
+#include "xts.h"
+#include "GlobalRepository.h"
 
-    /* --- Constructors ---- */
+using namespace std;
+using namespace xercesc;
+using namespace Utils;
+using namespace Utils::DOM;
 
-    /**
-     * Constructor.
-     *
-     * Does nothing.
-     */
-    XMLIspLoader() {
-        Log::debug("Creating XMLIspLoader");
+void XMLConnectionTemplate::fromXML(DOMElement *root) {
+    // Name
+    NamedXMLReadable::fromXML(root);
+
+    // Description
+    // TODO: Refactor extract method
+    vector<DOMElement*> elements;
+    getElementsByTagName(elements, root, "description");
+    if (elements.size() <= 0) {
+        Log::warning("No description tag found!");
+        setDescription("No description");
+    } else {
+        setDescription(xts(elements[0]->getTextContent(), true));
+    }
+    
+    // File
+    // TODO: Refactor extract method
+    elements.clear();
+    getElementsByTagName(elements, root, "file");
+    if (elements.size() <= 0) {
+        throw XMLSerializationException("No <file> tag found!");
+    }
+    
+    // TODO: Don't hard-code it in.
+    string templateFile = GlobalRepository::getInstance()->getDbBasePath() +
+        string("/template/") +
+        xts(elements[0]->getTextContent(), true).asString();
+
+    ifstream scriptStream(templateFile.c_str(), ios::in);
+
+    if (!scriptStream.is_open()) {
+        throw XMLSerializationException("Unable to open " + templateFile +
+            " for reading!");
     }
 
-    /**
-     * Destructor.
-     *
-     * Does nothing.
-     */
-    virtual ~XMLIspLoader() {
-        Log::debug("Destroying XMLIspLoader");
-    }
+    loadTemplate(scriptStream);
 
-    /* --- Public Methods --- */
-
-    /**
-     * Loads an ISP from a stream. <code>stream</code> should contain valid
-     * XML. This method parses the stream to a DOM document, then
-     * de-serialize an ISP from the top-level <code>&lt;isp&gt;</code> tag.
-     *
-     * @param inStream The stream to build a DOM tree from.
-     * @return A new and initialized <code>Isp</code>.
-     * @throws LoadException Thrown when the loads wasn't able to parse the
-     *         stream, or an <code>XMLSerializationException</code> was
-     *         thrown from <code>Isp</code>'s <code>fromXML()</code>.
-     */
-    virtual Isp *loadIsp(std::istream &inStream) const;
-};
-
-#endif
+    scriptStream.close();
+}

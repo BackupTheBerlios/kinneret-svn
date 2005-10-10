@@ -36,6 +36,7 @@ Database::Database() {
 
     loadIsps();
     loadModems();
+    loadConnectionTemplates();
     loadDefaultDialers();
 
     Log::debug("Database created.");
@@ -47,6 +48,7 @@ Database::~Database() {
     releaseDefaultDialers();
     releaseIsps();
     releaseModems();
+    releaseConnectionTemplates();
 
     Log::debug("Database released.");
 }
@@ -69,7 +71,7 @@ bool Database::loadIspFromFile(std::string file) {
     try {
         tempIsp = GlobalRepository::getInstance()->
             getIspLoader()->loadIsp(currentIspFile);
-    } catch (IspLoader::LoadExcpetion &ex) {
+    } catch (IspLoader::LoadException &ex) {
         Log::error(string("Failed: ") + ex.what());
         return false;
     }
@@ -163,6 +165,63 @@ void Database::loadModems() {
     }
 }
 
+vector<string> Database::enumConnectionTemplates() const {
+    return enumDirectory(GlobalRepository::getInstance()->
+        getDbBasePath() + "/template");
+}
+
+void Database::loadConnectionTemplates() {
+    Log::debug("Loading connection templates...");
+
+    vector<string> templateFiles;
+    try {
+        templateFiles = enumConnectionTemplates();
+    } catch (DirectoryEnumerationException &ex) {
+        throw DatabaseCreationException("Unable to enumerate connection "
+            "template files.");
+    }
+
+    vector<string>::iterator iter;
+    for (iter = templateFiles.begin() ; iter != templateFiles.end() ; iter++) {
+        // TODO: Load only XML files
+        if (loadConnectionTemplateFromFile(*iter) == false) {
+            Log::error("Skipping...");
+        }
+    }
+
+    // Except when no modems were loaded (wrong format, corrupted DB etc).
+    if (connectionTemplates.size() == 0) {
+        throw DatabaseCreationException("No connection templates found!");
+    }
+}
+
+bool Database::loadConnectionTemplateFromFile(const std::string &file) {
+    Log::debug("Loading " + file + "...");
+
+    ifstream templateFile(file.c_str(), ios::in);
+    if (!templateFile.is_open()) {
+        Log::error("Unable to open " + file + " for reading!");
+        return false;
+    }
+
+    ConnectionTemplate *tempTemplate;
+    try {
+        tempTemplate = GlobalRepository::getInstance()->
+            getConnectionTemplateLoader()->
+                loadConnectionTemplate(templateFile);
+    } catch (ConnectionTemplateLoader::LoadException &ex) {
+        Log::error(string("Failed: ") + ex.what());
+        return false;
+    }
+
+    templateFile.close();
+    connectionTemplates.push_back(tempTemplate);
+
+    Log::debug("Loaded successfully.");
+
+    return true;
+}
+
 void Database::releaseIsps() {
     // Release ISPs
     vector<Isp*>::iterator ispsIter;
@@ -182,6 +241,18 @@ void Database::releaseModems() {
         Log::debug("Releasing " + (*modemsIter)->getName());
         delete (*modemsIter);
         (*modemsIter) = 0;
+    }
+}
+
+void Database::releaseConnectionTemplates() {
+    // Release modems
+    vector<ConnectionTemplate*>::iterator templatesIter;
+    for (templatesIter = connectionTemplates.begin() ;
+         templatesIter != connectionTemplates.end() ;
+         templatesIter++) {
+        Log::debug("Releasing " + (*templatesIter)->getName());
+        delete (*templatesIter);
+        (*templatesIter) = 0;
     }
 }
 

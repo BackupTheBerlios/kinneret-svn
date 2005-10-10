@@ -51,7 +51,7 @@ public:
         // Nothing to do
     }
 
-    /* --- Excpetions --- */
+    /* --- Exceptions --- */
 
     /**
      * Thrown when the loader wasn't able to load the script from the stream.

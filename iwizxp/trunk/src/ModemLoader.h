@@ -67,7 +67,7 @@ public:
      * @param inStream Stream to read modem's info from.
      * @return A new and initialized <code>Modem</code> (or one of its
      *         subclasses).
-     * @throws LoadExcpetion When the loades could not have initialized a new
+     * @throws LoadException When the loades could not have initialized a new
      *         modem from the given stream (serialization error, stream error,
      *         memory error, etc.)
      */

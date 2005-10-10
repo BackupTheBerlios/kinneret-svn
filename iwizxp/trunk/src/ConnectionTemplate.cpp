@@ -26,12 +26,18 @@
 
 using namespace std;
 
-void ConnectionTemplate::finializeScript(Dialer *dialer) {
-    string dialerCode = prepareDialerCode(dialer);
+string ConnectionTemplate::getFinalScript(Dialer *dialer) {
+    if (finalized == false) {
+        string dialerCode = prepareDialerCode(dialer);
 
-    string insertLocationString("{dialer}");
-    string::size_type insertLocation = script.find(insertLocationString);
-    script.replace(insertLocation, insertLocationString.length(), dialerCode);
+        string insertLocationString("{dialer}");
+        string::size_type insertLocation = script.find(insertLocationString);
+        script.replace(insertLocation, insertLocationString.length(),
+            dialerCode);
+        finalized = true;
+    }
+
+    return script;
 }
 
 string ConnectionTemplate::prepareDialerCode(Dialer *dialer) const {

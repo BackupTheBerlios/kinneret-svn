@@ -60,7 +60,7 @@ public:
      * @return A new and allocated dialer. The dialer is allocated using
      *         <code>new</code> and it's up to the user to
      *         <code>delete</code> it.
-     * @throws LoadExcpetion When the dialer could not be initilized from the
+     * @throws LoadException When the dialer could not be initilized from the
      *         given stream.
      */
     virtual Dialer *loadDialer(std::istream &inStream) const;

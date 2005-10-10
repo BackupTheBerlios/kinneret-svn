@@ -56,7 +56,7 @@ public:
     /**
      * Thrown when the loader wasn't able to load the ISP.
      */
-    NewException(LoadExcpetion);
+    NewException(LoadException);
 
     /* --- Abstract Methods --- */
 
@@ -68,7 +68,7 @@ public:
      * @param inStream Stream to read ISP's info from.
      * @return A new and initialized <code>Isp</code> (or one of its
      *         subclasses).
-     * @throws LoadExcpetion When the loades could not have initialized a new
+     * @throws LoadException When the loades could not have initialized a new
      *         ISP from the given stream (serialization error, stream error,
      *         memory error, etc.)
      */

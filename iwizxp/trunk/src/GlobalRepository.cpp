@@ -33,6 +33,7 @@
 #include "XMLModemLoader.h"
 #include "BashSyntaxScriptLoader.h"
 #include "SimpleFormatDialerLoader.h"
+#include "XMLConnectionTemplateLoader.h"
 
 using namespace std;
 using namespace xercesc;
@@ -45,11 +46,13 @@ void GlobalRepository::setupLoaders() {
     modemLoader = new XMLModemLoader();
     scriptLoader = new BashSyntaxScriptLoader();
     dialerLoader = new SimpleFormatDialerLoader();
+    connectionTemplateLoader = new XMLConnectionTemplateLoader();
     argumentsScript = new ArgumentsScript();
 }
 
 void GlobalRepository::releaseLoaders() {
     delete argumentsScript;
+    delete connectionTemplateLoader;
     delete dialerLoader;
     delete scriptLoader;
     delete modemLoader;

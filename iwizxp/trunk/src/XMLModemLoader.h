@@ -60,7 +60,7 @@ public:
      *
      * @param inStream The stream to parse.
      * @return A new and initialized <code>Modem</code>.
-     * @throws LoadExcpetion Thrown when the stream could not be parsed, or
+     * @throws LoadException Thrown when the stream could not be parsed, or
      *         an <code>XMLSerializationException</code> was thrown from
      *         <code>Modem</code>'s <code>fromXML</code>.
      */
