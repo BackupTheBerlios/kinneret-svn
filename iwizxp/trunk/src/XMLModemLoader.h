@@ -40,7 +40,8 @@ public:
      * Does nothing.
      */
     XMLModemLoader() {
-        Log::debug("Constructing XMLModemLoader");
+        Log::debug(LOG_LOCATION("XMLModemLoader", "XMLModemLoader"),\
+            "Constructing XMLModemLoader");
     }
 
     /**
@@ -49,7 +50,8 @@ public:
      * Does nothing.
      */
     virtual ~XMLModemLoader() {
-        Log::debug("Destroying XMLModemLoader");
+        Log::debug(LOG_LOCATION("XMLModemLoader", "~XMLModemLoader"),
+            "Destroying XMLModemLoader");
     }
 
     /* --- Public Methods --- */

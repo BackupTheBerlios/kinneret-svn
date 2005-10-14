@@ -95,11 +95,13 @@ void XMLModem::loadExceptions(DOMElement *dialerNode) {
     elementsArrayFromXML(exceptionElements, dialerNode, "exception");
 
     if (exceptionElements.size() <= 0) {
-        Log::debug("No Exceptions");
+        Log::debug(LOG_LOCATION("XMLModem", "loadExceptions"),
+            "No Exceptions");
     } else {
         for (int i = 0 ; i < exceptionElements.size() ; i++) {
             if (exceptionElements[i] == 0) {
-                Log::warning("Incorrect item entry, skipping...");
+                Log::warning(LOG_LOCATION("XMLModem", "loadExceptions"),
+                    "Incorrect item entry, skipping...");
                 continue;
             }
             

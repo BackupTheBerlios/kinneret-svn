@@ -42,7 +42,8 @@ void XMLConnectionTemplate::fromXML(DOMElement *root) {
     vector<DOMElement*> elements;
     getElementsByTagName(elements, root, "description");
     if (elements.size() <= 0) {
-        Log::warning("No description tag found!");
+        Log::warning(LOG_LOCATION("XMLConnectionTemplate", "fromXML"),
+            "No description tag found!");
         setDescription("No description");
     } else {
         setDescription(xts(elements[0]->getTextContent(), true));

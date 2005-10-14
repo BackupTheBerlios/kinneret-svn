@@ -31,7 +31,8 @@ Script *BashSyntaxScriptLoader::loadScript(istream &inStream) const {
     string body = readStreamAsString(inStream);
     string name = extractNameFromScript(body);
 
-    Log::debug(string("BashSyntaxScriptLoader successfully loaded: ") + name);
+    Log::debug(LOG_LOCATION("BashSyntaxScriptLoader", "loadScript"),
+            string("BashSyntaxScriptLoader successfully loaded: ") + name);
 
     return new FixedScript(name, body);
 }
@@ -79,8 +80,10 @@ string BashSyntaxScriptLoader::extractNameFromDefinitionLine(const string &body)
     }
 
     if (regexResult.size() == 0) {
-        Log::bug("Should have been called from extractNameFromScript, "
-                "which made sure we would find this regex!");
+        Log::bug(LOG_LOCATION("BashSyntaxScriptLoader",
+                "extractNameFromDefinitionLine"),
+            "Should have been called from extractNameFromScript, "
+            "which made sure we would find this regex!");
         
         throw LoadException("Bug. Please report.");
     }

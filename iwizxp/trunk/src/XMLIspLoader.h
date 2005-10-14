@@ -40,7 +40,8 @@ public:
      * Does nothing.
      */
     XMLIspLoader() {
-        Log::debug("Creating XMLIspLoader");
+        Log::debug(LOG_LOCATION("XMLIspLoader", "XMLIspLoader"),
+            "Creating XMLIspLoader");
     }
 
     /**
@@ -49,7 +50,8 @@ public:
      * Does nothing.
      */
     virtual ~XMLIspLoader() {
-        Log::debug("Destroying XMLIspLoader");
+        Log::debug(LOG_LOCATION("XMLIspLoader", "~XMLIspLoader"),
+            "Destroying XMLIspLoader");
     }
 
     /* --- Public Methods --- */

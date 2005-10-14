@@ -32,7 +32,7 @@
 #include "XMLIspLoader.h"
 #include "XMLModemLoader.h"
 #include "BashSyntaxScriptLoader.h"
-#include "SimpleFormatDialerLoader.h"
+#include "XMLDialerLoader.h"
 #include "XMLConnectionTemplateLoader.h"
 
 using namespace std;
@@ -45,7 +45,7 @@ void GlobalRepository::setupLoaders() {
     ispLoader = new XMLIspLoader();
     modemLoader = new XMLModemLoader();
     scriptLoader = new BashSyntaxScriptLoader();
-    dialerLoader = new SimpleFormatDialerLoader();
+    dialerLoader = new XMLDialerLoader();
     connectionTemplateLoader = new XMLConnectionTemplateLoader();
     argumentsScript = new ArgumentsScript();
 }

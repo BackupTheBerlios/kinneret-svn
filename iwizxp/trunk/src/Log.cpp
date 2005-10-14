@@ -23,6 +23,8 @@
 #include <cctype>
 #include <algorithm>
 
+#include <time.h>
+
 #include "Log.h"
 
 #include "Utils.h"
@@ -61,34 +63,51 @@ void Log::release() {
     delete instance;
 }
 
-void Log::log(LogLevel level, const std::string &msg) {
+void Log::log(LogLocation location, LogLevel level, const std::string &msg) {
     if (level >= logLevel) {
-        cerr << levelNames[level] << " > " << msg << endl;
+        // 2001-01-01 00:00:00 > Class::Method(File:Line) Level > Message
+
+        // Timestamp
+        time_t now = time(0);
+        char timestamp[255];
+        strftime(timestamp, 255, "%F %T", localtime(&now));
+
+        // Caller
+    
+        // Log
+        cerr << 
+            timestamp << 
+            " > " <<
+            location.loggingClass << "::" << location.loggingMethod << "(" <<
+            location.loggingFile << ":" << location.loggingLine << ") " <<
+            levelNames[level] <<
+            " > "
+            << msg << endl;
     }
 }
 
-void Log::bug(const std::string &msg) {
-    instance->log(BUG, msg);
+void Log::bug(LogLocation location, const std::string &msg) {
+    instance->log(location, BUG, msg);
 }
 
-void Log::fatal(const std::string &msg) {
-    instance->log(FATAL, msg);
+void Log::fatal(LogLocation location, const std::string &msg) {
+    instance->log(location, FATAL, msg);
 }
 
-void Log::error(const std::string &msg) {
-    instance->log(ERROR, msg);
+void Log::error(LogLocation location, const std::string &msg) {
+    instance->log(location, ERROR, msg);
 }
 
-void Log::warning(const std::string &msg) {
-    instance->log(WARNING, msg);
+void Log::warning(LogLocation location, const std::string &msg) {
+    instance->log(location, WARNING, msg);
 }
 
-void Log::info(const std::string &msg) {
-    instance->log(INFO, msg);
+void Log::info(LogLocation location, const std::string &msg) {
+    instance->log(location, INFO, msg);
 }
 
-void Log::debug(const std::string &msg) {
-    instance->log(DEBUG, msg);
+void Log::debug(LogLocation location, const std::string &msg) {
+    instance->log(location, DEBUG, msg);
 }
     
 Log::LogLevel Log::levelFromString(string level) {

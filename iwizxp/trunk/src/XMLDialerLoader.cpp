@@ -19,51 +19,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef __SIMPLE_FORMAT_DIALER_LOADER_H__
-#define __SIMPLE_FORMAT_DIALER_LOADER_H__
+#include <xercesc/dom/DOMDocument.hpp>
 
-#include "DialerLoader.h"
+#include "XMLDialerLoader.h"
+#include "XMLDialer.h"
 
-#define MAX_LINE 1024
+#include "Utils.h"
 
-/**
- * This is a test class. Do not use in production code.
- *
- * @author duvduv
- */
-class SimpleFormatDialerLoader : public DialerLoader {
-public:
+using namespace std;
+using namespace xercesc;
+using namespace Utils;
+using namespace Utils::DOM;
 
-    /* --- Constructors ---- */
-
-    /**
-     * Constructor.
-     */
-    SimpleFormatDialerLoader() {
-        Log::debug("SimpleFormatDialerLoader created successfully");
+Dialer *XMLDialerLoader::loadDialer(istream &inStream) const {
+    DOMDocument *document;
+    try {
+        document = Utils::DOM::parseDocumentFromStream(inStream);
+        document->normalizeDocument();
+        removeWhitespaceTextNodes(document->getDocumentElement());
+    } catch (const DOMParseException &ex) {
+        throw LoadException("XMLException, see above");
     }
 
-    /**
-     * Destructor.
-     */
-    virtual ~SimpleFormatDialerLoader() {
-        Log::debug("SimpleFormatDialerLoader released successfully");
+    try {
+        XMLDialer *result = new XMLDialer();
+        result->fromXML(document->getDocumentElement());
+        return result;
+    } catch (const XMLReadable::XMLSerializationException &ex) {
+        Log::error(LOG_LOCATION("XMLDialerLoader", "loadDialer"),
+            "Got XMLSerializationException while creating dialer...");
+        throw LoadException(ex.what());
     }
+}
 
-    /* --- Inherited from DialerLoader --- */
-
-    /**
-     * This method allocates and initializes a new dialer from a given stream.
-     *
-     * @param inStream Stream to read dialer info from. Format determined by
-     *        the implementing loader.
-     * @return A new and allocated dialer. The dialer is allocated using
-     *         <code>new</code> and it's up to the user to
-     *         <code>delete</code> it.
-     * @throws LoadException When the dialer could not be initilized from the
-     *         given stream.
-     */
-    virtual Dialer *loadDialer(std::istream &inStream) const;
-};
-
-#endif

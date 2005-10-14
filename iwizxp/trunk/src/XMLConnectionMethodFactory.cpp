@@ -44,7 +44,8 @@ ConnectionMethod *XMLConnectionMethodFactory::create(const std::string name,
         result->fromXML(element);
     } else {
         // TODO: Throw something?
-        Log::debug(std::string("Unknown connection method: ") + name);
+        Log::debug(LOG_LOCATION("XMLConnectionMethodFactory", "create"),
+            string("Unknown connection method: ") + name);
     }
 
     return result;

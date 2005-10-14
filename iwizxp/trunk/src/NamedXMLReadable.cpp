@@ -40,6 +40,7 @@ void NamedXMLReadable::fromXML(xercesc::DOMElement *root) {
     // Extract and trim its text content.
     setName(xts(nameTag->getTextContent(), true));
             
-    Log::debug(string("Name: ") + getName());
+    Log::debug(LOG_LOCATION("NamedXMLReadable", "fromXML"),
+        string("Name: ") + getName());
 }
 

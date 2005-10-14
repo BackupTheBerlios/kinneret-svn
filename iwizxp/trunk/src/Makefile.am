@@ -6,7 +6,7 @@ iwizxp_SOURCES = Modem.cpp \
 				 Isp.cpp \
 				 BashSyntaxScriptLoader.cpp \
 				 Utils.cpp \
-				 SimpleFormatDialerLoader.cpp \
+				 XMLDialerLoader.cpp \
 				 Dialer.cpp \
 				 GlobalRepository.cpp \
 				 ConnectionTemplate.cpp \
@@ -25,5 +25,6 @@ iwizxp_SOURCES = Modem.cpp \
 				 XMLKernelModule.cpp \
 				 XMLConnectionMethodFactory.cpp \
 				 XMLConnectionTemplate.cpp \
-				 XMLConnectionTemplateLoader.cpp
+				 XMLConnectionTemplateLoader.cpp \
+				 XMLDialer.cpp
 iwizxp_INCLUDES = -I$(top_srcdir)/src

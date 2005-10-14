@@ -51,8 +51,9 @@ void XMLIsp::extractDnsServersFromXML(xercesc::DOMElement *root) {
     // And add them
     for (int i = 0 ; i < items.size() ; i++) {
         if (items[i] != 0) {
-            Log::debug("Adding DNS Server: " +
-                xts(items[i]->getTextContent(), true).asString());
+            Log::debug(LOG_LOCATION("XMLIsp", "extractDnsServersFromXML"),
+                "Adding DNS Server: " +
+                    xts(items[i]->getTextContent(), true).asString());
             addDnsServer(IpAddress(xts(items[i]->getTextContent(), true)));
         }
     }

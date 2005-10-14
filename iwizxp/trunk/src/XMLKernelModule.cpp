@@ -42,7 +42,8 @@ void XMLKernelModule::fromXML(DOMElement *root) {
 
     for (int i = 0 ; i < modprobeNodes.size() ; i++) {
         if (modprobeNodes[i] == 0) {
-            Log::warning("Empty entry in list, skipping...");
+            Log::warning(LOG_LOCATION("XMLKernelModule", "fromXML"),
+                "Empty entry in list, skipping...");
             continue;
         }
 

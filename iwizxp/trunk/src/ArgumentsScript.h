@@ -72,14 +72,16 @@ public:
      * Default Constructor. Does nothing but printing a pretty log message.
      */
     ArgumentsScript() {
-        Log::debug("Constructing ArgumentsScript");
+        Log::debug(LOG_LOCATION("ArgumentsScript", "ArgumentsScript"),
+            "Constructing ArgumentsScript");
     }
 
     /**
      * Destructor. Does nothing but printing a pretty log message.
      */
     virtual ~ArgumentsScript() {
-        Log::debug("Destroying ArgumentsScript");
+        Log::debug(LOG_LOCATION("ArgumentsScript", "~ArgumentsScript"),
+            "Destroying ArgumentsScript");
     }
 
     /* --- Public Methods --- */

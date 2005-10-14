@@ -32,12 +32,13 @@ using namespace Utils;
 
 Dialer *Modem::loadDialerByName(string name) {
     string dialerName =
-        GlobalRepository::getInstance()->getDbBasePath() + "/dialer/" + name;
+        GlobalRepository::getInstance()->getDbBasePath() +
+            "/dialer/" + name + ".xml";
 
     ifstream dialerStream(dialerName.c_str(), ios::in);
 
     if (!dialerStream.is_open()) {
-        throw DialerCreationException("Unable to load default dialer!");
+        throw DialerCreationException("Unable to load dialer!");
     }
 
     Dialer *dialer = 0;
@@ -69,7 +70,8 @@ Modem::~Modem() {
 void Modem::releaseKernelModules() {
     vector<KernelModule*>::iterator iter;
     for (iter = modulesVector.begin() ; iter != modulesVector.end() ; iter++) {
-        Log::debug(string("Releasing ") + (*iter)->toString() + "...");
+        Log::debug(LOG_LOCATION("Modem", "releaseKernelModules"),
+            string("Releasing ") + (*iter)->toString() + "...");
         delete (*iter);
         (*iter) = 0;
     } 
@@ -78,7 +80,8 @@ void Modem::releaseKernelModules() {
 void Modem::releaseDialers() {
     vector<Dialer*>::iterator iter;
     for (iter = loadedDialers.begin() ; iter != loadedDialers.end() ; iter++) {
-        Log::debug(string("Releasing ") + (*iter)->toString() + "...");
+        Log::debug(LOG_LOCATION("Modem", "releaseDialers"),
+            string("Releasing ") + (*iter)->toString() + "...");
         delete (*iter);
         (*iter) = 0;
     } 

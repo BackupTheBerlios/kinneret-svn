@@ -32,25 +32,29 @@ using namespace Utils;
 Database *Database::instance = 0;
 
 Database::Database() {
-    Log::debug("Creating Database...");
+    Log::debug(LOG_LOCATION("Database", "Database"),
+        "Creating Database...");
 
     loadIsps();
     loadModems();
     loadConnectionTemplates();
     loadDefaultDialers();
 
-    Log::debug("Database created.");
+    Log::debug(LOG_LOCATION("Database", "Database"),
+        "Database created.");
 }
 
 Database::~Database() {
-    Log::debug("Releasing Database...");
+    Log::debug(LOG_LOCATION("Database", "~Database"),
+        "Releasing Database...");
     
     releaseDefaultDialers();
     releaseIsps();
     releaseModems();
     releaseConnectionTemplates();
 
-    Log::debug("Database released.");
+    Log::debug(LOG_LOCATION("Database", "~Database"),
+        "Database released.");
 }
 
 vector<string> Database::enumIsps() const {
@@ -59,11 +63,13 @@ vector<string> Database::enumIsps() const {
 }
 
 bool Database::loadIspFromFile(std::string file) {
-    Log::debug("Loading " + file + "...");
+    Log::debug(LOG_LOCATION("Database", "loadIspFromFile"),
+        "Loading " + file + "...");
 
     ifstream currentIspFile(file.c_str(), ios::in);
     if (!currentIspFile.is_open()) {
-        Log::error("Unable to open " + file);
+        Log::error(LOG_LOCATION("Database", "loadIspFromFile"),
+            "Unable to open " + file);
         return false;
     }
 
@@ -72,20 +78,23 @@ bool Database::loadIspFromFile(std::string file) {
         tempIsp = GlobalRepository::getInstance()->
             getIspLoader()->loadIsp(currentIspFile);
     } catch (IspLoader::LoadException &ex) {
-        Log::error(string("Failed: ") + ex.what());
+        Log::error(LOG_LOCATION("Database", "loadIspFromFile"),
+            string("Failed: ") + ex.what());
         return false;
     }
 
     currentIspFile.close();
     isps.push_back(tempIsp);
 
-    Log::debug("Loaded successfully.");
+    Log::debug(LOG_LOCATION("Database", "loadIspFromFile"),
+        "Loaded successfully.");
 
     return true;
 }
 
 void Database::loadIsps() {
-    Log::debug("Loading ISPs...");
+    Log::debug(LOG_LOCATION("Database", "loadIsps"),
+        "Loading ISPs...");
 
     // Enum files
     vector<string> ispFiles;
@@ -100,7 +109,8 @@ void Database::loadIsps() {
     for (iter = ispFiles.begin() ; iter != ispFiles.end() ; iter++) {
         // TODO: Load only XML files
         if (loadIspFromFile(*iter) == false) {
-            Log::error("Skipping...");
+            Log::error(LOG_LOCATION("Database", "loadIsps"),
+                "Skipping...");
         }
     }
 
@@ -116,11 +126,13 @@ vector<string> Database::enumModems() const {
 }
 
 bool Database::loadModemFromFile(std::string file) {
-    Log::debug("Loading " + file + "...");
+    Log::debug(LOG_LOCATION("Database", "loadModemFromFile"),
+        "Loading " + file + "...");
 
     ifstream currentModemFile(file.c_str(), ios::in);
     if (!currentModemFile.is_open()) {
-        Log::error("Unable to open " + file);
+        Log::error(LOG_LOCATION("Database", "loadModemFromFile"),
+            "Unable to open " + file);
         return false;
     }
 
@@ -129,20 +141,22 @@ bool Database::loadModemFromFile(std::string file) {
         tempModem = GlobalRepository::getInstance()->
             getModemLoader()->loadModem(currentModemFile);
     } catch (ModemLoader::LoadException &ex) {
-        Log::error(string("Failed: ") + ex.what());
+        Log::error(LOG_LOCATION("Database", "loadModemFromFile"),
+            string("Failed: ") + ex.what());
         return false;
     }
 
     currentModemFile.close();
     modems.push_back(tempModem);
 
-    Log::debug("Loaded successfully.");
+    Log::debug(LOG_LOCATION("Database", "loadModemFromFile"),
+        "Loaded successfully.");
 
     return true;
 }
 
 void Database::loadModems() {
-    Log::debug("Loading Modems...");
+    Log::debug(LOG_LOCATION("Database", "loadModems"), "Loading Modems...");
 
     vector<string> modemFiles;
     try {
@@ -155,7 +169,8 @@ void Database::loadModems() {
     for (iter = modemFiles.begin() ; iter != modemFiles.end() ; iter++) {
         // TODO: Load only XML files
         if (loadModemFromFile(*iter) == false) {
-            Log::error("Skipping...");
+            Log::error(LOG_LOCATION("Database", "loadModems"),
+                "Skipping...");
         }
     }
 
@@ -171,7 +186,8 @@ vector<string> Database::enumConnectionTemplates() const {
 }
 
 void Database::loadConnectionTemplates() {
-    Log::debug("Loading connection templates...");
+    Log::debug(LOG_LOCATION("Database", "loadConnectionTemplates"),
+        "Loading connection templates...");
 
     vector<string> templateFiles;
     try {
@@ -185,7 +201,8 @@ void Database::loadConnectionTemplates() {
     for (iter = templateFiles.begin() ; iter != templateFiles.end() ; iter++) {
         // TODO: Load only XML files
         if (loadConnectionTemplateFromFile(*iter) == false) {
-            Log::error("Skipping...");
+            Log::error(LOG_LOCATION("Database", "loadConnectionTemplates"),
+                "Skipping...");
         }
     }
 
@@ -196,11 +213,13 @@ void Database::loadConnectionTemplates() {
 }
 
 bool Database::loadConnectionTemplateFromFile(const std::string &file) {
-    Log::debug("Loading " + file + "...");
+    Log::debug(LOG_LOCATION("Database", "loadConnectionTemplateFromFile"),
+        "Loading " + file + "...");
 
     ifstream templateFile(file.c_str(), ios::in);
     if (!templateFile.is_open()) {
-        Log::error("Unable to open " + file + " for reading!");
+        Log::error(LOG_LOCATION("Database", "loadConnectionTemplateFromFile"),
+            "Unable to open " + file + " for reading!");
         return false;
     }
 
@@ -210,14 +229,16 @@ bool Database::loadConnectionTemplateFromFile(const std::string &file) {
             getConnectionTemplateLoader()->
                 loadConnectionTemplate(templateFile);
     } catch (ConnectionTemplateLoader::LoadException &ex) {
-        Log::error(string("Failed: ") + ex.what());
+        Log::error(LOG_LOCATION("Database", "loadConnectionTemplate"),
+            string("Failed: ") + ex.what());
         return false;
     }
 
     templateFile.close();
     connectionTemplates.push_back(tempTemplate);
 
-    Log::debug("Loaded successfully.");
+    Log::debug(LOG_LOCATION("Database", "loadConnectionTemplateFromFile"),
+        "Loaded successfully.");
 
     return true;
 }
@@ -226,7 +247,8 @@ void Database::releaseIsps() {
     // Release ISPs
     vector<Isp*>::iterator ispsIter;
     for (ispsIter = isps.begin() ; ispsIter != isps.end() ; ispsIter++) {
-        Log::debug("Releasing " + (*ispsIter)->getName());
+        Log::debug(LOG_LOCATION("Database", "releaseIsps"),
+            "Releasing " + (*ispsIter)->getName());
         delete (*ispsIter);
         (*ispsIter) = 0;
     }
@@ -238,7 +260,8 @@ void Database::releaseModems() {
     for (modemsIter = modems.begin() ;
          modemsIter != modems.end() ;
          modemsIter++) {
-        Log::debug("Releasing " + (*modemsIter)->getName());
+        Log::debug(LOG_LOCATION("Database", "releaseModems"),
+            "Releasing " + (*modemsIter)->getName());
         delete (*modemsIter);
         (*modemsIter) = 0;
     }
@@ -250,7 +273,8 @@ void Database::releaseConnectionTemplates() {
     for (templatesIter = connectionTemplates.begin() ;
          templatesIter != connectionTemplates.end() ;
          templatesIter++) {
-        Log::debug("Releasing " + (*templatesIter)->getName());
+        Log::debug(LOG_LOCATION("Database", "releaseConnectionTemplates"),
+            "Releasing " + (*templatesIter)->getName());
         delete (*templatesIter);
         (*templatesIter) = 0;
     }
@@ -268,10 +292,16 @@ void Database::loadDefaultDialers() {
             throw DatabaseCreationException(string("Unable to open ") + path);
         }
 
+        Log::debug(LOG_LOCATION("Database", "loadDefaultDialers"),
+            string("Loading default pre-dialer: ") + path);
+
         defaultPreDialer = GlobalRepository::getInstance()->
             getDialerLoader()->loadDialer(inFile);
 
         inFile.close();
+
+        Log::debug(LOG_LOCATION("Database", "loadDefaultDialers"),
+            string("Loading default post-dialer: ") + path);
 
         path = GlobalRepository::getInstance()->getDbBasePath() + "/dialer/" +
             GlobalRepository::getInstance()->getDefaultPostDialerName();

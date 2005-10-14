@@ -61,7 +61,8 @@ public:
      * Destructor. Does nothing but printing a pretty log message.
      */
     virtual ~ConnectionTemplate() {
-        Log::debug("Destroying ConnectionTemplate");
+        Log::debug(LOG_LOCATION("ConnectionTemplate", "~ConnectionTemplate"),
+            "Destroying ConnectionTemplate");
     }
 
     /* --- Public Methods --- */
@@ -70,7 +71,8 @@ public:
      * TODO: JavaDocs
      */
     void loadTemplate(std::istream &inStream) {
-        Log::debug("Loading template...");
+        Log::debug(LOG_LOCATION("ConnectionTemplate", "loadTemplate"),
+            "Loading template...");
         script = Utils::readStreamAsString(inStream);
     }
 

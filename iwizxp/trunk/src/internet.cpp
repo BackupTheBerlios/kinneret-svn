@@ -50,7 +50,8 @@ void handleLogOption(string level) {
     try {
         Log::release();
         Log::create(Log::levelFromString(level));
-        Log::debug("Logger created successfully");
+        Log::debug(LOG_LOCATION("<global>", "handleLogOption"),
+            "Logger created successfully");
     } catch (Log::FormatException &ex) {
         cout << ex.what() << endl;
         usage();

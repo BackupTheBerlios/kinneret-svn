@@ -59,14 +59,16 @@ public:
         this->defaultGateway = defaultGateway;
         this->dialingDestination = dialingDestination;
 
-        Log::debug("Cables created successfully");
+        Log::debug(LOG_LOCATION("XMLCables", "XMLCables"),
+            "Cables created successfully");
     }
 
     /** 
      * Destructor, does nothing.
      */
     virtual ~XMLCables() {
-        Log::debug("Cables released successfully");
+        Log::debug(LOG_LOCATION("XMLCables", "~XMLCables"),
+            "Cables released successfully");
     }
 
     /* --- Inherited from ConnectionMethod --- */

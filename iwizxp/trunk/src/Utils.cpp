@@ -55,14 +55,16 @@ string Utils::readStreamAsString(istream &inStream) {
 vector<string> Utils::enumDirectory(string directory) {
     vector<string> files;
 
-    Log::debug(string("Enumerating ") + directory + string("..."));
+    Log::debug(LOG_LOCATION("Utils", "enumDirectory"),
+        string("Enumerating ") + directory + string("..."));
 
     // Open file descriptor
     DIR *dir = opendir(directory.c_str());
     if (dir == 0) {
         string reason(strerror(errno));
 
-        Log::error("Unable to enumerate " + directory + ": " + reason);
+        Log::error(LOG_LOCATION("Utils", "enumDirectory"),
+            "Unable to enumerate " + directory + ": " + reason);
         throw DirectoryEnumerationException(reason);
     }
 

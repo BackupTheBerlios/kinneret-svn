@@ -51,7 +51,8 @@ private:
      * Private constrcutor. Creates the loaders and sets up Xerces.
      */
     GlobalRepository() {
-        Log::debug("Constructing GlobalRepository");
+        Log::debug(LOG_LOCATION("GlobalRepository", "GlobalRepository"),
+            "Constructing GlobalRepository");
         setupLoaders();
         setupXerces();
     }
@@ -60,7 +61,8 @@ private:
      * Destructor, deletes the loaders and releases Xerces.
      */
     ~GlobalRepository() {
-        Log::debug("Destroying GlobalRepository");
+        Log::debug(LOG_LOCATION("GlobalRepository", "~GlobalRepository"),
+            "Destroying GlobalRepository");
         releaseXerces();
         releaseLoaders();
     }
@@ -147,7 +149,7 @@ public:
      */
     std::string getDefaultPreDialerName() {
         // TODO: From configuration
-        return "pre";
+        return "pre.xml";
     }
 
     /**
@@ -158,7 +160,7 @@ public:
      */
     std::string getDefaultPostDialerName() {
         // TODO: From configuration
-        return "post";
+        return "post.xml";
     }
 
     /**

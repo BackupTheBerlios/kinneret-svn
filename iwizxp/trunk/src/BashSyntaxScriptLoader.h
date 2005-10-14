@@ -41,14 +41,18 @@ public:
      * Constructor.
      */
     BashSyntaxScriptLoader() {
-        Log::debug("Constructing BashSyntaxScriptLoader");
+        Log::debug(LOG_LOCATION("BashSyntaxScriptLoader",
+                "BashSyntaxScriptLoader"),
+            "Constructing BashSyntaxScriptLoader");
     }
 
     /**
      * Destructor.
      */
     virtual ~BashSyntaxScriptLoader() {
-        Log::debug("Destroying BashSyntaxScriptLoader");
+        Log::debug(LOG_LOCATION("BashSyntaxScriptLoader",
+                "~BashSyntaxScriptLoader"),
+            "Destroying BashSyntaxScriptLoader");
     }
 
     /* --- Inherited from ScriptLoader --- */

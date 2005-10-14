@@ -107,8 +107,8 @@ DOMElement *Utils::DOM::getLoneElementByTagName(DOMElement *root,
 
     // Warn, if more than one node found
     if (matchingNodes.size() > 1) {
-        Log::warning(string("More than one <" + tagName + "> tag found, using" 
-            " first."));
+        Log::warning(LOG_LOCATION("Utils::DOM", "getLoneElementByTagName"),
+            string("More than one <" + tagName + "> tag found, using first."));
     }
 
     // Return null if nothing was found
@@ -156,13 +156,15 @@ string Utils::DOM::getAttributeValue(DOMElement *node, string attribute) {
     DOMNamedNodeMap *nodeAttributes = node->getAttributes();
 
     if (nodeAttributes == 0) {
-        Log::debug("No attributes");
+        Log::debug(LOG_LOCATION("Utils::DOM", "getAttributes"),
+            "No attributes");
         return "";
     }
     
     DOMNode *attributeNode = nodeAttributes->getNamedItem(xts(attribute));
     if (attributeNode == 0) {
-        Log::debug("Couldn't find '" + attribute + "' attribute.");
+        Log::debug(LOG_LOCATION("Utils::DOM", "getAttributeValue"),
+            "Couldn't find '" + attribute + "' attribute.");
         return "";
     } else {
         return xts(attributeNode->getTextContent());
@@ -181,7 +183,8 @@ void Utils::DOM::elementsArrayFromXML(
     // How much elements?
     string countAttributeValue = getAttributeValue(arrayNode, countAttribute);
     if (countAttributeValue.length() == 0) {
-        Log::debug(xts(arrayNode->getNodeName()).asString() + " has no '" +
+        Log::debug(LOG_LOCATION("Utils::DOM", "elementsArrayFromXML"),
+            xts(arrayNode->getNodeName()).asString() + " has no '" +
             countAttribute + "' attribute!");
         return;
     }
@@ -189,7 +192,8 @@ void Utils::DOM::elementsArrayFromXML(
     const int count = atoi(countAttributeValue.c_str());
 
     if (!arrayNode->hasChildNodes() || count <= 0) {
-        Log::debug("Empty list");
+        Log::debug(LOG_LOCATION("Utils::DOM", "elementsArrayFromXML"),
+            "Empty list");
         return;
     }
 
@@ -202,7 +206,8 @@ void Utils::DOM::elementsArrayFromXML(
     DOMElement *child = 0;
     DOMNode *childNode = arrayNode->getFirstChild();
     if (childNode == 0) {
-        Log::error("No item elements at all!");
+        Log::error(LOG_LOCATION("Utils::DOM", "elementsArrayFromXML"),
+            "No item elements at all!");
         return;
     }
     
@@ -220,7 +225,8 @@ void Utils::DOM::elementsArrayFromXML(
             // Check attribute
             if (itemNumber.length() == 0) {
                 // No item attribute, skip
-                Log::debug("No '" + itemAttribute + "' attribute, ignoring.");
+                Log::debug(LOG_LOCATION("Utils::DOM", "elementsArrayFromXML"),
+                    "No '" + itemAttribute + "' attribute, ignoring.");
             } else {
                 // Get item and add node
                 result[atoi(itemNumber.c_str()) - 1] = child;
@@ -249,21 +255,24 @@ void Utils::DOM::xmlExceptionOccured(const XMLException &ex) {
     char *errorMessage = XMLString::transcode(ex.getMessage());
     message << "Message is:\n" << errorMessage;
 
-    Log::error(message.str());
+    Log::error(LOG_LOCATION("Utils::DOM", "xmlExceptionOccured"),
+        message.str());
     
     XMLString::release(&errorMessage);
 }
 
 void Utils::DOM::xmlExceptionOccured(const SAXException &ex) {
     char *message = XMLString::transcode(ex.getMessage());
-    Log::error(string("SAXException Occured, Message is:\n") +
+    Log::error(LOG_LOCATION("Utils::DOM", "xmlExceptionOccured"),
+        string("SAXException Occured, Message is:\n") +
             message);
     XMLString::release(&message);
 }
 
 void Utils::DOM::xmlExceptionOccured(const DOMException &ex) {
     char *message = XMLString::transcode(ex.msg);
-    Log::error(string("DOMException Occured, Message is:\n") +
+    Log::error(LOG_LOCATION("Utils::DOM", "xmlExceptionOccured"),
+        string("DOMException Occured, Message is:\n") +
             message);
     XMLString::release(&message);
 }

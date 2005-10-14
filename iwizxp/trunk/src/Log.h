@@ -27,6 +27,9 @@
 
 #include "Exception.h"
 
+#define LOG_LOCATION(loggingClass, loggingMethod) \
+    Log::LogLocation(loggingClass, loggingMethod, __FILE__, __LINE__)
+
 /**
  * Singleton logger.
  * 
@@ -43,6 +46,28 @@ public:
     enum LogLevel {
         ALL, DEBUG, INFO, WARNING,
         ERROR, FATAL, BUG, NONE
+    };
+
+    /**
+     * TODO: JavaDocs
+     */
+    struct LogLocation {
+    public:
+
+        LogLocation(std::string loggingClass,
+                    std::string loggingMethod,
+                    std::string loggingFile,
+                    int loggingLine) {
+            this->loggingClass = loggingClass;
+            this->loggingMethod = loggingMethod;
+            this->loggingFile = loggingFile;
+            this->loggingLine = loggingLine;
+        }
+        
+        std::string loggingClass;
+        std::string loggingMethod;
+        std::string loggingFile;
+        int loggingLine;
     };
 
     /* --- Public Static Methods --- */
@@ -64,42 +89,42 @@ public:
      *
      * @param msg Message.
      */
-    static void bug(const std::string &msg);
+    static void bug(LogLocation location, const std::string &msg);
 
     /**
      * Logs a message at the fatal level.
      *
      * @param msg Message.
      */
-    static void fatal(const std::string &msg);
+    static void fatal(LogLocation location, const std::string &msg);
 
     /**
      * Logs a message at the error level.
      *
      * @param msg Message.
      */
-    static void error(const std::string &msg);
+    static void error(LogLocation location, const std::string &msg);
 
     /**
      * Logs a message at the warning level.
      *
      * @param msg Message.
      */
-    static void warning(const std::string &msg);
+    static void warning(LogLocation location, const std::string &msg);
 
     /**
      * Logs a message at the info level.
      *
      * @param msg Message.
      */
-    static void info(const std::string &msg);
+    static void info(LogLocation location, const std::string &msg);
 
     /**
      * Logs a message at the debug level.
      *
      * @param msg Message.
      */
-    static void debug(const std::string &msg);
+    static void debug(LogLocation location, const std::string &msg);
 
     /**
      * Translate the string to log level.
@@ -144,7 +169,7 @@ private:
      * @param level Log level this message is logged at
      * @param msg Messages
      */
-    void log(LogLevel level, const std::string &msg);
+    void log(LogLocation location, LogLevel level, const std::string &msg);
 
     /* --- Singleton --- */
 

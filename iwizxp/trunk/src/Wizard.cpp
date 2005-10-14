@@ -146,11 +146,11 @@ int Wizard::go() {
         outputFileStream.close();
     } catch (Exception &ex) {
         string message = string("Aborting due to error: ") + ex.what();
-        Log::fatal(message);
+        Log::fatal(LOG_LOCATION("Wizard", "go"), message);
         listener->fatal(message + "\nSee console for details.");
         return -1;
     } catch (...) {
-        Log::bug("Caught ... !");
+        Log::bug(LOG_LOCATION("Wizard", "go"), "Caught ... !");
         listener->fatal("Bug! See console for details");
         return -1;
     }

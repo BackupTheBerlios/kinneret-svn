@@ -55,16 +55,18 @@ public:
         this->functionName = functionName;
         this->scriptBody = scriptBody;
 
-        Log::debug(std::string("Constructing FixedScript (") +
-            functionName + ")");
+        Log::debug(LOG_LOCATION("FixedScript", "FixedScript"),
+            std::string("Constructing FixedScript (") +
+                functionName + ")");
     }
 
     /**
      * Destructor, does nothing.
      */
     virtual ~FixedScript() {
-        Log::debug(std::string("Destroying FixedScript (") +
-            functionName + ")");
+        Log::debug(LOG_LOCATION("FixedScript", "~FixedScript"),
+            std::string("Destroying FixedScript (") +
+                functionName + ")");
     }
 
     /* --- Inherited from Script --- */

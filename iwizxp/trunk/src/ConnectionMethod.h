@@ -52,14 +52,16 @@ public:
      * Constructor. Does nothing but printing a pretty log message.
      */
     ConnectionMethod() {
-        Log::debug("Constructing ConnectionMethod");
+        Log::debug(LOG_LOCATION("ConnectionMethod", "ConnectionMethod"),
+            "Constructing ConnectionMethod");
     }
 
     /** 
      * Destructor. Does nothing but printing a pretty log message.
      */
     virtual ~ConnectionMethod() {
-        Log::debug("Destroying ConnectionMethod");
+        Log::debug(LOG_LOCATION("ConnectionMethod", "~ConnectionMethod"),
+            "Destroying ConnectionMethod");
     }
 
     /* --- Abstract Methods --- */

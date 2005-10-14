@@ -19,43 +19,53 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "XMLCables.h"
+#ifndef __XML_DIALER_LOADER_H__
+#define __XML_DIALER_LOADER_H__
 
-#include "Utils.h"
-#include "xts.h"
+#include "DialerLoader.h"
 
-using namespace std;
-using namespace xercesc;
-using namespace Utils;
-using namespace Utils::DOM;
+/**
+ * TODO: JavaDocs
+ *
+ * @author duvduv
+ */
+class XMLDialerLoader : public DialerLoader {
+public:
 
-void XMLCables::fromXML(DOMElement *root) {
-    extractGatewayFromXML(root);
-    extractDialingDestinationFromXML(root);
-}
+    /* --- Constructors ---- */
 
-void XMLCables::extractGatewayFromXML(DOMElement *root) {
-    DOMElement *gatewayNode = getLoneElementByTagName(root, "gateway");
-    
-    if (gatewayNode == 0) {
-        throw XMLSerializationException("No <gateway> element!");
+    /**
+     * Constructor.
+     */
+    XMLDialerLoader() {
+        Log::debug(LOG_LOCATION("XMLDialerLoader", "XMLDialerLoader"),
+            "XMLDialerLoader created successfully");
     }
 
-    defaultGateway = xts(gatewayNode->getTextContent(), true);
-    Log::debug(LOG_LOCATION("XMLCables", "extractGatewayFromXML"),
-        "Default Gateway: " + defaultGateway);
-}
-
-void XMLCables::extractDialingDestinationFromXML(DOMElement *root) {
-    DOMElement *destinationNode = getLoneElementByTagName(root,
-        "destination");
-
-    if (destinationNode == 0) {
-        throw XMLSerializationException("No <destination> element!");
+    /**
+     * Destructor.
+     */
+    virtual ~XMLDialerLoader() {
+        Log::debug(LOG_LOCATION("XMLDialerLoader", "XMLDialerLoader"),
+            "XMLDialerLoader released successfully");
     }
 
-    dialingDestination = xts(destinationNode->getTextContent(), true);
-    Log::debug(LOG_LOCATION("XMLCables", "extractDialingDestinationFromXML"),
-        "Dialing Destination: " + dialingDestination);
-}
+    /* --- Inherited from DialerLoader --- */
 
+    /**
+     * TODO: Review JavaDocs.
+     *
+     * This method allocates and initializes a new dialer from a given stream.
+     *
+     * @param inStream Stream to read dialer info from. Format determined by
+     *        the implementing loader.
+     * @return A new and allocated dialer. The dialer is allocated using
+     *         <code>new</code> and it's up to the user to
+     *         <code>delete</code> it.
+     * @throws LoadException When the dialer could not be initilized from the
+     *         given stream.
+     */
+    virtual Dialer *loadDialer(std::istream &inStream) const;
+};
+
+#endif

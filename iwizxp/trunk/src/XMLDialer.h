@@ -19,43 +19,65 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "XMLCables.h"
+#ifndef __XML_DIALER_H__
+#define __XML_DIALER_H__
 
-#include "Utils.h"
-#include "xts.h"
+#include "Dialer.h"
+#include "NamedXMLReadable.h"
 
-using namespace std;
-using namespace xercesc;
-using namespace Utils;
-using namespace Utils::DOM;
+/**
+ * TODO: JavaDocs
+ */
+class XMLDialer : public Dialer, public NamedXMLReadable {
+public:
 
-void XMLCables::fromXML(DOMElement *root) {
-    extractGatewayFromXML(root);
-    extractDialingDestinationFromXML(root);
-}
+    /* --- Constructors ---- */
 
-void XMLCables::extractGatewayFromXML(DOMElement *root) {
-    DOMElement *gatewayNode = getLoneElementByTagName(root, "gateway");
+    /**
+     * Constructor.
+     * TODO: JavaDocs
+     */
+    XMLDialer() : Dialer(), NamedXMLReadable() {
+        // Nothing to do
+    }
+
+    /**
+     * Destructor.
+     * TODO: JavaDocs
+     */
+    virtual ~XMLDialer() {
+        // Nothing to do
+    }
+
+    /* --- Inherited from XMLReadable --- */
     
-    if (gatewayNode == 0) {
-        throw XMLSerializationException("No <gateway> element!");
-    }
+    /**
+     * TODO: JavaDocs
+     *
+     * @param root Root node of the object
+     * @throws XMLSerializationException When the given XML is of incorrect
+     *         fromat.
+     */
+    virtual void fromXML(xercesc::DOMElement *root);
 
-    defaultGateway = xts(gatewayNode->getTextContent(), true);
-    Log::debug(LOG_LOCATION("XMLCables", "extractGatewayFromXML"),
-        "Default Gateway: " + defaultGateway);
-}
+private:
 
-void XMLCables::extractDialingDestinationFromXML(DOMElement *root) {
-    DOMElement *destinationNode = getLoneElementByTagName(root,
-        "destination");
+    /* --- Utility Methods --- */
 
-    if (destinationNode == 0) {
-        throw XMLSerializationException("No <destination> element!");
-    }
+    /**
+     * TODO: JavaDocs
+     */
+    void extractConnectionScriptsFromXML(xercesc::DOMElement *root);
 
-    dialingDestination = xts(destinationNode->getTextContent(), true);
-    Log::debug(LOG_LOCATION("XMLCables", "extractDialingDestinationFromXML"),
-        "Dialing Destination: " + dialingDestination);
-}
+    /**
+     * TODO: JavaDocs
+     */
+    void extractDisconnectionScriptsFromXML(xercesc::DOMElement *root);
 
+    /**
+     * TODO: JavaDocs
+     */
+    static Script *loadScripByName(std::string scriptName);
+};
+
+#endif

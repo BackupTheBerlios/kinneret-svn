@@ -42,10 +42,17 @@
  * @author duvduv
  * @see ConnectionTemplate
  */
-class Dialer : public Nameable {
+class Dialer : public virtual Nameable {
 public:
 
     /* --- Constructors --- */
+
+    /**
+     * TODO: JavaDocs
+     */
+    Dialer() : Nameable("") {
+        // Left blank
+    }
 
     /**
      * Constructor, does nothing interesting.
@@ -55,7 +62,8 @@ public:
     Dialer(const std::string name) : Nameable(name) {
         this->name = name;
 
-        Log::debug("Constructing Dialer");
+        Log::debug(LOG_LOCATION("Dialer", "Dialer"),
+            "Constructing Dialer");
     }
 
     /**
@@ -65,7 +73,8 @@ public:
     virtual ~Dialer() {
         releaseScripts();
 
-        Log::debug("Destroying Dialer");
+        Log::debug(LOG_LOCATION("Dialer", "~Dialer"),
+            "Destroying Dialer");
     }
 
     /* --- Public Methods --- */

@@ -52,7 +52,9 @@ ConnectionTemplate *XMLConnectionTemplateLoader::loadConnectionTemplate(
         result->fromXML(document->getDocumentElement());
         return result;
     } catch (const XMLReadable::XMLSerializationException &ex) {
-        Log::error("Got XMLSerializationException while creating template...");
+        Log::error(LOG_LOCATION("XMLConnectionTemplateLoader",
+                "loadConnectionTemplate"), 
+            "Got XMLSerializationException while creating template...");
         throw LoadException(ex.what());
     }
 }
