@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dialer>
-    <name>PPtP Cables Dialer</name>
+    <name>PPtP Cables Dialer when using Actcom</name>
 
     <!-- Connection Scripts -->
     <connection count="11">
