@@ -87,17 +87,10 @@ void XMLModem::loadDefaultDialer(DOMElement *dialerNode) {
 void XMLModem::loadExceptions(DOMElement *dialerNode) {
     DOMElement *exceptionsNode =
         getLoneElementByTagName(dialerNode, "exceptions");
-    if (exceptionsNode == 0) {
-        throw XMLSerializationException("No <exceptions> element!");
-    }
+    if (exceptionsNode != 0) {
+        vector<DOMElement*> exceptionElements;
+        elementsArrayFromXML(exceptionElements, exceptionsNode, "exception");
 
-    vector<DOMElement*> exceptionElements;
-    elementsArrayFromXML(exceptionElements, dialerNode, "exception");
-
-    if (exceptionElements.size() <= 0) {
-        Log::debug(LOG_LOCATION("XMLModem", "loadExceptions"),
-            "No Exceptions");
-    } else {
         for (int i = 0 ; i < exceptionElements.size() ; i++) {
             if (exceptionElements[i] == 0) {
                 Log::warning(LOG_LOCATION("XMLModem", "loadExceptions"),
@@ -124,6 +117,9 @@ void XMLModem::loadExceptions(DOMElement *dialerNode) {
                     ex.what());
             }
         }
+    } else {
+        Log::debug(LOG_LOCATION("XMLModem", "loadExceptions"),
+            "No exceptions");
     }
 }
 

@@ -88,7 +88,7 @@ void Modem::releaseDialers() {
 }
     
 Dialer *Modem::getDialer(Isp *isp) {
-    map<string, Dialer *>::iterator exception = exceptions.find(isp->getName());
+    map<string, Dialer*>::iterator exception = exceptions.find(isp->getName());
     if (exception == exceptions.end()) {
         return defaultDialer;
     } else {
