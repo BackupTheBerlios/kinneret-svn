@@ -6,7 +6,9 @@
 startPPtP() {
     echo -n "Starting PPtP... "
 
-    remotenameOption="remotename $dialingDestination"
+    # Actcom does not require the remotename
+    # option.
+    remotenameOption=""
 
     success=0
     for pptpClient in $pptpClients; do
