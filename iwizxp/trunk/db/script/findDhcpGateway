@@ -1,37 +1,4 @@
 ##
-# Finds the gateway received by the 'dhcpcd' client.
-# Relies on $modemEthernetDevice.
-##
-findDhcpcdGateway() {
-    for path in "/etc/dhcpc" "/var/lib/dhcpc" "invalid"; do
-        if [ -f "$path/dhcpcd-$modemEthernetDevice.info" ]; then
-            cat $path/dhcpcd-$modemEthernetDevice.info | grep GATEWAY | \
-                cut -d= -f2
-            break;
-        fi
-    done
-
-    if [ $path == "invalid" ]; then
-        errorExit "Could not find dhcpcd's info file.";
-    fi
-}
-
-##
-# Finds the gateway received by the 'dhclient' client.
-##
-findDhclientGateway() {
-    grep routers /var/lib/dhcp/dhclient.leases | tail -n 1 | cut -d";" -f1 | \
-        cut -d ' ' -f5
-}
-
-##
-# Finds the gateway received by the 'pump' client.
-##
-findPumpGateway() {
-    `which pump` -s | grep Gateway: | cut -d':' -f2
-}
-
-##
 # This method finds the gateway received from DHCP. It sets up the variable
 # $dhcpGateway.
 #
@@ -62,4 +29,37 @@ findDhcpGateway() {
     fi
 
     echo "Gateway is $dhcpGateway.";
+}
+
+##
+# Finds the gateway received by the 'dhcpcd' client.
+# Relies on $modemEthernetDevice.
+##
+findDhcpcdGateway() {
+    for path in "/etc/dhcpc" "/var/lib/dhcpc" "invalid"; do
+        if [ -f "$path/dhcpcd-$modemEthernetDevice.info" ]; then
+            cat $path/dhcpcd-$modemEthernetDevice.info | grep GATEWAY | \
+                cut -d= -f2
+            break;
+        fi
+    done
+
+    if [ $path == "invalid" ]; then
+        errorExit "Could not find dhcpcd's info file.";
+    fi
+}
+
+##
+# Finds the gateway received by the 'dhclient' client.
+##
+findDhclientGateway() {
+    grep routers /var/lib/dhcp/dhclient.leases | tail -n 1 | cut -d";" -f1 | \
+        cut -d ' ' -f5
+}
+
+##
+# Finds the gateway received by the 'pump' client.
+##
+findPumpGateway() {
+    `which pump` -s | grep Gateway: | cut -d':' -f2
 }
