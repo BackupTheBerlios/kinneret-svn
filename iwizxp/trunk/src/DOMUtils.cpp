@@ -60,7 +60,8 @@ DOMDocument *Utils::DOM::parseDocumentFromStream(istream &inStream) {
                 "StreamDocument", true);
         
         // Wrapper4InputSource adopts the MemBufInputSource
-        return builder->parse(Wrapper4InputSource(memBuf));
+	Wrapper4InputSource finalSource(memBuf, true);
+        return builder->parse(finalSource);
     } catch (const XMLException &ex) {
         xmlExceptionOccured(ex);
         throw DOMParseException("Unable to parse, message should have "

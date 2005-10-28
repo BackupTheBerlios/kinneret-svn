@@ -23,6 +23,8 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <regex.h>
+#include <errno.h>
+#include <string.h>
 
 #include <sstream>
 
