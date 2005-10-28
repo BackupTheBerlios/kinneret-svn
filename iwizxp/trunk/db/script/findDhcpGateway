@@ -53,8 +53,19 @@ findDhcpcdGateway() {
 # Finds the gateway received by the 'dhclient' client.
 ##
 findDhclientGateway() {
-    grep routers /var/lib/dhcp/dhclient.leases | tail -n 1 | cut -d";" -f1 | \
-        cut -d ' ' -f5
+    for path in "/var/lib/dhcp" "/var/lib/dhcp3" "invalid"; do
+        if [ -f "$path/dhclient.leases" ]; then
+    		grep "routers" $path/dhclient.leases | \
+			tail -n 1 | \
+			cut -d";" -f1 | \
+			awk '{print $3}'
+            break;
+        fi
+    done
+
+    if [ $path == "invalid" ]; then
+        errorExit "Could not find dhclient's info file.";
+    fi
 }
 
 ##
