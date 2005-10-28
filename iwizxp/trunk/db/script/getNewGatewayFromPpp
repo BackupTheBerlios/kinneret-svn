@@ -5,7 +5,8 @@
 getNewGatewayFromPpp() {
     echo -n "Fetching new gateway... "
 
-    newGateway=`$ifconfig $modemEthernetDevice | grep "inet addr:" | \
+    # TODO: This is not generic enough! Use interface auto-detection?
+    newGateway=`$ifconfig ppp0 | grep "inet addr:" | \
         cut -d: -f3 | cut -d" " -f1`
 
     if [ -z $newGateway ]; then
