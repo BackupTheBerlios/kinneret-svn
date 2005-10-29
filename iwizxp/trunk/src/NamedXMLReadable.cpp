@@ -31,16 +31,17 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 void NamedXMLReadable::fromXML(xercesc::DOMElement *root) {
-    const DOMElement *nameTag = getLoneElementByTagName(root, "name");
+	const DOMElement *nameTag = getLoneElementByTagName(root, "name");
 
-    if (nameTag == 0) {
-        throw XMLSerializationException("Couldn't get <name> tag element!");
-    }
+	if (nameTag == 0) {
+		throw XMLSerializationException(
+			"Couldn't get <name> tag element!");
+	}
 
-    // Extract and trim its text content.
-    setName(xts(nameTag->getTextContent(), true));
-            
-    Log::debug(LOG_LOCATION("NamedXMLReadable", "fromXML"),
-        string("Name: ") + getName());
+	// Extract and trim its text content.
+	setName(xts(nameTag->getTextContent(), true));
+
+	Log::debug(LOG_LOCATION("NamedXMLReadable", "fromXML"),
+		string("Name: ") + getName());
 }
 

@@ -31,38 +31,39 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 void XMLKernelModule::fromXML(DOMElement *root) {
-    NamedXMLReadable::fromXML(root);
+	NamedXMLReadable::fromXML(root);
 
-    vector<DOMElement*> modprobeNodes;
-    getElementsByTagName(modprobeNodes, root, "modprobe");
+	vector<DOMElement*> modprobeNodes;
+	getElementsByTagName(modprobeNodes, root, "modprobe");
 
-    if (modprobeNodes.size() <= 0) {
-        throw XMLSerializationException("No <modprobe> elements found!");
-    }
+	if (modprobeNodes.size() <= 0) {
+		throw XMLSerializationException("No <modprobe> elements "
+			"found!");
+	}
 
-    for (int i = 0 ; i < modprobeNodes.size() ; i++) {
-        if (modprobeNodes[i] == 0) {
-            Log::warning(LOG_LOCATION("XMLKernelModule", "fromXML"),
-                "Empty entry in list, skipping...");
-            continue;
-        }
+	for (int i = 0 ; i < modprobeNodes.size() ; i++) {
+		if (modprobeNodes[i] == 0) {
+			Log::warning(LOG_LOCATION("XMLKernelModule", "fromXML"),
+				"Empty entry in list, skipping...");
+			continue;
+		}
 
-        KernelClass kernel = kernelClassFromXML(modprobeNodes[i]);
-        addName(kernel, xts(modprobeNodes[i]->getTextContent(), true));
-    }
+		KernelClass kernel = kernelClassFromXML(modprobeNodes[i]);
+		addName(kernel, xts(modprobeNodes[i]->getTextContent(), true));
+	}
 }
 
 KernelModule::KernelClass XMLKernelModule::kernelClassFromXML(
-        DOMElement *element) const {
-    string classString = getAttributeValue(element, "kernel");
+		DOMElement *element) const {
+	string classString = getAttributeValue(element, "kernel");
 
-    if (classString == "2.4") {
-        return LINUX2_4;
-    } else if (classString == "2.6") {
-        return LINUX2_6;
-    } else {
-        throw XMLSerializationException(string("Unknown kernel class: ") +
-            classString);
-    }
+	if (classString == "2.4") {
+		return LINUX2_4;
+	} else if (classString == "2.6") {
+		return LINUX2_6;
+	} else {
+		throw XMLSerializationException(string("Unknown kernel "
+			"class: ") + classString);
+	}
 }
 

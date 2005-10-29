@@ -31,13 +31,14 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 string KernelModule::getName(KernelClass kernelClass) const {
-    map<KernelClass, string>::const_iterator name =
-        names.find(kernelClass);
+	map<KernelClass, string>::const_iterator name =
+		names.find(kernelClass);
 
-    if (name == names.end()) {
-        throw FeatureNotSupportedException("No support for this module.");
-    } else {
-        return name->second;
-    }
+	if (name == names.end()) {
+		throw FeatureNotSupportedException(
+			"No support for this module.");
+	} else {
+		return name->second;
+	}
 }
 

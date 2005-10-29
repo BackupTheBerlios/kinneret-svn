@@ -11,27 +11,27 @@
  # Prints usage end exits
  ##
 usage() {
-    echo -e "\tUsage: $0 {start|stop|restart|reload}"
-    exit 0
+	echo -e "\tUsage: $0 {start|stop|restart|reload}"
+	exit 0
 }
 
 # --- Main --- #
 
 case "$1" in
-    start)
-        connect
-        ;;
+	start)
+		connect
+		;;
 
-    stop)
-        disconnect
-        ;;
+	stop)
+		disconnect
+		;;
 
-    restart|reload)
-        disconnect
-        sleep 2
-        connect
-        ;;
+	restart|reload)
+		disconnect
+		sleep 2
+		connect
+		;;
 
-    *)
-        usage;
+	*)
+		usage;
 esac

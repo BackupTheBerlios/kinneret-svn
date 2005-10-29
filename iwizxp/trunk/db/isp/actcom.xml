@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <isp>
-    <name>Actcom</name>
+	<name>Actcom</name>
 
-    <!-- DNS Servers -->
-    <dns count="2">
-        <server item="1">192.114.47.4</server>
-        <server item="2">192.114.47.52</server>
-    </dns>
+	<!-- DNS Servers -->
+	<dns count="2">
+		<server item="1">192.114.47.4</server>
+		<server item="2">192.114.47.52</server>
+	</dns>
 
-    <!-- Connection Methods -->
-    <methods count="3">
-        <method item="1" type="Cables">
-            <gateway>192.117.122.13</gateway>
-            <destination>192.117.122.13</destination>
-        </method>
-        <method item="2" type="ISDN">
-            <servers count="2">
-                <server item="1">
-                    <location>Center</location>
-                    <number>03-6074000</number>
-                </server>
-                <server item="2">
-                    <location>North</location>
-                    <number>04-8319800</number>
-                </server>
-            </servers>
-        </method>
-        <method item="3" type="Dialup">
-            <servers count="6">
-                <server item="1">
-                    <location>Jerusalem</location>
-                    <number>02-6774444</number>
-                </server>
-                <server item="2">
-                    <location>Center</location>
-                    <number>03-6941000</number>
-                </server>
-                <server item="3">
-                    <location>North</location>
-                    <number>04-8319000</number>
-                </server>
-                <server item="4">
-                    <location>North</location>
-                    <number>04-6952000</number>
-                </server>
-                <server item="5">
-                    <location>Sharon</location>
-                    <number>09-7612000</number>
-                </server>
-                <server item="6">
-                    <location>South</location>
-                    <number>08-9482900</number>
-                </server>
-            </servers>
-        </method>
-    </methods>
+	<!-- Connection Methods -->
+	<methods count="3">
+		<method item="1" type="Cables">
+			<gateway>192.117.122.13</gateway>
+			<destination>192.117.122.13</destination>
+		</method>
+		<method item="2" type="ISDN">
+			<servers count="2">
+				<server item="1">
+					<location>Center</location>
+					<number>03-6074000</number>
+				</server>
+				<server item="2">
+					<location>North</location>
+					<number>04-8319800</number>
+				</server>
+			</servers>
+		</method>
+		<method item="3" type="Dialup">
+			<servers count="6">
+				<server item="1">
+					<location>Jerusalem</location>
+					<number>02-6774444</number>
+				</server>
+				<server item="2">
+					<location>Center</location>
+					<number>03-6941000</number>
+				</server>
+				<server item="3">
+					<location>North</location>
+					<number>04-8319000</number>
+				</server>
+				<server item="4">
+					<location>North</location>
+					<number>04-6952000</number>
+				</server>
+				<server item="5">
+					<location>Sharon</location>
+					<number>09-7612000</number>
+				</server>
+				<server item="6">
+					<location>South</location>
+					<number>08-9482900</number>
+				</server>
+			</servers>
+		</method>
+	</methods>
 </isp>

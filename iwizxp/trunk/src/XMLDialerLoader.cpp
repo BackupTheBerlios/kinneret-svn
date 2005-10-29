@@ -32,23 +32,24 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 Dialer *XMLDialerLoader::loadDialer(istream &inStream) const {
-    DOMDocument *document;
-    try {
-        document = Utils::DOM::parseDocumentFromStream(inStream);
-        document->normalizeDocument();
-        removeWhitespaceTextNodes(document->getDocumentElement());
-    } catch (const DOMParseException &ex) {
-        throw LoadException("XMLException, see above");
-    }
+	DOMDocument *document;
+	try {
+		document = Utils::DOM::parseDocumentFromStream(inStream);
+		document->normalizeDocument();
+		removeWhitespaceTextNodes(document->getDocumentElement());
+	} catch (const DOMParseException &ex) {
+		throw LoadException("XMLException, see above");
+	}
 
-    try {
-        XMLDialer *result = new XMLDialer();
-        result->fromXML(document->getDocumentElement());
-        return result;
-    } catch (const XMLReadable::XMLSerializationException &ex) {
-        Log::error(LOG_LOCATION("XMLDialerLoader", "loadDialer"),
-            "Got XMLSerializationException while creating dialer...");
-        throw LoadException(ex.what());
-    }
+	try {
+		XMLDialer *result = new XMLDialer();
+		result->fromXML(document->getDocumentElement());
+		return result;
+	} catch (const XMLReadable::XMLSerializationException &ex) {
+		Log::error(LOG_LOCATION("XMLDialerLoader", "loadDialer"),
+			"Got XMLSerializationException while creating "
+			"dialer...");
+		throw LoadException(ex.what());
+	}
 }
 

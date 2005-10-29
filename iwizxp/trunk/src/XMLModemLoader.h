@@ -32,41 +32,41 @@
 class XMLModemLoader : public ModemLoader {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     *
-     * Does nothing.
-     */
-    XMLModemLoader() {
-        Log::debug(LOG_LOCATION("XMLModemLoader", "XMLModemLoader"),\
-            "Constructing XMLModemLoader");
-    }
+	/**
+	 * Constructor.
+	 *
+	 * Does nothing.
+	 */
+	XMLModemLoader() {
+		Log::debug(LOG_LOCATION("XMLModemLoader", "XMLModemLoader"),\
+			"Constructing XMLModemLoader");
+	}
 
-    /**
-     * Destructor.
-     *
-     * Does nothing.
-     */
-    virtual ~XMLModemLoader() {
-        Log::debug(LOG_LOCATION("XMLModemLoader", "~XMLModemLoader"),
-            "Destroying XMLModemLoader");
-    }
+	/**
+	 * Destructor.
+	 *
+	 * Does nothing.
+	 */
+	virtual ~XMLModemLoader() {
+		Log::debug(LOG_LOCATION("XMLModemLoader", "~XMLModemLoader"),
+			"Destroying XMLModemLoader");
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * This method parses the stream as if it was XML, and de-serializes a
-     * modem from the parsed DOM tree.
-     *
-     * @param inStream The stream to parse.
-     * @return A new and initialized <code>Modem</code>.
-     * @throws LoadException Thrown when the stream could not be parsed, or
-     *         an <code>XMLSerializationException</code> was thrown from
-     *         <code>Modem</code>'s <code>fromXML</code>.
-     */
-    virtual Modem *loadModem(std::istream &inStream) const;
+	/**
+	 * This method parses the stream as if it was XML, and de-serializes a
+	 * modem from the parsed DOM tree.
+	 *
+	 * @param inStream The stream to parse.
+	 * @return A new and initialized <code>Modem</code>.
+	 * @throws LoadException Thrown when the stream could not be parsed, or
+	 *         an <code>XMLSerializationException</code> was thrown from
+	 *         <code>Modem</code>'s <code>fromXML</code>.
+	 */
+	virtual Modem *loadModem(std::istream &inStream) const;
 };
 
 #endif

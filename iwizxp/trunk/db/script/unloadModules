@@ -4,16 +4,16 @@
 # Relies on $modules.
 ##
 unloadModules() {
-    setupModules
+	setupModules
 
-    if [ -n $modules ]; then
-        for module in $modules; do
-            echo -n "Unloading $module... "
-            $rmmod $module
-            if [ $? -ne 0 ]; then
-                echo "Failure."
-            fi
-            echo "Done."
-        done
-    fi
+	if [ -n $modules ]; then
+		for module in $modules; do
+			echo -n "Unloading $module... "
+			$rmmod $module
+			if [ $? -ne 0 ]; then
+				echo "Failure."
+			fi
+			echo "Done."
+		done
+	fi
 }

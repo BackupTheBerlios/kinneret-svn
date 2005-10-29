@@ -40,124 +40,125 @@ using namespace std;
 using namespace Utils;
 
 string Utils::readStreamAsString(istream &inStream) {
-    ostringstream result;
+	ostringstream result;
 
-    while (true) {
-        char got = static_cast<char>(inStream.get());
-        if (!inStream.eof()) {
-            result << got;
-        } else {
-            break;
-        }
-    }
+	while (true) {
+		char got = static_cast<char>(inStream.get());
+		if (!inStream.eof()) {
+			result << got;
+		} else {
+			break;
+		}
+	}
 
-    return result.str();
+	return result.str();
 }
 
 vector<string> Utils::enumDirectory(string directory) {
-    vector<string> files;
+	vector<string> files;
 
-    Log::debug(LOG_LOCATION("Utils", "enumDirectory"),
-        string("Enumerating ") + directory + string("..."));
+	Log::debug(LOG_LOCATION("Utils", "enumDirectory"),
+			string("Enumerating ") + directory + string("..."));
 
-    // Open file descriptor
-    DIR *dir = opendir(directory.c_str());
-    if (dir == 0) {
-        string reason(strerror(errno));
+	// Open file descriptor
+	DIR *dir = opendir(directory.c_str());
+	if (dir == 0) {
+		string reason(strerror(errno));
 
-        Log::error(LOG_LOCATION("Utils", "enumDirectory"),
-            "Unable to enumerate " + directory + ": " + reason);
-        throw DirectoryEnumerationException(reason);
-    }
+		Log::error(LOG_LOCATION("Utils", "enumDirectory"),
+			"Unable to enumerate " + directory + ": " + reason);
+		throw DirectoryEnumerationException(reason);
+	}
 
-    // Browse...
-    dirent *entry = 0;
-    while ((entry = readdir(dir)) != 0) {
-        string entryName(entry->d_name);
+	// Browse...
+	dirent *entry = 0;
+	while ((entry = readdir(dir)) != 0) {
+		string entryName(entry->d_name);
 
-        // Skip hidden files, '.' and '..'
-        if (entryName.find(".") == 0) {
-            continue;
-        }
+		// Skip hidden files, '.' and '..'
+		if (entryName.find(".") == 0) {
+			continue;
+		}
 
-        // Add the file to the list
-        files.push_back(directory + "/" + entryName);
-    }
+		// Add the file to the list
+		files.push_back(directory + "/" + entryName);
+	}
 
-    // Close file descriptor
-    if (closedir(dir) != 0) {
-        // Ignore the error, we're done.
-    }
+	// Close file descriptor
+	if (closedir(dir) != 0) {
+		// Ignore the error, we're done.
+	}
 
-    return files;
+	return files;
 }
 
 vector<string> Utils::executeRegex(const string &regexString,
-        const string &matchString, int maxResults) {
+		const string &matchString, int maxResults) {
 
-    // TODO: Would this function work on non-ascii strings?
-    
-    vector<string> result;
-    
-    // Buffer for regex error strings
-    char errorBuffer[ERROR_BUFFER_SIZE];
+	// TODO: Would this function work on non-ascii strings (e.g Unicode)?
 
-    // Compile RegEx
-    regex_t compiledRegex;
+	vector<string> result;
 
-    int ret = regcomp(&compiledRegex, regexString.c_str(),
-        REG_EXTENDED | REG_NEWLINE);
-    if (ret != 0) {
-        regerror(ret, &compiledRegex, errorBuffer, ERROR_BUFFER_SIZE);
-        throw RegexException(
-            string("Unable to compile regex: ") + errorBuffer);
-    }
+	// Buffer for regex error strings
+	char errorBuffer[ERROR_BUFFER_SIZE];
 
-    // Create results buffer
-    regmatch_t *regexMatches = new regmatch_t[maxResults];
-    if (regexMatches == 0) {
-        regfree(&compiledRegex);
-        throw RegexException("Unable to allocate resuls array!");
-    }
-    
-    // Execute regex
-    ret = regexec(&compiledRegex, matchString.c_str(),
-        maxResults, regexMatches, 0);
+	// Compile RegEx
+	regex_t compiledRegex;
 
-    // Collect results
-    if (ret != REG_NOMATCH) {
-        regmatch_t *current = regexMatches;
-        for (int i = 0 ; i < maxResults ; i++, current++) {
+	int ret = regcomp(&compiledRegex, regexString.c_str(),
+			REG_EXTENDED | REG_NEWLINE);
+	if (ret != 0) {
+		regerror(ret, &compiledRegex, errorBuffer, ERROR_BUFFER_SIZE);
+		throw RegexException(
+			string("Unable to compile regex: ") + errorBuffer);
+	}
 
-            // See if this is a valid result
-            if ((current->rm_so != -1) && (current->rm_eo != -1)) {
+	// Create results buffer
+	regmatch_t *regexMatches = new regmatch_t[maxResults];
+	if (regexMatches == 0) {
+		regfree(&compiledRegex);
+		throw RegexException("Unable to allocate resuls array!");
+	}
 
-                // Push it to the result vector
-                result.push_back(matchString.substr(current->rm_so,
-                    current->rm_eo - current->rm_so));
-            }
-        }
-    }
-    
-    // Free stuff
-    delete[] regexMatches;
-    regfree(&compiledRegex);
+	// Execute regex
+	ret = regexec(&compiledRegex, matchString.c_str(),
+			maxResults, regexMatches, 0);
 
-    return result;
+	// Collect results
+	if (ret != REG_NOMATCH) {
+		regmatch_t *current = regexMatches;
+		for (int i = 0 ; i < maxResults ; i++, current++) {
+
+			// See if this is a valid result
+			if ((current->rm_so != -1) && (current->rm_eo != -1)) {
+
+				// Push it to the result vector
+				result.push_back(matchString.substr(
+					current->rm_so,
+					current->rm_eo - current->rm_so));
+			}
+		}
+	}
+
+	// Free stuff
+	delete[] regexMatches;
+	regfree(&compiledRegex);
+
+	return result;
 }
 
 vector<string> Utils::enumNetworkInterfaces() {
-    vector<string> result;
-    
-    struct if_nameindex *index = if_nameindex();
-    struct if_nameindex *current = index;
-    while (current->if_index != 0) {
-        result.push_back(current->if_name);
-        current++;
-    }
+	vector<string> result;
 
-    if_freenameindex(index);
+	struct if_nameindex *index = if_nameindex();
+	struct if_nameindex *current = index;
+	while (current->if_index != 0) {
+		result.push_back(current->if_name);
+		current++;
+	}
 
-    return result;
+	if_freenameindex(index);
+
+	return result;
 }
 

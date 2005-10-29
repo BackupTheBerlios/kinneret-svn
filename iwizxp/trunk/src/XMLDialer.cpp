@@ -33,112 +33,119 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 void XMLDialer::fromXML(DOMElement *root) {
-    NamedXMLReadable::fromXML(root);
-    extractConnectionScriptsFromXML(root);
-    extractDisconnectionScriptsFromXML(root);
+	NamedXMLReadable::fromXML(root);
+	extractConnectionScriptsFromXML(root);
+	extractDisconnectionScriptsFromXML(root);
 }
 
 void XMLDialer::extractConnectionScriptsFromXML(DOMElement *root) {
-    DOMElement *connectionNode = getLoneElementByTagName(root, "connection");
+	DOMElement *connectionNode =
+		getLoneElementByTagName(root, "connection");
 
-    if (connectionNode == 0) {
-        Log::debug(LOG_LOCATION("XMLDialer",
-                "extractConnectionScriptsFromXML"),
-            "Dialer containes no connection scripts.");
-        return;
-    }
+	if (connectionNode == 0) {
+		Log::debug(LOG_LOCATION("XMLDialer",
+			"extractConnectionScriptsFromXML"),
+			"Dialer containes no connection scripts.");
+		return;
+	}
 
-    // Get a sorted list of servers
-    vector<DOMElement*> items;
-    elementsArrayFromXML(items, connectionNode, "script");
+	// Get a sorted list of servers
+	vector<DOMElement*> items;
+	elementsArrayFromXML(items, connectionNode, "script");
 
-    // And add them
-    for (int i = 0 ; i < items.size() ; i++) {
-        if (items[i] != 0) {
-            string scriptName =
-                xts(items[i]->getTextContent(), true).asString();
+	// And add them
+	for (int i = 0 ; i < items.size() ; i++) {
+		if (items[i] != 0) {
+			string scriptName =
+				xts(items[i]->getTextContent(),
+					true).asString();
 
-            // The arguments script is a special case
-            if (string(scriptName) ==
-                    GlobalRepository::getInstance()->getArgumentsScript()->
-                        getFunctionName()) {
+			// The arguments script is a special case
+			if (string(scriptName) ==
+					GlobalRepository::getInstance()->
+					getArgumentsScript()->
+					getFunctionName()) {
 
-                addConnectionScript(
-                    GlobalRepository::getInstance()->getArgumentsScript());
+				addConnectionScript(
+					GlobalRepository::getInstance()->
+					getArgumentsScript());
 
-                continue;
-            }
+				continue;
+			}
 
-            // Load a fixed script
-            addConnectionScript(loadScripByName(scriptName));
-        }
-    }
+			// Load a fixed script
+			addConnectionScript(loadScripByName(scriptName));
+		}
+	}
 }
 
 void XMLDialer::extractDisconnectionScriptsFromXML(DOMElement *root) {
-    DOMElement *disconnectionNode =
-        getLoneElementByTagName(root, "disconnection");
+	DOMElement *disconnectionNode =
+		getLoneElementByTagName(root, "disconnection");
 
-    if (disconnectionNode == 0) {
-        Log::debug(LOG_LOCATION("XMLDialer",
-                "extractDisconnectionScriptsFromXML"),
-            "Dialer containes no disconnection scripts.");
-        return;
-    }
+	if (disconnectionNode == 0) {
+		Log::debug(LOG_LOCATION("XMLDialer",
+			"extractDisconnectionScriptsFromXML"),
+			"Dialer containes no disconnection scripts.");
+		return;
+	}
 
-    // Get a sorted list of servers
-    vector<DOMElement*> items;
-    elementsArrayFromXML(items, disconnectionNode, "script");
+	// Get a sorted list of servers
+	vector<DOMElement*> items;
+	elementsArrayFromXML(items, disconnectionNode, "script");
 
-    // And add them
-    for (int i = 0 ; i < items.size() ; i++) {
-        if (items[i] != 0) {
-            string scriptName =
-                xts(items[i]->getTextContent(), true).asString();
+	// And add them
+	for (int i = 0 ; i < items.size() ; i++) {
+		if (items[i] != 0) {
+			string scriptName =
+				xts(items[i]->getTextContent(),
+					true).asString();
 
-            // The arguments script is a special case
-            if (string(scriptName) ==
-                    GlobalRepository::getInstance()->getArgumentsScript()->
-                        getFunctionName()) {
+			// The arguments script is a special case
+			if (string(scriptName) ==
+					GlobalRepository::getInstance()->
+					getArgumentsScript()->
+					getFunctionName()) {
 
-                addConnectionScript(
-                    GlobalRepository::getInstance()->getArgumentsScript());
+				addConnectionScript(
+					GlobalRepository::getInstance()->
+					getArgumentsScript());
 
-                continue;
-            }
+				continue;
+			}
 
-            // Load a fixed script
-            addDisconnectionScript(loadScripByName(scriptName));
-        }
-    }
+			// Load a fixed script
+			addDisconnectionScript(loadScripByName(scriptName));
+		}
+	}
 }
 
 Script *XMLDialer::loadScripByName(string scriptName) {
-    // TODO: Don't hardcode path
-    string fileName(GlobalRepository::getInstance()->getDbBasePath() +
-        "/script/" + scriptName);
+	// TODO: Don't hardcode path
+	string fileName(GlobalRepository::getInstance()->getDbBasePath() +
+		"/script/" + scriptName);
 
-    Log::debug(LOG_LOCATION("XMLDialer", "loadScripByName"),
-        string("Loading: ") + fileName);
+	Log::debug(LOG_LOCATION("XMLDialer", "loadScripByName"),
+		string("Loading: ") + fileName);
 
-    ifstream scriptStream(fileName.c_str());
-    if (!scriptStream.is_open()) {
-        throw XMLSerializationException(fileName + " cannot be opened.");
-    }
+	ifstream scriptStream(fileName.c_str());
+	if (!scriptStream.is_open()) {
+		throw XMLSerializationException(fileName +
+			" cannot be opened.");
+	}
 
-    Script *result = 0;
+	Script *result = 0;
 
-    try {
-        result = GlobalRepository::getInstance()->
-            getScriptLoader()->loadScript(scriptStream);
-    } catch (DialerLoader::LoadException &ex) {
-        scriptStream.close();
-        throw XMLSerializationException(
-            string("Unable to load script: ") + ex.what());
-    }
+	try {
+		result = GlobalRepository::getInstance()->
+			getScriptLoader()->loadScript(scriptStream);
+	} catch (DialerLoader::LoadException &ex) {
+		scriptStream.close();
+		throw XMLSerializationException(
+			string("Unable to load script: ") + ex.what());
+	}
 
-    scriptStream.close();
-    return result;
+	scriptStream.close();
+	return result;
 }
-
 

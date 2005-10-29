@@ -2,48 +2,48 @@
 <isp>
 	<name>Hebrew University of Jerusalem</name>
 
-    <!-- DNS Servers -->
-    <dns count="2">
-    	<server item="1">128.139.6.1</server>
-	    <server item="2">128.139.4.3</server>
-    </dns>
+	<!-- DNS Servers -->
+	<dns count="2">
+		<server item="1">128.139.6.1</server>
+		<server item="2">128.139.4.3</server>
+	</dns>
 
-    <methods count="3">
-        <method item="1" type="Cables">
-            <gateway>vpn.huji.ac.il</gateway>
-            <destination>vpn.huji.ac.il</destination>
-        </method>
-        <method item="2" type="ISDN">
-            <servers count="3">
-                <server item="1">
-                    <location>Jerusalem</location>
-                    <number>02-6210333</number>
-                </server>
-                <server item="2">
-                    <location>Anywhere</location>
-                    <number>1346680</number>
-                </server>
-                <server item="3">
-                    <location>Rehovot</location>
-                    <number>08-9482000</number>
-                </server>
-            </servers>
-        </method>
-        <method item="3" type="Dialup">
-            <servers count="3">
-                <server item="1">
-                    <location>Jerusalem</location>
-                    <number>02-6210333</number>
-                </server>
-                <server item="2">
-                    <location>Anywhere</location>
-                    <number>1346680</number>
-                </server>
-                <server item="3">
-                    <location>Rehovot</location>
-                    <number>08-9482000</number>
-                </server>
-            </servers>
-        </method>
-    </methods>
+	<methods count="3">
+		<method item="1" type="Cables">
+			<gateway>vpn.huji.ac.il</gateway>
+			<destination>vpn.huji.ac.il</destination>
+		</method>
+		<method item="2" type="ISDN">
+			<servers count="3">
+				<server item="1">
+					<location>Jerusalem</location>
+					<number>02-6210333</number>
+				</server>
+				<server item="2">
+					<location>Anywhere</location>
+					<number>1346680</number>
+				</server>
+				<server item="3">
+					<location>Rehovot</location>
+					<number>08-9482000</number>
+				</server>
+			</servers>
+		</method>
+		<method item="3" type="Dialup">
+			<servers count="3">
+				<server item="1">
+					<location>Jerusalem</location>
+					<number>02-6210333</number>
+				</server>
+				<server item="2">
+					<location>Anywhere</location>
+					<number>1346680</number>
+				</server>
+				<server item="3">
+					<location>Rehovot</location>
+					<number>08-9482000</number>
+				</server>
+			</servers>
+		</method>
+	</methods>
 </isp>

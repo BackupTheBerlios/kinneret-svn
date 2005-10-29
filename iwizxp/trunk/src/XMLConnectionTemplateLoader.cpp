@@ -37,25 +37,26 @@ using namespace Utils::DOM;
  * @throws LoadException
  */
 ConnectionTemplate *XMLConnectionTemplateLoader::loadConnectionTemplate(
-        istream &inStream) const {
-    DOMDocument *document;
-    try {
-        document = Utils::DOM::parseDocumentFromStream(inStream);
-        document->normalizeDocument();
-        removeWhitespaceTextNodes(document->getDocumentElement());
-    } catch (const DOMParseException &ex) {
-        throw LoadException("XMLException, see above");
-    }
+		istream &inStream) const {
+	DOMDocument *document;
+	try {
+		document = Utils::DOM::parseDocumentFromStream(inStream);
+		document->normalizeDocument();
+		removeWhitespaceTextNodes(document->getDocumentElement());
+	} catch (const DOMParseException &ex) {
+		throw LoadException("XMLException, see above");
+	}
 
-    try {
-        XMLConnectionTemplate *result = new XMLConnectionTemplate();
-        result->fromXML(document->getDocumentElement());
-        return result;
-    } catch (const XMLReadable::XMLSerializationException &ex) {
-        Log::error(LOG_LOCATION("XMLConnectionTemplateLoader",
-                "loadConnectionTemplate"), 
-            "Got XMLSerializationException while creating template...");
-        throw LoadException(ex.what());
-    }
+	try {
+		XMLConnectionTemplate *result = new XMLConnectionTemplate();
+		result->fromXML(document->getDocumentElement());
+		return result;
+	} catch (const XMLReadable::XMLSerializationException &ex) {
+		Log::error(LOG_LOCATION("XMLConnectionTemplateLoader",
+			"loadConnectionTemplate"), 
+			"Got XMLSerializationException while creating "
+			"template...");
+		throw LoadException(ex.what());
+	}
 }
 

@@ -31,53 +31,53 @@
 class XMLDialer : public Dialer, public NamedXMLReadable {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     * TODO: JavaDocs
-     */
-    XMLDialer() : Dialer(), NamedXMLReadable() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor.
+	 * TODO: JavaDocs
+	 */
+	XMLDialer() : Dialer(), NamedXMLReadable() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor.
-     * TODO: JavaDocs
-     */
-    virtual ~XMLDialer() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 * TODO: JavaDocs
+	 */
+	virtual ~XMLDialer() {
+		// Nothing to do
+	}
 
-    /* --- Inherited from XMLReadable --- */
-    
-    /**
-     * TODO: JavaDocs
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    virtual void fromXML(xercesc::DOMElement *root);
+	/* --- Inherited from XMLReadable --- */
+
+	/**
+	 * TODO: JavaDocs
+	 *
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	virtual void fromXML(xercesc::DOMElement *root);
 
 private:
 
-    /* --- Utility Methods --- */
+	/* --- Utility Methods --- */
 
-    /**
-     * TODO: JavaDocs
-     */
-    void extractConnectionScriptsFromXML(xercesc::DOMElement *root);
+	/**
+	 * TODO: JavaDocs
+	 */
+	void extractConnectionScriptsFromXML(xercesc::DOMElement *root);
 
-    /**
-     * TODO: JavaDocs
-     */
-    void extractDisconnectionScriptsFromXML(xercesc::DOMElement *root);
+	/**
+	 * TODO: JavaDocs
+	 */
+	void extractDisconnectionScriptsFromXML(xercesc::DOMElement *root);
 
-    /**
-     * TODO: JavaDocs
-     */
-    static Script *loadScripByName(std::string scriptName);
+	/**
+	 * TODO: JavaDocs
+	 */
+	static Script *loadScripByName(std::string scriptName);
 };
 
 #endif

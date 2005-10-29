@@ -30,44 +30,40 @@
  *
  * @author Itay 'z9u2k' Duvdevani
  */
-class XMLConnectionTemplate : public NamedXMLReadable,
-                              public ConnectionTemplate {
+class XMLConnectionTemplate : public NamedXMLReadable, 
+			      public ConnectionTemplate {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Destructor.
-     * TODO: JavaDocs
-     */
-    virtual ~XMLConnectionTemplate() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 * TODO: JavaDocs
+	 */
+	virtual ~XMLConnectionTemplate() {
+		// Nothing to do
+	}
 
-    /* --- Inherited from XMLReadable --- */
+	/* --- Inherited from XMLReadable --- */
 
-    /**
-     * De-serializes from XML. Loads all the names for all the kernel
-     * classes.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void fromXML(xercesc::DOMElement *root);
+	/**
+	 * De-serializes from XML. Loads all the names for all the kernel
+	 * classes.
+	 *
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void fromXML(xercesc::DOMElement *root);
 
-    /* --- Inherited from Printable --- */
+	/* --- Inherited from Printable --- */
 
-    /**
-     * TODO: JavaDocs
-     */
-    virtual const std::string toString() const {
-        return getName() + " - " + getDescription();
-    }
-
-private:
-
-    /* --- Data Members --- */
+	/**
+	 * TODO: JavaDocs
+	 */
+	virtual const std::string toString() const {
+		return getName() + " - " + getDescription();
+	}
 };
 
 #endif

@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <isp>
-    <name>Aquanet</name>
+	<name>Aquanet</name>
 
-    <!-- DNS Servers -->
-    <dns count="2">
-        <server item="1">192.117.240.10</server>
-        <server item="2">192.117.240.3</server>
-    </dns>
+	<!-- DNS Servers -->
+	<dns count="2">
+		<server item="1">192.117.240.10</server>
+		<server item="2">192.117.240.3</server>
+	</dns>
 
-    <!-- Connection Methods -->
-    <methods count="3">
-        <method item="1" type="Cables">
-            <gateway>cable.aquanet.co.il</gateway>
-            <destination>cable.aquanet.co.il</destination>
-        </method>
-        <method item="2" type="ISDN">
-            <servers count="5">
-                <server item="1">
-                    <location>Jerusalem</location>
-                    <number>02-6210555</number>
-                </server>
-                <server item="2">
-                    <location>Tel-Aviv</location>
-                    <number>03-5390000</number>
-                </server>
-                <server item="3">
-                    <location>Haifa</location>
-                    <number>04-8290000</number>
-                </server>
-                <server item="4">
-                    <location>Rehovon</location>
-                    <number>08-9399000</number>
-                </server>
-                <server item="5">
-                    <location>Kfar Sava</location>
-                    <number>09-7751000</number>
-                </server>
-            </servers>
-        </method>
-        <method item="3" type="Dialup">
-            <servers count="5">
-                <server item="1">
-                    <location>Jerusalem</location>
-                    <number>02-6210555</number>
-                </server>
-                <server item="2">
-                    <location>Tel-Aviv</location>
-                    <number>03-5390000</number>
-                </server>
-                <server item="3">
-                    <location>Haifa</location>
-                    <number>04-8290000</number>
-                </server>
-                <server item="4">
-                    <location>Rehovon</location>
-                    <number>08-9399000</number>
-                </server>
-                <server item="5">
-                    <location>Kfar Sava</location>
-                    <number>09-7751000</number>
-                </server>
-            </servers>
-        </method>
-    </methods>
+	<!-- Connection Methods -->
+	<methods count="3">
+		<method item="1" type="Cables">
+			<gateway>cable.aquanet.co.il</gateway>
+			<destination>cable.aquanet.co.il</destination>
+		</method>
+		<method item="2" type="ISDN">
+			<servers count="5">
+				<server item="1">
+					<location>Jerusalem</location>
+					<number>02-6210555</number>
+				</server>
+				<server item="2">
+					<location>Tel-Aviv</location>
+					<number>03-5390000</number>
+				</server>
+				<server item="3">
+					<location>Haifa</location>
+					<number>04-8290000</number>
+				</server>
+				<server item="4">
+					<location>Rehovot</location>
+					<number>08-9399000</number>
+				</server>
+				<server item="5">
+					<location>Kfar Sava</location>
+					<number>09-7751000</number>
+				</server>
+			</servers>
+		</method>
+		<method item="3" type="Dialup">
+			<servers count="5">
+				<server item="1">
+					<location>Jerusalem</location>
+					<number>02-6210555</number>
+				</server>
+				<server item="2">
+					<location>Tel-Aviv</location>
+					<number>03-5390000</number>
+				</server>
+				<server item="3">
+					<location>Haifa</location>
+					<number>04-8290000</number>
+				</server>
+				<server item="4">
+					<location>Rehovon</location>
+					<number>08-9399000</number>
+				</server>
+				<server item="5">
+					<location>Kfar Sava</location>
+					<number>09-7751000</number>
+				</server>
+			</servers>
+		</method>
+	</methods>
 </isp>

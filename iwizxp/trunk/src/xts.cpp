@@ -25,34 +25,34 @@ using namespace std;
 using namespace xercesc;
 
 Utils::xts::xts(const string &str) {
-    xmlString = XMLString::transcode(str.c_str());
-    cString = 0;
+	xmlString = XMLString::transcode(str.c_str());
+	cString = 0;
 }
 
 Utils::xts::xts(const XMLCh *str, bool trim) {
-    if (trim) {
-        XMLCh *replicate = XMLString::replicate(str);
-        XMLString::trim(replicate);
-        cString = XMLString::transcode(replicate);
-        XMLString::release(&replicate);
-    } else {
-        cString = XMLString::transcode(str);
-    }
+	if (trim) {
+		XMLCh *replicate = XMLString::replicate(str);
+		XMLString::trim(replicate);
+		cString = XMLString::transcode(replicate);
+		XMLString::release(&replicate);
+	} else {
+		cString = XMLString::transcode(str);
+	}
 
-    xmlString = 0;
+	xmlString = 0;
 }
-            
-Utils::xts::~xts() {
-    if (xmlString != 0) {
-        XMLString::release(&xmlString);
-    }
 
-    if (cString != 0) {
-        XMLString::release(&cString);
-    }
+Utils::xts::~xts() {
+	if (xmlString != 0) {
+		XMLString::release(&xmlString);
+	}
+
+	if (cString != 0) {
+		XMLString::release(&cString);
+	}
 }
 
 string Utils::xts::asString() const {
-    return string(cString);
+	return string(cString);
 }
 

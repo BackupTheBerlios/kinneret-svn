@@ -5,12 +5,12 @@
 # Relies on: $modemEthernetDevice, $dhcpGateway and $defaultGateway.
 ##
 addRouteViaDhcpGateway() {
-    echo -n "Adding route via $dhcpGateway... "
+	echo -n "Adding route via $dhcpGateway... "
 
-    $route add -host $defaultGateway gw $dhcpGateway dev $modemEthernetDevice
-    if [ $? -ne 0 ]; then
-        errorExit "Failed adding route via $dhcpGateway."
-    fi
+	$route add -host $defaultGateway gw $dhcpGateway dev $modemEthernetDevice
+	if [ $? -ne 0 ]; then
+		errorExit "Failed adding route via $dhcpGateway."
+	fi
 
-    echo "Done."
+	echo "Done."
 }

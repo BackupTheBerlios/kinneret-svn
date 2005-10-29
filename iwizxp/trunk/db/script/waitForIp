@@ -2,16 +2,16 @@
 # Waits for an IP address on ppp0, but no more than 20 seconds.
 ##
 waitForIp() {
-    echo -n "Waiting for IP"
-    counter=0
-    grepReturnCode=1
-    while [ $counter -lt 20 -a $grepReturnCode -ne 0 ]; do
-        echo -n .
-        sleep 1
-        $netstat -n -r | grep -q ppp0
-        grepReturnCode=$?
-        let counter++
-    done
+	echo -n "Waiting for IP"
+	counter=0
+	grepReturnCode=1
+	while [ $counter -lt 20 -a $grepReturnCode -ne 0 ]; do
+		echo -n .
+		sleep 1
+		$netstat -n -r | grep -q ppp0
+		grepReturnCode=$?
+		let counter++
+	done
 
-    echo " Done."
+	echo " Done."
 }

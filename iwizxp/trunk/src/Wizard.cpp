@@ -35,129 +35,134 @@
 using namespace std;
 
 template<class T> T Wizard::selectFromList(string what, vector<T> list) {
-    vector<string> toListener;
-    int selection;
+	vector<string> toListener;
+	int selection;
 
-    typename vector<T>::iterator iter;
-    for (iter = list.begin() ; iter != list.end() ; iter++) {
-        string itemString;
-        Printable *printable = dynamic_cast<Printable*>(*iter);
-        if (printable != 0) {
-            itemString = printable->toString();
-        } else {  
-            itemString = "null";
-        }
+	typename vector<T>::iterator iter;
+	for (iter = list.begin() ; iter != list.end() ; iter++) {
+		string itemString;
+		Printable *printable = dynamic_cast<Printable*>(*iter);
+		if (printable != 0) {
+			itemString = printable->toString();
+		} else {  
+			itemString = "null";
+		}
 
-        toListener.push_back(itemString);
-    }
+		toListener.push_back(itemString);
+	}
 
-    selection = safeSelectFromList(what, toListener);
-    return list[selection];
+	selection = safeSelectFromList(what, toListener);
+	return list[selection];
 }
 
 int Wizard::safeSelectFromList(string what, vector<string> list) {
-    int selection;
+	int selection;
 
-    while (1) {
-        selection = listener->selectFromList(what, list);
-        if ((selection < 0) || (selection >= list.size())) {
-            listener->notify("Selected choise is out-of-range. "
-                "Please retry.");
-        } else {
-            break;
-        }
-    }
+	while (1) {
+		selection = listener->selectFromList(what, list);
+		if ((selection < 0) || (selection >= list.size())) {
+			listener->notify("Selected choise is out-of-range. "
+				"Please retry.");
+		} else {
+			break;
+		}
+	}
 
-    return selection;
+	return selection;
 }
 
 int Wizard::go() {
-    try {
-        Isp *isp = selectFromList("Select ISP",
-            Database::getInstance()->getIsps());
+	// TODO: Refactor-extract methods
+	try {
+		Isp *isp = selectFromList("Select ISP",
+			Database::getInstance()->getIsps());
 
-        ConnectionMethod *connectionMethod = 
-            selectFromList("Select Connection Method",
-                isp->getConnectionMethods());
+		ConnectionMethod *connectionMethod = 
+			selectFromList("Select Connection Method",
+				isp->getConnectionMethods());
 
 
-        Modem *modem = selectFromList("Select modem", 
-            Database::getInstance()->getModems());
+		Modem *modem = selectFromList("Select modem", 
+			Database::getInstance()->getModems());
 
-        Dialer *dialer = modem->getDialer(isp);
+		Dialer *dialer = modem->getDialer(isp);
 
-        UserInput input;
-        string username;
-        while (1) {
-            username = listener->requestString("Enter username: ");
-            if (username.length() <= 0) {
-                listener->notify("Username cannot be an empty string.");
-            } else {
-                break;
-            }
-        };
-        input.setUsername(username);
+		UserInput input;
+		string username;
+		while (1) {
+			username = listener->requestString("Enter username: ");
+			if (username.length() <= 0) {
+				listener->notify(
+					"Username cannot be an empty string.");
+			} else {
+				break;
+			}
+		};
+		input.setUsername(username);
 
-        bool enableAutodetect = false;
-        vector<string> autodetectionChoses;
-        autodetectionChoses.push_back("yes");
-        autodetectionChoses.push_back("no");
-        if (safeSelectFromList("Do you wish to enable modem "
-                "device autodetection?", autodetectionChoses) == 0) {
-            enableAutodetect = true;
-        }
-        input.setInterfaceAutodetection(enableAutodetect);
-        
-        vector<string> modemDevice = Utils::enumNetworkInterfaces();
-        if (enableAutodetect == true) {
-            modemDevice.push_back("Auto-detect");
-        }
+		bool enableAutodetect = false;
+		vector<string> autodetectionChoses;
+		autodetectionChoses.push_back("yes");
+		autodetectionChoses.push_back("no");
+		if (safeSelectFromList("Do you wish to enable modem "
+			"device autodetection?", autodetectionChoses) == 0) {
+			enableAutodetect = true;
+		}
+		input.setInterfaceAutodetection(enableAutodetect);
 
-        int selection = safeSelectFromList(
-            "Select modem device:", modemDevice);
-        if (modemDevice[selection] != "Auto-detect") {
-            input.setModemEthernetDevice(modemDevice[selection]);
-        }
+		vector<string> modemDevice = Utils::enumNetworkInterfaces();
+		if (enableAutodetect == true) {
+			modemDevice.push_back("Auto-detect");
+		}
 
-        ArgumentsScript *argumentsScript =
-            GlobalRepository::getInstance()->getArgumentsScript();
-        
-        argumentsScript->setIsp(isp);
-        argumentsScript->setConnectionMethod(connectionMethod);
-        argumentsScript->setModem(modem);
-        argumentsScript->setUserInput(&input);
+		int selection = safeSelectFromList(
+			"Select modem device:", modemDevice);
+		if (modemDevice[selection] != "Auto-detect") {
+			input.setModemEthernetDevice(modemDevice[selection]);
+		}
 
-        ConnectionTemplate *connectionTempate = selectFromList(
-            "Select connection template",
-            Database::getInstance()->getConnectionTemplates());
+		ArgumentsScript *argumentsScript =
+			GlobalRepository::getInstance()->getArgumentsScript();
 
-        string outputFile;
-        while (1) {
-            outputFile = listener->requestString("Output file: ");
-            if (outputFile.length() <= 0) {
-                listener->notify("Output file cannot be an empty string.");
-            } else {
-                break;
-            }
-        };
+		argumentsScript->setIsp(isp);
+		argumentsScript->setConnectionMethod(connectionMethod);
+		argumentsScript->setModem(modem);
+		argumentsScript->setUserInput(&input);
 
-        ofstream outputFileStream(outputFile.c_str(), ios::trunc);
-        outputFileStream << connectionTempate->getFinalScript(dialer) << endl;
-        outputFileStream.close();
-    } catch (Exception &ex) {
-        string message = string("Aborting due to error: ") + ex.what();
-        Log::fatal(LOG_LOCATION("Wizard", "go"), message);
-        listener->fatal(message + "\nSee console for details.");
-        return -1;
-    } catch (...) {
-        Log::bug(LOG_LOCATION("Wizard", "go"), "Caught ... !");
-        listener->fatal("Bug! See console for details");
-        return -1;
-    }
+		ConnectionTemplate *connectionTempate = selectFromList(
+			"Select connection template",
+			Database::getInstance()->getConnectionTemplates());
 
-    Database::release();
-    GlobalRepository::release();
+		string outputFile;
+		while (1) {
+			outputFile = listener->requestString("Output file: ");
+			if (outputFile.length() <= 0) {
+				listener->notify(
+					"Output file cannot be an "
+					"empty string.");
+			} else {
+				break;
+			}
+		};
 
-    return 0;
+		ofstream outputFileStream(outputFile.c_str(), ios::trunc);
+		outputFileStream <<
+			connectionTempate->getFinalScript(dialer) << endl;
+		outputFileStream.close();
+	} catch (Exception &ex) {
+		string message = string("Aborting due to error: ") + ex.what();
+		Log::fatal(LOG_LOCATION("Wizard", "go"), message);
+		listener->fatal(message + "\nSee console for details.");
+		return -1;
+	} catch (...) {
+		Log::bug(LOG_LOCATION("Wizard", "go"), "Caught ... !");
+		listener->fatal("Bug! See console for details");
+		return -1;
+	}
+
+	Database::release();
+	GlobalRepository::release();
+
+	return 0;
 }
 

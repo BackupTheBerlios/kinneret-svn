@@ -37,40 +37,40 @@
 class Script {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Constructor.
-     */
-    Script() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor.
+	 */
+	Script() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor.
-     */
-    virtual ~Script() {
-        // Nothing to do.
-    }
+	/**
+	 * Destructor.
+	 */
+	virtual ~Script() {
+		// Nothing to do.
+	}
 
-    /* --- Abstract Methods --- */
+	/* --- Abstract Methods --- */
 
-    /**
-     * @return The function's name. Every script's body is places inside a
-     *         unique function.
-     */
-    virtual const std::string getFunctionName() const = 0;
+	/**
+	 * @return The function's name. Every script's body is places inside a
+	 *         unique function.
+	 */
+	virtual const std::string getFunctionName() const = 0;
 
-    /**
-     * @return The function's body (What's inside the function).
-     */
-    virtual const std::string getScriptBody() const = 0;
+	/**
+	 * @return The function's body (What's inside the function).
+	 */
+	virtual const std::string getScriptBody() const = 0;
 
-    /**
-     * @return Short description of the script. The description will be placed
-     *         in a comment the script's body in the final code.
-     */
-    virtual const std::string getScriptDescription() const = 0;
+	/**
+	 * @return Short description of the script. The description will be
+	 *         placed in a comment the script's body in the final code.
+	 */
+	virtual const std::string getScriptDescription() const = 0;
 };
 
 #endif

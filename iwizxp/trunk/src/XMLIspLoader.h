@@ -32,42 +32,42 @@
 class XMLIspLoader : public IspLoader {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     *
-     * Does nothing.
-     */
-    XMLIspLoader() {
-        Log::debug(LOG_LOCATION("XMLIspLoader", "XMLIspLoader"),
-            "Creating XMLIspLoader");
-    }
+	/**
+	 * Constructor.
+	 *
+	 * Does nothing.
+	 */
+	XMLIspLoader() {
+		Log::debug(LOG_LOCATION("XMLIspLoader", "XMLIspLoader"),
+			"Creating XMLIspLoader");
+	}
 
-    /**
-     * Destructor.
-     *
-     * Does nothing.
-     */
-    virtual ~XMLIspLoader() {
-        Log::debug(LOG_LOCATION("XMLIspLoader", "~XMLIspLoader"),
-            "Destroying XMLIspLoader");
-    }
+	/**
+	 * Destructor.
+	 *
+	 * Does nothing.
+	 */
+	virtual ~XMLIspLoader() {
+		Log::debug(LOG_LOCATION("XMLIspLoader", "~XMLIspLoader"),
+			"Destroying XMLIspLoader");
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * Loads an ISP from a stream. <code>stream</code> should contain valid
-     * XML. This method parses the stream to a DOM document, then
-     * de-serialize an ISP from the top-level <code>&lt;isp&gt;</code> tag.
-     *
-     * @param inStream The stream to build a DOM tree from.
-     * @return A new and initialized <code>Isp</code>.
-     * @throws LoadException Thrown when the loads wasn't able to parse the
-     *         stream, or an <code>XMLSerializationException</code> was
-     *         thrown from <code>Isp</code>'s <code>fromXML()</code>.
-     */
-    virtual Isp *loadIsp(std::istream &inStream) const;
+	/**
+	 * Loads an ISP from a stream. <code>stream</code> should contain valid
+	 * XML. This method parses the stream to a DOM document, then
+	 * de-serialize an ISP from the top-level <code>&lt;isp&gt;</code> tag.
+	 *
+	 * @param inStream The stream to build a DOM tree from.
+	 * @return A new and initialized <code>Isp</code>.
+	 * @throws LoadException Thrown when the loads wasn't able to parse the
+	 *         stream, or an <code>XMLSerializationException</code> was
+	 *         thrown from <code>Isp</code>'s <code>fromXML()</code>.
+	 */
+	virtual Isp *loadIsp(std::istream &inStream) const;
 };
 
 #endif

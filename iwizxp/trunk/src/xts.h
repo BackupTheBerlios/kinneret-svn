@@ -28,103 +28,106 @@
 #include <xercesc/util/XMLString.hpp>
 
 namespace Utils {
-    /**
-     * This class implicitly converts <code>xercesc::XMLCh</code> strings to
-     * <code>std::string</code> and vice-versa. It is also able to trim
-     * XML strings.
-     *
-     * This class is a utility class meant to be used as a function-object,
-     * where it is created, used and destroyed at the same statement.
-     *
-     * Because of that, if this object is initialized with an XML string,
-     * convertion to standart strings will be the only valid operation.
-     * Trying to recover the <code>XMLCh*</code> given will result in null.
-     * Likewise the other way around.
-     *
-     * Notice that when built from an XML string, this class <b>does not</b>
-     * release it, leaving the user with the responsibility to do so.
-     *
-     * @author z9u2k
-     */
-    class xts {
-    public:
+	/**
+	 * This class implicitly converts <code>xercesc::XMLCh</code> strings to
+	 * <code>std::string</code> and vice-versa. It is also able to trim
+	 * XML strings.
+	 *
+	 * This class is a utility class meant to be used as a function-object,
+	 * where it is created, used and destroyed at the same statement.
+	 *
+	 * Because of that, if this object is initialized with an XML string,
+	 * convertion to standart strings will be the only valid operation.
+	 * Trying to recover the <code>XMLCh*</code> given will result in null.
+	 * Likewise the other way around.
+	 *
+	 * Notice that when built from an XML string, this class <b>does not</b>
+	 * release it, leaving the user with the responsibility to do so.
+	 *
+	 * @author z9u2k
+	 */
+	class xts {
+	public:
 
-        /* --- Constructors --- */
+		/* --- Constructors --- */
 
-        /**
-         * Convers a standart <code>string</code> to <code>XMLCh*</code>.
-         *
-         * @param str String to convert to <code>XMLCh*</code> string.
-         */
-        xts(const std::string &str);
+		/**
+		 * Convers a standart <code>string</code> to
+		 * <code>XMLCh*</code>.
+		 *
+		 * @param str String to convert to <code>XMLCh*</code> string.
+		 */
+		xts(const std::string &str);
 
-        /**
-         * Convers an <code>XMLCh*</code> string buffer to standart
-         * <code>string</code>. This constructor is also able to trim the
-         * given string.
-         *
-         * @param str XML string to conver to standart
-         *        <code>string</code>
-         * @param trim Should the XML string should be stripped from
-         *        whitespaces that are at the beginning and at the end.
-         */
-        xts(const XMLCh *str, bool trim = false);
+		/**
+		 * Convers an <code>XMLCh*</code> string buffer to standart
+		 * <code>string</code>. This constructor is also able to trim
+		 * the given string.
+		 *
+		 * @param str XML string to conver to standart
+		 *        <code>string</code>
+		 * @param trim Should the XML string should be stripped from
+		 *        whitespaces that are at the beginning and at the end.
+		 */
+		xts(const XMLCh *str, bool trim = false);
 
-        /**
-         * Destructor. Releases any allocated strings.
-         */
-        virtual ~xts();
+		/**
+		 * Destructor. Releases any allocated strings.
+		 */
+		virtual ~xts();
 
-        /* --- Convertion --- */
+		/* --- Convertion --- */
 
-        /**
-         * @return Standart <code>string</code> representation of the
-         *         <code>XMLCh*</code> given at the constructor. Notice that
-         *         this method will return an empty string when called
-         *         after the object was build of a standart string.
-         */
-        std::string asString() const;
+		/**
+		 * @return Standart <code>string</code> representation of the
+		 *         <code>XMLCh*</code> given at the constructor. Notice
+		 *         that this method will return an empty string when
+		 *         called after the object was build of a standart
+		 *         string.
+		 */
+		std::string asString() const;
 
-        /**
-         * Implicitly converts standart strings to XML string.
-         *
-         * @return An XML string representation of the standart string
-         *         given at the constructor. Notice that this methos will
-         *         return null when called after this object was build of
-         *         an XML string.
-         */
-        operator XMLCh*() const {
-            return xmlString;
-        }
+		/**
+		 * Implicitly converts standart strings to XML string.
+		 *
+		 * @return An XML string representation of the standart string
+		 *         given at the constructor. Notice that this methos
+		 *         will return null when called after this object was
+		 *         build of an XML string.
+		 */
+		operator XMLCh*() const {
+			return xmlString;
+		}
 
-        /**
-         * Implicitly converts XML strings to standart strings.
-         *
-         * @return Standart <code>string</code> representation of the
-         *         <code>XMLCh*</code> given at the constructor. Notice that
-         *         this method will return an empty string when called
-         *         after the object was build of a standart string.
-         */
-        operator std::string() const {
-            return asString();
-        }
+		/**
+		 * Implicitly converts XML strings to standart strings.
+		 *
+		 * @return Standart <code>string</code> representation of the
+		 *         <code>XMLCh*</code> given at the constructor. Notice
+		 *         that this method will return an empty string when
+		 *         called after the object was build of a standart
+		 *         string.
+		 */
+		operator std::string() const {
+			return asString();
+		}
 
-    private:
+	private:
 
-        /* --- Data Members --- */
+		/* --- Data Members --- */
 
-        /**
-         * An XML representation of the standart string given at the
-         * constructor.
-         */
-        XMLCh *xmlString;
+		/**
+		 * An XML representation of the standart string given at the
+		 * constructor.
+		 */
+		XMLCh *xmlString;
 
-        /**
-         * A standart string representation of the XML string given at
-         * the constructor.
-         */
-        char *cString;
-    };
+		/**
+		 * A standart string representation of the XML string given at
+		 * the constructor.
+		 */
+		char *cString;
+	};
 }
 
 #endif

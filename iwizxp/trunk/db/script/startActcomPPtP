@@ -4,35 +4,35 @@
 # Relies on $username, $dialingDestination and $defaultGateway.
 ##
 startPPtP() {
-    echo -n "Starting PPtP... "
+	echo -n "Starting PPtP... "
 
-    # Actcom does not require the remotename
-    # option.
-    remotenameOption=""
+	# Actcom does not require the remotename
+	# option.
+	remotenameOption=""
 
-    success=0
-    for pptpClient in $pptpClients; do
-        pptpExecPath="`which $pptpClient`"
-        if [ -x $pptpExecPath ]; then
-            $pptpExecPath $defaultGateway \
-                user $username \
-                debug \
-                $remotenameOption \
-                mtu 1452 \
-                mru 1452 \
-                noauth \
-                defaultroute
+	success=0
+	for pptpClient in $pptpClients; do
+		pptpExecPath="`which $pptpClient`"
+		if [ -x $pptpExecPath ]; then
+			$pptpExecPath $defaultGateway \
+				user $username \
+				debug \
+				$remotenameOption \
+				mtu 1452 \
+				mru 1452 \
+				noauth \
+				defaultroute
 
-            if [ $? -eq 0 ]; then
-                success=1
-                break
-            fi
-        fi
-    done
+			if [ $? -eq 0 ]; then
+				success=1
+				break
+			fi
+		fi
+	done
 
-    if [ $success -eq 0 ]; then
-        errorExit "PPtP execution failed."
-    fi
+	if [ $success -eq 0 ]; then
+		errorExit "PPtP execution failed."
+	fi
 
-    echo "PPtP started successfully."
+	echo "PPtP started successfully."
 }

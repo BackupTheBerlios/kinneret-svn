@@ -32,23 +32,23 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 Isp *XMLIspLoader::loadIsp(istream &inStream) const {
-    DOMDocument *document;
-    try {
-        document = Utils::DOM::parseDocumentFromStream(inStream);
-        document->normalizeDocument();
-        removeWhitespaceTextNodes(document->getDocumentElement());
-    } catch (const DOMParseException &ex) {
-        throw LoadException("XMLException, see above");
-    }
+	DOMDocument *document;
+	try {
+		document = Utils::DOM::parseDocumentFromStream(inStream);
+		document->normalizeDocument();
+		removeWhitespaceTextNodes(document->getDocumentElement());
+	} catch (const DOMParseException &ex) {
+		throw LoadException("XMLException, see above");
+	}
 
-    try {
-        XMLIsp *result = new XMLIsp();
-        result->fromXML(document->getDocumentElement());
-        return result;
-    } catch (const XMLReadable::XMLSerializationException &ex) {
-        Log::error(LOG_LOCATION("XMLIspLoader", "loadIsp"),
-            "Got XMLSerializationException while creating Isp...");
-        throw LoadException(ex.what());
-    }
+	try {
+		XMLIsp *result = new XMLIsp();
+		result->fromXML(document->getDocumentElement());
+		return result;
+	} catch (const XMLReadable::XMLSerializationException &ex) {
+		Log::error(LOG_LOCATION("XMLIspLoader", "loadIsp"),
+			"Got XMLSerializationException while creating Isp...");
+		throw LoadException(ex.what());
+	}
 }
 

@@ -26,15 +26,15 @@
 using namespace std;
 
 Isp::~Isp() {
-    std::vector<ConnectionMethod*>::iterator iter;
-    for (iter = methods.begin() ; iter != methods.end() ; iter++) {
-        Log::debug(LOG_LOCATION("Isp", "~Isp"),
-            string("Releasing ") + (*iter)->toString() + "...");
-        delete (*iter);
-        (*iter) = 0;
-    }
-    
-    Log::debug(LOG_LOCATION("Isp", "~Isp"),
-        string("Isp: ") + getName() + " released successfully");
+	std::vector<ConnectionMethod*>::iterator iter;
+	for (iter = methods.begin() ; iter != methods.end() ; iter++) {
+		Log::debug(LOG_LOCATION("Isp", "~Isp"),
+			string("Releasing ") + (*iter)->toString() + "...");
+		delete (*iter);
+		(*iter) = 0;
+	}
+
+	Log::debug(LOG_LOCATION("Isp", "~Isp"),
+		string("Isp: ") + getName() + " released successfully");
 }
 

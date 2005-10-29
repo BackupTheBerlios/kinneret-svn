@@ -34,16 +34,16 @@
 class XMLConnectionMethod : public ConnectionMethod, public XMLReadable{
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Destructor.
-     *
-     * Does nothing.
-     */
-    virtual ~XMLConnectionMethod() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 *
+	 * Does nothing.
+	 */
+	virtual ~XMLConnectionMethod() {
+		// Nothing to do
+	}
 };
 
 #endif

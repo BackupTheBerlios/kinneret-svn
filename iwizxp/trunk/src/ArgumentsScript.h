@@ -66,109 +66,109 @@
 class ArgumentsScript : public Script {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Default Constructor. Does nothing but printing a pretty log message.
-     */
-    ArgumentsScript() {
-        Log::debug(LOG_LOCATION("ArgumentsScript", "ArgumentsScript"),
-            "Constructing ArgumentsScript");
-    }
+	/**
+	 * Default Constructor. Does nothing but printing a pretty log message.
+	 */
+	ArgumentsScript() {
+		Log::debug(LOG_LOCATION("ArgumentsScript", "ArgumentsScript"),
+			"Constructing ArgumentsScript");
+	}
 
-    /**
-     * Destructor. Does nothing but printing a pretty log message.
-     */
-    virtual ~ArgumentsScript() {
-        Log::debug(LOG_LOCATION("ArgumentsScript", "~ArgumentsScript"),
-            "Destroying ArgumentsScript");
-    }
+	/**
+	 * Destructor. Does nothing but printing a pretty log message.
+	 */
+	virtual ~ArgumentsScript() {
+		Log::debug(LOG_LOCATION("ArgumentsScript", "~ArgumentsScript"),
+			"Destroying ArgumentsScript");
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * Initializes ISP related variables according to the given ISP.
-     *
-     * @param isp ISP to get data from.
-     */
-    void setIsp(const Isp *isp);
+	/**
+	 * Initializes ISP related variables according to the given ISP.
+	 *
+	 * @param isp ISP to get data from.
+	 */
+	void setIsp(const Isp *isp);
 
-    /**
-     * Initializes modem related variables according to the given modem.
-     *
-     * @param modem The modem that the user wishes to connect with.
-     */
-    void setModem(const Modem *modem);
+	/**
+	 * Initializes modem related variables according to the given modem.
+	 *
+	 * @param modem The modem that the user wishes to connect with.
+	 */
+	void setModem(const Modem *modem);
 
-    /**
-     * Sets connection method related variables.
-     *
-     * @param method The connection method the script is going to use.
-     */
-    void setConnectionMethod(const ConnectionMethod *method);
+	/**
+	 * Sets connection method related variables.
+	 *
+	 * @param method The connection method the script is going to use.
+	 */
+	void setConnectionMethod(const ConnectionMethod *method);
 
-    /**
-     * Sets variables that comes from the user (like username etc.).
-     *
-     * @param input The user's input to use.
-     */
-    void setUserInput(const UserInput *input);
+	/**
+	 * Sets variables that comes from the user (like username etc.).
+	 *
+	 * @param input The user's input to use.
+	 */
+	void setUserInput(const UserInput *input);
 
-    /* --- Inherited from Script --- */
+	/* --- Inherited from Script --- */
 
-    /**
-     * @return The name of the function that has to be called in order to
-     *         execute this script.
-     */
-    virtual const std::string getFunctionName() const {
-        return "setupUserArguments";
-    }
+	/**
+	 * @return The name of the function that has to be called in order to
+	 *         execute this script.
+	 */
+	virtual const std::string getFunctionName() const {
+		return "setupUserArguments";
+	}
 
-    /**
-     * @return A valid-syntax Bash script, that sets up all the user defined
-     *         variables.
-     */
-    virtual const std::string getScriptBody() const;
+	/**
+	 * @return A valid-syntax Bash script, that sets up all the user defined
+	 *         variables.
+	 */
+	virtual const std::string getScriptBody() const;
 
-    /**
-     * @return Short description of the script that will be placed in a
-     *         comment above it.
-     */
-    virtual const std::string getScriptDescription() const {
-        return
-            "This script sets all of the user arguments.\n"
-            "This is the first script called for every connection,\n"
-            "setting all the user defined variables required for the other\n"
-            "scripts to work.";
-    }
+	/**
+	 * @return Short description of the script that will be placed in a
+	 *         comment above it.
+	 */
+	virtual const std::string getScriptDescription() const {
+		return
+			"This script sets all of the user arguments.\n"
+			"This is the first script called for every\n"
+			"connection, setting all the user defined variables\n"
+			"required for the other scripts to work.";
+	}
 
 private:
 
-    /* --- Helpers --- */
+	/* --- Helpers --- */
 
-    /**
-     * This method builds a list of space seperated names that can be
-     * assigned as the values for <code>modules2_4</code> or
-     * <code>modules2_6</code>. Modules that are not supported by the
-     * requested kernel class will be left out of the list.
-     *
-     * @param modem Modem, to get the list of modules from
-     * @param kernelClass Kernel class to get the module names for
-     * @return A space-seperated list of module names. Modules that are not
-     *         supported are left out. An empty string is returned if none
-     *         is.
-     */
-    std::string buildKernelClassModulesList(const Modem *modem,
-        KernelModule::KernelClass kernelClass);
+	/**
+	 * This method builds a list of space seperated names that can be
+	 * assigned as the values for <code>modules2_4</code> or
+	 * <code>modules2_6</code>. Modules that are not supported by the
+	 * requested kernel class will be left out of the list.
+	 *
+	 * @param modem Modem, to get the list of modules from
+	 * @param kernelClass Kernel class to get the module names for
+	 * @return A space-seperated list of module names. Modules that are not
+	 *         supported are left out. An empty string is returned if none
+	 *         is.
+	 */
+	std::string buildKernelClassModulesList(const Modem *modem,
+		KernelModule::KernelClass kernelClass);
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /**
-     * Names -&gt; Values map.
-     *
-     * Maps between variables name and their values.
-     */
-    std::map<std::string, std::string> values;
+	/**
+	 * Names -&gt; Values map.
+	 *
+	 * Maps between variables name and their values.
+	 */
+	std::map<std::string, std::string> values;
 };
 
 #endif

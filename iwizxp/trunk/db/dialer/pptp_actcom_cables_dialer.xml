@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dialer>
-    <name>PPtP Cables Dialer when using Actcom</name>
+	<name>PPtP Cables Dialer when using Actcom</name>
 
-    <!-- Connection Scripts -->
-    <connection count="11">
-        <script item="1">backupResolvConf</script>
-        <script item="2">killDhcp</script>
-        <script item="3">startDhcp</script>
-        <script item="4">killPPtP</script>
-        <script item="5">findDhcpGateway</script>
-        <script item="6">addRouteViaDhcpGateway</script>
-        <script item="7">startActcomPPtP</script>
-        <script item="8">waitForIp</script>
-        <script item="9">getNewGatewayFromPpp</script>
-        <script item="10">addRouteViaNewGateway</script>
-        <script item="11">restoreResolvConf</script>
-    </connection>
+	<!-- Connection Scripts -->
+	<connection count="11">
+		<script item="1">backupResolvConf</script>
+		<script item="2">killDhcp</script>
+		<script item="3">startDhcp</script>
+		<script item="4">killPPtP</script>
+		<script item="5">findDhcpGateway</script>
+		<script item="6">addRouteViaDhcpGateway</script>
+		<script item="7">startActcomPPtP</script>
+		<script item="8">waitForIp</script>
+		<script item="9">getNewGatewayFromPpp</script>
+		<script item="10">addRouteViaNewGateway</script>
+		<script item="11">restoreResolvConf</script>
+	</connection>
 
-    <!-- Disconnection Scripts -->
-    <disconnection count="2">
-        <script item="1">killPPtP</script>
-        <script item="2">killDhcp
-    </disconnection>
-</dialer>
+	<!-- Disconnection Scripts -->
+	<disconnection count="2">
+		<script item="1">killPPtP</script>
+		<script item="2">killDhcp
+		</disconnection>
+	</dialer>

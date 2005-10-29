@@ -35,37 +35,37 @@
 class ConnectionTemplateLoader {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     * TODO: JavaDocs
-     */
-    ConnectionTemplateLoader() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor.
+	 * TODO: JavaDocs
+	 */
+	ConnectionTemplateLoader() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor.
-     * TODO: JavaDocs
-     */
-    virtual ~ConnectionTemplateLoader() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 * TODO: JavaDocs
+	 */
+	virtual ~ConnectionTemplateLoader() {
+		// Nothing to do
+	}
 
-    /* --- Expections --- */
+	/* --- Expections --- */
 
-    NewException(LoadException);
+	NewException(LoadException);
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * TODO: JavaDocs
-     *
-     * @throws LoadException
-     */
-    virtual ConnectionTemplate *loadConnectionTemplate(std::istream &inStream)
-        const = 0;
+	/**
+	 * TODO: JavaDocs
+	 *
+	 * @throws LoadException
+	 */
+	virtual ConnectionTemplate *loadConnectionTemplate(
+		std::istream &inStream) const = 0;
 
 };
 

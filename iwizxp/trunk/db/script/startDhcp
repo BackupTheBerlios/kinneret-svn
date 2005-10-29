@@ -9,35 +9,35 @@
 # This method relies on $modemEthernetDevice.
 ##
 startDhcp() {
-    echo -n "Bringing up DHCP client... "
+	echo -n "Bringing up DHCP client... "
 
-    success=0
-    for dhcpClient in $dhcpClients; do
-        dhcpExecPath=`which $dhcpClient`
-        if [ -n "$dhcpExecPath" ]; then
-            # Execute client
-            if [ $dhcpClient == "pump" ]; then
-                # Pump gets special treatement
-                $dhcpExecPath -i $modemEthernetDevice
-            else
-                $dhcpExecPath $modemEthernetDevice
-            fi
-            
-            # Check for success
-            if [ $? -eq 0 ]; then
-                success=1
-                currentDhcpClient=$dhcpClient;
-                break
-            fi
-        fi
-    done
+	success=0
+	for dhcpClient in $dhcpClients; do
+		dhcpExecPath=`which $dhcpClient`
+		if [ -n "$dhcpExecPath" ]; then
+			# Execute client
+			if [ $dhcpClient == "pump" ]; then
+				# Pump gets special treatement
+				$dhcpExecPath -i $modemEthernetDevice
+			else
+				$dhcpExecPath $modemEthernetDevice
+			fi
+			
+			# Check for success
+			if [ $? -eq 0 ]; then
+				success=1
+				currentDhcpClient=$dhcpClient;
+				break
+			fi
+		fi
+	done
 
-    # Were we successful?
-    if [ $success -eq 0 ]; then
-        errorExit "Failed to bring up DHCP client."
-    fi
+	# Were we successful?
+	if [ $success -eq 0 ]; then
+		errorExit "Failed to bring up DHCP client."
+	fi
 
-    # Yes!
-    echo "$currentDhcpClient for $modemEthernetDevice started \
-        successfully."
+	# Yes!
+	echo "$currentDhcpClient for $modemEthernetDevice started \
+		successfully."
 }

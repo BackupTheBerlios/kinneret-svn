@@ -2,7 +2,7 @@
 # Backs-up /etc/resolv.conf to /etc/resolv.conf.iwizxp.bak
 ##
 backupResolvConf() {
-    echo -n "Backing up /etc/resolv.conf... "
-    cp /etc/resolv.conf{,.iwizxp.bak}
-    echo "Done."
+	echo -n "Backing up /etc/resolv.conf... "
+	cp /etc/resolv.conf{,.iwizxp.bak}
+	echo "Done."
 }

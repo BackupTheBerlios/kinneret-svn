@@ -32,40 +32,41 @@
 class XMLDialerLoader : public DialerLoader {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     */
-    XMLDialerLoader() {
-        Log::debug(LOG_LOCATION("XMLDialerLoader", "XMLDialerLoader"),
-            "XMLDialerLoader created successfully");
-    }
+	/**
+	 * Constructor.
+	 */
+	XMLDialerLoader() {
+		Log::debug(LOG_LOCATION("XMLDialerLoader", "XMLDialerLoader"),
+			"XMLDialerLoader created successfully");
+	}
 
-    /**
-     * Destructor.
-     */
-    virtual ~XMLDialerLoader() {
-        Log::debug(LOG_LOCATION("XMLDialerLoader", "XMLDialerLoader"),
-            "XMLDialerLoader released successfully");
-    }
+	/**
+	 * Destructor.
+	 */
+	virtual ~XMLDialerLoader() {
+		Log::debug(LOG_LOCATION("XMLDialerLoader", "XMLDialerLoader"),
+			"XMLDialerLoader released successfully");
+	}
 
-    /* --- Inherited from DialerLoader --- */
+	/* --- Inherited from DialerLoader --- */
 
-    /**
-     * TODO: Review JavaDocs.
-     *
-     * This method allocates and initializes a new dialer from a given stream.
-     *
-     * @param inStream Stream to read dialer info from. Format determined by
-     *        the implementing loader.
-     * @return A new and allocated dialer. The dialer is allocated using
-     *         <code>new</code> and it's up to the user to
-     *         <code>delete</code> it.
-     * @throws LoadException When the dialer could not be initilized from the
-     *         given stream.
-     */
-    virtual Dialer *loadDialer(std::istream &inStream) const;
+	/**
+	 * TODO: Review JavaDocs.
+	 *
+	 * This method allocates and initializes a new dialer from a given
+	 * stream.
+	 *
+	 * @param inStream Stream to read dialer info from. Format determined by
+	 *        the implementing loader.
+	 * @return A new and allocated dialer. The dialer is allocated using
+	 *         <code>new</code> and it's up to the user to
+	 *         <code>delete</code> it.
+	 * @throws LoadException When the dialer could not be initilized from
+	 *         the given stream.
+	 */
+	virtual Dialer *loadDialer(std::istream &inStream) const;
 };
 
 #endif

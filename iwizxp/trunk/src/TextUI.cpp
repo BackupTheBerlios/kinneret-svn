@@ -26,44 +26,46 @@
 using namespace std;
 
 void TextUI::fatal(string what) {
-    cerr << "---------- FATAL ----------" << endl <<
-        what << endl;
+	cerr << "---------- FATAL ----------" << endl <<
+		what << endl;
 }
 
 int TextUI::selectFromList(string what, vector<string> choises) {
-    int selection, i;
+	int selection, i;
 
-    do {
-        cout << what << endl;
-        for (i = 0 ; i < choises.size() ; i++) {
-            cout << (i + 1) << ") " << choises[i] << endl;
-        }
+	do {
+		cout << what << endl;
+		for (i = 0 ; i < choises.size() ; i++) {
+			cout << (i + 1) << ") " << choises[i] << endl;
+		}
 
-        if (i > 1) {
-            cout << "Selection [1-" << i << "]: ";
-            cin >> selection;
-        } else {
-            selection = 1;
-            cout << "One-choise, auto-selected." << endl;
-        }
+		if (i > 1) {
+			cout << "Selection [1-" << i << "]: ";
+			cin >> selection;
+		} else {
+			selection = 1;
+			cout << "One-choise, auto-selected." << endl;
+		}
 
-        cout << endl;
-    } while ((selection <= 0) || (selection > choises.size()));
+		cout << endl;
+	} while ((selection <= 0) || (selection > choises.size()));
 
-    // Selection is one-based, but vetor's index is zero based.
-    return (selection - 1);
+	// Selection is one-based, but vetor's index is zero based.
+	return (selection - 1);
 }
 
 string TextUI::requestString(string what) {
-    string result;
+	string result;
 
-    cout << what;
-    cin >> result;
+	do {
+		cout << what;
+		cin >> result;
+	} while (result.length() == 0);
 
-    return result;
+	return result;
 }
 
 void TextUI::notify(string what) {
-    cout << what << endl;
+	cout << what << endl;
 }
 

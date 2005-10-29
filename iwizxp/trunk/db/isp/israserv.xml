@@ -2,47 +2,47 @@
 <isp>
 	<name>Israserv</name>
 
-    <dns count="2">
-    	<server item="1">192.115.0.100</server>
-	    <server item="2">192.115.3.100</server>
-    </dns>
+	<dns count="2">
+		<server item="1">192.115.0.100</server>
+		<server item="2">192.115.3.100</server>
+	</dns>
 
-    <methods count="2">
-        <method item="1" type="Cables">
-            <gateway>192.117.195.250</gateway>
-            <destination>192.117.195.250</destination>
-        </method>
-        <method item="2" type="Dialup">
-            <servers count="7">
-                <server item="1">
-                    <location>Jerusalem</location>
-                    <number>02-6771777</number>
-                </server>
-                <server item="2">
-                    <location>Ramat Gan</location>
-                    <number>03-7535000</number>
-                </server>
-                <server item="3">
-                    <location>Petah Tikwa</location>
-                    <number>03-9110000</number>
-                </server>
-                <server item="4">
-                    <location>Rishon LeZion</location>
-                    <number>03-9638999</number>
-                </server>
-                <server item="5">
-                    <location>Haifa</location>
-                    <number>04-8479999</number>
-                </server>
-                <server item="6">
-                    <location>Rehovot</location>
-                    <number>08-9448444</number>
-                </server>
-                <server item="7">
-                    <location>Herzeliya</location>
-                    <number>09-9603333</number>
-                </server>
-            </servers>
-        </method>
-    </methods>
+	<methods count="2">
+		<method item="1" type="Cables">
+			<gateway>192.117.195.250</gateway>
+			<destination>192.117.195.250</destination>
+		</method>
+		<method item="2" type="Dialup">
+			<servers count="7">
+				<server item="1">
+					<location>Jerusalem</location>
+					<number>02-6771777</number>
+				</server>
+				<server item="2">
+					<location>Ramat Gan</location>
+					<number>03-7535000</number>
+				</server>
+				<server item="3">
+					<location>Petah Tikwa</location>
+					<number>03-9110000</number>
+				</server>
+				<server item="4">
+					<location>Rishon LeZion</location>
+					<number>03-9638999</number>
+				</server>
+				<server item="5">
+					<location>Haifa</location>
+					<number>04-8479999</number>
+				</server>
+				<server item="6">
+					<location>Rehovot</location>
+					<number>08-9448444</number>
+				</server>
+				<server item="7">
+					<location>Herzeliya</location>
+					<number>09-9603333</number>
+				</server>
+			</servers>
+		</method>
+	</methods>
 </isp>

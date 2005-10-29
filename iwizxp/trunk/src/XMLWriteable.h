@@ -36,25 +36,25 @@
 class XMLWriteable {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Destructor.
-     */
-    virtual ~XMLWriteable() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 */
+	virtual ~XMLWriteable() {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * Serializes this object to XML. The root element will be placed under
-     * <code>root</code>.
-     *
-     * @param root The root element that will be the father of the root
-     *        element of this class' serialization.
-     */
-    virtual void toXML(xercesc::DOMElement *root) const = 0;
+	/**
+	 * Serializes this object to XML. The root element will be placed under
+	 * <code>root</code>.
+	 *
+	 * @param root The root element that will be the father of the root
+	 *        element of this class' serialization.
+	 */
+	virtual void toXML(xercesc::DOMElement *root) const = 0;
 };
 
 #endif

@@ -30,32 +30,33 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 void XMLCables::fromXML(DOMElement *root) {
-    extractGatewayFromXML(root);
-    extractDialingDestinationFromXML(root);
+	extractGatewayFromXML(root);
+	extractDialingDestinationFromXML(root);
 }
 
 void XMLCables::extractGatewayFromXML(DOMElement *root) {
-    DOMElement *gatewayNode = getLoneElementByTagName(root, "gateway");
-    
-    if (gatewayNode == 0) {
-        throw XMLSerializationException("No <gateway> element!");
-    }
+	DOMElement *gatewayNode = getLoneElementByTagName(root, "gateway");
 
-    defaultGateway = xts(gatewayNode->getTextContent(), true);
-    Log::debug(LOG_LOCATION("XMLCables", "extractGatewayFromXML"),
-        "Default Gateway: " + defaultGateway);
+	if (gatewayNode == 0) {
+		throw XMLSerializationException("No <gateway> element!");
+	}
+
+	defaultGateway = xts(gatewayNode->getTextContent(), true);
+	Log::debug(LOG_LOCATION("XMLCables", "extractGatewayFromXML"),
+		"Default Gateway: " + defaultGateway);
 }
 
 void XMLCables::extractDialingDestinationFromXML(DOMElement *root) {
-    DOMElement *destinationNode = getLoneElementByTagName(root,
-        "destination");
+	DOMElement *destinationNode = getLoneElementByTagName(root,
+		"destination");
 
-    if (destinationNode == 0) {
-        throw XMLSerializationException("No <destination> element!");
-    }
+	if (destinationNode == 0) {
+		throw XMLSerializationException("No <destination> element!");
+	}
 
-    dialingDestination = xts(destinationNode->getTextContent(), true);
-    Log::debug(LOG_LOCATION("XMLCables", "extractDialingDestinationFromXML"),
-        "Dialing Destination: " + dialingDestination);
+	dialingDestination = xts(destinationNode->getTextContent(), true);
+	Log::debug(LOG_LOCATION("XMLCables",
+		"extractDialingDestinationFromXML"), "Dialing Destination: " +
+			dialingDestination);
 }
 

@@ -40,52 +40,53 @@
 class NamedXMLReadable : public virtual Nameable, public XMLReadable {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor. Use it when you know the name of the
-     * <code>Nameable</code> at construction time.
-     *
-     * @param name Name.
-     */
-    NamedXMLReadable(const std::string name) : Nameable(name), XMLReadable() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor. Use it when you know the name of the
+	 * <code>Nameable</code> at construction time.
+	 *
+	 * @param name Name.
+	 */
+	NamedXMLReadable(const std::string name) :
+			Nameable(name), XMLReadable() {
+		// Nothing to do
+	}
 
-    /**
-     * Constructor. Use it when the name is not known at construction time.
-     * In this case, use the <code>setName</code> method the set the name
-     * later. It is advised to do this only once, <code>Nameable</code>
-     * should be an immutable class.
-     *
-     * @see #setName()
-     */
-    NamedXMLReadable() : Nameable(), XMLReadable() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor. Use it when the name is not known at construction time.
+	 * In this case, use the <code>setName</code> method the set the name
+	 * later. It is advised to do this only once, <code>Nameable</code>
+	 * should be an immutable class.
+	 *
+	 * @see #setName()
+	 */
+	NamedXMLReadable() : Nameable(), XMLReadable() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor. Does nothing interesting.
-     */
-    virtual ~NamedXMLReadable() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor. Does nothing interesting.
+	 */
+	virtual ~NamedXMLReadable() {
+		// Nothing to do
+	}
 
-    /* --- Inherited from XMLReadable --- */
+	/* --- Inherited from XMLReadable --- */
 
-    /**
-     * Loads the name of the object from the <code>&lt;name&gt;</code> tag
-     * that's in it.
-     *
-     * Note that if the tag is present, but empty, the name of this class
-     * will be empty as well.
-     *
-     * @param root Root node. Must contain a <code>name</code> tag right
-     *        below it in the hirarchy.
-     * @throws XMLSerializationException If the tag isn't found under the
-     *         given root.
-     */
-    virtual void fromXML(xercesc::DOMElement *root);
+	/**
+	 * Loads the name of the object from the <code>&lt;name&gt;</code> tag
+	 * that's in it.
+	 *
+	 * Note that if the tag is present, but empty, the name of this class
+	 * will be empty as well.
+	 *
+	 * @param root Root node. Must contain a <code>name</code> tag right
+	 *        below it in the hirarchy.
+	 * @throws XMLSerializationException If the tag isn't found under the
+	 *         given root.
+	 */
+	virtual void fromXML(xercesc::DOMElement *root);
 };
 
 #endif

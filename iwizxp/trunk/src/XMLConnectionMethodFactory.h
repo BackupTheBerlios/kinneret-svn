@@ -37,48 +37,48 @@
 class XMLConnectionMethodFactory {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Destructor.
-     *
-     * Does nothing.
-     */
-    virtual ~XMLConnectionMethodFactory() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 *
+	 * Does nothing.
+	 */
+	virtual ~XMLConnectionMethodFactory() {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * The method creates a <code>ConnectionMethod</code> according to the
-     * given name. After the instantiation, the created
-     * <code>XMLConnectionMethod</code> is de-serialized from the given
-     * element.
-     *
-     * @param name Name of the connection method.
-     * @param element Element to de-serialize the method from.
-     * @return An initialized <code>ConnectionMethod</code> on success, or
-     *         <code>null</code> on failure.
-     */
-    static ConnectionMethod *create(const std::string name,
-            xercesc::DOMElement *element);
+	/**
+	 * The method creates a <code>ConnectionMethod</code> according to the
+	 * given name. After the instantiation, the created
+	 * <code>XMLConnectionMethod</code> is de-serialized from the given
+	 * element.
+	 *
+	 * @param name Name of the connection method.
+	 * @param element Element to de-serialize the method from.
+	 * @return An initialized <code>ConnectionMethod</code> on success, or
+	 *         <code>null</code> on failure.
+	 */
+	static ConnectionMethod *create(const std::string name,
+			xercesc::DOMElement *element);
 
 private:
 
-    /* --- Constants --- */
+	/* --- Constants --- */
 
-    /** Attribute value for cables method */
-    static const std::string CABLES_NAME;
-    
-    /** Attribute value for ADSL method */
-    static const std::string ADSL_NAME;
-    
-    /** Attribute value for ISDN method */
-    static const std::string ISDN_NAME;
-    
-    /** Attribute value for dialup method */
-    static const std::string DIALUP_NAME;
+	/** Attribute value for cables method */
+	static const std::string CABLES_NAME;
+
+	/** Attribute value for ADSL method */
+	static const std::string ADSL_NAME;
+
+	/** Attribute value for ISDN method */
+	static const std::string ISDN_NAME;
+
+	/** Attribute value for dialup method */
+	static const std::string DIALUP_NAME;
 };
 
 #endif

@@ -32,23 +32,23 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 Modem *XMLModemLoader::loadModem(istream &inStream) const {
-    DOMDocument *document;
-    try {
-        document = Utils::DOM::parseDocumentFromStream(inStream);
-        document->normalizeDocument();
-        removeWhitespaceTextNodes(document->getDocumentElement());
-    } catch (const DOMParseException &ex) {
-        throw LoadException("XMLException, see above");
-    }
+	DOMDocument *document;
+	try {
+		document = Utils::DOM::parseDocumentFromStream(inStream);
+		document->normalizeDocument();
+		removeWhitespaceTextNodes(document->getDocumentElement());
+	} catch (const DOMParseException &ex) {
+		throw LoadException("XMLException, see above");
+	}
 
-    try {
-        XMLModem *result = new XMLModem();
-        result->fromXML(document->getDocumentElement());
-        return result;
-    } catch (const XMLReadable::XMLSerializationException &ex) {
-        Log::error(LOG_LOCATION("XMLModemLoader", "loadModem"),
-            "Got XMLSerializationException while creating Isp...");
-        throw LoadException(ex.what());
-    }
+	try {
+		XMLModem *result = new XMLModem();
+		result->fromXML(document->getDocumentElement());
+		return result;
+	} catch (const XMLReadable::XMLSerializationException &ex) {
+		Log::error(LOG_LOCATION("XMLModemLoader", "loadModem"),
+			"Got XMLSerializationException while creating Isp...");
+		throw LoadException(ex.what());
+	}
 }
 

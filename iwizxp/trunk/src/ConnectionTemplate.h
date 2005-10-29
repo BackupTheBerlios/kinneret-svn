@@ -48,169 +48,171 @@
 class ConnectionTemplate : public virtual Nameable {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Empty constructor.
-     */
-    ConnectionTemplate() : Nameable("") {
-        this->finalized = false;
-    }
+	/**
+	 * Empty constructor.
+	 */
+	ConnectionTemplate() : Nameable("") {
+		this->finalized = false;
+	}
 
-    /**
-     * Destructor. Does nothing but printing a pretty log message.
-     */
-    virtual ~ConnectionTemplate() {
-        Log::debug(LOG_LOCATION("ConnectionTemplate", "~ConnectionTemplate"),
-            "Destroying ConnectionTemplate");
-    }
+	/**
+	 * Destructor. Does nothing but printing a pretty log message.
+	 */
+	virtual ~ConnectionTemplate() {
+		Log::debug(LOG_LOCATION("ConnectionTemplate",
+			"~ConnectionTemplate"),
+			"Destroying ConnectionTemplate");
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * TODO: JavaDocs
-     */
-    void loadTemplate(std::istream &inStream) {
-        Log::debug(LOG_LOCATION("ConnectionTemplate", "loadTemplate"),
-            "Loading template...");
-        script = Utils::readStreamAsString(inStream);
-    }
+	/**
+	 * TODO: JavaDocs
+	 */
+	void loadTemplate(std::istream &inStream) {
+		Log::debug(LOG_LOCATION("ConnectionTemplate", "loadTemplate"),
+			"Loading template...");
+		script = Utils::readStreamAsString(inStream);
+	}
 
-    /**
-     * TODO: Review JavaDocs.
-     *
-     * Creates the final script by placing the dialer inside the template.
-     * The method replaces the string <code>{dialer}</code> with the code
-     * from the dialer, which should create the methods <code>connect</code>
-     * and <code>disconnect</code> the template calls.
-     *
-     * @param dialer <code>Dialer</code> to place in the template.
-     */
-    std::string getFinalScript(Dialer *dialer);
+	/**
+	 * TODO: Review JavaDocs.
+	 *
+	 * Creates the final script by placing the dialer inside the template.
+	 * The method replaces the string <code>{dialer}</code> with the code
+	 * from the dialer, which should create the methods <code>connect</code>
+	 * and <code>disconnect</code> the template calls.
+	 *
+	 * @param dialer <code>Dialer</code> to place in the template.
+	 */
+	std::string getFinalScript(Dialer *dialer);
 
-    /**
-     * TODO: JavaDocs
-     */
-    void setDescription(const std::string description) {
-        this->description = description;
-    }
+	/**
+	 * TODO: JavaDocs
+	 */
+	void setDescription(const std::string description) {
+		this->description = description;
+	}
 
-    /**
-     * TODO: JavaDocs
-     */
-    std::string getDescription() const {
-        return description;
-    }
+	/**
+	 * TODO: JavaDocs
+	 */
+	std::string getDescription() const {
+		return description;
+	}
 
 private:
 
-    /* --- Utility Methods --- */
+	/* --- Utility Methods --- */
 
-    /**
-     * Creates the block that should replace the string <code>{dialer}</code>
-     * found in the template.
-     *
-     * This is the core of the <code>ConnectionTemplate</code> - It renders a
-     * <code>Dialer</code> to actual Bash code.
-     *
-     * @param dialer <code>Dialer</code> to create code from.
-     * @return Code to replace <code>{dialer}</code>
-     */
-    std::string prepareDialerCode(Dialer *dialer) const;
-    
-    /**
-     * Creates a text-block with definitions of all the segments that are in
-     * the given vector. A segment is the code of the scripts supplied
-     * (definitions alone, no calls).
-     *
-     * The method adds headers with the description of the
-     * method, if such is presented.
-     *
-     * This method also ensures that the same script won't be defined twice
-     * in a template, using a set of already written scripts. If a script
-     * appears twice (or more) in the final template, a commet is left where
-     * the actual body should have been after the first time the script is
-     * written.
-     *
-     * @param scripts List of scripts to define.
-     * @param alreadyWritten Set of function names of the function that were
-     *        already written to the final script. This is used to prevent
-     *        double definitions of the same method. The set will be modified by
-     *        this method. Every <b>new</b> method that's written to the file
-     *        will be added to the set, so it can be used incrementally with
-     *        perceeding calls to this method.
-     * @return Code containing the definition of all the methods in the list.
-     */
-    std::string prepareScriptsSegment(std::vector<Script*> scripts,
-        std::set<std::string> &alreadyWritten) const;
+	/**
+	 * Creates the block that should replace the string
+	 * <code>{dialer}</code> found in the template.
+	 *
+	 * This is the core of the <code>ConnectionTemplate</code> - It renders
+	 * a <code>Dialer</code> to actual Bash code.
+	 *
+	 * @param dialer <code>Dialer</code> to create code from.
+	 * @return Code to replace <code>{dialer}</code>
+	 */
+	std::string prepareDialerCode(Dialer *dialer) const;
 
-    /**
-     * Creates a code-block with a single method that calls all the scripts
-     * in the list by their order.
-     *
-     * This method is used to create <code>connect</code> and
-     * <code>disconnect</code>.
-     *
-     * @param methodName The name of the method that will call all the
-     *        scripts.
-     * @param description Methods description (will be placed in a comment
-     *        above the method)
-     * @param scripts Ordered list of scripts.
-     * @return Text block with one method named <code>methodName</code> which
-     *         calls the scripts in the vector by their order.
-     */
-    std::string prepareScriptCallingMethod(std::string methodName,
-        std::string description, std::vector<Script*> scripts) const;
+	/**
+	 * Creates a text-block with definitions of all the segments that are in
+	 * the given vector. A segment is the code of the scripts supplied
+	 * (definitions alone, no calls).
+	 *
+	 * The method adds headers with the description of the
+	 * method, if such is presented.
+	 *
+	 * This method also ensures that the same script won't be defined twice
+	 * in a template, using a set of already written scripts. If a script
+	 * appears twice (or more) in the final template, a commet is left where
+	 * the actual body should have been after the first time the script is
+	 * written.
+	 *
+	 * @param scripts List of scripts to define.
+	 * @param alreadyWritten Set of function names of the function that were
+	 *        already written to the final script. This is used to prevent
+	 *        double definitions of the same method. The set will be
+	 *        modified by this method. Every <b>new</b> method that's
+	 *        written to the file will be added to the set, so it can be
+	 *        used incrementally with perceeding calls to this method.
+	 * @return Code containing the definition of all the methods in the
+	 * 	   list.
+	 */
+	std::string prepareScriptsSegment(std::vector<Script*> scripts,
+		std::set<std::string> &alreadyWritten) const;
 
-    /**
-     * This method formats a decription string to be of the format:
-     * <pre>
-     * ##
-     * # description
-     * ##
-     * </pre>
-     * By appending an prepending '##', and replacing every newline with a
-     * commented newline (e.g. '#\n ').
-     *
-     * The method <i>does not</i> align the comments to the 80-chars border.
-     *
-     * @param description A regular description string, with (or without)
-     *        newlines.
-     * @return Formated comment that can be placed above a method (80-chars
-     *         boundry <i>not</i> guarenteed).
-     */
-    std::string formatDescription(std::string description) const;
+	/**
+	 * Creates a code-block with a single method that calls all the scripts
+	 * in the list by their order.
+	 *
+	 * This method is used to create <code>connect</code> and
+	 * <code>disconnect</code>.
+	 *
+	 * @param methodName The name of the method that will call all the
+	 *        scripts.
+	 * @param description Methods description (will be placed in a comment
+	 *        above the method)
+	 * @param scripts Ordered list of scripts.
+	 * @return Text block with one method named <code>methodName</code>
+	 * 	   which calls the scripts in the vector by their order.
+	 */
+	std::string prepareScriptCallingMethod(std::string methodName,
+		std::string description, std::vector<Script*> scripts) const;
 
-    /**
-     * Prepends and appends default dialers to the given scripts.
-     *
-     * The default dialers are a list of scripts that should be ran before
-     * and after the dialer. They are regular dialers, that prepares the
-     * groud for the actual connection code.
-     *
-     * These dialers usually define user variables and sets configuration
-     * such as ppp sercets and DNS.
-     *
-     * @param connectionScripts List of connection scripts. The list will be
-     *        altered to contain the original list between the scripts of the
-     *        default connection pre-dialer, and the scripts of the default
-     *        connection post-dialer.
-     * @param disconnectionScripts List of disconnection scripts. The list
-     *        will be altered as <code>connectionScripts</code>.
-     */
-    void addDefaults(std::vector<Script*> &connectionScripts,
-        std::vector<Script*> &disconnectionScripts) const;
+	/**
+	 * This method formats a decription string to be of the format:
+	 * <pre>
+	 * ##
+	 * # description
+	 * ##
+	 * </pre>
+	 * By appending an prepending '##', and replacing every newline with a
+	 * commented newline (e.g. '#\n ').
+	 *
+	 * The method <i>does not</i> align the comments to the 80-chars border.
+	 *
+	 * @param description A regular description string, with (or without)
+	 *        newlines.
+	 * @return Formated comment that can be placed above a method (80-chars
+	 *         boundry <i>not</i> guarenteed).
+	 */
+	std::string formatDescription(std::string description) const;
 
-    /* --- Data Members --- */
+	/**
+	 * Prepends and appends default dialers to the given scripts.
+	 *
+	 * The default dialers are a list of scripts that should be ran before
+	 * and after the dialer. They are regular dialers, that prepares the
+	 * groud for the actual connection code.
+	 *
+	 * These dialers usually define user variables and sets configuration
+	 * such as ppp sercets and DNS.
+	 *
+	 * @param connectionScripts List of connection scripts. The list will be
+	 *        altered to contain the original list between the scripts of
+	 *        the default connection pre-dialer, and the scripts of the
+	 *        default connection post-dialer.
+	 * @param disconnectionScripts List of disconnection scripts. The list
+	 *        will be altered as <code>connectionScripts</code>.
+	 */
+	void addDefaults(std::vector<Script*> &connectionScripts,
+		std::vector<Script*> &disconnectionScripts) const;
 
-    /** The script */
-    std::string script;
+	/* --- Data Members --- */
 
-    /** Template's description */
-    std::string description;
+	/** The script */
+	std::string script;
 
-    /** Was this script already finalized */
-    bool finalized;
+	/** Template's description */
+	std::string description;
+
+	/** Was this script already finalized */
+	bool finalized;
 };
 
 #endif

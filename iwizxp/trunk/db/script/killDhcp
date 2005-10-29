@@ -5,17 +5,17 @@
 # This method relies on $modemEthernetDevice.
 ##
 killDhcp() {
-    for dhcpClient in $dhcpClients; do
-        # Extract PID of DHCP client for the selected interface
-        clientPid=`$ps | grep $dhcpClient | grep $modemEthernetDevice | \
-            awk '{print $1}'`
-            
-        # And kill it if presented
-        if [ -n $clientPid ]; then
-            echo -n "Killing DHCP client ($dhcpClient) for \
-                $modemEthernetDevice... "
-            kill -KILL $clientPid
-            echo "Done."
-        fi
-    done
+	for dhcpClient in $dhcpClients; do
+		# Extract PID of DHCP client for the selected interface
+		clientPid=`$ps | grep $dhcpClient | grep $modemEthernetDevice | \
+			awk '{print $1}'`
+			
+		# And kill it if presented
+		if [ -n $clientPid ]; then
+			echo -n "Killing DHCP client ($dhcpClient) for \
+				$modemEthernetDevice... "
+			kill -KILL $clientPid
+			echo "Done."
+		fi
+	done
 }

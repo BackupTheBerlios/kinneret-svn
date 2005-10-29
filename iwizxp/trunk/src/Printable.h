@@ -37,42 +37,42 @@
 class Printable {
 public:
 
-    /* --- Construcotrs --- */
-    
-    /**
-     * Default constructor. Does nothing interesting.
-     */
-    Printable() {
-        // Nothing to do
-    }
+	/* --- Construcotrs --- */
 
-    /** 
-     * Destructor. Does nothing interesting.
-     */
-    virtual ~Printable() {
-        // Nothing to do
-    }
+	/**
+	 * Default constructor. Does nothing interesting.
+	 */
+	Printable() {
+		// Nothing to do
+	}
 
-    /* --- Abstract Methods --- */
-    
-    /** 
-     * Abstract method that formates the implementing object to a printable
-     * string.
-     *
-     * @return Printable string.
-     */
-    virtual const std::string toString() const = 0;
+	/** 
+	 * Destructor. Does nothing interesting.
+	 */
+	virtual ~Printable() {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Abstract Methods --- */
 
-    /** 
-     * Implicit conversion.
-     *
-     * @return <code>toString()</code>.
-     */
-    inline operator std::string() const {
-        return toString();
-    }
+	/** 
+	 * Abstract method that formates the implementing object to a printable
+	 * string.
+	 *
+	 * @return Printable string.
+	 */
+	virtual const std::string toString() const = 0;
+
+	/* --- Public Methods --- */
+
+	/** 
+	 * Implicit conversion.
+	 *
+	 * @return <code>toString()</code>.
+	 */
+	inline operator std::string() const {
+		return toString();
+	}
 };
 
 #endif

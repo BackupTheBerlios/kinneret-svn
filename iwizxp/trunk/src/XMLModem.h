@@ -33,80 +33,80 @@
 class XMLModem : public Modem, public NamedXMLReadable {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     *
-     * Does nothing.
-     */
-    XMLModem() : Modem(), NamedXMLReadable() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor.
+	 *
+	 * Does nothing.
+	 */
+	XMLModem() : Modem(), NamedXMLReadable() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor.
-     *
-     * Does nothing.
-     */
-    virtual ~XMLModem() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 *
+	 * Does nothing.
+	 */
+	virtual ~XMLModem() {
+		// Nothing to do
+	}
 
-    /* --- Inherited from XMLReadable --- */
+	/* --- Inherited from XMLReadable --- */
 
-    /**
-     * De-serializes from XML. Loads all the dialers and modules.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void fromXML(xercesc::DOMElement *root);
+	/**
+	 * De-serializes from XML. Loads all the dialers and modules.
+	 *
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void fromXML(xercesc::DOMElement *root);
 
 private:
 
-    /* --- Utility Methods --- */
+	/* --- Utility Methods --- */
 
-    /**
-     * Loads the list of the required modules for the modem. Created a
-     * <code>KernelModule</code> for every entry, and de-serializes from XML
-     * using the item node as the root node of the module.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat or deserialization of the module failed.
-     */
-    void loadModulesFromXML(xercesc::DOMElement *root);
-    
-    /**
-     * Loads the default dialer, and the exceptions, from XML.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void loadDialersFromXML(xercesc::DOMElement *root);
+	/**
+	 * Loads the list of the required modules for the modem. Created a
+	 * <code>KernelModule</code> for every entry, and de-serializes from XML
+	 * using the item node as the root node of the module.
+	 *
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat or deserialization of the module failed.
+	 */
+	void loadModulesFromXML(xercesc::DOMElement *root);
 
-    /**
-     * Extracts the name of the default dialer from the tag, loads the dialer
-     * and sets it as the default dialer for this modem.
-     *
-     * @param dialerNode node of the dialer we wish to load.
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void loadDefaultDialer(xercesc::DOMElement *dialerNode);
-    
-    /**
-     * Fills the exceptions map. Sorts the list, loads the dialers and puts
-     * them in the map.
-     *
-     * @param dialerNode Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void loadExceptions(xercesc::DOMElement *dialerNode);
+	/**
+	 * Loads the default dialer, and the exceptions, from XML.
+	 *
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void loadDialersFromXML(xercesc::DOMElement *root);
+
+	/**
+	 * Extracts the name of the default dialer from the tag, loads the
+	 * dialer and sets it as the default dialer for this modem.
+	 *
+	 * @param dialerNode node of the dialer we wish to load.
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void loadDefaultDialer(xercesc::DOMElement *dialerNode);
+
+	/**
+	 * Fills the exceptions map. Sorts the list, loads the dialers and puts
+	 * them in the map.
+	 *
+	 * @param dialerNode Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void loadExceptions(xercesc::DOMElement *dialerNode);
 };
 
 #endif

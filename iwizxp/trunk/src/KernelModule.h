@@ -47,70 +47,72 @@
 class KernelModule : public virtual Nameable {
 public:
 
-    /* --- Inner Types --- */
+	/* --- Inner Types --- */
 
-    /** 
-     * Enumerates supported kernels.
-     */
-    enum KernelClass {
-        /** Linux 2.4 */
-        LINUX2_4,
+	/** 
+	 * Enumerates supported kernels.
+	 */
+	enum KernelClass {
+		/** Linux 2.4 */
+		LINUX2_4,
 
-        /** Linux 2.6 */
-        LINUX2_6
-    };
+		/** Linux 2.6 */
+		LINUX2_6
+	};
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /** 
-     * Destructor.
-     */
-    virtual ~KernelModule() {
-        // Nothing to do.
-    }
+	/** 
+	 * Destructor.
+	 */
+	virtual ~KernelModule() {
+		// Nothing to do.
+	}
 
-    /* --- Exceptions --- */
+	/* --- Exceptions --- */
 
-    /**
-     * Thrown if this module is unsupported by the selected kernel.
-     */
-    NewException(FeatureNotSupportedException);
+	/**
+	 * Thrown if this module is unsupported by the selected kernel.
+	 */
+	NewException(FeatureNotSupportedException);
 
-    /* --- Getters --- */
+	/* --- Getters --- */
 
-    /** 
-     * Decides what's the name of the modules under the requested kernel
-     * class.
-     * 
-     * @param kernelClass The kernel class we're interested in.
-     * @return The name of the modules that has to be <i>modprobe</i>d with
-     *         the given kernel.
-     * @throws FeatureNotSupportedException When the given kernel class does
-     *         not support this module.
-     */
-    virtual std::string getName(KernelClass kernelClass) const;
+	/** 
+	 * Decides what's the name of the modules under the requested kernel
+	 * class.
+	 * 
+	 * @param kernelClass The kernel class we're interested in.
+	 * @return The name of the modules that has to be <i>modprobe</i>d with
+	 *         the given kernel.
+	 * @throws FeatureNotSupportedException When the given kernel class does
+	 *         not support this module.
+	 */
+	virtual std::string getName(KernelClass kernelClass) const;
 
 protected:
 
-    /* --- Access Methods --- */
+	/* --- Access Methods --- */
 
-    /**
-     * Adds a new name for a specific kernel class.
-     *
-     * @param kernelClass Class
-     * @param name Name of the module in that class (what we'll pass to
-     *             <i>modprobe</i>).
-     */
-    void addName(KernelClass kernelClass, const std::string name) {
-        names[kernelClass] = name;
-    }
+	/**
+	 * Adds a new name for a specific kernel class.
+	 *
+	 * @param kernelClass Class
+	 * @param name Name of the module in that class (what we'll pass to
+	 *             <i>modprobe</i>).
+	 */
+	void addName(KernelClass kernelClass, const std::string name) {
+		names[kernelClass] = name;
+	}
 
 private:
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** Maps between kernel class and the name of the module in that class */
-    std::map<KernelClass, std::string> names;
+	/**
+	 * Maps between kernel class and the name of the module in that class
+	 */
+	std::map<KernelClass, std::string> names;
 };
 
 #endif

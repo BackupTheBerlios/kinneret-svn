@@ -45,108 +45,108 @@
 class Dialer : public virtual Nameable {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * TODO: JavaDocs
-     */
-    Dialer() : Nameable("") {
-        // Left blank
-    }
+	/**
+	 * TODO: JavaDocs
+	 */
+	Dialer() : Nameable("") {
+		// Left blank
+	}
 
-    /**
-     * Constructor, does nothing interesting.
-     *
-     * @param name Dialer's name
-     */
-    Dialer(const std::string name) : Nameable(name) {
-        this->name = name;
+	/**
+	 * Constructor, does nothing interesting.
+	 *
+	 * @param name Dialer's name
+	 */
+	Dialer(const std::string name) : Nameable(name) {
+		this->name = name;
 
-        Log::debug(LOG_LOCATION("Dialer", "Dialer"),
-            "Constructing Dialer");
-    }
+		Log::debug(LOG_LOCATION("Dialer", "Dialer"),
+			"Constructing Dialer");
+	}
 
-    /**
-     * Destructor. Attempts to release all the <code>Script</code>s that this
-     * dialer knows.
-     */
-    virtual ~Dialer() {
-        releaseScripts();
+	/**
+	 * Destructor. Attempts to release all the <code>Script</code>s that
+	 * this dialer knows.
+	 */
+	virtual ~Dialer() {
+		releaseScripts();
 
-        Log::debug(LOG_LOCATION("Dialer", "~Dialer"),
-            "Destroying Dialer");
-    }
+		Log::debug(LOG_LOCATION("Dialer", "~Dialer"),
+			"Destroying Dialer");
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * @return An ordered list of the <code>Script</code>s that has to be
-     *         executed in order to establish a new connection.
-     */
-    virtual const std::vector<Script*> &getConnectionScripts() const {
-        return connectionScripts;
-    }
+	/**
+	 * @return An ordered list of the <code>Script</code>s that has to be
+	 *         executed in order to establish a new connection.
+	 */
+	virtual const std::vector<Script*> &getConnectionScripts() const {
+		return connectionScripts;
+	}
 
-    /**
-     * @return An ordered list of the <code>Script</code>s that has to be
-     *         executed in order to terminate a connection.
-     */
-    virtual const std::vector<Script*> &getDisconnectionScripts() const {
-        return disconnectionScripts;
-    }
+	/**
+	 * @return An ordered list of the <code>Script</code>s that has to be
+	 *         executed in order to terminate a connection.
+	 */
+	virtual const std::vector<Script*> &getDisconnectionScripts() const {
+		return disconnectionScripts;
+	}
 
-    /**
-     * Adds a connection script to the dialer. Scripts are executed by the
-     * order they were added (FIFO).
-     *
-     * @param script Script to add to the dialer.
-     */
-    virtual void addConnectionScript(Script *script) {
-        connectionScripts.push_back(script);
-    }
+	/**
+	 * Adds a connection script to the dialer. Scripts are executed by the
+	 * order they were added (FIFO).
+	 *
+	 * @param script Script to add to the dialer.
+	 */
+	virtual void addConnectionScript(Script *script) {
+		connectionScripts.push_back(script);
+	}
 
-    /**
-     * Adds a disconnection script to the dialer. Scripts are executed by the
-     * order they were added (FIFO).
-     *
-     * @param script Script to add to the dialer.
-     */
-    virtual void addDisconnectionScript(Script *script) {
-        disconnectionScripts.push_back(script);
-    }
-    
+	/**
+	 * Adds a disconnection script to the dialer. Scripts are executed by
+	 * the order they were added (FIFO).
+	 *
+	 * @param script Script to add to the dialer.
+	 */
+	virtual void addDisconnectionScript(Script *script) {
+		disconnectionScripts.push_back(script);
+	}
+
 private:
 
-    /* --- Utility Methods --- */
+	/* --- Utility Methods --- */
 
-    /**
-     * This method releases (<code>delete</code>s) all the scripts that are
-     * held by this dialer.
-     */
-    void releaseScripts();
+	/**
+	 * This method releases (<code>delete</code>s) all the scripts that are
+	 * held by this dialer.
+	 */
+	void releaseScripts();
 
-    /**
-     * This method releases (<code>delete</code>s) all the connection scripts
-     * that are held by this dialer.
-     */
-    void releaseConnectionScripts();
-    
-    /**
-     * This method releases (<code>delete</code>s) all the disconnection
-     * scripts that are held by this dialer.
-     */
-    void releaseDisconnectionScripts();
+	/**
+	 * This method releases (<code>delete</code>s) all the connection
+	 * scripts that are held by this dialer.
+	 */
+	void releaseConnectionScripts();
 
-    /* --- Data Members --- */
+	/**
+	 * This method releases (<code>delete</code>s) all the disconnection
+	 * scripts that are held by this dialer.
+	 */
+	void releaseDisconnectionScripts();
 
-    /** Dialer's name */
-    std::string name;
+	/* --- Data Members --- */
 
-    /** Ordered list of connection scripts */
-    std::vector<Script*> connectionScripts;
+	/** Dialer's name */
+	std::string name;
 
-    /** Ordered list of disconnection scripts */
-    std::vector<Script*> disconnectionScripts;
+	/** Ordered list of connection scripts */
+	std::vector<Script*> connectionScripts;
+
+	/** Ordered list of disconnection scripts */
+	std::vector<Script*> disconnectionScripts;
 };
 
 #endif

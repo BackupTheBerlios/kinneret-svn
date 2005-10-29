@@ -45,195 +45,195 @@
 class GlobalRepository {
 private:
 
-    /* --- Private Constructors --- */
+	/* --- Private Constructors --- */
 
-    /**
-     * Private constrcutor. Creates the loaders and sets up Xerces.
-     */
-    GlobalRepository() {
-        Log::debug(LOG_LOCATION("GlobalRepository", "GlobalRepository"),
-            "Constructing GlobalRepository");
-        setupLoaders();
-        setupXerces();
-    }
+	/**
+	 * Private constrcutor. Creates the loaders and sets up Xerces.
+	 */
+	GlobalRepository() {
+		Log::debug(LOG_LOCATION("GlobalRepository", "GlobalRepository"),
+			"Constructing GlobalRepository");
+		setupLoaders();
+		setupXerces();
+	}
 
-    /**
-     * Destructor, deletes the loaders and releases Xerces.
-     */
-    ~GlobalRepository() {
-        Log::debug(LOG_LOCATION("GlobalRepository", "~GlobalRepository"),
-            "Destroying GlobalRepository");
-        releaseXerces();
-        releaseLoaders();
-    }
+	/**
+	 * Destructor, deletes the loaders and releases Xerces.
+	 */
+	~GlobalRepository() {
+		Log::debug(LOG_LOCATION("GlobalRepository",
+			"~GlobalRepository"), "Destroying GlobalRepository");
+		releaseXerces();
+		releaseLoaders();
+	}
 
 public:
 
-    /* --- Singleton Methods --- */
+	/* --- Singleton Methods --- */
 
-    /**
-     * The singleton access method.
-     *
-     * @return Pointer to the single instance of <code>GlobalRepository</code>
-     *         in the system.
-     */
-    static GlobalRepository *getInstance() {
-        if (instance == 0) {
-            instance = new GlobalRepository();
-        }
-        
-        return instance;
-    }
+	/**
+	 * The singleton access method.
+	 *
+	 * @return Pointer to the single instance of
+	 *         <code>GlobalRepository</code> in the system.
+	 */
+	static GlobalRepository *getInstance() {
+		if (instance == 0) {
+			instance = new GlobalRepository();
+		}
 
-    /**
-     * Releases the instance.
-     */
-    static void release() {
-        if (instance != 0) {
-            delete instance;
-            instance = 0;
-        }
-    }
+		return instance;
+	}
 
-    /* --- Public Methods --- */
+	/**
+	 * Releases the instance.
+	 */
+	static void release() {
+		if (instance != 0) {
+			delete instance;
+			instance = 0;
+		}
+	}
 
-    /**
-     * @return The ISP loader we should use with the current database.
-     */
-    IspLoader *getIspLoader() {
-        return ispLoader;
-    }
+	/* --- Public Methods --- */
 
-    /**
-     * @return The modem loader we should use with the current database.
-     */
-    ModemLoader *getModemLoader() {
-        return modemLoader;
-    }
+	/**
+	 * @return The ISP loader we should use with the current database.
+	 */
+	IspLoader *getIspLoader() {
+		return ispLoader;
+	}
 
-    /**
-     * @return The script loader we shoulde use with the current database.
-     */
-    ScriptLoader *getScriptLoader() {
-        return scriptLoader;
-    }
+	/**
+	 * @return The modem loader we should use with the current database.
+	 */
+	ModemLoader *getModemLoader() {
+		return modemLoader;
+	}
 
-    /**
-     * @return The dialer loader we should use with the current database
-     */
-    DialerLoader *getDialerLoader() {
-        return dialerLoader;
-    }
+	/**
+	 * @return The script loader we shoulde use with the current database.
+	 */
+	ScriptLoader *getScriptLoader() {
+		return scriptLoader;
+	}
 
-    /**
-     * TODO: JavaDocs
-     */
-    ConnectionTemplateLoader *getConnectionTemplateLoader() {
-        return connectionTemplateLoader;
-    }
+	/**
+	 * @return The dialer loader we should use with the current database
+	 */
+	DialerLoader *getDialerLoader() {
+		return dialerLoader;
+	}
 
-    /**
-     * @return The full path to the top directory of the current database.
-     */
-    std::string getDbBasePath() {
-        // TODO: From configuration
-        return "db";
-    }
+	/**
+	 * TODO: JavaDocs
+	 */
+	ConnectionTemplateLoader *getConnectionTemplateLoader() {
+		return connectionTemplateLoader;
+	}
 
-    /**
-     * @return Name of default pre-dialer dialer. The pre-dialer dialer is a
-     *         regular dialer, except that it doesn't connect to anywhere.
-     *         It's simply there to setup defaults in the script (like
-     *         calling the user arguments method and setting up default
-     *         variables).
-     */
-    std::string getDefaultPreDialerName() {
-        // TODO: From configuration
-        return "pre.xml";
-    }
+	/**
+	 * @return The full path to the top directory of the current database.
+	 */
+	std::string getDbBasePath() {
+		// TODO: From configuration
+		return "db";
+	}
 
-    /**
-     * @return Name of default post-dialer dialer. The post-dialer dialer is a
-     *         regular dialer, except that it doesn't disconnect anything.
-     *         It's simply there to undo what's been done in the pre-dialer
-     *         (like restoring /etc/resolv.conf).
-     */
-    std::string getDefaultPostDialerName() {
-        // TODO: From configuration
-        return "post.xml";
-    }
+	/**
+	 * @return Name of default pre-dialer dialer. The pre-dialer dialer is a
+	 *         regular dialer, except that it doesn't connect to anywhere.
+	 *         It's simply there to setup defaults in the script (like
+	 *         calling the user arguments method and setting up default
+	 *         variables).
+	 */
+	std::string getDefaultPreDialerName() {
+		// TODO: From configuration
+		return "pre.xml";
+	}
 
-    /**
-     * @return An initialized and ready to use <code>DOMBuilder</code>.
-     */
-    xercesc::DOMBuilder *getDOMBuilder() {
-        return domBuilder;
-    }
+	/**
+	 * @return Name of default post-dialer dialer. The post-dialer dialer is
+	 *         a regular dialer, except that it doesn't disconnect anything.
+	 *         It's simply there to undo what's been done in the pre-dialer
+	 *         (like restoring /etc/resolv.conf).
+	 */
+	std::string getDefaultPostDialerName() {
+		// TODO: From configuration
+		return "post.xml";
+	}
 
-    /**
-     * @return The global arguments script.
-     * @see ArgumentsScript
-     */
-    ArgumentsScript *getArgumentsScript() {
-        return argumentsScript;
-    }
+	/**
+	 * @return An initialized and ready to use <code>DOMBuilder</code>.
+	 */
+	xercesc::DOMBuilder *getDOMBuilder() {
+		return domBuilder;
+	}
+
+	/**
+	 * @return The global arguments script.
+	 * @see ArgumentsScript
+	 */
+	ArgumentsScript *getArgumentsScript() {
+		return argumentsScript;
+	}
 
 private:
 
-    /* --- Utilities --- */
+	/* --- Utilities --- */
 
-    /**
-     * Instantiates the correct loaders that match the database.
-     */
-    void setupLoaders();
+	/**
+	 * Instantiates the correct loaders that match the database.
+	 */
+	void setupLoaders();
 
-    /**
-     * Releases all the loaders that were instantiated at
-     * <code>setupLoaders</code>
-     *
-     * @see #setupLoaders
-     */
-    void releaseLoaders();
+	/**
+	 * Releases all the loaders that were instantiated at
+	 * <code>setupLoaders</code>
+	 *
+	 * @see #setupLoaders
+	 */
+	void releaseLoaders();
 
-    /**
-     * Initializes Xerces-C and creates the <code>DOMBuilder</code> returned
-     * by <code>getDOMBuilder</code>.
-     *
-     * The <code>DOMBuilder</code> is set to ignore comment elements, and not
-     * present them in the final tree.
-     */
-    void setupXerces();
+	/**
+	 * Initializes Xerces-C and creates the <code>DOMBuilder</code> returned
+	 * by <code>getDOMBuilder</code>.
+	 *
+	 * The <code>DOMBuilder</code> is set to ignore comment elements, and
+	 * not present them in the final tree.
+	 */
+	void setupXerces();
 
-    /**
-     * Releases Xerces-C.
-     */
-    void releaseXerces();
+	/**
+	 * Releases Xerces-C.
+	 */
+	void releaseXerces();
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** Singleton instance */
-    static GlobalRepository *instance;
+	/** Singleton instance */
+	static GlobalRepository *instance;
 
-    /** ISP loader */
-    IspLoader *ispLoader;
+	/** ISP loader */
+	IspLoader *ispLoader;
 
-    /** Modem loader */
-    ModemLoader *modemLoader;
+	/** Modem loader */
+	ModemLoader *modemLoader;
 
-    /** Script loader */
-    ScriptLoader *scriptLoader;
+	/** Script loader */
+	ScriptLoader *scriptLoader;
 
-    /** Dialer Loader */
-    DialerLoader *dialerLoader;
+	/** Dialer Loader */
+	DialerLoader *dialerLoader;
 
-    /** TODO: JavaDocs */
-    ConnectionTemplateLoader *connectionTemplateLoader;
+	/** TODO: JavaDocs */
+	ConnectionTemplateLoader *connectionTemplateLoader;
 
-    /** Xerces' DOM Parser */
-    xercesc::DOMBuilder *domBuilder;
+	/** Xerces' DOM Parser */
+	xercesc::DOMBuilder *domBuilder;
 
-    /** The arguments script of the system */
-    ArgumentsScript *argumentsScript;
+	/** The arguments script of the system */
+	ArgumentsScript *argumentsScript;
 };
 
 #endif

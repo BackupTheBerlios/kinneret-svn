@@ -34,56 +34,57 @@
 class TextUI : public WizardListener {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor. Does nothing interesting.
-     */
-    TextUI() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor. Does nothing interesting.
+	 */
+	TextUI() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor. Does nothing interesting.
-     */
-    virtual ~TextUI() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor. Does nothing interesting.
+	 */
+	virtual ~TextUI() {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * Displayes a nasty string to <code>STDERR</code>.
-     *
-     * @param what The error message, supplied by the wizard.
-     */
-    void fatal(std::string what);
-    
-    /**
-     * Displayes the list of options on the screen and asks the user for one.
-     *
-     * @param what Prompt, diplayed above the list.
-     * @param choises List of choises.
-     * @return Index of the selected option.
-     */
-    int selectFromList(std::string what,
-        std::vector<std::string> choises);
-    
-    /**
-     * Displayes a prompt to the screen and gets a string from the user from
-     * <code>STDIN</code>.
-     *
-     * @param what The prompt
-     * @return String from <code>STDIN</code>.
-     */
-    std::string requestString(std::string what);
-    
-    /**
-     * Prints a message to <code>STDOUT</code>.
-     *
-     * @param what The message
-     */ 
-    void notify(std::string what);
+	/**
+	 * Displayes a nasty string to <code>STDERR</code>.
+	 *
+	 * @param what The error message, supplied by the wizard.
+	 */
+	void fatal(std::string what);
+
+	/**
+	 * Displayes the list of options on the screen and asks the user for
+	 * one.
+	 *
+	 * @param what Prompt, diplayed above the list.
+	 * @param choises List of choises.
+	 * @return Index of the selected option.
+	 */
+	int selectFromList(std::string what,
+			std::vector<std::string> choises);
+
+	/**
+	 * Displayes a prompt to the screen and gets a string from the user from
+	 * <code>STDIN</code>.
+	 *
+	 * @param what The prompt
+	 * @return String from <code>STDIN</code>.
+	 */
+	std::string requestString(std::string what);
+
+	/**
+	 * Prints a message to <code>STDOUT</code>.
+	 *
+	 * @param what The message
+	 */ 
+	void notify(std::string what);
 };
 
 #endif

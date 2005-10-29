@@ -3,15 +3,15 @@
 # sets it in the variable $newGateway.
 ##
 getNewGatewayFromPpp() {
-    echo -n "Fetching new gateway... "
+	echo -n "Fetching new gateway... "
 
-    # TODO: This is not generic enough! Use interface auto-detection?
-    newGateway=`$ifconfig ppp0 | grep "inet addr:" | \
-        cut -d: -f3 | cut -d" " -f1`
+	# TODO: This is not generic enough! Use interface auto-detection?
+	newGateway=`$ifconfig ppp0 | grep "inet addr:" | \
+		cut -d: -f3 | cut -d" " -f1`
 
-    if [ -z $newGateway ]; then
-        errorExit "Could not fetch new gateway."
-    fi
+	if [ -z $newGateway ]; then
+		errorExit "Could not fetch new gateway."
+	fi
 
-    echo "New Gateway is $newGateway."
+	echo "New Gateway is $newGateway."
 }

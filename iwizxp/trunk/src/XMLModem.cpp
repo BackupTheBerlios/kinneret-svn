@@ -31,95 +31,103 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 void XMLModem::fromXML(DOMElement *root) {
-    NamedXMLReadable::fromXML(root);
-    loadModulesFromXML(root);
-    loadDialersFromXML(root);
+	NamedXMLReadable::fromXML(root);
+	loadModulesFromXML(root);
+	loadDialersFromXML(root);
 }
 
 void XMLModem::loadModulesFromXML(DOMElement *root) {
-    DOMElement *modulesNode = getLoneElementByTagName(root, "modules");
+	DOMElement *modulesNode = getLoneElementByTagName(root, "modules");
 
-    if (modulesNode == 0) {
-        throw XMLSerializationException("No <modules> tag found!");
-    }
+	if (modulesNode == 0) {
+		throw XMLSerializationException("No <modules> tag found!");
+	}
 
-    // Get a sorted list of servers
-    vector<DOMElement*> items;
-    elementsArrayFromXML(items, modulesNode, "module");
+	// Get a sorted list of servers
+	vector<DOMElement*> items;
+	elementsArrayFromXML(items, modulesNode, "module");
 
-    for (int i = 0 ; i < items.size() ; i++) {
-        XMLKernelModule *module = new XMLKernelModule();
-        module->fromXML(items[i]);
-        addModule(module);
-    }
+	for (int i = 0 ; i < items.size() ; i++) {
+		XMLKernelModule *module = new XMLKernelModule();
+		module->fromXML(items[i]);
+		addModule(module);
+	}
 }
 
 void XMLModem::loadDialersFromXML(DOMElement *root) {
-    DOMElement *dialerNode = getLoneElementByTagName(root, "dialer");
-    if (dialerNode == 0) {
-        throw XMLSerializationException("No <dialer> element!");
-    }
+	DOMElement *dialerNode = getLoneElementByTagName(root, "dialer");
+	if (dialerNode == 0) {
+		throw XMLSerializationException("No <dialer> element!");
+	}
 
-    loadDefaultDialer(dialerNode);
-    loadExceptions(dialerNode);
+	loadDefaultDialer(dialerNode);
+	loadExceptions(dialerNode);
 }
 
 void XMLModem::loadDefaultDialer(DOMElement *dialerNode) {
-    DOMElement *defaultDialerNode =
-        getLoneElementByTagName(dialerNode, "default");
+	DOMElement *defaultDialerNode =
+		getLoneElementByTagName(dialerNode, "default");
 
-    if (defaultDialerNode == 0) {
-        throw XMLSerializationException("No <default> element!");
-    }
+	if (defaultDialerNode == 0) {
+		throw XMLSerializationException("No <default> element!");
+	}
 
-    string dialerName = xts(defaultDialerNode->getTextContent(), true);
-    if (dialerName.length() == 0) {
-        throw XMLSerializationException("Empty dialer name!");
-    }
+	string dialerName = xts(defaultDialerNode->getTextContent(), true);
+	if (dialerName.length() == 0) {
+		throw XMLSerializationException("Empty dialer name!");
+	}
 
-    try {
-        setDefaultDialer(loadDialerByName(dialerName));
-    } catch (DialerCreationException &ex) {
-        throw XMLSerializationException(string("LoadException: ") + ex.what());
-    }
+	try {
+		setDefaultDialer(loadDialerByName(dialerName));
+	} catch (DialerCreationException &ex) {
+		throw XMLSerializationException(string("LoadException: ") +
+			ex.what());
+	}
 }
 
 void XMLModem::loadExceptions(DOMElement *dialerNode) {
-    DOMElement *exceptionsNode =
-        getLoneElementByTagName(dialerNode, "exceptions");
-    if (exceptionsNode != 0) {
-        vector<DOMElement*> exceptionElements;
-        elementsArrayFromXML(exceptionElements, exceptionsNode, "exception");
+	DOMElement *exceptionsNode =
+		getLoneElementByTagName(dialerNode, "exceptions");
+	if (exceptionsNode != 0) {
+		vector<DOMElement*> exceptionElements;
+		elementsArrayFromXML(exceptionElements, exceptionsNode,
+			"exception");
 
-        for (int i = 0 ; i < exceptionElements.size() ; i++) {
-            if (exceptionElements[i] == 0) {
-                Log::warning(LOG_LOCATION("XMLModem", "loadExceptions"),
-                    "Incorrect item entry, skipping...");
-                continue;
-            }
-            
-            string isp = getAttributeValue(exceptionElements[i], "isp");
-            if (isp.length() == 0) {
-                throw XMLSerializationException("No 'isp' attribute found in"
-                    " exception!");
-            }
+		for (int i = 0 ; i < exceptionElements.size() ; i++) {
+			if (exceptionElements[i] == 0) {
+				Log::warning(LOG_LOCATION("XMLModem",
+					"loadExceptions"),
+					"Incorrect item entry, skipping...");
+				continue;
+			}
 
-            string dialer = xts(exceptionElements[i]->getTextContent(), true);
-            if (dialer.length() == 0) {
-                throw XMLSerializationException("Empty dialer found in "
-                    "exception!");
-            }
+			string isp =
+				getAttributeValue(exceptionElements[i], "isp");
+			
+			if (isp.length() == 0) {
+				throw XMLSerializationException("No 'isp' "
+					"attribute found in exception!");
+			}
 
-            try {
-                addException(isp, loadDialerByName(dialer));
-            } catch (DialerCreationException &ex) {
-                throw XMLSerializationException(string("LoadException: ") +
-                    ex.what());
-            }
-        }
-    } else {
-        Log::debug(LOG_LOCATION("XMLModem", "loadExceptions"),
-            "No exceptions");
-    }
+			string dialer =
+				xts(exceptionElements[i]->getTextContent(),
+					true);
+			
+			if (dialer.length() == 0) {
+				throw XMLSerializationException("Empty dialer "
+					"found in exception!");
+			}
+
+			try {
+				addException(isp, loadDialerByName(dialer));
+			} catch (DialerCreationException &ex) {
+				throw XMLSerializationException(
+					string("LoadException: ") + ex.what());
+			}
+		}
+	} else {
+		Log::debug(LOG_LOCATION("XMLModem", "loadExceptions"),
+			"No exceptions");
+	}
 }
 

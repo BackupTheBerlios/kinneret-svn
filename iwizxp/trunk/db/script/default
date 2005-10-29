@@ -2,29 +2,29 @@
 # Sets default variables
 ##
 setDefaultVariables() {
-    dhcpClients="dhcpcd dhclient pump"
-    pptpClients="pptp pptp-linux"
-    ps="/bin/ps auxwww"
-    route="/sbin/route"
-    netstat="/bin/netstat"
-    ifconfig="/sbin/ifconfig"
-    modprobe="/sbin/modprobe"
-    rmmod="/sbin/rmmod"
+	dhcpClients="dhcpcd dhclient pump"
+	pptpClients="pptp pptp-linux"
+	ps="/bin/ps auxwww"
+	route="/sbin/route"
+	netstat="/bin/netstat"
+	ifconfig="/sbin/ifconfig"
+	modprobe="/sbin/modprobe"
+	rmmod="/sbin/rmmod"
 }
 
 ##
 # Prints an error messages and aborts.
 ##
 errorExit() {
-    echo "ERROR: $1"
-    exit -1
+	echo "ERROR: $1"
+	exit -1
 }
 
 ##
 # This method returns all the available network interfaces.
 ##
 getAllNetworkInterfaces() {
-    $ifconfig -a | grep "^[^[:space:]]" | cut -d" " -f1
+	$ifconfig -a | grep "^[^[:space:]]" | cut -d" " -f1
 }
 
 ##
@@ -34,21 +34,21 @@ getAllNetworkInterfaces() {
 # Relies on $modules2_4 and $modules2_6.
 ##
 setupModules() {
-    kernel="`uname -r | cut -d. -f-2`"
+	kernel="`uname -r | cut -d. -f-2`"
 
-    case "$kernel" in
-        2.4)
-        echo "Found 2.4 kernel"
-        modules="$modules2_4"
-        ;;
+	case "$kernel" in
+	2.4)
+		echo "Found 2.4 kernel"
+		modules="$modules2_4"
+		;;
 
-        2.6)
-        echo "Found 2.6 kernel"
-        modules="$modules2_6"
-        ;;
-        *)
-        errorExit "Unknown kernel $kernel."
-        modules=""
-    esac
+	2.6)
+		echo "Found 2.6 kernel"
+		modules="$modules2_6"
+		;;
+	*)
+		errorExit "Unknown kernel $kernel."
+		modules=""
+	esac
 }
 

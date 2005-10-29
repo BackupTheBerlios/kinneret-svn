@@ -32,33 +32,33 @@
 class XMLConnectionTemplateLoader : public ConnectionTemplateLoader {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     * TODO: JavaDocs
-     */
-    XMLConnectionTemplateLoader() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor.
+	 * TODO: JavaDocs
+	 */
+	XMLConnectionTemplateLoader() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor.
-     * TODO: JavaDocs
-     */
-    virtual ~XMLConnectionTemplateLoader() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 * TODO: JavaDocs
+	 */
+	virtual ~XMLConnectionTemplateLoader() {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * TODO: JavaDocs
-     *
-     * @throws LoadException
-     */
-    virtual ConnectionTemplate *loadConnectionTemplate(std::istream &inStream)
-        const;
+	/**
+	 * TODO: JavaDocs
+	 *
+	 * @throws LoadException
+	 */
+	virtual ConnectionTemplate *loadConnectionTemplate(
+		std::istream &inStream) const;
 };
 
 #endif

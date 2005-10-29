@@ -37,81 +37,82 @@
 class Wizard {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     */
-    Wizard() {
-        listener = 0;
-    }
+	/**
+	 * Constructor.
+	 */
+	Wizard() {
+		listener = 0;
+	}
 
-    /**
-     * Destructor.
-     */
-    virtual ~Wizard() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 */
+	virtual ~Wizard() {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * Starts the wizard. After calling this method, several events will be
-     * fired from the wizard to its listener.
-     *
-     * @return 0 on success, non-zero otherwize.
-     */
-    int go();
+	/**
+	 * Starts the wizard. After calling this method, several events will be
+	 * fired from the wizard to its listener.
+	 *
+	 * @return 0 on success, non-zero otherwize.
+	 */
+	int go();
 
-    /**
-     * Sets the listener to this wizard.
-     *
-     * @param listener The listener
-     */
-    void setListener(WizardListener *listener) {
-        this->listener = listener;
-    }
+	/**
+	 * Sets the listener to this wizard.
+	 *
+	 * @param listener The listener
+	 */
+	void setListener(WizardListener *listener) {
+		this->listener = listener;
+	}
 
 private:
 
-    /* --- Utilities --- */
+	/* --- Utilities --- */
 
-    /**
-     * This method translates the <code>Printable</code>s in the list to
-     * strings, and fires an event to the listener, requesting him to choose
-     * one.
-     *
-     * This is basically a helper method which allows direct selection over
-     * an objects array, rathar than translating to strings and figuring out
-     * which object the user chose.
-     *
-     * @param what The prompt that will be displayed to the user, specifing
-     *        what his selection affects.
-     * @param list List of items to choose from. Container should contain
-     *        <code>Printable</code>s - every non-<code>Printable</code>
-     *        object in it will be displayed to the user as
-     *        <code>"null"</code>.
-     * @return The selected object
-     */
-    template<class T> T selectFromList(std::string what, std::vector<T> list);
+	/**
+	 * This method translates the <code>Printable</code>s in the list to
+	 * strings, and fires an event to the listener, requesting him to choose
+	 * one.
+	 *
+	 * This is basically a helper method which allows direct selection over
+	 * an objects array, rathar than translating to strings and figuring out
+	 * which object the user chose.
+	 *
+	 * @param what The prompt that will be displayed to the user, specifing
+	 *        what his selection affects.
+	 * @param list List of items to choose from. Container should contain
+	 *        <code>Printable</code>s - every non-<code>Printable</code>
+	 *        object in it will be displayed to the user as
+	 *        <code>"null"</code>.
+	 * @return The selected object
+	 */
+	template<class T> T selectFromList(
+		std::string what, std::vector<T> list);
 
-    /**
-     * Safely selects an element from a list. By "safely" we mean that we
-     * can't trust the listener to supply us with a valid index when firing a
-     * <code>selectFromList</code> request. This method makes sure the value
-     * that returned from the listener is valid. If it's not, the user is
-     * notified about his bad selection, and the question is re-asked.
-     *
-     * @param what The prompt
-     * @param list List of choises
-     * @return The index of the selected choise, known to be valid.
-     */
-    int safeSelectFromList(std::string what, std::vector<std::string> list);
+	/**
+	 * Safely selects an element from a list. By "safely" we mean that we
+	 * can't trust the listener to supply us with a valid index when firing
+	 * a <code>selectFromList</code> request. This method makes sure the
+	 * value that returned from the listener is valid. If it's not, the user
+	 * is notified about his bad selection, and the question is re-asked.
+	 *
+	 * @param what The prompt
+	 * @param list List of choises
+	 * @return The index of the selected choise, known to be valid.
+	 */
+	int safeSelectFromList(std::string what, std::vector<std::string> list);
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** The listener that supplies us with all the data we request */
-    WizardListener *listener;
+	/** The listener that supplies us with all the data we request */
+	WizardListener *listener;
 };
 
 #endif

@@ -31,68 +31,73 @@ using namespace std;
 using namespace Utils;
 
 Dialer *Modem::loadDialerByName(string name) {
-    string dialerName =
-        GlobalRepository::getInstance()->getDbBasePath() +
-            "/dialer/" + name + ".xml";
+	string dialerName =
+		GlobalRepository::getInstance()->getDbBasePath() +
+		"/dialer/" + name + ".xml";
 
-    ifstream dialerStream(dialerName.c_str(), ios::in);
+	ifstream dialerStream(dialerName.c_str(), ios::in);
 
-    if (!dialerStream.is_open()) {
-        throw DialerCreationException("Unable to load dialer!");
-    }
+	if (!dialerStream.is_open()) {
+		throw DialerCreationException("Unable to load dialer!");
+	}
 
-    Dialer *dialer = 0;
+	Dialer *dialer = 0;
 
-    try {
-        dialer =
-            GlobalRepository::getInstance()->getDialerLoader()->
-                loadDialer(dialerStream);
-    } catch (DialerLoader::LoadException &ex) {
-        // Close stream an re-throw
-        dialerStream.close();
-        throw DialerCreationException(string("LoadException: ") + ex.what());
-    }
-        
-    dialerStream.close();
+	try {
+		dialer =
+			GlobalRepository::getInstance()->getDialerLoader()->
+			loadDialer(dialerStream);
+	} catch (DialerLoader::LoadException &ex) {
+		// Close stream an re-throw
+		dialerStream.close();
+		throw DialerCreationException(
+			string("LoadException: ") + ex.what());
+	}
 
-    if (dialer != 0) {
-        addDialer(dialer);
-    }
+	dialerStream.close();
 
-    return dialer;
+	if (dialer != 0) {
+		addDialer(dialer);
+	}
+
+	return dialer;
 }
 
 Modem::~Modem() {
-    releaseKernelModules();
-    releaseDialers();
+	releaseKernelModules();
+	releaseDialers();
 }
 
 void Modem::releaseKernelModules() {
-    vector<KernelModule*>::iterator iter;
-    for (iter = modulesVector.begin() ; iter != modulesVector.end() ; iter++) {
-        Log::debug(LOG_LOCATION("Modem", "releaseKernelModules"),
-            string("Releasing ") + (*iter)->toString() + "...");
-        delete (*iter);
-        (*iter) = 0;
-    } 
+	vector<KernelModule*>::iterator iter;
+	for (iter = modulesVector.begin() ; iter != modulesVector.end() ; iter++) {
+		Log::debug(LOG_LOCATION("Modem", "releaseKernelModules"),
+			string("Releasing ") + (*iter)->toString() + "...");
+		delete (*iter);
+		(*iter) = 0;
+	} 
 }
 
 void Modem::releaseDialers() {
-    vector<Dialer*>::iterator iter;
-    for (iter = loadedDialers.begin() ; iter != loadedDialers.end() ; iter++) {
-        Log::debug(LOG_LOCATION("Modem", "releaseDialers"),
-            string("Releasing ") + (*iter)->toString() + "...");
-        delete (*iter);
-        (*iter) = 0;
-    } 
+	vector<Dialer*>::iterator iter;
+	for (iter = loadedDialers.begin() ;
+			iter != loadedDialers.end() ;
+			iter++) {
+		Log::debug(LOG_LOCATION("Modem", "releaseDialers"),
+			string("Releasing ") + (*iter)->toString() + "...");
+		delete (*iter);
+		(*iter) = 0;
+	} 
 }
     
 Dialer *Modem::getDialer(Isp *isp) {
-    map<string, Dialer*>::iterator exception = exceptions.find(isp->getName());
-    if (exception == exceptions.end()) {
-        return defaultDialer;
-    } else {
-        return exception->second;
-    }
+	map<string, Dialer*>::iterator exception =
+		exceptions.find(isp->getName());
+
+	if (exception == exceptions.end()) {
+		return defaultDialer;
+	} else {
+		return exception->second;
+	}
 }
 

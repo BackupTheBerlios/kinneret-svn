@@ -28,65 +28,66 @@ using namespace std;
 using namespace Utils;
 
 Script *BashSyntaxScriptLoader::loadScript(istream &inStream) const {
-    string body = readStreamAsString(inStream);
-    string name = extractNameFromScript(body);
+	string body = readStreamAsString(inStream);
+	string name = extractNameFromScript(body);
 
-    Log::debug(LOG_LOCATION("BashSyntaxScriptLoader", "loadScript"),
-            string("BashSyntaxScriptLoader successfully loaded: ") + name);
+	Log::debug(LOG_LOCATION("BashSyntaxScriptLoader", "loadScript"),
+		string("BashSyntaxScriptLoader successfully loaded: ") + name);
 
-    return new FixedScript(name, body);
+	return new FixedScript(name, body);
 }
 
 string BashSyntaxScriptLoader::extractNameFromScript(const string &body) const {
-    // This will catch the definition line
-    static const string regexString(
-        "^[[:blank:]]*"
-        "[[:alnum:]_]+"
-        "[[:blank:]]*"
-        "\\("
-        "[[:blank:]]*"
-        "\\)"
-        "[[:blank:]]*"
-        "\\{"
-        "[[:blank:]]*"
-    );
+	// This will catch the definition line
+	static const string regexString(
+		"^[[:blank:]]*"
+		"[[:alnum:]_]+"
+		"[[:blank:]]*"
+		"\\("
+		"[[:blank:]]*"
+		"\\)"
+		"[[:blank:]]*"
+		"\\{"
+		"[[:blank:]]*"
+	);
 
-    // Execute regex
-    vector<string> regexResult;
-    try {
-        regexResult = executeRegex(regexString, body, 1);
-    } catch (RegexException &ex) {
-        throw LoadException(string("Regex Exception: ") + ex.what());
-    }
+	// Execute regex
+	vector<string> regexResult;
+	try {
+		regexResult = executeRegex(regexString, body, 1);
+	} catch (RegexException &ex) {
+		throw LoadException(string("Regex Exception: ") + ex.what());
+	}
 
-    if (regexResult.size() == 0) {
-        throw LoadException("Invalid bash syntax, "
-            "could not find definition line.");
-    }
+	if (regexResult.size() == 0) {
+		throw LoadException("Invalid bash syntax, "
+			"could not find definition line.");
+	}
 
-    return extractNameFromDefinitionLine(regexResult[0]);
+	return extractNameFromDefinitionLine(regexResult[0]);
 }
 
 string BashSyntaxScriptLoader::extractNameFromDefinitionLine(const string &body)
-        const {
-    // This will catch the title line
-    static const string regexString("[[:alnum:]_]+");
+		const {
+	// This will catch the title line
+	static const string regexString("[[:alnum:]_]+");
 
-    vector<string> regexResult;
-    try {
-        regexResult = executeRegex(regexString, body, 1);
-    } catch (RegexException &ex) {
-        throw LoadException(string("Regex Exception: ") + ex.what());
-    }
+	vector<string> regexResult;
+	try {
+		regexResult = executeRegex(regexString, body, 1);
+	} catch (RegexException &ex) {
+		throw LoadException(string("Regex Exception: ") + ex.what());
+	}
 
-    if (regexResult.size() == 0) {
-        Log::bug(LOG_LOCATION("BashSyntaxScriptLoader",
-                "extractNameFromDefinitionLine"),
-            "Should have been called from extractNameFromScript, "
-            "which made sure we would find this regex!");
-        
-        throw LoadException("Bug. Please report.");
-    }
+	if (regexResult.size() == 0) {
+		Log::bug(LOG_LOCATION("BashSyntaxScriptLoader",
+			"extractNameFromDefinitionLine"),
+			"Should have been called from extractNameFromScript, "
+			"which made sure we would find this regex!");
 
-    return regexResult[0];
+		throw LoadException("Bug. Please report.");
+	}
+
+	return regexResult[0];
 }
+

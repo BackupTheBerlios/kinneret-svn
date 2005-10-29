@@ -26,50 +26,56 @@
 using namespace std;
 
 void Dialer::releaseScripts() {
-    releaseConnectionScripts();
-    releaseDisconnectionScripts();
+	releaseConnectionScripts();
+	releaseDisconnectionScripts();
 }
 
 void Dialer::releaseConnectionScripts() {
-    Log::debug(LOG_LOCATION("Dialer", "releaseConnectionScripts"),
-        "Releasing connection scripts...");
+	Log::debug(LOG_LOCATION("Dialer", "releaseConnectionScripts"),
+		"Releasing connection scripts...");
 
-    vector<Script*>::iterator iter;
+	vector<Script*>::iterator iter;
 
-    for (iter = connectionScripts.begin() ;
-            iter != connectionScripts.end() ; 
-                iter++) {
-        // Don't release ArgumentsScript - it's a singleton that has to be
-        // released individually AND ONLY ONCE!
-        if (((*iter) != 0) && ((*iter) != GlobalRepository::getInstance()->
-                getArgumentsScript())) {
-            Log::debug(LOG_LOCATION("Dialer", "releaseConnectionScripts"),
-                string("Releasing ") + (*iter)->getFunctionName() + "...");
-            delete (*iter);
-            (*iter) = 0;
-        }
-    }
-    Log::debug(LOG_LOCATION("Dialer", "releaseConnectionScripts"),
-        "Connection scripts released successfully");
+	for (iter = connectionScripts.begin() ;
+			iter != connectionScripts.end() ; 
+			iter++) {
+		// Don't release ArgumentsScript - it's a singleton that has to
+		// be released individually AND ONLY ONCE!
+		if (((*iter) != 0) &&
+		    ((*iter) != GlobalRepository::getInstance()->
+				getArgumentsScript())) {
+
+			Log::debug(LOG_LOCATION("Dialer",
+				"releaseConnectionScripts"),
+					string("Releasing ") +
+					(*iter)->getFunctionName() + "...");
+			delete (*iter);
+			(*iter) = 0;
+		}
+	}
+	Log::debug(LOG_LOCATION("Dialer", "releaseConnectionScripts"),
+		"Connection scripts released successfully");
 }
 
 void Dialer::releaseDisconnectionScripts() {
-    Log::debug(LOG_LOCATION("Dialer", "releaseDisconnectionScripts"),
-        "Releasing disconnection scripts...");
-    
-    vector<Script*>::iterator iter;
+	Log::debug(LOG_LOCATION("Dialer", "releaseDisconnectionScripts"),
+		"Releasing disconnection scripts...");
 
-    for (iter = disconnectionScripts.begin() ;
-            iter != disconnectionScripts.end() ; 
-                iter++) {
-        if ((*iter) != 0) {
-            Log::debug(LOG_LOCATION("Dialer", "releaseDisconnectionScripts"),
-                string("Releasing ") + (*iter)->getFunctionName() + "...");
-            delete (*iter);
-            (*iter) = 0;
-        }
-    }
-    Log::debug(LOG_LOCATION("Dialer", "releaseDisconnectionScripts"),
-        "Disconnection scripts released successfully");
+	vector<Script*>::iterator iter;
+
+	for (iter = disconnectionScripts.begin() ;
+			iter != disconnectionScripts.end() ; 
+			iter++) {
+		if ((*iter) != 0) {
+			Log::debug(LOG_LOCATION("Dialer",
+				"releaseDisconnectionScripts"),
+					string("Releasing ") +
+					(*iter)->getFunctionName() + "...");
+			delete (*iter);
+			(*iter) = 0;
+		}
+	}
+	Log::debug(LOG_LOCATION("Dialer", "releaseDisconnectionScripts"),
+		"Disconnection scripts released successfully");
 }
 

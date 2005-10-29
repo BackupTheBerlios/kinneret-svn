@@ -50,76 +50,77 @@
 class Isp : public virtual Nameable {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Constructor. Creates an unnamed ISP.
-     * This constructor is presented for the use of classes that does not
-     * know the name of the ISP at construction time, but will know it later.
-     *
-     * @see #setName
-     */
-    Isp() : Nameable() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor. Creates an unnamed ISP.
+	 * This constructor is presented for the use of classes that does not
+	 * know the name of the ISP at construction time, but will know it
+	 * later.
+	 *
+	 * @see #setName
+	 */
+	Isp() : Nameable() {
+		// Nothing to do
+	}
 
-    /** 
-     * Constructor. Creates a named ISP.
-     *
-     * @param name ISP's name.
-     */
-    Isp(const std::string name) : Nameable(name) {
-        // Nothing to do
-    }
-    
-    /** 
-     * Destructor.
-     */
-    virtual ~Isp();
+	/** 
+	 * Constructor. Creates a named ISP.
+	 *
+	 * @param name ISP's name.
+	 */
+	Isp(const std::string name) : Nameable(name) {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/** 
+	 * Destructor.
+	 */
+	virtual ~Isp();
 
-    /** 
-     * Adds a DNS server to the list of the ISP's DNS servers.
-     *
-     * @param dnsServer IP address of the server.
-     */
-    void addDnsServer(IpAddress dnsServer) {
-        dnsServers.push_back(dnsServer);
-    }
+	/* --- Public Methods --- */
 
-    /**
-     * Adds a connection method that's supported by this ISP.
-     *
-     * @param method Pointer to a supported method.
-     */
-    void addConnectionMethod(ConnectionMethod *method) {
-        methods.push_back(method);
-    }
-    
-    /** 
-     * @return DNS servers.
-     */
-    const std::vector<IpAddress> &getDnsServers() const {
-        return dnsServers;
-    }
+	/** 
+	 * Adds a DNS server to the list of the ISP's DNS servers.
+	 *
+	 * @param dnsServer IP address of the server.
+	 */
+	void addDnsServer(IpAddress dnsServer) {
+		dnsServers.push_back(dnsServer);
+	}
 
-    /** 
-     * @return Supported connection methods.
-     */
-    const std::vector<ConnectionMethod*> &getConnectionMethods() const {
-        return methods;
-    }
+	/**
+	 * Adds a connection method that's supported by this ISP.
+	 *
+	 * @param method Pointer to a supported method.
+	 */
+	void addConnectionMethod(ConnectionMethod *method) {
+		methods.push_back(method);
+	}
+
+	/** 
+	 * @return DNS servers.
+	 */
+	const std::vector<IpAddress> &getDnsServers() const {
+		return dnsServers;
+	}
+
+	/** 
+	 * @return Supported connection methods.
+	 */
+	const std::vector<ConnectionMethod*> &getConnectionMethods() const {
+		return methods;
+	}
 
 private:
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** Ordered list of DNS servers */
-    std::vector<IpAddress> dnsServers;
-    
-    /** List of supported connection methods */
-    std::vector<ConnectionMethod*> methods;
+	/** Ordered list of DNS servers */
+	std::vector<IpAddress> dnsServers;
+
+	/** List of supported connection methods */
+	std::vector<ConnectionMethod*> methods;
 };
 
 #endif

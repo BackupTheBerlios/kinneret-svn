@@ -36,43 +36,44 @@
 class DialerLoader {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor, does nothing.
-     */
-    DialerLoader() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor, does nothing.
+	 */
+	DialerLoader() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor, does nothing.
-     */
-    virtual ~DialerLoader() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor, does nothing.
+	 */
+	virtual ~DialerLoader() {
+		// Nothing to do
+	}
 
-    /* --- Inner Types --- */
+	/* --- Inner Types --- */
 
-    /**
-     * Thrown when load fails.
-     */
-    NewException(LoadException);
+	/**
+	 * Thrown when load fails.
+	 */
+	NewException(LoadException);
 
-    /* --- Abstract Methods --- */
+	/* --- Abstract Methods --- */
 
-    /**
-     * This method allocates and initializes a new dialer from a given stream.
-     *
-     * @param inStream Stream to read dialer info from. Format determined by
-     *        the implementing loader.
-     * @return A new and allocated dialer. The dialer is allocated using
-     *         <code>new</code> and it's up to the caller to
-     *         <code>delete</code> it.
-     * @throws LoadException When a new dialer cannot be created from the
-     *         given stream.
-     */
-    virtual Dialer *loadDialer(std::istream &inStream) const = 0;
+	/**
+	 * This method allocates and initializes a new dialer from a given
+	 * stream.
+	 *
+	 * @param inStream Stream to read dialer info from. Format determined by
+	 *        the implementing loader.
+	 * @return A new and allocated dialer. The dialer is allocated using
+	 *         <code>new</code> and it's up to the caller to
+	 *         <code>delete</code> it.
+	 * @throws LoadException When a new dialer cannot be created from the
+	 *         given stream.
+	 */
+	virtual Dialer *loadDialer(std::istream &inStream) const = 0;
 };
 
 #endif

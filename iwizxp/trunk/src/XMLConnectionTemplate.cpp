@@ -34,42 +34,42 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 void XMLConnectionTemplate::fromXML(DOMElement *root) {
-    // Name
-    NamedXMLReadable::fromXML(root);
+	// Name
+	NamedXMLReadable::fromXML(root);
 
-    // Description
-    // TODO: Refactor extract method
-    vector<DOMElement*> elements;
-    getElementsByTagName(elements, root, "description");
-    if (elements.size() <= 0) {
-        Log::warning(LOG_LOCATION("XMLConnectionTemplate", "fromXML"),
-            "No description tag found!");
-        setDescription("No description");
-    } else {
-        setDescription(xts(elements[0]->getTextContent(), true));
-    }
-    
-    // File
-    // TODO: Refactor extract method
-    elements.clear();
-    getElementsByTagName(elements, root, "file");
-    if (elements.size() <= 0) {
-        throw XMLSerializationException("No <file> tag found!");
-    }
-    
-    // TODO: Don't hard-code it in.
-    string templateFile = GlobalRepository::getInstance()->getDbBasePath() +
-        string("/template/") +
-        xts(elements[0]->getTextContent(), true).asString();
+	// Description
+	// TODO: Refactor extract method
+	vector<DOMElement*> elements;
+	getElementsByTagName(elements, root, "description");
+	if (elements.size() <= 0) {
+		Log::warning(LOG_LOCATION("XMLConnectionTemplate", "fromXML"),
+			"No description tag found!");
+		setDescription("No description");
+	} else {
+		setDescription(xts(elements[0]->getTextContent(), true));
+	}
 
-    ifstream scriptStream(templateFile.c_str(), ios::in);
+	// File
+	// TODO: Refactor extract method
+	elements.clear();
+	getElementsByTagName(elements, root, "file");
+	if (elements.size() <= 0) {
+		throw XMLSerializationException("No <file> tag found!");
+	}
 
-    if (!scriptStream.is_open()) {
-        throw XMLSerializationException("Unable to open " + templateFile +
-            " for reading!");
-    }
+	// TODO: Don't hard-code it in.
+	string templateFile = GlobalRepository::getInstance()->getDbBasePath() +
+		string("/template/") +
+		xts(elements[0]->getTextContent(), true).asString();
 
-    loadTemplate(scriptStream);
+	ifstream scriptStream(templateFile.c_str(), ios::in);
 
-    scriptStream.close();
+	if (!scriptStream.is_open()) {
+		throw XMLSerializationException("Unable to open " +
+			templateFile + " for reading!");
+	}
+
+	loadTemplate(scriptStream);
+
+	scriptStream.close();
 }

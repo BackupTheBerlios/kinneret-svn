@@ -4,6 +4,6 @@
 # created by it.
 ##
 attemptIfAutodetection() {
-    # Get all the interfaces available, and store them in a variable.
-    ifAutodetectionBefore=`getAllNetworkInterfaces`
+	# Get all the interfaces available, and store them in a variable.
+	ifAutodetectionBefore=`getAllNetworkInterfaces`
 }

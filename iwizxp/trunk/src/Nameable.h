@@ -42,67 +42,67 @@
 class Nameable : public Printable {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Default contrcutor. Used by someone who wishes to set the name after
-     * construction.
-     */
-    Nameable() : Printable() {
-        // Empty constructor
-    }
+	/**
+	 * Default contrcutor. Used by someone who wishes to set the name after
+	 * construction.
+	 */
+	Nameable() : Printable() {
+		// Empty constructor
+	}
 
-    /**
-     * Constructor. Does nothinf interesting.
-     * 
-     * @param name The name of this <code>Nameable</code>.
-     */
-    Nameable(const std::string name) : Printable () {
-        this->name = name;
-    }
+	/**
+	 * Constructor. Does nothinf interesting.
+	 * 
+	 * @param name The name of this <code>Nameable</code>.
+	 */
+	Nameable(const std::string name) : Printable () {
+		this->name = name;
+	}
 
-    /**
-     * Destructor. Does nothing interesting.
-     */
-    virtual ~Nameable() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor. Does nothing interesting.
+	 */
+	virtual ~Nameable() {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * @return Name of this <code>Nameable</code>.
-     */
-    virtual std::string getName() const {
-        return name;
-    }
+	/**
+	 * @return Name of this <code>Nameable</code>.
+	 */
+	virtual std::string getName() const {
+		return name;
+	}
 
-    /* --- Inherited from Printable --- */
+	/* --- Inherited from Printable --- */
 
-    /**
-     * @return Name of this <code>Nameble</code>.
-     */
-    virtual const std::string toString() const {
-        return getName();
-    }
+	/**
+	 * @return Name of this <code>Nameble</code>.
+	 */
+	virtual const std::string toString() const {
+		return getName();
+	}
 
 protected:
 
-    /* --- Protected Methods --- */
+	/* --- Protected Methods --- */
 
-    /**
-     * @param name New name.
-     */
-    void setName(std::string name) {
-        this->name = name;
-    }
+	/**
+	 * @param name New name.
+	 */
+	void setName(std::string name) {
+		this->name = name;
+	}
 
 private:
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** Our Name */
-    std::string name;
+	/** Our Name */
+	std::string name;
 };
 
 #endif

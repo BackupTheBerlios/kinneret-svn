@@ -37,34 +37,34 @@
 class XMLReadable {
 public:
 
-    /* --- Exceptions --- */
+	/* --- Exceptions --- */
 
-    /**
-     * Serialization exception occures when the given DOM tree cannot be used
-     * as a tree for the creation of this object.
-     */
-    NewException(XMLSerializationException);
+	/**
+	 * Serialization exception occures when the given DOM tree cannot be
+	 * used as a tree for the creation of this object.
+	 */
+	NewException(XMLSerializationException);
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Destructor.
-     */
-    virtual ~XMLReadable() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 */
+	virtual ~XMLReadable() {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * Initializes the object from a DOM tree.
-     *
-     * @param root Element inside a docuement that is the root of a tree that
-     *        can be used to build this object.
-     * @throws XMLSerializationException Thrown when the given root element
-     *        cannot be used to initialize this object.
-     */
-    virtual void fromXML(xercesc::DOMElement *root) = 0;
+	/**
+	 * Initializes the object from a DOM tree.
+	 *
+	 * @param root Element inside a docuement that is the root of a tree
+	 *        that can be used to build this object.
+	 * @throws XMLSerializationException Thrown when the given root element
+	 *        cannot be used to initialize this object.
+	 */
+	virtual void fromXML(xercesc::DOMElement *root) = 0;
 };
 
 #endif

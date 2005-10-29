@@ -31,23 +31,23 @@ const string XMLConnectionMethodFactory::ISDN_NAME   = "ISDN";
 const string XMLConnectionMethodFactory::DIALUP_NAME = "Dialup";
 
 ConnectionMethod *XMLConnectionMethodFactory::create(const std::string name,
-        xercesc::DOMElement *element) {
-    XMLConnectionMethod *result = 0;
+		xercesc::DOMElement *element) {
+	XMLConnectionMethod *result = 0;
 
-    if (name == CABLES_NAME) {
-        result = new XMLCables();
-    } /* else if (name == ADSL_NAME) {
-         result = new XMLAdsl();
-    } ... */
+	if (name == CABLES_NAME) {
+		result = new XMLCables();
+	} /* else if (name == ADSL_NAME) {
+	     result = new XMLAdsl();
+	} ... */
 
-    if (result != 0) {
-        result->fromXML(element);
-    } else {
-        // TODO: Throw something?
-        Log::debug(LOG_LOCATION("XMLConnectionMethodFactory", "create"),
-            string("Unknown connection method: ") + name);
-    }
+	if (result != 0) {
+		result->fromXML(element);
+	} else {
+		// TODO: Throw something?
+		Log::debug(LOG_LOCATION("XMLConnectionMethodFactory", "create"),
+			string("Unknown connection method: ") + name);
+	}
 
-    return result;
+	return result;
 }
 

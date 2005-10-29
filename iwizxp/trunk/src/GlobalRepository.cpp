@@ -42,51 +42,52 @@ using namespace xercesc;
 GlobalRepository *GlobalRepository::instance = 0;
 
 void GlobalRepository::setupLoaders() {
-    ispLoader = new XMLIspLoader();
-    modemLoader = new XMLModemLoader();
-    scriptLoader = new BashSyntaxScriptLoader();
-    dialerLoader = new XMLDialerLoader();
-    connectionTemplateLoader = new XMLConnectionTemplateLoader();
-    argumentsScript = new ArgumentsScript();
+	ispLoader = new XMLIspLoader();
+	modemLoader = new XMLModemLoader();
+	scriptLoader = new BashSyntaxScriptLoader();
+	dialerLoader = new XMLDialerLoader();
+	connectionTemplateLoader = new XMLConnectionTemplateLoader();
+	argumentsScript = new ArgumentsScript();
 }
 
 void GlobalRepository::releaseLoaders() {
-    delete argumentsScript;
-    delete connectionTemplateLoader;
-    delete dialerLoader;
-    delete scriptLoader;
-    delete modemLoader;
-    delete ispLoader;
+	delete argumentsScript;
+	delete connectionTemplateLoader;
+	delete dialerLoader;
+	delete scriptLoader;
+	delete modemLoader;
+	delete ispLoader;
 }
 
 void GlobalRepository::setupXerces() {
-    // Initialize Xerces
-    try {
-        XMLPlatformUtils::Initialize();
-    } catch (const XMLException &ex) {
-        Utils::DOM::xmlExceptionOccured(ex);
-        // TODO: Something smart
-    }
+	// Initialize Xerces
+	try {
+		XMLPlatformUtils::Initialize();
+	} catch (const XMLException &ex) {
+		Utils::DOM::xmlExceptionOccured(ex);
+		// TODO: Something smart
+	}
 
-    // LS
-    static const XMLCh ls[] = { chLatin_L, chLatin_S, chNull };
-    DOMImplementationLS *domImplementation =
-        dynamic_cast<DOMImplementationLS*>
-            (DOMImplementationRegistry::getDOMImplementation(ls));
+	// LS
+	static const XMLCh ls[] = { chLatin_L, chLatin_S, chNull };
+	DOMImplementationLS *domImplementation =
+		dynamic_cast<DOMImplementationLS*>
+		(DOMImplementationRegistry::getDOMImplementation(ls));
 
-    if (domImplementation == 0) {
-        // TODO: Somethind smart
-    }
+	if (domImplementation == 0) {
+		// TODO: Somethind smart
+	}
 
-    domBuilder = domImplementation->createDOMBuilder(
-        DOMImplementationLS::MODE_SYNCHRONOUS, 0);
+	domBuilder = domImplementation->createDOMBuilder(
+		DOMImplementationLS::MODE_SYNCHRONOUS, 0);
 
-    domBuilder->setFeature(Utils::xts("comments"), false);
-    domBuilder->setFeature(Utils::xts("whitespace-in-element-content"), false);
+	domBuilder->setFeature(Utils::xts("comments"), false);
+	domBuilder->setFeature(Utils::xts("whitespace-in-element-content"),
+		false);
 }
 
 void GlobalRepository::releaseXerces() {
-    domBuilder->release();
-    XMLPlatformUtils::Terminate();
+	domBuilder->release();
+	XMLPlatformUtils::Terminate();
 }
 

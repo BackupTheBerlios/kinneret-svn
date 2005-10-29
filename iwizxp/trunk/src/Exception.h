@@ -34,14 +34,14 @@
 #define NewException(name) \
 class name : public Exception { \
 public: \
-    name(const std::string &what) throw () : Exception(what) { \
-    } \
+	name(const std::string &what) throw () : Exception(what) { \
+	} \
 \
-    name() throw () : Exception() { \
-    } \
+	name() throw () : Exception() { \
+	} \
 \
-    virtual ~name() throw () { \
-    } \
+	virtual ~name() throw () { \
+	} \
 };
 
 /**
@@ -52,46 +52,46 @@ public: \
 class Exception : public std::exception {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Constructor. Sets the reason for this exception.
-     *
-     * @param what The reason for the exception.
-     */
-    Exception(const std::string &what) throw () : exception() {
-        reason = what;
-    }
+	/**
+	 * Constructor. Sets the reason for this exception.
+	 *
+	 * @param what The reason for the exception.
+	 */
+	Exception(const std::string &what) throw () : exception() {
+		reason = what;
+	}
 
-    /**
-     * Empty constructor. Constructs an excpetion with an unknown reason.
-     */
-    Exception() throw () : exception() {
-        reason = std::string("Unknown reason");
-    }
+	/**
+	 * Empty constructor. Constructs an excpetion with an unknown reason.
+	 */
+	Exception() throw () : exception() {
+		reason = std::string("Unknown reason");
+	}
 
-    /**
-     * Destructor, does nothing.
-     */
-    virtual ~Exception() throw () {
-        // Nothing to do
-    }
+	/**
+	 * Destructor, does nothing.
+	 */
+	virtual ~Exception() throw () {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * @return Reson for the exception
-     */
-    virtual const char *what() const throw() {
-        return reason.c_str();
-    }
+	/**
+	 * @return Reson for the exception
+	 */
+	virtual const char *what() const throw() {
+		return reason.c_str();
+	}
 
 private:
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** The reason this exception was thrown */
-    std::string reason;
+	/** The reason this exception was thrown */
+	std::string reason;
 };
 
 // Some useful exceptions

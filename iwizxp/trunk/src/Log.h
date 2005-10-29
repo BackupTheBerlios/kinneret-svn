@@ -38,160 +38,160 @@
 class Log {
 public:
 
-    /* --- Inner Types --- */
-    
-    /**
-     * Supported Log levels
-     */
-    enum LogLevel {
-        ALL, DEBUG, INFO, WARNING,
-        ERROR, FATAL, BUG, NONE
-    };
+	/* --- Inner Types --- */
 
-    /**
-     * TODO: JavaDocs
-     */
-    struct LogLocation {
-    public:
+	/**
+	 * Supported Log levels
+	 */
+	enum LogLevel {
+		ALL, DEBUG, INFO, WARNING,
+		ERROR, FATAL, BUG, NONE
+	};
 
-        LogLocation(std::string loggingClass,
-                    std::string loggingMethod,
-                    std::string loggingFile,
-                    int loggingLine) {
-            this->loggingClass = loggingClass;
-            this->loggingMethod = loggingMethod;
-            this->loggingFile = loggingFile;
-            this->loggingLine = loggingLine;
-        }
-        
-        std::string loggingClass;
-        std::string loggingMethod;
-        std::string loggingFile;
-        int loggingLine;
-    };
+	/**
+	 * TODO: JavaDocs
+	 */
+	struct LogLocation {
+	public:
 
-    /* --- Public Static Methods --- */
+		LogLocation(std::string loggingClass,
+				std::string loggingMethod,
+				std::string loggingFile,
+				int loggingLine) {
+			this->loggingClass = loggingClass;
+			this->loggingMethod = loggingMethod;
+			this->loggingFile = loggingFile;
+			this->loggingLine = loggingLine;
+		}
 
-    /**
-     * Initializes the logger with a specifi log level.
-     *
-     * @param level Log level to initilize logger with.
-     */
-    static void create(LogLevel level);
+		std::string loggingClass;
+		std::string loggingMethod;
+		std::string loggingFile;
+		int loggingLine;
+	};
 
-    /**
-     * Releases the logger;
-     */
-    static void release();
+	/* --- Public Static Methods --- */
 
-    /**
-     * Logs a message at the bug level.
-     *
-     * @param msg Message.
-     */
-    static void bug(LogLocation location, const std::string &msg);
+	/**
+	 * Initializes the logger with a specifi log level.
+	 *
+	 * @param level Log level to initilize logger with.
+	 */
+	static void create(LogLevel level);
 
-    /**
-     * Logs a message at the fatal level.
-     *
-     * @param msg Message.
-     */
-    static void fatal(LogLocation location, const std::string &msg);
+	/**
+	 * Releases the logger;
+	 */
+	static void release();
 
-    /**
-     * Logs a message at the error level.
-     *
-     * @param msg Message.
-     */
-    static void error(LogLocation location, const std::string &msg);
+	/**
+	 * Logs a message at the bug level.
+	 *
+	 * @param msg Message.
+	 */
+	static void bug(LogLocation location, const std::string &msg);
 
-    /**
-     * Logs a message at the warning level.
-     *
-     * @param msg Message.
-     */
-    static void warning(LogLocation location, const std::string &msg);
+	/**
+	 * Logs a message at the fatal level.
+	 *
+	 * @param msg Message.
+	 */
+	static void fatal(LogLocation location, const std::string &msg);
 
-    /**
-     * Logs a message at the info level.
-     *
-     * @param msg Message.
-     */
-    static void info(LogLocation location, const std::string &msg);
+	/**
+	 * Logs a message at the error level.
+	 *
+	 * @param msg Message.
+	 */
+	static void error(LogLocation location, const std::string &msg);
 
-    /**
-     * Logs a message at the debug level.
-     *
-     * @param msg Message.
-     */
-    static void debug(LogLocation location, const std::string &msg);
+	/**
+	 * Logs a message at the warning level.
+	 *
+	 * @param msg Message.
+	 */
+	static void warning(LogLocation location, const std::string &msg);
 
-    /**
-     * Translate the string to log level.
-     *
-     * @param level String representation of a log-level. String is case
-     *        insensitive and must be one of:
-     *        <ul>
-     *        <li>none</li>
-     *        <li>bug</li>
-     *        <li>fatal</li>
-     *        <li>error</li>
-     *        <li>warning</li>
-     *        <li>info</li>
-     *        <li>debug</li>
-     *        <li>all</li>
-     *        </ul>
-     * @return Log-level corresponding the given string.
-     * @throws FormatException When the given string is unknown
-     */
-    static LogLevel levelFromString(std::string level);
+	/**
+	 * Logs a message at the info level.
+	 *
+	 * @param msg Message.
+	 */
+	static void info(LogLocation location, const std::string &msg);
 
-    /* --- Exceptions --- */
+	/**
+	 * Logs a message at the debug level.
+	 *
+	 * @param msg Message.
+	 */
+	static void debug(LogLocation location, const std::string &msg);
 
-    /**
-     * Thrown when the string given to <code>levelFromString</code> is
-     * unknown.
-     */
-    NewException(FormatException);
+	/**
+	 * Translate the string to log level.
+	 *
+	 * @param level String representation of a log-level. String is case
+	 *        insensitive and must be one of:
+	 *        <ul>
+	 *        <li>none</li>
+	 *        <li>bug</li>
+	 *        <li>fatal</li>
+	 *        <li>error</li>
+	 *        <li>warning</li>
+	 *        <li>info</li>
+	 *        <li>debug</li>
+	 *        <li>all</li>
+	 *        </ul>
+	 * @return Log-level corresponding the given string.
+	 * @throws FormatException When the given string is unknown
+	 */
+	static LogLevel levelFromString(std::string level);
+
+	/* --- Exceptions --- */
+
+	/**
+	 * Thrown when the string given to <code>levelFromString</code> is
+	 * unknown.
+	 */
+	NewException(FormatException);
 
 private:
 
-    /**
-     * Fills the map of log-levels.
-     */
-    static void initLogLevels();
+	/**
+	 * Fills the map of log-levels.
+	 */
+	static void initLogLevels();
 
-    /* --- Private Methods --- */
+	/* --- Private Methods --- */
 
-    /**
-     * Logs <code>msg</code> with a specific log level.
-     *
-     * @param level Log level this message is logged at
-     * @param msg Messages
-     */
-    void log(LogLocation location, LogLevel level, const std::string &msg);
+	/**
+	 * Logs <code>msg</code> with a specific log level.
+	 *
+	 * @param level Log level this message is logged at
+	 * @param msg Messages
+	 */
+	void log(LogLocation location, LogLevel level, const std::string &msg);
 
-    /* --- Singleton --- */
+	/* --- Singleton --- */
 
-    /**
-     * Private constructor.
-     *
-     * @param level Log level this logger is at
-     */
-    Log(LogLevel level);
+	/**
+	 * Private constructor.
+	 *
+	 * @param level Log level this logger is at
+	 */
+	Log(LogLevel level);
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** Current log level */
-    LogLevel logLevel;
+	/** Current log level */
+	LogLevel logLevel;
 
-    /** Maps between log levels and their names */
-    static std::map<LogLevel, std::string> levelNames;
+	/** Maps between log levels and their names */
+	static std::map<LogLevel, std::string> levelNames;
 
-    /* --- Singeton instance --- */
+	/* --- Singeton instance --- */
 
-    /** Thie singleton instance */
-    static Log *instance;
+	/** Thie singleton instance */
+	static Log *instance;
 };
 
 #endif

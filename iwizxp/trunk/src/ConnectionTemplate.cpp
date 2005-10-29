@@ -27,160 +27,165 @@
 using namespace std;
 
 string ConnectionTemplate::getFinalScript(Dialer *dialer) {
-    if (finalized == false) {
-        string dialerCode = prepareDialerCode(dialer);
+	if (finalized == false) {
+		string dialerCode = prepareDialerCode(dialer);
 
-        string insertLocationString("{dialer}");
-        string::size_type insertLocation = script.find(insertLocationString);
-        script.replace(insertLocation, insertLocationString.length(),
-            dialerCode);
-        finalized = true;
-    }
+		string insertLocationString("{dialer}");
+		
+		string::size_type insertLocation =
+			script.find(insertLocationString);
 
-    return script;
+		script.replace(insertLocation,
+			insertLocationString.length(), dialerCode);
+
+		finalized = true;
+	}
+
+	return script;
 }
 
 string ConnectionTemplate::prepareDialerCode(Dialer *dialer) const {
-    // All the scripts, including the default pre- and post- scripts.
-    vector<Script*> allConnectionScripts = dialer->getConnectionScripts();
-    vector<Script*> allDisconnectionScripts = dialer->getDisconnectionScripts();
+	// All the scripts, including the default pre- and post- scripts.
+	vector<Script*> allConnectionScripts = dialer->getConnectionScripts();
+	vector<Script*> allDisconnectionScripts =
+		dialer->getDisconnectionScripts();
 
-    // Add default dialers settings
-    addDefaults(allConnectionScripts, allDisconnectionScripts);
+	// Add default dialers settings
+	addDefaults(allConnectionScripts, allDisconnectionScripts);
 
-    // Set to prevent doubles
-    set<string> alreadyWritten;
+	// Set to prevent doubles
+	set<string> alreadyWritten;
 
-    // Method definitions
-    string connectionMethods = prepareScriptsSegment(allConnectionScripts,
-        alreadyWritten);
+	// Method definitions
+	string connectionMethods = prepareScriptsSegment(allConnectionScripts,
+		alreadyWritten);
 
-    string disconnectionMethods = prepareScriptsSegment(allDisconnectionScripts,
-        alreadyWritten);
+	string disconnectionMethods =
+		prepareScriptsSegment(allDisconnectionScripts, alreadyWritten);
 
-    // Calling methods
-    string connectMethod = prepareScriptCallingMethod("connect",
-        "This method calls the methods above in the correct order.\n"
-        "Call this method when you wish to create a new connection.",
-        allConnectionScripts);
+	// Calling methods
+	string connectMethod = prepareScriptCallingMethod("connect",
+		"This method calls the methods above in the correct order.\n"
+		"Call this method when you wish to create a new connection.",
+		allConnectionScripts);
 
-    string disconnectMethod = prepareScriptCallingMethod("disconnect",
-        "This method calls the methods above in the correct order.\n"
-        "Call this method when you wish to eliminate a current connection.",
-        allDisconnectionScripts);
+	string disconnectMethod = prepareScriptCallingMethod("disconnect",
+		"This method calls the methods above in the correct order.\n"
+		"Call this method when you wish to eliminate a current "
+		"connection.", allDisconnectionScripts);
 
-    ostringstream result;
+	ostringstream result;
 
-    // Result
-    result <<
-        "# --- Connection Methods --- #" << endl << endl <<
-        connectionMethods << endl << endl <<
-        "# --- Disconnection Methods --- #" << endl << endl <<
-        disconnectionMethods << endl << endl <<
-        "# --- Connect --- #" << endl << endl <<
-        connectMethod << endl << endl <<
-        "# --- Disconnect --- #" << endl << endl <<
-        disconnectMethod << endl;
+	// Result
+	result <<
+		"# --- Connection Methods --- #" << endl << endl <<
+		connectionMethods << endl << endl <<
+		"# --- Disconnection Methods --- #" << endl << endl <<
+		disconnectionMethods << endl << endl <<
+		"# --- Connect --- #" << endl << endl <<
+		connectMethod << endl << endl <<
+		"# --- Disconnect --- #" << endl << endl <<
+		disconnectMethod << endl;
 
-    return result.str();
+	return result.str();
 }
 
 string ConnectionTemplate::prepareScriptsSegment(vector<Script*> scripts,
-        set<string> &alreadyWritten) const {
-    ostringstream result;
+		set<string> &alreadyWritten) const {
+	ostringstream result;
 
-    vector<Script*>::iterator iter;
-    for (iter = scripts.begin() ; iter != scripts.end() ; iter++) {
-        // Write the body only of it wasn't written before
-        if (alreadyWritten.find((*iter)->getFunctionName()) ==
-                alreadyWritten.end()) {
+	vector<Script*>::iterator iter;
+	for (iter = scripts.begin() ; iter != scripts.end() ; iter++) {
+		// Write the body only of it wasn't written before
+		if (alreadyWritten.find((*iter)->getFunctionName()) ==
+				alreadyWritten.end()) {
 
-            // Add it to the set
-            alreadyWritten.insert((*iter)->getFunctionName());
+			// Add it to the set
+			alreadyWritten.insert((*iter)->getFunctionName());
 
-            // If there is a description, add it as a header
-            string desc = (*iter)->getScriptDescription();
-            if (desc.length() > 0) {
-                result << formatDescription(desc) << endl;
-            }
+			// If there is a description, add it as a header
+			string desc = (*iter)->getScriptDescription();
+			if (desc.length() > 0) {
+				result << formatDescription(desc) << endl;
+			}
 
-            // Write script body
-            result << (*iter)->getScriptBody() << endl;
-        } else {
-            // The method already defined. Leave a comment that we've notcied
-            // that.
-            result << "# " << (*iter)->getFunctionName() <<
-                " already found in script." << endl << endl;
-        }
-    }
+			// Write script body
+			result << (*iter)->getScriptBody() << endl;
+		} else {
+			// The method already defined. Leave a comment that
+			// we've notcied that.
+			result << "# " << (*iter)->getFunctionName() <<
+				" already found in script." << endl << endl;
+		}
+	}
 
-    return result.str();
+	return result.str();
 }
 
 string ConnectionTemplate::prepareScriptCallingMethod(string methodName,
-        string description, vector<Script*> scripts) const {
-    ostringstream result;
+		string description, vector<Script*> scripts) const {
+	ostringstream result;
 
-    // Add description
-    if (description.length() > 0) {
-        result << formatDescription(description) << endl;
-    }
-    
-    // Method decleration
-    result << methodName << "() {" << endl;
+	// Add description
+	if (description.length() > 0) {
+		result << formatDescription(description) << endl;
+	}
 
-    // Methods body
-    vector<Script*>::iterator iter;
-    for (iter = scripts.begin() ; iter != scripts.end() ; iter++) {
-        result << '\t' << (*iter)->getFunctionName() << endl;
-    }
+	// Method decleration
+	result << methodName << "() {" << endl;
 
-    // Close
-    result << "}" << endl;
+	// Methods body
+	vector<Script*>::iterator iter;
+	for (iter = scripts.begin() ; iter != scripts.end() ; iter++) {
+		result << '\t' << (*iter)->getFunctionName() << endl;
+	}
 
-    return result.str();
+	// Close
+	result << "}" << endl;
+
+	return result.str();
 }
 
 string ConnectionTemplate::formatDescription(string description) const {
-    ostringstream result;
-    
-    // Replace newlines with commented newlines
-    string::size_type newline = description.find('\n');
-    while (newline != string::npos) {
-        description.replace(newline, 1, "\n# ");
-        newline = description.find('\n', newline + 1);
-    }
+	ostringstream result;
 
-    // Write header
-    result <<
-        "##" << endl <<
-        "# " << description << endl <<
-        "##";
+	// Replace newlines with commented newlines
+	string::size_type newline = description.find('\n');
+	while (newline != string::npos) {
+		description.replace(newline, 1, "\n# ");
+		newline = description.find('\n', newline + 1);
+	}
 
-    return result.str();
+	// Write header
+	result <<
+		"##" << endl <<
+		"# " << description << endl <<
+		"##";
+
+	return result.str();
 }
 
 void ConnectionTemplate::addDefaults(vector<Script*> &connectionScripts,
-        vector<Script*> &disconnectionScripts) const {
-    Dialer *preDialer = Database::getInstance()->getDefaultPreDialer();
-    Dialer *postDialer = Database::getInstance()->getDefaultPostDialer();
+		vector<Script*> &disconnectionScripts) const {
+	Dialer *preDialer = Database::getInstance()->getDefaultPreDialer();
+	Dialer *postDialer = Database::getInstance()->getDefaultPostDialer();
 
-    // Prepend
-    connectionScripts.insert(connectionScripts.begin(),
-        preDialer->getConnectionScripts().begin(),
-        preDialer->getConnectionScripts().end());
+	// Prepend
+	connectionScripts.insert(connectionScripts.begin(),
+		preDialer->getConnectionScripts().begin(),
+		preDialer->getConnectionScripts().end());
 
-    disconnectionScripts.insert(disconnectionScripts.begin(),
-        preDialer->getDisconnectionScripts().begin(),
-        preDialer->getDisconnectionScripts().end());
+	disconnectionScripts.insert(disconnectionScripts.begin(),
+		preDialer->getDisconnectionScripts().begin(),
+		preDialer->getDisconnectionScripts().end());
 
-    // Append
-    connectionScripts.insert(connectionScripts.end(),
-        postDialer->getConnectionScripts().begin(),
-        postDialer->getConnectionScripts().end());
+	// Append
+	connectionScripts.insert(connectionScripts.end(),
+		postDialer->getConnectionScripts().begin(),
+		postDialer->getConnectionScripts().end());
 
-    disconnectionScripts.insert(disconnectionScripts.end(),
-        postDialer->getDisconnectionScripts().begin(),
-        postDialer->getDisconnectionScripts().end());
+	disconnectionScripts.insert(disconnectionScripts.end(),
+		postDialer->getDisconnectionScripts().begin(),
+		postDialer->getDisconnectionScripts().end());
 }
 

@@ -1,106 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <isp>
-    <name>013 Barak</name>
+	<name>013 Barak</name>
 
-    <!-- DNS Servers -->
-    <dns count="2">
-        <server item="1">212.150.48.169</server>
-        <server item="2">206.49.94.234</server>
-    </dns>
+	<!-- DNS Servers -->
+	<dns count="2">
+		<server item="1">212.150.48.169</server>
+		<server item="2">206.49.94.234</server>
+	</dns>
 
-    <!-- Connection Methods -->
-    <methods count="3">
-        <method item="1" type="Cables">
-            <gateway>pns.barak.net.il</gateway>
-            <destination>pns.barak.net.il</destination>
-        </method>
-        <method item="2" type="ISDN">
-            <servers count="10">
-                <server item="1">
-                    <location>Jerusalem</location>
-                    <number>02-6775111</number>
-                </server>
-                <server item="2">
-                    <location>Jerusalem</location>
-                    <number>02-5310666</number>
-                </server>
-                <server item="3">
-                    <location>Rosh HaAyin</location>
-                    <number>03-9281111</number>
-                </server>
-                <server item="4">
-                    <location>Tel-Aviv</location>
-                    <number>03-6909111</number>
-                </server>
-                <server item="5">
-                    <location>Haifa</location>
-                    <number>04-8816111</number>
-                </server>
-                <server item="6">
-                    <location>Hadera</location>
-                    <number>04-6348222</number>
-                </server>
-                <server item="7">
-                    <location>Kfar Sava</location>
-                    <number>09-7643111</number>
-                </server>
-                <server item="8">
-                    <location>Nataniya</location>
-                    <number>09-8600000</number>
-                </server>
-                <server item="9">
-                    <location>Be'er Sheva</location>
-                    <number>08-6201888</number>
-                </server>
-                <server item="10">
-                    <location>Yavne</location>
-                    <number>08-9429429</number>
-                </server>
-            </servers>
-        </method>
-        <method item="3" type="Dialup">
-            <servers count="10">
-                <server item="1">
-                    <location>Jerusalem</location>
-                    <number>02-6775111</number>
-                </server>
-                <server item="2">
-                    <location>Jerusalem</location>
-                    <number>02-5310666</number>
-                </server>
-                <server item="3">
-                    <location>Rosh HaAyin</location>
-                    <number>03-9281111</number>
-                </server>
-                <server item="4">
-                    <location>Tel-Aviv</location>
-                    <number>03-6909111</number>
-                </server>
-                <server item="5">
-                    <location>Haifa</location>
-                    <number>04-8816111</number>
-                </server>
-                <server item="6">
-                    <location>Hadera</location>
-                    <number>04-6348222</number>
-                </server>
-                <server item="7">
-                    <location>Kfar Sava</location>
-                    <number>09-7643111</number>
-                </server>
-                <server item="8">
-                    <location>Nataniya</location>
-                    <number>09-8600000</number>
-                </server>
-                <server item="9">
-                    <location>Be'er Sheva</location>
-                    <number>08-6201888</number>
-                </server>
-                <server item="10">
-                    <location>Yavne</location>
-                    <number>08-9429429</number>
-                </server>
-            </servers>
-        </method>
-    </methods>
+	<!-- Connection Methods -->
+	<methods count="3">
+		<method item="1" type="Cables">
+			<gateway>pns.barak.net.il</gateway>
+			<destination>pns.barak.net.il</destination>
+		</method>
+		<method item="2" type="ISDN">
+			<servers count="10">
+				<server item="1">
+					<location>Jerusalem</location>
+					<number>02-6775111</number>
+				</server>
+				<server item="2">
+					<location>Jerusalem</location>
+					<number>02-5310666</number>
+				</server>
+				<server item="3">
+					<location>Rosh HaAyin</location>
+					<number>03-9281111</number>
+				</server>
+				<server item="4">
+					<location>Tel-Aviv</location>
+					<number>03-6909111</number>
+				</server>
+				<server item="5">
+					<location>Haifa</location>
+					<number>04-8816111</number>
+				</server>
+				<server item="6">
+					<location>Hadera</location>
+					<number>04-6348222</number>
+				</server>
+				<server item="7">
+					<location>Kfar Sava</location>
+					<number>09-7643111</number>
+				</server>
+				<server item="8">
+					<location>Nataniya</location>
+					<number>09-8600000</number>
+				</server>
+				<server item="9">
+					<location>Be'er Sheva</location>
+					<number>08-6201888</number>
+				</server>
+				<server item="10">
+					<location>Yavne</location>
+					<number>08-9429429</number>
+				</server>
+			</servers>
+		</method>
+		<method item="3" type="Dialup">
+			<servers count="10">
+				<server item="1">
+					<location>Jerusalem</location>
+					<number>02-6775111</number>
+				</server>
+				<server item="2">
+					<location>Jerusalem</location>
+					<number>02-5310666</number>
+				</server>
+				<server item="3">
+					<location>Rosh HaAyin</location>
+					<number>03-9281111</number>
+				</server>
+				<server item="4">
+					<location>Tel-Aviv</location>
+					<number>03-6909111</number>
+				</server>
+				<server item="5">
+					<location>Haifa</location>
+					<number>04-8816111</number>
+				</server>
+				<server item="6">
+					<location>Hadera</location>
+					<number>04-6348222</number>
+				</server>
+				<server item="7">
+					<location>Kfar Sava</location>
+					<number>09-7643111</number>
+				</server>
+				<server item="8">
+					<location>Nataniya</location>
+					<number>09-8600000</number>
+				</server>
+				<server item="9">
+					<location>Be'er Sheva</location>
+					<number>08-6201888</number>
+				</server>
+				<server item="10">
+					<location>Yavne</location>
+					<number>08-9429429</number>
+				</server>
+			</servers>
+		</method>
+	</methods>
 </isp>

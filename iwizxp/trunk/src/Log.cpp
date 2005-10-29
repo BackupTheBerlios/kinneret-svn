@@ -37,95 +37,95 @@ map<Log::LogLevel, string> Log::levelNames;
 
 #define REGISTER_LOG_LEVEL(m, level) m[level] = #level
 void Log::initLogLevels() {
-    REGISTER_LOG_LEVEL(levelNames, ALL);
-    REGISTER_LOG_LEVEL(levelNames, DEBUG);
-    REGISTER_LOG_LEVEL(levelNames, INFO);
-    REGISTER_LOG_LEVEL(levelNames, WARNING);
-    REGISTER_LOG_LEVEL(levelNames, ERROR);
-    REGISTER_LOG_LEVEL(levelNames, FATAL);
-    REGISTER_LOG_LEVEL(levelNames, BUG);
-    REGISTER_LOG_LEVEL(levelNames, NONE);
+	REGISTER_LOG_LEVEL(levelNames, ALL);
+	REGISTER_LOG_LEVEL(levelNames, DEBUG);
+	REGISTER_LOG_LEVEL(levelNames, INFO);
+	REGISTER_LOG_LEVEL(levelNames, WARNING);
+	REGISTER_LOG_LEVEL(levelNames, ERROR);
+	REGISTER_LOG_LEVEL(levelNames, FATAL);
+	REGISTER_LOG_LEVEL(levelNames, BUG);
+	REGISTER_LOG_LEVEL(levelNames, NONE);
 }
 
 Log::Log(LogLevel level) {
-    logLevel = level;
+	logLevel = level;
 
-    if (levelNames.size() == 0) {
-        initLogLevels();
-    }
+	if (levelNames.size() == 0) {
+		initLogLevels();
+	}
 }
 
 void Log::create(LogLevel level) {
-    instance = new Log(level);
+	instance = new Log(level);
 }
 
 void Log::release() {
-    delete instance;
+	delete instance;
 }
 
 void Log::log(LogLocation location, LogLevel level, const std::string &msg) {
-    if (level >= logLevel) {
-        // 2001-01-01 00:00:00 > Class::Method(File:Line) Level > Message
+	// 2001-01-01 00:00:00 > Class::Method(File:Line) Level > Message
+	if (level >= logLevel) {
+		// Timestamp
+		time_t now = time(0);
+		char timestamp[255];
+		strftime(timestamp, 255, "%F %T", localtime(&now));
 
-        // Timestamp
-        time_t now = time(0);
-        char timestamp[255];
-        strftime(timestamp, 255, "%F %T", localtime(&now));
+		// Caller
 
-        // Caller
-    
-        // Log
-        cerr << 
-            timestamp << 
-            " > " <<
-            location.loggingClass << "::" << location.loggingMethod << "(" <<
-            location.loggingFile << ":" << location.loggingLine << ") " <<
-            levelNames[level] <<
-            " > "
-            << msg << endl;
-    }
+		// Log
+		cerr << 
+		timestamp << " > " <<
+		location.loggingClass << "::" <<
+		location.loggingMethod << "(" <<
+		location.loggingFile << ":" <<
+		location.loggingLine << ") " <<
+		levelNames[level] <<
+		" > "
+		<< msg << endl;
+	}
 }
 
 void Log::bug(LogLocation location, const std::string &msg) {
-    instance->log(location, BUG, msg);
+	instance->log(location, BUG, msg);
 }
 
 void Log::fatal(LogLocation location, const std::string &msg) {
-    instance->log(location, FATAL, msg);
+	instance->log(location, FATAL, msg);
 }
 
 void Log::error(LogLocation location, const std::string &msg) {
-    instance->log(location, ERROR, msg);
+	instance->log(location, ERROR, msg);
 }
 
 void Log::warning(LogLocation location, const std::string &msg) {
-    instance->log(location, WARNING, msg);
+	instance->log(location, WARNING, msg);
 }
 
 void Log::info(LogLocation location, const std::string &msg) {
-    instance->log(location, INFO, msg);
+	instance->log(location, INFO, msg);
 }
 
 void Log::debug(LogLocation location, const std::string &msg) {
-    instance->log(location, DEBUG, msg);
+	instance->log(location, DEBUG, msg);
 }
     
 Log::LogLevel Log::levelFromString(string level) {
-    if (levelNames.size() == 0) {
-        initLogLevels();
-    }
+	if (levelNames.size() == 0) {
+		initLogLevels();
+	}
 
-    // Transform string to uppercase
-    transform(level.begin(), level.end(), level.begin(),
-        Utils::safeStl<toupper>);
+	// Transform string to uppercase
+	transform(level.begin(), level.end(), level.begin(),
+		Utils::safeStl<toupper>);
 
-    map<LogLevel, string>::iterator iter;
-    for (iter = levelNames.begin() ; iter != levelNames.end() ; iter++) {
-        if (iter->second == level) {
-            return iter->first;
-        }
-    }
+	map<LogLevel, string>::iterator iter;
+	for (iter = levelNames.begin() ; iter != levelNames.end() ; iter++) {
+		if (iter->second == level) {
+			return iter->first;
+		}
+	}
 
-    throw FormatException(level + " is an unknown log level");
+	throw FormatException(level + " is an unknown log level");
 }
 

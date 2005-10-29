@@ -34,39 +34,39 @@
 class IpAddress : public Printable {
 public:
 
-    /* --- Construcotrs --- */
+	/* --- Construcotrs --- */
 
-    /**
-     * Constructor.
-     *
-     * @param ipAddress IP address (e.g. "xxx.yyy.zzz.www")
-     */
-    IpAddress(std::string ipAddress) : Printable() {
-        this->ipAddress = ipAddress;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param ipAddress IP address (e.g. "xxx.yyy.zzz.www")
+	 */
+	IpAddress(std::string ipAddress) : Printable() {
+		this->ipAddress = ipAddress;
+	}
 
-    /** 
-     * Destructor.
-     */
-    virtual ~IpAddress() {
-        // Nothing to do
-    }
+	/** 
+	 * Destructor.
+	 */
+	virtual ~IpAddress() {
+		// Nothing to do
+	}
 
-    /* --- Inherited from Printable --- */
+	/* --- Inherited from Printable --- */
 
-    /** 
-     * @return The string representation of this IP address.
-     */
-    virtual const std::string toString() const {
-        return ipAddress;
-    }
+	/** 
+	 * @return The string representation of this IP address.
+	 */
+	virtual const std::string toString() const {
+		return ipAddress;
+	}
 
 private:
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** IP address */
-    std::string ipAddress;
+	/** IP address */
+	std::string ipAddress;
 };
 
 #endif

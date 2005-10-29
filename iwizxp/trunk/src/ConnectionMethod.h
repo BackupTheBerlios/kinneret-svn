@@ -46,59 +46,60 @@
 class ConnectionMethod : public Printable {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Constructor. Does nothing but printing a pretty log message.
-     */
-    ConnectionMethod() {
-        Log::debug(LOG_LOCATION("ConnectionMethod", "ConnectionMethod"),
-            "Constructing ConnectionMethod");
-    }
+	/**
+	 * Constructor. Does nothing but printing a pretty log message.
+	 */
+	ConnectionMethod() {
+		Log::debug(LOG_LOCATION("ConnectionMethod", "ConnectionMethod"),
+			"Constructing ConnectionMethod");
+	}
 
-    /** 
-     * Destructor. Does nothing but printing a pretty log message.
-     */
-    virtual ~ConnectionMethod() {
-        Log::debug(LOG_LOCATION("ConnectionMethod", "~ConnectionMethod"),
-            "Destroying ConnectionMethod");
-    }
+	/** 
+	 * Destructor. Does nothing but printing a pretty log message.
+	 */
+	virtual ~ConnectionMethod() {
+		Log::debug(LOG_LOCATION("ConnectionMethod",
+			"~ConnectionMethod"), "Destroying ConnectionMethod");
+	}
 
-    /* --- Abstract Methods --- */
+	/* --- Abstract Methods --- */
 
-    /** 
-     * Does this connected method requires that we'll set a default gateway?
-     *
-     * The default gateway is the address we should use as the routing
-     * destination for the new connection. If this method says we should, it
-     * means the default gateway is obtained during the process of
-     * connection, and that it is dynamic.
-     *
-     * @return <code>true</code>, if we should, <code>false</code> otherwise.
-     */
-    virtual bool hasDefaultGateway() const = 0;
-    
-    /** 
-     * The default gateway is the host we should route through when
-     * interacting with the internet.
-     *
-     * @return The default gateway. An IP address, or a resolvable URI.
-     */
-    virtual std::string getDefaultGateway() const = 0;
+	/** 
+	 * Does this connected method requires that we'll set a default gateway?
+	 *
+	 * The default gateway is the address we should use as the routing
+	 * destination for the new connection. If this method says we should, it
+	 * means the default gateway is obtained during the process of
+	 * connection, and that it is dynamic.
+	 *
+	 * @return <code>true</code>, if we should, <code>false</code>
+	 *         otherwise.
+	 */
+	virtual bool hasDefaultGateway() const = 0;
 
-    /**
-     * The dialing destination holds information regarding where to "call"
-     * in order to establish a connectin. It might be a phone number we're
-     * calling to, or an IP address of the ISP's PPtP server.
-     *
-     * TODO: This is why something is wrong. the dialing destination might
-     * come from the ISP, of from the modem (like the alcatel speed touch
-     * home). Mybe add hasDialingDestination() ?
-     * 
-     * @return The dialing destination. Whether a phone number, or a PPtP
-     *         host etc.
-     */
-    virtual std::string getDialingDestination() const = 0;
+	/** 
+	 * The default gateway is the host we should route through when
+	 * interacting with the internet.
+	 *
+	 * @return The default gateway. An IP address, or a resolvable URI.
+	 */
+	virtual std::string getDefaultGateway() const = 0;
+
+	/**
+	 * The dialing destination holds information regarding where to "call"
+	 * in order to establish a connectin. It might be a phone number we're
+	 * calling to, or an IP address of the ISP's PPtP server.
+	 *
+	 * TODO: This is why something is wrong. the dialing destination might
+	 * come from the ISP, of from the modem (like the alcatel speed touch
+	 * home). Mybe add hasDialingDestination() ?
+	 * 
+	 * @return The dialing destination. Whether a phone number, or a PPtP
+	 *         host etc.
+	 */
+	virtual std::string getDialingDestination() const = 0;
 };
 
 #endif

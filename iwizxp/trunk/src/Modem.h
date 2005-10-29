@@ -49,153 +49,153 @@
 class Modem : public virtual Nameable {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Defult constructor. Creates an unnamed dialer. This constructor is
-     * used by subclasses that doesn't know the name of the modem at
-     * construction time.
-     *
-     * @see #setName
-     */
-    Modem() : Nameable() {
-        // Nothing to do
-    }
+	/**
+	 * Defult constructor. Creates an unnamed dialer. This constructor is
+	 * used by subclasses that doesn't know the name of the modem at
+	 * construction time.
+	 *
+	 * @see #setName
+	 */
+	Modem() : Nameable() {
+		// Nothing to do
+	}
 
-    /**
-     * Constructor.
-     *
-     * @param name Modem's name.
-     */
-    Modem(const std::string name) : Nameable(name) {
-        // Nothing to do
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param name Modem's name.
+	 */
+	Modem(const std::string name) : Nameable(name) {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor. Releases all allocated modules.
-     */
-    virtual ~Modem();
+	/**
+	 * Destructor. Releases all allocated modules.
+	 */
+	virtual ~Modem();
 
-    /* --- Inner Types --- */
+	/* --- Inner Types --- */
 
-    /**
-     * Thrown when the modem could not determent which dialer to use.
-     */
-    NewException(DialerCreationException);
+	/**
+	 * Thrown when the modem could not determent which dialer to use.
+	 */
+	NewException(DialerCreationException);
 
-    /* --- Abstract Methods --- */
+	/* --- Abstract Methods --- */
 
-    /**
-     * Determents which dialer to use with the given configuration.
-     *
-     * @param isp Selected ISP. Dialers my change due to the selected ISP
-     *        (e.g. ADSL PPtP connection to Bezeq\@int is different than any
-     *        other ISP).
-     * @return The appropriate dialer. The dialer is allocated using
-     *         <code>new</code> and it's up to the user to
-     *         <code>delete</code> it.
-     * @throws DialerCreationException When the desiered dialer could not have
-     *        been created.
-     */
-    virtual Dialer *getDialer(Isp *isp);
+	/**
+	 * Determents which dialer to use with the given configuration.
+	 *
+	 * @param isp Selected ISP. Dialers my change due to the selected ISP
+	 *        (e.g. ADSL PPtP connection to Bezeq\@int is different than any
+	 *        other ISP).
+	 * @return The appropriate dialer. The dialer is allocated using
+	 *         <code>new</code> and it's up to the user to
+	 *         <code>delete</code> it.
+	 * @throws DialerCreationException When the desiered dialer could not
+	 *         have been created.
+	 */
+	virtual Dialer *getDialer(Isp *isp);
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * @return List of modules that has to be probed.
-     */
-    virtual const std::vector<KernelModule*> &getKernelModules() const {
-        return modulesVector;
-    }
+	/**
+	 * @return List of modules that has to be probed.
+	 */
+	virtual const std::vector<KernelModule*> &getKernelModules() const {
+		return modulesVector;
+	}
 
 protected:
 
-    /* --- Protected Methods --- */
+	/* --- Protected Methods --- */
 
-    /**
-     * Helper method for adding required modules.
-     *
-     * @param module Required module. Note that this module should be
-     *        allocated using <code>new</code> and will be released by this
-     *        class.
-     *
-     * TODO: This is bad design, we might release something that was added
-     * from the stack, e.g.:
-     * <pre>
-     * SomeFunkyModule module;
-     * modem->addModule(&module);
-     * </pre>.
-     *
-     * Making the user pass <code>new SomeFunkyModule()</code> is bad since
-     * we can't enforce it.
-     */
-    void addModule(KernelModule *module) {
-        modulesVector.push_back(module);
-    }
+	/**
+	 * Helper method for adding required modules.
+	 *
+	 * @param module Required module. Note that this module should be
+	 *        allocated using <code>new</code> and will be released by this
+	 *        class.
+	 *
+	 * TODO: This is bad design, we might release something that was added
+	 * from the stack, e.g.:
+	 * <pre>
+	 * SomeFunkyModule module;
+	 * modem->addModule(&module);
+	 * </pre>.
+	 *
+	 * Making the user pass <code>new SomeFunkyModule()</code> is bad since
+	 * we can't enforce it.
+	 */
+	void addModule(KernelModule *module) {
+		modulesVector.push_back(module);
+	}
 
-    /**
-     * Adds a dialer to the list of loaded dialers. This list will be
-     * released during destruction.
-     *
-     * @param dialer A new dialer
-     */
-    void addDialer(Dialer *dialer) {
-        loadedDialers.push_back(dialer);
-    }
+	/**
+	 * Adds a dialer to the list of loaded dialers. This list will be
+	 * released during destruction.
+	 *
+	 * @param dialer A new dialer
+	 */
+	void addDialer(Dialer *dialer) {
+		loadedDialers.push_back(dialer);
+	}
 
-    /**
-     * @param defaultDialer New default dialer
-     */
-    void setDefaultDialer(Dialer *defaultDialer) {
-        this->defaultDialer = defaultDialer;
-    }
+	/**
+	 * @param defaultDialer New default dialer
+	 */
+	void setDefaultDialer(Dialer *defaultDialer) {
+		this->defaultDialer = defaultDialer;
+	}
 
-    /**
-     * Adds a new exception.
-     *
-     * @param isp Isp that excepts
-     * @param dialer Dialer to use in case the given ISP was chosen.
-     */
-    void addException(const std::string isp, Dialer *dialer) {
-        exceptions[isp] = dialer;
-    }
+	/**
+	 * Adds a new exception.
+	 *
+	 * @param isp Isp that excepts
+	 * @param dialer Dialer to use in case the given ISP was chosen.
+	 */
+	void addException(const std::string isp, Dialer *dialer) {
+		exceptions[isp] = dialer;
+	}
 
-    /**
-     * Loads a dialer by its name. <code>DialerLoader</code> takes the dialer
-     * as a stream. This method creates the stream it requires, and invokes
-     * to loading process.
-     *
-     * @param name Name of the dialer
-     * @return An intizalizes dialer
-     * @throws DialerCreationException When the dialer failed to load.
-     */
-    Dialer *loadDialerByName(std::string name);
+	/**
+	 * Loads a dialer by its name. <code>DialerLoader</code> takes the
+	 * dialer as a stream. This method creates the stream it requires, and
+	 * invokes to loading process.
+	 *
+	 * @param name Name of the dialer
+	 * @return An intizalizes dialer
+	 * @throws DialerCreationException When the dialer failed to load.
+	 */
+	Dialer *loadDialerByName(std::string name);
 
 private:
 
-    /**
-     * Releases kernel modules created by this modem.
-     */
-    void releaseKernelModules();
+	/**
+	 * Releases kernel modules created by this modem.
+	 */
+	void releaseKernelModules();
 
-    /**
-     * Releases dialers created by this modem.
-     */
-    void releaseDialers();
+	/**
+	 * Releases dialers created by this modem.
+	 */
+	void releaseDialers();
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** Default dialer to use, if the given ISP does not except */
-    Dialer *defaultDialer;
+	/** Default dialer to use, if the given ISP does not except */
+	Dialer *defaultDialer;
 
-    /** Map between exceptional ISPs and the matching dialers */
-    std::map<std::string, Dialer*> exceptions;
+	/** Map between exceptional ISPs and the matching dialers */
+	std::map<std::string, Dialer*> exceptions;
 
-    /** List of required modules */
-    std::vector<KernelModule*> modulesVector;
+	/** List of required modules */
+	std::vector<KernelModule*> modulesVector;
 
-    /** List of loaded dialers */
-    std::vector<Dialer*> loadedDialers;
+	/** List of loaded dialers */
+	std::vector<Dialer*> loadedDialers;
 };
 
 #endif

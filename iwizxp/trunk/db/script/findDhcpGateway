@@ -5,30 +5,30 @@
 # It relies on: $currentDhcpClient and $modemEthernetDevice.
 ##
 findDhcpGateway() {
-    echo -n "Looking for DHCP gateway... "
-    case $currentDhcpClient in
-    "dhcpcd" )
-        dhcpGateway=`findDhcpcdGateway`
-        ;;
+	echo -n "Looking for DHCP gateway... "
+	case $currentDhcpClient in
+	"dhcpcd" )
+		dhcpGateway=`findDhcpcdGateway`
+	        ;;
         
-    "dhclient" )
-        dhcpGateway=`findDhclientGateway`
-        ;;
+	"dhclient" )
+		dhcpGateway=`findDhclientGateway`
+		;;
         
-    "pump" )
-        dhcpGateway=`findPumpGateway`
-        ;;
+	"pump" )
+        	dhcpGateway=`findPumpGateway`
+		;;
 
-    * )
-        errorExit "Unknown DHCP client '$currentDhcpClient', please report."
-        ;;
-    esac
+	* )
+		errorExit "Unknown DHCP client '$currentDhcpClient', please report."
+		;;
+	esac
 
-    if [ -z $dhcpGateway ]; then
-        errorExit "Failed fetching gateway."
-    fi
+	if [ -z $dhcpGateway ]; then
+		errorExit "Failed fetching gateway."
+	fi
 
-    echo "Gateway is $dhcpGateway.";
+	echo "Gateway is $dhcpGateway.";
 }
 
 ##
@@ -36,41 +36,41 @@ findDhcpGateway() {
 # Relies on $modemEthernetDevice.
 ##
 findDhcpcdGateway() {
-    for path in "/etc/dhcpc" "/var/lib/dhcpc" "invalid"; do
-        if [ -f "$path/dhcpcd-$modemEthernetDevice.info" ]; then
-            cat $path/dhcpcd-$modemEthernetDevice.info | grep GATEWAY | \
-                cut -d= -f2
-            break;
-        fi
-    done
+	for path in "/etc/dhcpc" "/var/lib/dhcpc" "invalid"; do
+		if [ -f "$path/dhcpcd-$modemEthernetDevice.info" ]; then
+			cat $path/dhcpcd-$modemEthernetDevice.info | grep GATEWAY | \
+				cut -d= -f2
+			break;
+		fi
+	done
 
-    if [ $path == "invalid" ]; then
-        errorExit "Could not find dhcpcd's info file.";
-    fi
+	if [ $path == "invalid" ]; then
+		errorExit "Could not find dhcpcd's info file.";
+	fi
 }
 
 ##
 # Finds the gateway received by the 'dhclient' client.
 ##
 findDhclientGateway() {
-    for path in "/var/lib/dhcp" "/var/lib/dhcp3" "invalid"; do
-        if [ -f "$path/dhclient.leases" ]; then
-    		grep "routers" $path/dhclient.leases | \
+	for path in "/var/lib/dhcp" "/var/lib/dhcp3" "invalid"; do
+		if [ -f "$path/dhclient.leases" ]; then
+			grep "routers" $path/dhclient.leases | \
 			tail -n 1 | \
 			cut -d";" -f1 | \
 			awk '{print $3}'
-            break;
-        fi
-    done
+			break;
+		fi
+	done
 
-    if [ $path == "invalid" ]; then
-        errorExit "Could not find dhclient's info file.";
-    fi
+	if [ $path == "invalid" ]; then
+		errorExit "Could not find dhclient's info file.";
+	fi
 }
 
 ##
 # Finds the gateway received by the 'pump' client.
 ##
 findPumpGateway() {
-    `which pump` -s | grep Gateway: | cut -d':' -f2
+	`which pump` -s | grep Gateway: | cut -d':' -f2
 }

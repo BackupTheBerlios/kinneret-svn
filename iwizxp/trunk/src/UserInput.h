@@ -34,112 +34,112 @@
 class UserInput {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     *
-     * Sets autodetection of ethernet interfaces to false.
-     */
-    UserInput() {
-        autodetectInterface = false;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * Sets autodetection of ethernet interfaces to false.
+	 */
+	UserInput() {
+		autodetectInterface = false;
+	}
 
-    /**
-     * Destructor. Does nothing interesting.
-     */
-    virtual ~UserInput() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor. Does nothing interesting.
+	 */
+	virtual ~UserInput() {
+		// Nothing to do
+	}
 
-    /* --- Public Methods --- */
+	/* --- Public Methods --- */
 
-    /**
-     * @return Username
-     */
-    virtual std::string getUsername() const {
-        return username;
-    }
+	/**
+	 * @return Username
+	 */
+	virtual std::string getUsername() const {
+		return username;
+	}
 
-    /**
-     * The ethernet device is the device (virtual or real) we use to
-     * establich the connection with the ISP.
-     * 
-     * @return <code>true</code>, if the user specified a device.
-     *         <code>false</code> otherwise.
-     */
-    virtual bool hasEthernetDevice() const {
-        return modemEthernetDevice.length() > 0;
-    }
+	/**
+	 * The ethernet device is the device (virtual or real) we use to
+	 * establich the connection with the ISP.
+	 * 
+	 * @return <code>true</code>, if the user specified a device.
+	 *         <code>false</code> otherwise.
+	 */
+	virtual bool hasEthernetDevice() const {
+		return modemEthernetDevice.length() > 0;
+	}
 
-    /**
-     * The modem device is the device (virtual or real) we use to establish
-     * connection with the ISP. Usually, it is an ethernet device of the form
-     * eth<i>n</i> - where <i>n</i> is the interface index.
-     * 
-     * @return Name of the modem device (e.g. <code>eth0, eth1</code> etc.)
-     */
-    virtual std::string getModemEthernetDevice() const {
-        return modemEthernetDevice;
-    }
+	/**
+	 * The modem device is the device (virtual or real) we use to establish
+	 * connection with the ISP. Usually, it is an ethernet device of the
+	 * form eth<i>n</i> - where <i>n</i> is the interface index.
+	 * 
+	 * @return Name of the modem device (e.g. <code>eth0, eth1</code> etc.)
+	 */
+	virtual std::string getModemEthernetDevice() const {
+		return modemEthernetDevice;
+	}
 
-    /**
-     * Interface autodetection attempt auto-detection of the interface that
-     * <code>modprobe</code> created.  Since the device might be different at
-     * some times (like, when installing a new ethernet card), this feature
-     * might be useful for USB modems.
-     * 
-     * @return <code>true</code>, if the user wishes that final script will
-     *         attempt to auto-detect the ethernet device (usually created
-     *         using <code>usbnet</code> and modules of this sort).
-     *         <code>false</code> otherwise.
-     */
-    virtual bool useInterfaceAutodetection() const {
-        return autodetectInterface;
-    }
+	/**
+	 * Interface autodetection attempt auto-detection of the interface that
+	 * <code>modprobe</code> created.  Since the device might be different
+	 * at some times (like, when installing a new ethernet card), this
+	 * feature might be useful for USB modems.
+	 * 
+	 * @return <code>true</code>, if the user wishes that final script will
+	 *         attempt to auto-detect the ethernet device (usually created
+	 *         using <code>usbnet</code> and modules of this sort).
+	 *         <code>false</code> otherwise.
+	 */
+	virtual bool useInterfaceAutodetection() const {
+		return autodetectInterface;
+	}
 
-    /**
-     * Sets the username.
-     * 
-     * @param username Username
-     */
-    virtual void setUsername(const std::string username) {
-        this->username = username;
-    }
+	/**
+	 * Sets the username.
+	 * 
+	 * @param username Username
+	 */
+	virtual void setUsername(const std::string username) {
+		this->username = username;
+	}
 
-    /**
-     * Sets the modem device.
-     *
-     * @param device Device's string.
-     */ 
-    virtual void setModemEthernetDevice(const std::string device) {
-        this->modemEthernetDevice = device;
-    }
+	/**
+	 * Sets the modem device.
+	 *
+	 * @param device Device's string.
+	 */ 
+	virtual void setModemEthernetDevice(const std::string device) {
+		this->modemEthernetDevice = device;
+	}
 
-    /**
-     * @param autodetect Whether to auto-detect or not.
-     *
-     * TODO: Prevent the case where auto-detection is disabled and there's no
-     * default device.
-     */ 
-    virtual void setInterfaceAutodetection(bool autodetect) {
-        autodetectInterface = autodetect;
-    }
+	/**
+	 * @param autodetect Whether to auto-detect or not.
+	 *
+	 * TODO: Prevent the case where auto-detection is disabled and there's
+	 * no default device.
+	 */ 
+	virtual void setInterfaceAutodetection(bool autodetect) {
+		autodetectInterface = autodetect;
+	}
 
 private:
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** Username */
-    std::string username;
+	/** Username */
+	std::string username;
 
-    /** Device (e.g eth0, eth1, etc.) */
-    std::string modemEthernetDevice;
+	/** Device (e.g eth0, eth1, etc.) */
+	std::string modemEthernetDevice;
 
-    /**
-     * Should we attempt newtork interface auto-detection? No, by default.
-     */
-    bool autodetectInterface;
+	/**
+	 * Should we attempt newtork interface auto-detection? No, by default.
+	 */
+	bool autodetectInterface;
 };
 
 #endif

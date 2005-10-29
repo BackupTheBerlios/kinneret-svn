@@ -33,65 +33,65 @@
 class XMLIsp : public Isp, public NamedXMLReadable {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     *
-     * Does nothing.
-     */
-    XMLIsp() : Isp(), NamedXMLReadable() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor.
+	 *
+	 * Does nothing.
+	 */
+	XMLIsp() : Isp(), NamedXMLReadable() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor.
-     *
-     * Does nothing.
-     */
-    virtual ~XMLIsp() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor.
+	 *
+	 * Does nothing.
+	 */
+	virtual ~XMLIsp() {
+		// Nothing to do
+	}
 
-    /* --- Inherited from XMLReadable --- */
-    
-    /**
-     * Initializes variables according to the given element.
-     *
-     * We make this method not-virtual so we could call it from the
-     * constructor.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void fromXML(xercesc::DOMElement *root);
+	/* --- Inherited from XMLReadable --- */
+
+	/**
+	 * Initializes variables according to the given element.
+	 *
+	 * We make this method not-virtual so we could call it from the
+	 * constructor.
+	 *
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void fromXML(xercesc::DOMElement *root);
 
 private:
 
-    /* --- Utilitiy --- */
+	/* --- Utilitiy --- */
 
-    /**
-     * Sorts the list of DNS servers from the XML, and sets the current list
-     * to be it.
-     * 
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void extractDnsServersFromXML(xercesc::DOMElement *root);
+	/**
+	 * Sorts the list of DNS servers from the XML, and sets the current list
+	 * to be it.
+	 * 
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void extractDnsServersFromXML(xercesc::DOMElement *root);
 
-    /**
-     * Sorts the list of <code>ConnectionMethod</code>s from the XML, creates
-     * the method and de-serializes them from XML, giving them the item
-     * element as the root element.
-     * 
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat, or one of the connection methods failed to
-     *         de-serialize.
-     */
-    void extractConnectionMethodsFromXML(xercesc::DOMElement *root);
+	/**
+	 * Sorts the list of <code>ConnectionMethod</code>s from the XML,
+	 * creates the method and de-serializes them from XML, giving them the
+	 * item element as the root element.
+	 * 
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat, or one of the connection methods failed to
+	 *         de-serialize.
+	 */
+	void extractConnectionMethodsFromXML(xercesc::DOMElement *root);
 };
 
 #endif

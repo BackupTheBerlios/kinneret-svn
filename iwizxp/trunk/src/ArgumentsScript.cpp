@@ -26,94 +26,95 @@
 using namespace std;
 
 void ArgumentsScript::setIsp(const Isp *isp) {
-    ostringstream nameservers;
-    
-    vector<IpAddress>::const_iterator iter;
-    for (iter = isp->getDnsServers().begin() ; 
-            iter != isp->getDnsServers().end() ; 
-            iter++) {
-        // Space nameservers up
-        if (iter != isp->getDnsServers().begin()) {
-            nameservers << " ";
-        }
-        
-        nameservers << (*iter).toString();
-    }
+	ostringstream nameservers;
 
-    values["nameservers"] = nameservers.str();
+	vector<IpAddress>::const_iterator iter;
+	for (iter = isp->getDnsServers().begin() ; 
+	     iter != isp->getDnsServers().end() ; 
+	     iter++) {
+		// Space nameservers up
+		if (iter != isp->getDnsServers().begin()) {
+			nameservers << " ";
+		}
 
-    // TODO: search groups (setup to $searchGroups)
+		nameservers << (*iter).toString();
+	}
+
+	values["nameservers"] = nameservers.str();
+
+	// TODO: search groups (setup to $searchGroups)
 }
 
 void ArgumentsScript::setModem(const Modem *modem) {
-    values["modules2_4"] =
-        buildKernelClassModulesList(modem, KernelModule::LINUX2_4);
+	values["modules2_4"] =
+		buildKernelClassModulesList(modem, KernelModule::LINUX2_4);
 
-    values["modules2_6"] =
-        buildKernelClassModulesList(modem, KernelModule::LINUX2_6);
+	values["modules2_6"] =
+		buildKernelClassModulesList(modem, KernelModule::LINUX2_6);
 }
 
 
 void ArgumentsScript::setConnectionMethod(const ConnectionMethod *method) {
-    values["dialingDestination"] = method->getDialingDestination();
-    values["defaultGateway"] = method->getDefaultGateway();
+	values["dialingDestination"] = method->getDialingDestination();
+	values["defaultGateway"] = method->getDefaultGateway();
 }
 
 void ArgumentsScript::setUserInput(const UserInput *input) {
-    values["username"] = input->getUsername();
+	values["username"] = input->getUsername();
 
-    if (input->useInterfaceAutodetection()) {
-        values["autodetectInterface"] = "yes";
-    }
+	if (input->useInterfaceAutodetection()) {
+		values["autodetectInterface"] = "yes";
+	}
 
-    if (input->hasEthernetDevice()) {
-        values["modemEthernetDevice"] = input->getModemEthernetDevice();
-    }
+	if (input->hasEthernetDevice()) {
+		values["modemEthernetDevice"] = input->getModemEthernetDevice();
+	}
 }
     
 const string ArgumentsScript::getScriptBody() const {
-    ostringstream result;
+	ostringstream result;
 
-    result << getFunctionName() << "() {" << endl;
+	result << getFunctionName() << "() {" << endl;
 
-    map<string, string>::const_iterator iter;
-    for (iter = values.begin() ; iter != values.end() ; iter++) {
-        result << '\t' << (*iter).first << "=\"" <<
-            (*iter).second << "\"" << endl;
-    }
+	map<string, string>::const_iterator iter;
+	for (iter = values.begin() ; iter != values.end() ; iter++) {
+		result << '\t' << (*iter).first << "=\"" <<
+			(*iter).second << "\"" << endl;
+	}
 
-    // Close method
-    result << "}" << endl;
+	// Close method
+	result << "}" << endl;
 
-    return result.str();
+	return result.str();
 }
 
 string ArgumentsScript::buildKernelClassModulesList(const Modem *modem,
-        KernelModule::KernelClass kernelClass) {
-    vector<string> supportedModules;
+		KernelModule::KernelClass kernelClass) {
+	vector<string> supportedModules;
 
-    // First pass, see which modules are good for us
-    for (int i = 0 ; i < modem->getKernelModules().size() ; i++) {
-        KernelModule *current = modem->getKernelModules()[i];
-        try {
-            supportedModules.push_back(current->getName(kernelClass));
-        } catch (KernelModule::FeatureNotSupportedException &ex) {
-            // Leave outside
-        }
-    }
+	// First pass, see which modules are good for us
+	for (int i = 0 ; i < modem->getKernelModules().size() ; i++) {
+		KernelModule *current = modem->getKernelModules()[i];
+		try {
+			supportedModules.push_back(
+				current->getName(kernelClass));
+		} catch (KernelModule::FeatureNotSupportedException &ex) {
+			// Leave outside
+		}
+	}
 
-    // Second pass, make the string
-    ostringstream result;
+	// Second pass, make the string
+	ostringstream result;
 
-    for (int i = 0 ; i < supportedModules.size() ; i++) {
-        result << supportedModules[i];
-        
-        // Add a space if this modules isn't the last
-        if (i < (supportedModules.size() - 1)) {
-            result << " ";
-        }
-    }
+	for (int i = 0 ; i < supportedModules.size() ; i++) {
+		result << supportedModules[i];
 
-    return result.str();
+		// Add a space if this modules isn't the last
+		if (i < (supportedModules.size() - 1)) {
+			result << " ";
+		}
+	}
+
+	return result.str();
 }
 

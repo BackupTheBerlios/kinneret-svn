@@ -35,44 +35,45 @@
 class ScriptLoader {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Constructor. Does nothing interesting.
-     */
-    ScriptLoader() {
-        // Nothing to do
-    }
+	/**
+	 * Constructor. Does nothing interesting.
+	 */
+	ScriptLoader() {
+		// Nothing to do
+	}
 
-    /**
-     * Destructor. Does nothing interesting.
-     */
-    virtual ~ScriptLoader() {
-        // Nothing to do
-    }
+	/**
+	 * Destructor. Does nothing interesting.
+	 */
+	virtual ~ScriptLoader() {
+		// Nothing to do
+	}
 
-    /* --- Exceptions --- */
+	/* --- Exceptions --- */
 
-    /**
-     * Thrown when the loader wasn't able to load the script from the stream.
-     */
-    NewException(LoadException);
+	/**
+	 * Thrown when the loader wasn't able to load the script from the
+	 * stream.
+	 */
+	NewException(LoadException);
 
-    /* ---- Abstract Methods --- */
+	/* ---- Abstract Methods --- */
 
-    /**
-     * This function loads a script from a stream. The stream must be in a
-     * fromat that's known to the loads, or an <code>LoadException</code>
-     * will be thrown.
-     *
-     * @param inStream Stream to load script from.
-     * @return A new and initialized <code>Script</code>. Note that the
-     *        <code>Script</code> is allocated using <code>new</code>, and
-     *        its up to the user to <code>delete</code> it.
-     * @throws LoadException When the given stream is in the wrong format or
-     *        any other problem occured during the loads process.
-     */
-    virtual Script *loadScript(std::istream &inStream) const = 0;
+	/**
+	 * This function loads a script from a stream. The stream must be in a
+	 * fromat that's known to the loads, or an <code>LoadException</code>
+	 * will be thrown.
+	 *
+	 * @param inStream Stream to load script from.
+	 * @return A new and initialized <code>Script</code>. Note that the
+	 *        <code>Script</code> is allocated using <code>new</code>, and
+	 *        its up to the user to <code>delete</code> it.
+	 * @throws LoadException When the given stream is in the wrong format or
+	 *        any other problem occured during the loads process.
+	 */
+	virtual Script *loadScript(std::istream &inStream) const = 0;
 };
 
 #endif

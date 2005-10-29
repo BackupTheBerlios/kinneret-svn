@@ -38,112 +38,113 @@
 class XMLCables : public XMLConnectionMethod {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Default constructor.
-     */
-    XMLCables() {
-        // Nothing to do
-    }
+	/**
+	 * Default constructor.
+	 */
+	XMLCables() {
+		// Nothing to do
+	}
 
-    /** 
-     * Constructor.
-     *
-     * @param defaultGateway The default gateway of the ISP.
-     * @param dialingDestination The place where the PPtP should dial to
-     *        (non-DHCP cables connection are usually PPtP).
-     */
-    XMLCables(std::string defaultGateway,
-           std::string dialingDestination) {
-        this->defaultGateway = defaultGateway;
-        this->dialingDestination = dialingDestination;
+	/** 
+	 * Constructor.
+	 *
+	 * @param defaultGateway The default gateway of the ISP.
+	 * @param dialingDestination The place where the PPtP should dial to
+	 *        (non-DHCP cables connection are usually PPtP).
+	 */
+	XMLCables(std::string defaultGateway,
+			std::string dialingDestination) {
+		this->defaultGateway = defaultGateway;
+		this->dialingDestination = dialingDestination;
 
-        Log::debug(LOG_LOCATION("XMLCables", "XMLCables"),
-            "Cables created successfully");
-    }
+		Log::debug(LOG_LOCATION("XMLCables", "XMLCables"),
+			"Cables created successfully");
+	}
 
-    /** 
-     * Destructor, does nothing.
-     */
-    virtual ~XMLCables() {
-        Log::debug(LOG_LOCATION("XMLCables", "~XMLCables"),
-            "Cables released successfully");
-    }
+	/** 
+	 * Destructor, does nothing.
+	 */
+	virtual ~XMLCables() {
+		Log::debug(LOG_LOCATION("XMLCables", "~XMLCables"),
+			"Cables released successfully");
+	}
 
-    /* --- Inherited from ConnectionMethod --- */
+	/* --- Inherited from ConnectionMethod --- */
 
-    /** 
-     * @return Whether this connection method has a default gateway. It does.
-     */
-    virtual bool hasDefaultGateway() const {
-        return true;
-    }
-    
-    /** 
-     * @return The default gateway
-     */
-    virtual std::string getDefaultGateway() const {
-        return defaultGateway;
-    }
+	/** 
+	 * @return Whether this connection method has a default gateway. It
+	 *         does.
+	 */
+	virtual bool hasDefaultGateway() const {
+		return true;
+	}
 
-    /** 
-     * @return The dialing destination (an IP or a resolvable URI).
-     */
-    virtual std::string getDialingDestination() const {
-        return dialingDestination;
-    }
+	/** 
+	 * @return The default gateway
+	 */
+	virtual std::string getDefaultGateway() const {
+		return defaultGateway;
+	}
 
-    /* --- Inherited from Printable --- */
+	/** 
+	 * @return The dialing destination (an IP or a resolvable URI).
+	 */
+	virtual std::string getDialingDestination() const {
+		return dialingDestination;
+	}
 
-    /** 
-     * @return The name of this dialing method.
-     */
-    virtual const std::string toString() const {
-        return "Cables";
-    }
+	/* --- Inherited from Printable --- */
 
-    /* --- Inherited from XMLReadable --- */
+	/** 
+	 * @return The name of this dialing method.
+	 */
+	virtual const std::string toString() const {
+		return "Cables";
+	}
 
-    /** 
-     * De-serializes an object from XML.
-     * 
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void fromXML(xercesc::DOMElement *root);
+	/* --- Inherited from XMLReadable --- */
+
+	/** 
+	 * De-serializes an object from XML.
+	 * 
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void fromXML(xercesc::DOMElement *root);
 
 private:
 
-    /* --- Private Methods --- */
+	/* --- Private Methods --- */
 
-    /**
-     * Extracts the gateway from the XML representation of this object and
-     * sets it as the current gateway.
-     *
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void extractGatewayFromXML(xercesc::DOMElement *root);
+	/**
+	 * Extracts the gateway from the XML representation of this object and
+	 * sets it as the current gateway.
+	 *
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void extractGatewayFromXML(xercesc::DOMElement *root);
 
-    /**
-     * Extracts the dialing destination of the given XML, and sets it as the
-     * current dialing destination.
-     * 
-     * @param root Root node of the object
-     * @throws XMLSerializationException When the given XML is of incorrect
-     *         fromat.
-     */
-    void extractDialingDestinationFromXML(xercesc::DOMElement *root);
+	/**
+	 * Extracts the dialing destination of the given XML, and sets it as the
+	 * current dialing destination.
+	 * 
+	 * @param root Root node of the object
+	 * @throws XMLSerializationException When the given XML is of incorrect
+	 *         fromat.
+	 */
+	void extractDialingDestinationFromXML(xercesc::DOMElement *root);
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** The default gateway */
-    std::string defaultGateway;
+	/** The default gateway */
+	std::string defaultGateway;
 
-    /** The dialing destination */
-    std::string dialingDestination;
+	/** The dialing destination */
+	std::string dialingDestination;
 };
 
 #endif

@@ -2,7 +2,7 @@
 # Restores /etc/resolv.conf from the save made by backupResolvConf
 ##
 restoreResolvConf() {
-    echo -n "Restoring /etc/resolv.conf... "
-    cp /etc/resolv.conf{.iwizxp.bak,}
-    echo "Done."
+	echo -n "Restoring /etc/resolv.conf... "
+	cp /etc/resolv.conf{.iwizxp.bak,}
+	echo "Done."
 }

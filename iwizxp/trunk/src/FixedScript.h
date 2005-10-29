@@ -42,68 +42,68 @@
 class FixedScript : public Script {
 public:
 
-    /* --- Constructors --- */
+	/* --- Constructors --- */
 
-    /**
-     * Constructor. Loads the script from the input stream.
-     *
-     * @param functionName The name of the funtion.
-     * @param scriptBody The script as a srting.
-     */
-    FixedScript(const std::string &functionName,
-                const std::string &scriptBody) : Script() {
-        this->functionName = functionName;
-        this->scriptBody = scriptBody;
+	/**
+	 * Constructor. Loads the script from the input stream.
+	 *
+	 * @param functionName The name of the funtion.
+	 * @param scriptBody The script as a srting.
+	 */
+	FixedScript(const std::string &functionName,
+			const std::string &scriptBody) : Script() {
+		this->functionName = functionName;
+		this->scriptBody = scriptBody;
 
-        Log::debug(LOG_LOCATION("FixedScript", "FixedScript"),
-            std::string("Constructing FixedScript (") +
-                functionName + ")");
-    }
+		Log::debug(LOG_LOCATION("FixedScript", "FixedScript"),
+			std::string("Constructing FixedScript (") +
+			functionName + ")");
+	}
 
-    /**
-     * Destructor, does nothing.
-     */
-    virtual ~FixedScript() {
-        Log::debug(LOG_LOCATION("FixedScript", "~FixedScript"),
-            std::string("Destroying FixedScript (") +
-                functionName + ")");
-    }
+	/**
+	 * Destructor, does nothing.
+	 */
+	virtual ~FixedScript() {
+		Log::debug(LOG_LOCATION("FixedScript", "~FixedScript"),
+			std::string("Destroying FixedScript (") +
+			functionName + ")");
+	}
 
-    /* --- Inherited from Script --- */
+	/* --- Inherited from Script --- */
 
-    /**
-     * @return The function name.
-     */
-    virtual const std::string getFunctionName() const {
-        return functionName;
-    }
+	/**
+	 * @return The function name.
+	 */
+	virtual const std::string getFunctionName() const {
+		return functionName;
+	}
 
-    /**
-     * @return The body.
-     */
-    virtual const std::string getScriptBody() const {
-        return scriptBody;
-    }
+	/**
+	 * @return The body.
+	 */
+	virtual const std::string getScriptBody() const {
+		return scriptBody;
+	}
 
-    /**
-     * In this case, we leave the description empty. We trust the body itself
-     * already containes a comment that describes it.
-     * 
-     * @return An empty string.
-     */
-    virtual const std::string getScriptDescription() const {
-        return "";
-    }
+	/**
+	 * In this case, we leave the description empty. We trust the body
+	 * itself already containes a comment that describes it.
+	 * 
+	 * @return An empty string.
+	 */
+	virtual const std::string getScriptDescription() const {
+		return "";
+	}
 
 private:
 
-    /* --- Data Members --- */
+	/* --- Data Members --- */
 
-    /** The function's name */
-    std::string functionName;
+	/** The function's name */
+	std::string functionName;
 
-    /** The function's body */
-    std::string scriptBody;
+	/** The function's body */
+	std::string scriptBody;
 };
 
 #endif

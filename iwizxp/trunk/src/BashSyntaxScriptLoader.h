@@ -35,82 +35,83 @@
 class BashSyntaxScriptLoader : public ScriptLoader {
 public:
 
-    /* --- Constructors ---- */
+	/* --- Constructors ---- */
 
-    /**
-     * Constructor.
-     */
-    BashSyntaxScriptLoader() {
-        Log::debug(LOG_LOCATION("BashSyntaxScriptLoader",
-                "BashSyntaxScriptLoader"),
-            "Constructing BashSyntaxScriptLoader");
-    }
+	/**
+	 * Constructor.
+	 */
+	BashSyntaxScriptLoader() {
+		Log::debug(LOG_LOCATION("BashSyntaxScriptLoader",
+			"BashSyntaxScriptLoader"),
+			"Constructing BashSyntaxScriptLoader");
+	}
 
-    /**
-     * Destructor.
-     */
-    virtual ~BashSyntaxScriptLoader() {
-        Log::debug(LOG_LOCATION("BashSyntaxScriptLoader",
-                "~BashSyntaxScriptLoader"),
-            "Destroying BashSyntaxScriptLoader");
-    }
+	/**
+	 * Destructor.
+	 */
+	virtual ~BashSyntaxScriptLoader() {
+		Log::debug(LOG_LOCATION("BashSyntaxScriptLoader",
+			"~BashSyntaxScriptLoader"),
+			"Destroying BashSyntaxScriptLoader");
+	}
 
-    /* --- Inherited from ScriptLoader --- */
+	/* --- Inherited from ScriptLoader --- */
 
-    /**
-     * This function loads a script from a bash-syntaxed stream. The stream
-     * must be in to form of a single Bash function. The loader extracts the
-     * name of the methods from the stream, and loads the body into a new
-     * {@link FixedScript}.
-     *
-     * Example script:
-     * <pre>
-     * ##
-     * # Descriptive comment :)
-     * ##
-     * myScriptName() {
-     *     echo "Here's the body"
-     * }
-     * </pre>
-     *
-     * <b>Note</b>: The <code>Script</code> is dynamically allocated using
-     * <code>new</code>. It is up to the caller to <code>delete</code> it.
-     *
-     * @param inStream Stream to load script from.
-     * @return A new and initialized <code>FixedScript</code>. Note that the
-     *        <code>Script</code> is allocated using <code>new</code>, and
-     *        its up to the caller to <code>delete</code> it.
-     * @throws LoadException When the given stream is in the wrong format or
-     *         any other problem occured during the load process.
-     */
-    virtual Script *loadScript(std::istream &inStream) const;
+	/**
+	 * This function loads a script from a bash-syntaxed stream. The stream
+	 * must be in to form of a single Bash function. The loader extracts the
+	 * name of the methods from the stream, and loads the body into a new
+	 * {@link FixedScript}.
+	 *
+	 * Example script:
+	 * <pre>
+	 * ##
+	 * # Descriptive comment :)
+	 * ##
+	 * myScriptName() {
+	 *     echo "Here's the body"
+	 * }
+	 * </pre>
+	 *
+	 * <b>Note</b>: The <code>Script</code> is dynamically allocated using
+	 * <code>new</code>. It is up to the caller to <code>delete</code> it.
+	 *
+	 * @param inStream Stream to load script from.
+	 * @return A new and initialized <code>FixedScript</code>. Note that the
+	 *        <code>Script</code> is allocated using <code>new</code>, and
+	 *        its up to the caller to <code>delete</code> it.
+	 * @throws LoadException When the given stream is in the wrong format or
+	 *         any other problem occured during the load process.
+	 */
+	virtual Script *loadScript(std::istream &inStream) const;
 
 private:
 
-    /* --- Private Methods --- */
+	/* --- Private Methods --- */
 
-    /**
-     * Extracts the method's name out of the script using regex.
-     *
-     * @param body The entire script - as read from the stram.
-     * @return Method name
-     * @throws LoadException When the name could not have been extracted from
-     *         the given body (reason in the exception).
-     */
-    virtual std::string extractNameFromScript(const std::string &body) const;
+	/**
+	 * Extracts the method's name out of the script using regex.
+	 *
+	 * @param body The entire script - as read from the stram.
+	 * @return Method name
+	 * @throws LoadException When the name could not have been extracted
+	 * 	   from the given body (reason in the exception).
+	 */
+	virtual std::string extractNameFromScript(
+		const std::string &body) const;
 
-    /**
-     * Extracts the method's name out of it's definition line.
-     *
-     * @param body The definition line of the method (leading and trailing
-     *             spaces are allowed). e.g.:<code>myMethodName() {</code>
-     *             will be a valid input.
-     * @return The method's name
-     * @throws LoadException When the name could not have been extracted from
-     *         the given definition (specific reasin in the exception).
-     */
-    virtual std::string extractNameFromDefinitionLine(const std::string &body)
-        const;
+	/**
+	 * Extracts the method's name out of it's definition line.
+	 *
+	 * @param body The definition line of the method (leading and trailing
+	 *             spaces are allowed). e.g.:<code>myMethodName() {</code>
+	 *             will be a valid input.
+	 * @return The method's name
+	 * @throws LoadException When the name could not have been extracted
+	 * 	   from the given definition (specific reasin in the exception).
+	 */
+	virtual std::string extractNameFromDefinitionLine(
+		const std::string &body) const;
 };
 
 #endif

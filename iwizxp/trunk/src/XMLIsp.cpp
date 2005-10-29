@@ -32,56 +32,60 @@ using namespace Utils;
 using namespace Utils::DOM;
 
 void XMLIsp::fromXML(DOMElement *root) {
-    NamedXMLReadable::fromXML(root);
-    extractDnsServersFromXML(root);
-    extractConnectionMethodsFromXML(root);
+	NamedXMLReadable::fromXML(root);
+	extractDnsServersFromXML(root);
+	extractConnectionMethodsFromXML(root);
 }
 
 void XMLIsp::extractDnsServersFromXML(xercesc::DOMElement *root) {
-    DOMElement *dnsServerNode = getLoneElementByTagName(root, "dns");
+	DOMElement *dnsServerNode = getLoneElementByTagName(root, "dns");
 
-    if (dnsServerNode == 0) {
-        throw XMLSerializationException("No <dns> tag found!");
-    }
+	if (dnsServerNode == 0) {
+		throw XMLSerializationException("No <dns> tag found!");
+	}
 
-    // Get a sorted list of servers
-    vector<DOMElement*> items;
-    elementsArrayFromXML(items, dnsServerNode, "server");
+	// Get a sorted list of servers
+	vector<DOMElement*> items;
+	elementsArrayFromXML(items, dnsServerNode, "server");
 
-    // And add them
-    for (int i = 0 ; i < items.size() ; i++) {
-        if (items[i] != 0) {
-            Log::debug(LOG_LOCATION("XMLIsp", "extractDnsServersFromXML"),
-                "Adding DNS Server: " +
-                    xts(items[i]->getTextContent(), true).asString());
-            addDnsServer(IpAddress(xts(items[i]->getTextContent(), true)));
-        }
-    }
+	// And add them
+	for (int i = 0 ; i < items.size() ; i++) {
+		if (items[i] != 0) {
+			Log::debug(LOG_LOCATION("XMLIsp",
+				"extractDnsServersFromXML"),
+				"Adding DNS Server: " +
+				xts(items[i]->getTextContent(),
+				true).asString());
+			addDnsServer(IpAddress(xts(items[i]->getTextContent(),
+				true)));
+		}
+	}
 }
 
 void XMLIsp::extractConnectionMethodsFromXML(xercesc::DOMElement *root) {
-    DOMElement *methodNode = getLoneElementByTagName(root, "methods");
+	DOMElement *methodNode = getLoneElementByTagName(root, "methods");
 
-    if (methodNode == 0) {
-        throw XMLSerializationException("No <methods> tag found!");
-    }
+	if (methodNode == 0) {
+		throw XMLSerializationException("No <methods> tag found!");
+	}
 
-    // Get a sorted list of servers
-    vector<DOMElement*> items;
-    elementsArrayFromXML(items, methodNode, "method");
+	// Get a sorted list of servers
+	vector<DOMElement*> items;
+	elementsArrayFromXML(items, methodNode, "method");
 
-    // And add them
-    for (int i = 0 ; i < items.size() ; i++) {
-        if (items[i] != 0) {
-            string methodType = getAttributeValue(items[i], "type");
+	// And add them
+	for (int i = 0 ; i < items.size() ; i++) {
+		if (items[i] != 0) {
+			string methodType = getAttributeValue(items[i], "type");
 
-            ConnectionMethod *method =
-                XMLConnectionMethodFactory::create(methodType, items[i]);
+			ConnectionMethod *method =
+				XMLConnectionMethodFactory::create(methodType,
+					items[i]);
 
-            if (method != 0) {
-                addConnectionMethod(method);
-            }
-        }
-    }
+			if (method != 0) {
+				addConnectionMethod(method);
+			}
+		}
+	}
 }
 
